@@ -1,0 +1,3 @@
+ovtapi_web_rtc_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: OVTAPIWebRTCBundle:Default:index }

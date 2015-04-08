@@ -1,0 +1,72 @@
+ovt_general:
+    resource: "@OVTGeneralBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ovt_test:
+    resource: "@OVTTestBundle/Resources/config/routing.yml"
+    prefix:   /test/
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+ovt_back_end_stats:
+    resource: "@OVTBackEndStatsBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ovt_servicesvoice_recognition:
+    resource: "@OVTServicesvoiceRecognitionBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ovt_services_post_sync:
+    resource: "@OVTServicesPostSyncBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ovt_services_velotypie:
+    resource: "@OVTServicesVelotypieBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ovt_services_lfs:
+    resource: "@OVTServicesLFSBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ovtapi_web_rtc:
+    resource: "@OVTAPIWebRTCBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ovt_front_end_provider:
+    resource: "@OVTFrontEndProviderBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ovt_front_end_client:
+    resource: "@OVTFrontEndClientBundle/Resources/config/routing.yml"
+    prefix:   /client/
+
+ovt_back_end_accounting:
+    resource: "@OVTBackEndAccountingBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ovt_back_end_admin:
+    resource: "@OVTBackEndAdminBundle/Resources/config/routing.yml"
+    prefix:   /superadmin
+
+ovt_user:
+    resource: "@OVTUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+
+
+default_behaviour:
+    pattern:   /{def}
+    defaults: 
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /login
+        permanent: true
+default_behaviour2:
+    pattern:   /
+    defaults: 
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /login
+        permanent: true
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

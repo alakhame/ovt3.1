@@ -1,0 +1,40 @@
+<html >
+	<head>
+		<link rel="stylesheet" href="{{asset('ress/css/authentification.css')}}" />
+		<link rel="stylesheet" href="{{asset('ress/css/background.css')}}" />
+	</head>
+    <body  id="logindiv">
+    	<header id="headr">
+				<img id="logorange" src="{{asset('ress/img/orange/orange.png')}}" />
+				<img id="pointinter" width="34px" height="38px" src="{{asset('ress/img/inter.png')}}" />
+				<div id="header_text">
+					<div id="header_title">Orange Voice Transcription</div>
+					<div id="header_subtitle">version 3.0</div>
+				</div>
+		</header>
+    	<div style="height:100%; padding-top: 40px;">
+			<form  method="post" action="#">
+				<div id="bloc">
+					<img src="{{asset('ress/img/cadenas.png')}}" id="cadenas"/>
+					<h3 id="authentification"><p>Authentification</p></h3>
+					<div class="intitule" id="first_intitule">
+						<label class="libelle">Identifiant</label>
+						<input name="email" class="connex" type="text" autofocus/>
+					</div><br>
+					<div class="intitule" >
+					<label class="libelle">Mot de passe</label>
+					<input name="passwd" type="password" class="connex"/>
+					</div>
+					<div id="mdp_oublie">
+					<img src="{{asset('ress/img/fleche_droite.gif')}}" style="width:13px display:inline;" />
+					<a id="mdpoublie"> Mot de passe oublié ?</a>
+					<p id="error" ng-show="loginError">Identifiant / Mot de passe incorrect</p>
+					</div><br>
+					
+					<button type="submit" id="connexion">connexion</button>
+				</div>
+			</form>
+		<div>
+	
+    </body>
+</html>

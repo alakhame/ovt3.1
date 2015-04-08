@@ -1,0 +1,4 @@
+services:
+#    ovtapi_web_rtc.example:
+#        class: OVT\API\WebRTCBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

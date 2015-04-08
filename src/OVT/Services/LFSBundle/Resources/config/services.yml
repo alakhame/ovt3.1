@@ -1,0 +1,4 @@
+services:
+#    ovt_services_lfs.example:
+#        class: OVT\Services\LFSBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

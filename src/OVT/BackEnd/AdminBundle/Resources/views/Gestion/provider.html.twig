@@ -1,0 +1,58 @@
+{% extends "OVTBackEndAdminBundle:SuperAdmin:profil.html.twig" %}
+{% block links %}
+	{{parent()}}
+	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+	
+{% endblock %}
+	{% block container %}
+
+		<div id="cadre">
+			<div id="gestion_title">
+				<p  >Gestion des prestataires
+			</div>
+			<div id="inside_cadre">
+				<div class="list">
+					<div class="list_border">
+						<div class="entete">
+							<label for="tri"> Trier Par : </label>
+							<select name="choix_tri" >
+							</select>
+						</div>
+						<br/>
+
+						<div class="user_list">
+							<ul>
+								<li>Presta 1</li>
+								<li>Presta 2</li>
+							</ul>
+						</div>
+					</div>
+					
+					<div class="new_user"  >
+						<a href="">
+							<img width="16px" height="16px"  src="{{asset('ress/img/add.png')}}">
+							Nouveau
+						</a>
+					</div>
+
+				</div>
+
+				<div class="infos">
+					<div class="user_infos">
+						<div class="user_infos_border">
+						</div>
+					</div>
+					
+					<hr/>
+					
+					 
+
+
+				</div>
+			</div>
+
+
+		</div>
+	
+
+	{% endblock %} 

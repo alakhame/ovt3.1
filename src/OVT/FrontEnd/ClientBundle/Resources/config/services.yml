@@ -1,0 +1,4 @@
+services:
+#    ovt_front_end_client.example:
+#        class: OVT\FrontEnd\ClientBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

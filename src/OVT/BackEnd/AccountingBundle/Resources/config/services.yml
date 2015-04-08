@@ -1,0 +1,4 @@
+services:
+#    ovt_back_end_accounting.example:
+#        class: OVT\BackEnd\AccountingBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

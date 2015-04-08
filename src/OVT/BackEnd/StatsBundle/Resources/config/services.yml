@@ -1,0 +1,4 @@
+services:
+#    ovt_back_end_stats.example:
+#        class: OVT\BackEnd\StatsBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

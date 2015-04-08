@@ -1,0 +1,81 @@
+{% extends "OVTBackEndAdminBundle:SuperAdmin:profil.html.twig" %}
+{% block links %}
+	{{parent()}}
+	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" />
+	<link rel="stylesheet" href="{{asset('ress/css/agenda.css')}}" />
+	<link rel='stylesheet' href="{{asset('ress/css/jquery-ui.min.css')}}" />
+	<link rel='stylesheet' href="{{asset('ress/css/fullcalendar.css')}}"  />
+	<link rel='stylesheet' href="{{asset('ress/css/fullcalendar.print.css')}}" media='print' />
+	
+	<script src="{{asset('ress/js/moment.min.js')}}">	</script>
+	<script src="{{asset('ress/js/jquery.min.js')}}">	</script>
+	<script src="{{asset('ress/js/fullcalendar.js')}}">	</script>
+	<script src="{{asset('ress/js/lang-all.js')}}">		</script>
+	<script src="{{asset('ress/js//fr.js')}}">			</script>
+	<script src="{{asset('ress/js/gcal.js')}}">			</script>
+{% endblock %}
+	{% block container %}
+
+		<div id="cadre">
+			<div id="gestion_title">
+				<p  >Gestion des utilisateur
+			</div>
+			<div id="inside_cadre">
+				<div class="list">
+					<div class="list_border">
+						<div class="entete">
+							<label for="tri"> Trier Par : </label>
+							<select name="choix_tri" >
+								<option value="organisation"> 	Entreprise 	</option>
+								<option value="name"> 			Nom 		</option>
+								<option value="role">			Role 		</option>
+							</select>
+						</div>
+						<br/>
+
+						<div class="user_list">
+							<ul>
+								<li>User 1</li>
+								<li>User 2</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="new_user"  >
+						<a href="">
+							<img width="16px" height="16px"  src="{{asset('ress/img/add.png')}}">
+							Nouveau
+						</a>
+					</div>
+
+				</div>
+
+				<div class="infos">
+					<div class="user_infos">
+						<div class="user_infos_border">
+						</div>
+					</div>
+					
+					<hr/>
+					
+					<div class="planning">
+						<script src="{{asset('ress/js/calendarScript.js')}}"></script>
+	
+						<div id="box" class="contain"  style="height:100%">
+							<div id='calendar'></div>
+							<div id="legende" style="height:20px;padding-bottom:-2px; background-color: #f6f6f6;">
+								<div  id="styl" >
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+
+
+		</div>
+	
+
+	{% endblock %} 

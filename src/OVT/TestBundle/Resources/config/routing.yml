@@ -1,0 +1,11 @@
+ovt_test_homepage:
+    path:     /interface
+    defaults: { _controller: OVTTestBundle:Default:interface }
+
+ovt_test_view:
+    path:     /view
+    defaults: { _controller: OVTTestBundle:Default:view }
+
+ovt_test_angular:
+    path:     /angular
+    defaults: { _controller: OVTTestBundle:Default:index }

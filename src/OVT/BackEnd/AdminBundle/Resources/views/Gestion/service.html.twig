@@ -1,0 +1,103 @@
+{% extends "OVTBackEndAdminBundle:SuperAdmin:profil.html.twig" %}
+{% block links %}
+	{{parent()}}
+	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+	<script src="{{asset('ress/js/angular.js')}}" > </script>
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+{% endblock %}
+	{% block container %}
+
+		<div id="cadre"  ng-app="OVTApp" ng-controller="serviceCtrl"  >
+			<div id="gestion_title">
+				<p  >Gestion des services
+			</div>
+			<div id="inside_cadre">
+				<div class="list">
+					<div class="list_border">
+						<div class="entete">
+							<label for="tri"> Trier Par : </label>
+							<select name="choix_tri" > 
+							</select>
+						</div>
+						<br/>
+						
+						<div class="user_list" >
+							{{render(controller('OVTBackEndAdminBundle:ServiceAdmin:getAllServices'))}}
+						</div>
+					</div>
+
+					<div class="new_user"  >
+						<a href="{{path('ovt_back_end_admin_gestion_new',{gestion:'service'})}}">
+							<img width="16px" height="16px"  src="{{asset('ress/img/add.png')}}">
+							Nouveau
+						</a>
+					</div>
+
+				</div>
+
+				<div class="infos">
+					<div class="user_infos">
+						<div class="user_infos_border"  >
+							<img src="{{asset('ress/img/loader.gif')}}" ng-show="loading" id="loader">
+							<div ng-hide="loading" id="serviceInfo" >
+								<div class="imageService">
+
+								</div>
+								{% verbatim %}
+								<div>
+									<h5> Nom du Service : </h5>
+									<p>{{selectedService.name}}</p>
+								</div>
+
+								<div>
+									<h5> Description : </h5>
+									<p>{{selectedService.description}}</p>
+								</div>
+								
+								<input   type="hidden" value="{{serviceSelected.id}}" ></input>
+								{% endverbatim %}
+							</div>
+						</div>
+					</div>
+					
+					<hr/>
+					
+					 
+
+
+				</div>
+			</div>
+
+			<script>
+				   
+				var app = angular.module('OVTApp', []);
+				
+				app.controller('serviceCtrl', function($scope,$http) {
+						
+						$scope.loading = false;
+						$scope.actionClick= function (idService) {
+							//var idService=5;
+							$scope.loading = true;
+				   			{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_get_service_by_id', {id:idService}); {% endverbatim %}
+				   			alert(link);
+				   			$http.get(link).
+						  	success(function(data, status, headers, config) {
+							    console.log("to ss");
+							    $scope.selectedService=data;
+							    console.log($scope.selectedService.name);
+							    $scope.loading = false;
+						    
+						  }).
+						  error(function(data, status, headers, config) { 
+
+						  });
+				   	}
+				});
+
+			</script>
+
+		</div>
+		 
+
+	{% endblock %} 

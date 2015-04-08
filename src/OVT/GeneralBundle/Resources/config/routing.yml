@@ -1,0 +1,3 @@
+ovt_general_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: OVTGeneralBundle:Default:index }

@@ -1,0 +1,3 @@
+ovt_back_end_stats_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: OVTBackEndStatsBundle:Default:index }

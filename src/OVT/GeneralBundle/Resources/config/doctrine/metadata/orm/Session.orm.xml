@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Session" table="session">
+    <indexes>
+      <index name="reservationID" columns="reservationID"/>
+      <index name="workerID" columns="workerID"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="duration" type="time" column="duration" nullable="false"/>
+    <field name="password" type="string" column="password" length="255" nullable="false"/>
+    <field name="link" type="string" column="link" length="255" nullable="false"/>
+    <many-to-one field="workerid" target-entity="Worker">
+      <join-columns>
+        <join-column name="workerID" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="reservationid" target-entity="Reservation">
+      <join-columns>
+        <join-column name="reservationID" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-many field="user" target-entity="User" inversed-by="session">
+      <join-table name="session_user">
+        <join-columns>
+          <join-column name="session_id" referenced-column-name="id"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="user_id" referenced-column-name="id"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+  </entity>
+</doctrine-mapping>

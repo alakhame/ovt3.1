@@ -1,0 +1,3 @@
+ovt_servicesvoice_recognition_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: OVTServicesvoiceRecognitionBundle:Default:index }

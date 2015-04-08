@@ -1,0 +1,3 @@
+ovt_services_post_sync_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: OVTServicesPostSyncBundle:Default:index }

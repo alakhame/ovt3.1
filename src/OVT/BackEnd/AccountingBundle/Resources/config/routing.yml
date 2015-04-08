@@ -1,0 +1,3 @@
+ovt_back_end_accounting_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: OVTBackEndAccountingBundle:Default:index }

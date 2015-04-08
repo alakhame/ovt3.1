@@ -1,0 +1,116 @@
+.fc-today-button {
+	background-image: url(../img/today.png) !important;
+	height: 23px !important;
+	width: 93px;
+	background-position: 0 0;
+	border:none;
+}
+
+.fc-today-button:hover{
+	background-image: url(../img/today_hover.png) !important;
+}
+
+.fc-center p{
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	padding-left: 10px;
+	margin: 0px !important;
+	padding-right: 10px;
+	height: 21px;
+	background: url(../img/nav_label_bg.gif) repeat-x;
+}
+
+.fc-center button {
+	margin:0px !important;
+}
+
+.fc-center .fc-prev-button {
+	border: none;
+	background: url(../img/nav_prev.png) no-repeat !important;
+	width:25px;
+} 
+
+.fc-center .fc-next-button {
+	border: none;
+	background: url(../img/nav_next.png) no-repeat !important;
+	width:25px;
+} 
+
+#styl{
+	background:url(../img/legende.png) center no-repeat;
+	height:100%;
+}
+
+
+.tableau
+{
+    background-color:white;
+    width:1125px;
+    height: 550px;
+    margin: auto;
+    padding-left:20px;
+    margin-left:190px;
+    padding-top:5px;
+    margin-top:auto;
+    margin-bottom:50px;
+}
+
+#contain_title
+{
+    border-radius: 9px 9px 0px 0px;
+    background-image: url(../img/title_header.png);
+    height: 30px;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+#bouton
+{
+    font : bold 11px , arial, serif;
+    list-style-type : none;
+    padding-bottom : 7px; /* à modifier suivant la taille de la police ET de la hauteur de l'onglet dans #onglets li */
+    margin-left :0px;
+    background: url(../img/fond_demande.png) repeat;
+    
+}
+
+.p2
+{
+    font-size:11px;
+    font-weight:bold;
+    margin-left:5px;
+    padding-top:9px;
+    padding-left:4px;
+}
+
+#calendar {
+    background:white;
+}
+
+
+#reservation    
+{
+    background:transparent;
+    background: url(../img/fond_button.png) repeat;
+    height: 28px;
+    width: 140px;
+    color: white;
+    border: 1px solid black;
+    border-radius: 3px 3px 3px 3px;
+    margin-top: 6px;
+    margin-left: 6px;
+    margin-bottom: -2px;
+    font-size:11px;
+}
+
+#reservation:hover {
+   color: rgb(176,176,176);
+}
+
+#reservation:focus{
+    outline: none;
+}
+
+#legende {
+      background-color: #f6f6f6;
+}

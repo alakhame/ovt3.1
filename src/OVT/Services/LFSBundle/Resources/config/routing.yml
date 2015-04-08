@@ -1,0 +1,3 @@
+ovt_services_lfs_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: OVTServicesLFSBundle:Default:index }

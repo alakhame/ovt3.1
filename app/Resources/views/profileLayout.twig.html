@@ -1,0 +1,16 @@
+{% extends "::generalLayout.twig.html" %}
+
+
+{% block mainContainer %}
+	{% block userBar %}
+		<div  id="user_connect" > Utilisateur connecté:  {{ render(controller('OVTUserBundle:UserInfos:getUserName')) }}
+			<a href="{{path('fos_user_security_logout')}}"><img src="{{asset('ress/img/logout_32x32.png')}}" id="userco" style="width: 24px; height: 24px;" ></a>
+		</div>
+	{% endblock %}
+	
+	{% block menu %}
+	{% endblock %}
+
+	{% block container %}
+	{% endblock %} 
+{% endblock %}
