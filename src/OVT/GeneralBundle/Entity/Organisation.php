@@ -59,12 +59,8 @@ class Organisation
     private $hashlink;
 
     /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="OVT\UserBundle\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="adminID", referencedColumnName="id")
-     * })
+     * @var integer
+     * @ORM\Column(name="adminId", type="integer", nullable=false)
      */
     private $adminid;
 
@@ -231,10 +227,9 @@ class Organisation
      * @param \OVT\UserBundle\Entity\User $adminid
      * @return Organisation
      */
-    public function setAdminid(User $adminid = null)
+    public function setAdminid($adminid = 0)
     {
         $this->adminid = $adminid;
-    
         return $this;
     }
 

@@ -12,42 +12,13 @@ class SuperAdminController extends Controller
     }
 
     public function gestionAction($gestion){
-	    switch ($gestion) {
-	    	case 'utilisateur':
-	    		return $this->render('OVTBackEndAdminBundle:Gestion:user.html.twig');
-	    		break;
-	    	case 'client':
-	    		return $this->render('OVTBackEndAdminBundle:Gestion:client.html.twig');
-	    		break;
-	    	case 'presta':
-	    		return $this->render('OVTBackEndAdminBundle:Gestion:provider.html.twig');
-	    		break;
-	    	case 'service':
-	    		return $this->render('OVTBackEndAdminBundle:Gestion:service.html.twig');
-	    		break;
-
-	    }
-    
+	  
+    	return $this->render('OVTBackEndAdminBundle:Gestion:'.$gestion.'.html.twig');
         
     }
 
     public function addNewAction($gestion){
-	    switch ($gestion) {
-	    	case 'utilisateur':
-	    		return $this->render('OVTBackEndAdminBundle:Gestion:user.html.twig');
-	    		break;
-	    	case 'client':
-	    		return $this->render('OVTBackEndAdminBundle:Client:addNew.html.twig');
-	    		break;
-	    	case 'presta':
-	    		return $this->render('OVTBackEndAdminBundle:Gestion:provider.html.twig');
-	    		break;
-	    	case 'service':
-	    		return $this->render('OVTBackEndAdminBundle:Service:addNew.html.twig');
-	    		break;
-
-	    }
-    
-        
+	 
+        return $this->render('OVTBackEndAdminBundle:'.$gestion.':addNew.html.twig');
     }
 }

@@ -4,15 +4,15 @@ ovt_back_end_admin_homepage:
 
 ovt_back_end_admin_gestion:
     path:     /gestion/{gestion}
-    defaults: { _controller: OVTBackEndAdminBundle:SuperAdmin:gestion, gestion:'utilisateur' }
+    defaults: { _controller: OVTBackEndAdminBundle:SuperAdmin:gestion, gestion:'user' }
     requirements:
-        gestion: utilisateur|client|presta|service
+        gestion: user|client|provider|service
 
 ovt_back_end_admin_gestion_new:
     path:     /gestion/{gestion}/addnew
-    defaults: { _controller: OVTBackEndAdminBundle:SuperAdmin:addNew, gestion:'utilisateur' }
+    defaults: { _controller: OVTBackEndAdminBundle:SuperAdmin:addNew, gestion:'user' }
     requirements:
-        gestion: utilisateur|client|presta|service
+        gestion: user|client|provider|service
         _method:  GET
 
 ovt_back_end_admin_gestion_new_service:
@@ -26,3 +26,21 @@ ovt_back_end_admin_gestion_get_service_by_id:
     defaults: { _controller: OVTBackEndAdminBundle:ServiceAdmin:getServiceById }
     requirements:
         id:  \d+
+
+ovt_back_end_admin_gestion_new_client:
+    path:     /gestion/client/addnew
+    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:addNewClient }
+    requirements:
+        _method:  POST
+
+ovt_back_end_admin_gestion_new_provider:
+    path:     /gestion/provider/addnew
+    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:addNewProvider }
+    requirements:
+        _method:  POST
+
+ovt_back_end_admin_gestion_new_provider:
+    path:     /gestion/user/addnew
+    defaults: { _controller: OVTBackEndAdminBundle:UserAdmin:addNew }
+    requirements:
+        _method:  POST

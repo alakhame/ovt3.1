@@ -38,10 +38,6 @@ class ServiceAdminController extends Controller
      public function getServiceByIdAction($id ){
         $superAdmin=$this->get('superadmin');
         $service=$superAdmin->getServiceById($id);
-        //$data=$this->renderView('OVTBackEndAdminBundle:Service:serviceInfos.json.twig',array('service'=>$service));
-       // $response = new Response($data);
-        //$response->headers->set('Content-Type', 'application/json');
-
         return $this->render('OVTBackEndAdminBundle:Service:serviceInfos.json.twig',array('service'=>$service));;
         
         

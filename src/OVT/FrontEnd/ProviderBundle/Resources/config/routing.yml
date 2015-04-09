@@ -1,3 +1,7 @@
 ovt_front_end_provider_homepage:
-    path:     /hello/{name}
+    path:     /
+    defaults: { _controller: OVTFrontEndProviderBundle:Default:index }
+
+ovt_front_end_admin_provider_homepage:
+    path:     /admin
     defaults: { _controller: OVTFrontEndProviderBundle:Default:index }

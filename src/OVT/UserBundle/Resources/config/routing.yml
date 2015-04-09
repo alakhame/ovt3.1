@@ -1,3 +1,7 @@
 ovt_user_homepage:
     path:     /hello/{name}
     defaults: { _controller: OVTUserBundle:Default:index }
+
+ovt_user_profil_rediction:
+    path:     /profilRedirection
+    defaults: { _controller: OVTUserBundle:UserInfos:profilRedirection }

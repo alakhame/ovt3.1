@@ -2,7 +2,6 @@ ovt_front_end_client_homepage:
     path:     /
     defaults: { _controller: OVTFrontEndClientBundle:FrontClient:index }
 
-test:
-    path:     /test
-    defaults: { _controller: OVTFrontEndClientBundle:FrontClient:test }
-
+ovt_front_end_admin_client_homepage:
+    path:     /admin
+    defaults: { _controller: OVTFrontEndClientBundle:FrontClient:index }

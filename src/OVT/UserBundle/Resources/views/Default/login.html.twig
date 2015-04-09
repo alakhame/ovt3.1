@@ -22,7 +22,7 @@
     					<label for="remember_me"> se rappeler de moi ?</label>
 					</div>
 					<div id="mdp_oublie">
-					<img src="{{asset('ress/img/fleche_droite.gif')}}" style="width:13px display:inline;" />
+					<img src="{{asset('ress/img/fleche_droite.gif')}}" style="width:13px; display:inline;" />
 					<a id="mdpoublie"> Mot de passe oublié ?</a>
 					{% if error %}
 					    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>

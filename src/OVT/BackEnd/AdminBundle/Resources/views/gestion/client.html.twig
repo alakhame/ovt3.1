@@ -8,7 +8,7 @@
 
 		<div id="cadre">
 			<div id="gestion_title">
-				<p  >Gestion des Prestataires
+				<p  >Gestion des entreprises
 			</div>
 			<div id="inside_cadre">
 				<div class="list">
@@ -21,12 +21,12 @@
 						<br/>
 
 						<div class="user_list">
-							{{render(controller('OVTBackEndAdminBundle:OrganisationAdmin:getOrganisationsByType',{type:'provider'}))}}
+							{{render(controller('OVTBackEndAdminBundle:OrganisationAdmin:getOrganisationsByType',{type:'client'}))}}
 						</div>
 					</div>
 
 					<div class="new_user"  >
-						<a href="{{path('ovt_back_end_admin_gestion_new',{gestion:'provider'})}}">
+						<a href="{{path('ovt_back_end_admin_gestion_new',{gestion:'client'})}}">
 							<img width="16px" height="16px"  src="{{asset('ress/img/add.png')}}">
 							Nouveau
 						</a>

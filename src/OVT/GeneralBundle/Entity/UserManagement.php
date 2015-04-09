@@ -7,7 +7,7 @@ interface UserManagement{
 
 	public function updateUser(User $u);
 	public function createUser(User $u);
-	public function deleteUserById(int $userID);
-	public function getUser() ;
+	public function deleteUserById($userID);
+	public function getUserById($userID) ;
 
 }

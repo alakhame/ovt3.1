@@ -1,0 +1,10 @@
+<div>
+	<ul class="listservices">
+	{% for u in users %}
+		<div class="listserviceli" ng-click="actionClick({{u.id}})">
+			<li >{{u.name}}</li>
+			<input 	type="hidden" value="{{u.id}}" ></input>
+		</div>	
+	{% endfor %}
+	</ul>
+</div>
