@@ -1,4 +1,10 @@
 services:
-#    ovt_user.example:
-#        class: OVT\UserBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    createAdmin.registration.form.type:
+        class: OVT\UserBundle\Form\Type\CreateAdminFormType
+        tags:
+            - { name: form.type, alias: createAdmin }
+    ovt.registration.form.factory:
+        class: FOS\UserBundle\Form\Factory\FormFactory
+        arguments: [%fos_user.registration.form.validation_groups%, "createAdmin.registration.form.type",%fos_user.registration.form.name%]
+        tags:
+            - { name: form.type, alias: createAdmin }

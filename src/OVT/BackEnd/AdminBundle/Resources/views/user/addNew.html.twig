@@ -26,7 +26,7 @@
 					</div>
 
 					<div class="new_user"  >
-						<a href="{{path('ovt_back_end_admin_gestion_new',{gestion:'service'})}}">
+						<a href="{{path('ovt_back_end_admin_gestion_new',{gestion:'user'})}}">
 							<img width="16px" height="16px"  src="{{asset('ress/img/add.png')}}">
 							Nouveau
 						</a>
@@ -38,7 +38,13 @@
 					<h3>Ajout d'un Nouveau Utilisateur</h3>
 					<hr/>
 					<div class="addForm">
-					 	<form action="{{path('ovt_back_end_admin_gestion_new_user')}}" method="post">
+						<form action="" {{ form_enctype(form) }} method="POST">
+						    {{ form_widget(form) }}
+						    <div>
+						        <input type="submit" value="Ajouter" />
+						    </div>
+						</form>
+						<form action="{{path('ovt_back_end_admin_gestion_new_user')}}" method="post">
 					 		<table>
 					 			<tbody>
 					 				<tr>
@@ -64,11 +70,9 @@
 									<tr>
 					 					<td><label for="role" > Type </label>
 								 		<td><select style="width:221px" type="text" name="role"  >
-								 				<option value="ROLE_CLIENT"> Client utilisateur </option>
-								 				<option> Administrateur client</option>
-								 				<option> ----------------------</option>
-								 				<option> Employé prestataire</option>
-								 				<option> Administrateur Prestataire</option>
+								 				<option value="ROLE_COM_CLIENT"> Administrateur client</option>
+								 				<option value="" disabled> ----------------------</option>
+								 				<option value="ROLE_PROVIDER_ADMIN"> Administrateur Prestataire</option>
 								 		</select></td> <br/>
 								 	</tr>
 								</tbody>

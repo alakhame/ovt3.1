@@ -4,6 +4,7 @@ namespace OVT\BackEnd\AdminBundle\Entity;
 use OVT\UserBundle\Entity\User ;
 use OVT\GeneralBundle\Entity\ServiceManagement;
 use OVT\GeneralBundle\Entity\OrganisationManagement;
+use OVT\GeneralBundle\Entity\UserManagement;
 use OVT\GeneralBundle\Entity\Organisation;
 use OVT\GeneralBundle\Entity\Service ;
 use Doctrine\ORM\EntityManager;
@@ -100,7 +101,13 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
          return $this->em->getRepository('OVTUserBundle:User')->find($userID);
     }
     public  function getAllUsers(){
-        return $this->em->getRepository('OVTUserBundle:User')->findAll();
+        $all= $this->em->getRepository('OVTUserBundle:User')->findAll();
+        $users = array();
+        foreach ($all as $u) {
+            if(!in_array("ROLE_SUPER_ADMIN", $u->getRoles())) 
+                $users[]=$u;
+        }
+        return $users;
     }
 
 
@@ -111,5 +118,7 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
         $this->em->persist($u);
         $this->em->flush();
     }
+
+
    
 }

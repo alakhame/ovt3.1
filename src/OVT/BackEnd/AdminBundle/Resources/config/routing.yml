@@ -39,8 +39,8 @@ ovt_back_end_admin_gestion_new_provider:
     requirements:
         _method:  POST
 
-ovt_back_end_admin_gestion_new_provider:
+ovt_back_end_admin_gestion_new_user:
     path:     /gestion/user/addnew
-    defaults: { _controller: OVTBackEndAdminBundle:UserAdmin:addNew }
+    defaults: { _controller: OVTBackEndAdminBundle:UserAdmin:addNewProvider }
     requirements:
         _method:  POST

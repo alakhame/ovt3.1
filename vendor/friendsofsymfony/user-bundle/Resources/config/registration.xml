@@ -6,14 +6,14 @@
 
     <services>
 
-        <service id="fos_user.registration.form.factory" class="FOS\UserBundle\Form\Factory\FormFactory">
+        <service id="fos_user.registration.form.factory"    class="FOS\UserBundle\Form\Factory\FormFactory">
             <argument type="service" id="form.factory" />
             <argument>%fos_user.registration.form.name%</argument>
             <argument>%fos_user.registration.form.type%</argument>
             <argument>%fos_user.registration.form.validation_groups%</argument>
         </service>
 
-        <service id="fos_user.registration.form.type" class="FOS\UserBundle\Form\Type\RegistrationFormType">
+        <service id="fos_user.registration.form.type"       class="FOS\UserBundle\Form\Type\RegistrationFormType">
             <tag name="form.type" alias="fos_user_registration" />
             <argument>%fos_user.model.user.class%</argument>
         </service>
