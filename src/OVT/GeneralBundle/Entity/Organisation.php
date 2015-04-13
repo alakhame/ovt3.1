@@ -9,7 +9,7 @@ use OVT\UserBundle\Entity\User as User;
 /**
  * Organisation
  *
- * @ORM\Table(name="organisation", indexes={@ORM\Index(name="adminID", columns={"adminID"})})
+ * @ORM\Table(name="organisation")
  * @ORM\Entity
  */
 class Organisation
@@ -58,11 +58,12 @@ class Organisation
      */
     private $hashlink;
 
-    /**
-     * @var integer
-     * @ORM\Column(name="adminId", type="integer", nullable=false)
+     /**
+     *  
+     * @ORM\OneToMany(targetEntity="OVT\UserBundle\Entity\User", mappedBy="organisation")
      */
-    private $adminid;
+    
+    private $admins;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -93,6 +94,7 @@ class Organisation
     {
         $this->clientservicegroup = new \Doctrine\Common\Collections\ArrayCollection();
         $this->service = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->admins= new   \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -221,27 +223,9 @@ class Organisation
         return $this->hashlink;
     }
 
-    /**
-     * Set adminid
-     *
-     * @param \OVT\UserBundle\Entity\User $adminid
-     * @return Organisation
-     */
-    public function setAdminid($adminid = 0)
-    {
-        $this->adminid = $adminid;
-        return $this;
-    }
+   
 
-    /**
-     * Get adminid
-     *
-     * @return \OVT\UserBundle\Entity\User 
-     */
-    public function getAdminid()
-    {
-        return $this->adminid;
-    }
+    
 
     /**
      * Add clientservicegroup
@@ -307,5 +291,38 @@ class Organisation
     public function getService()
     {
         return $this->service;
+    }
+
+     /**
+     * Add admin
+     *
+     * @param \OVT\UserBundle\Entity\User $user
+     * @return Organisation
+     */
+    public function addAdmin(\OVT\UserBundle\Entity\User $user)
+    {
+        $this->admins[] = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Remove admin
+     *
+     * @param \OVT\UserBundle\Entity\User $user
+     */
+    public function removeAdmin(\OVT\UserBundle\Entity\User $user)
+    {
+        $this->admins->removeElement($user);
+    }
+
+    /**
+     * Get admins
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAdmins()
+    {
+        return $this->admins;
     }
 }

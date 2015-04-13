@@ -26,7 +26,12 @@ ovt_back_end_admin_gestion_get_service_by_id:
     defaults: { _controller: OVTBackEndAdminBundle:ServiceAdmin:getServiceById }
     requirements:
         id:  \d+
-
+ovt_back_end_admin_gestion_get_client_by_id:
+    path:     /gestion/client/{id}
+    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:getOrgById }
+    requirements:
+        id:  \d+
+        
 ovt_back_end_admin_gestion_new_client:
     path:     /gestion/client/addnew
     defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:addNewClient }
@@ -41,6 +46,20 @@ ovt_back_end_admin_gestion_new_provider:
 
 ovt_back_end_admin_gestion_new_user:
     path:     /gestion/user/addnew
-    defaults: { _controller: OVTBackEndAdminBundle:UserAdmin:addNewProvider }
+    defaults: { _controller: OVTBackEndAdminBundle:UserAdmin:addNew }
     requirements:
+        _method:  POST
+        
+ovt_back_end_admin_gestion_setadmin:
+    path: /gestion/{gestion}/setadmin
+    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:setAdmin }
+    requirements:
+        gestion: user|client|provider|service
+        _method:  POST
+
+ovt_back_end_admin_gestion_update:
+    path: /gestion/{gestion}/update
+    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:Update }
+    requirements:
+        gestion: user|client|provider|service
         _method:  POST

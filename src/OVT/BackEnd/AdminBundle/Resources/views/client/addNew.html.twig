@@ -55,9 +55,11 @@
 								 	</tr>
 									<tr>
 					 					<td><label for="adminID" > Administrateur : </label>
-								 		<td><select style="width:221px" type="text" name="adminID"  >
-
-								 		</select></td> <br/>
+								 		<td>
+								 			<select style="width:221px" type="text" name="adminID"  >
+												{{ render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins'))}}
+								 			</select>
+								 		</td> <br/>
 								 	</tr>
 								</tbody>
 							</table>

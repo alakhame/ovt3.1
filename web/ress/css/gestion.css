@@ -98,8 +98,8 @@ input.submitButtton  img {
 }
 
 .user_infos_border{ 
-	height:20%;
-	width:100%; 
+	height:auto;
+	width:50%; 
 	border: 2px ridge #ff0000;
 	padding-left: 10px;
 	padding-top: 10px;
@@ -113,7 +113,12 @@ input.submitButtton  img {
 input.submitButtton   {
 background : url(../img/button-gray.png) ;
 background-repeat: no-repeat;
-width: 80px;
+background-size:100% 100%;
+width:auto;
 height: 30px;
 border: 0;
+}
+
+.affect_button {
+	margin-left: 500px;
 }

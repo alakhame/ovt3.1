@@ -26,11 +26,11 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="organizationID", type="integer", nullable=true)
-     */
-    private $organizationid;
+     *  
+     * @ORM\ManyToOne(targetEntity="OVT\GeneralBundle\Entity\Organisation", inversedBy="admins")
+     * @ORM\JoinColumn(name="organisation", referencedColumnName="id")
+     */ 
+    private $organisation;
 
     /**
      * @var string
@@ -95,6 +95,7 @@ class User extends BaseUser
      */
     public function __construct()
     {
+        parent::__construct();
         $this->notification = new \Doctrine\Common\Collections\ArrayCollection();
         $this->session = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -111,26 +112,26 @@ class User extends BaseUser
     }
 
     /**
-     * Set organizationid
+     * Set organisation
      *
-     * @param integer $organizationid
+     * @param OVT\GeneralBundle\Entity\Organisation $organisation
      * @return User
      */
-    public function setOrganizationid($organizationid)
+    public function setOrganisation($organisation)
     {
-        $this->organizationid = $organizationid;
+        $this->organisation = $organisation;
     
         return $this;
     }
 
     /**
-     * Get organizationid
+     * Get organisation
      *
-     * @return integer 
+     * @return OVT\GeneralBundle\Entity\Organisation
      */
-    public function getOrganizationid()
+    public function getOrganisation()
     {
-        return $this->organizationid;
+        return $this->organisation;
     }
 
     /**

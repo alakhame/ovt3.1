@@ -53,7 +53,7 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
     }
 
     public  function updateOrganisation(Organisation $org){
-
+         $this->em->flush();
     }
 
 	public  function createOrganisation(Organisation $org){
@@ -73,6 +73,16 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
 		return $this->em->getRepository("OVTGeneralBundle:Organisation")->findBy(array("type"=>$type));
 	}
 
+    public function getOrgAdminById($id){
+
+        return $this->getUserById();
+    }
+
+    public function getAdminsUserByOrgId($orgID){
+       $users=$this->em->getRepository('OVTGeneralBundle:Organisation')->find($orgID)->getAdmins();
+       return $users;
+    }
+
 
     /********** USER *************************/
 
@@ -91,15 +101,11 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
         $this->em->flush();
     }
 
-    public function getAdminUserByOrgId($orgID){
-       $userID=$this->em->getRepository('OVTGeneralBundle:Organisation')->find($orgID)->getAdminid();
-       return $this->getUserById($userID);
-    }
 
-
-    public function getUserById($userID){
+   public function getUserById($userID){
          return $this->em->getRepository('OVTUserBundle:User')->find($userID);
     }
+
     public  function getAllUsers(){
         $all= $this->em->getRepository('OVTUserBundle:User')->findAll();
         $users = array();
@@ -110,6 +116,18 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
         return $users;
     }
 
+    public  function getAllAdmins(){
+        $all= $this->em->getRepository('OVTUserBundle:User')->findAll();
+        $users = array();
+        foreach ($all as $u) {
+            $roles= $u->getRoles();
+            if( in_array("ROLE_SUPER_ADMIN",$roles) || 
+                in_array("ROLE_COM_CLIENT",$roles)  || 
+                in_array("ROLE_ADMIN_PROVIDER",$roles)) 
+                $users[]=$u;
+        }
+        return $users;
+    }
 
 
     /********* TEST *************************/
@@ -118,7 +136,9 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
         $this->em->persist($u);
         $this->em->flush();
     }
-
+    public  function update(){
+         $this->em->flush();
+    }
 
    
 }

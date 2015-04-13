@@ -5,7 +5,8 @@ namespace OVT\BackEnd\AdminBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use OVT\UserBundle\Entity\User;
- use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 class UserAdminController extends Controller
 {   
@@ -21,23 +22,50 @@ class UserAdminController extends Controller
 
     public function addNewAction(){
         $request = $this->getRequest();
-        $superAdmin=$this->get('superadmin');
-       
+       $userManager = $this->get('fos_user.user_manager');
         
-        $name=$request->request->get("orgName");
+        $user = $userManager->createUser();
+        $user->setEnabled(true);
+        $encoderFactory=$this->get('security.encoder_factory');
+        $encoder=$encoderFactory->getEncoder($user);
+        
+        $firstName=$request->request->get("firstName");
+        $lastName=$request->request->get("lastName");
+        $email=$request->request->get("email");
+        $password=$request->request->get("password");
+        $confirmPassword=$request->request->get("confirmPassword");
         $address=$request->request->get("address");
         $phoneNumber=$request->request->get("phoneNumber");
-        $adminID=$request->request->get("adminID");
+        $role=$request->request->get("role");
+        switch($role){
+            case "ROLE_COM_CLIENT":
+            $type="Administrateur Client";
+                break;
 
-        $org = new Organisation();
-        $org->setName($name);
-        $org->setAddress($address);
-        $org->setPhonenumber($phoneNumber);
-        $org->setAdminid(1);//$org->setAdminid($adminID);
-        $org->setType("provider");
-        $org->setHashlink(sha1($this->salt1.$name.$this->salt2));
+            case "ROLE_PROVIDER_ADMIN":
+            $type="Administrateur Prestataire";
+                break;
 
-        $superAdmin->createOrganisation($org);
+        }
+       
+        if($password!=$confirmPassword){
+            return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion_new',array('gestion'=>'user',
+                                                        'error'=>'Les mots de passe ne correspondent pas !')));
+        }
+
+        $user->setFirstname($firstName);
+        $user->setLastName($lastName);
+        $user->setUsername($email);
+        $user->setEmail($email);
+        $user->setPassword($encoder->encodePassword($password, $user->getSalt()));
+        $user->setAddress($address);
+        $user->setPhoneNumber($phoneNumber);
+        $user->addRole($role);
+        $user->setType($type);
+        $user->setState("actif");
+        $userManager->updateUser($user);
+
+
         return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'user')));
     }
 
@@ -53,5 +81,15 @@ class UserAdminController extends Controller
         $superAdmin=$this->get('superadmin');
         $user=$superAdmin->getUserByRole($role);
         return $this->render('OVTBackEndAdminBundle:User:allUsers.html.twig',array('orgs'=>$orgs));
+    }
+
+    public function listAdminsAction(){
+        $superAdmin=$this->get('superadmin');
+        $users=$superAdmin->getAllAdmins();
+        $response="";
+        foreach ($users as $u) {
+            $response.='<option value="'.$u->getId().'">'.$u->getFirstname().' '.$u->getLastname().'</option> \n';
+        }
+        return new Response($response);
     }
 }

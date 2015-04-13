@@ -2,11 +2,14 @@
 {% block links %}
 	{{parent()}}
 	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+	<script src="{{asset('ress/js/angular.js')}}" > </script>
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 	
 {% endblock %}
 	{% block container %}
 
-		<div id="cadre">
+		<div id="cadre" ng-app="OVTApp" ng-controller="clientCtrl">
 			<div id="gestion_title">
 				<p  >Gestion des entreprises
 			</div>
@@ -36,18 +39,86 @@
 
 				<div class="infos">
 					<div class="user_infos">
-						<div class="user_infos_border">
+						<div class="user_infos_border" style="float:left">
+							<img src="{{asset('ress/img/loader.gif')}}" ng-show="loading" id="loader">
+							<div ng-hide="loading" id="clientInfo" >
+								<div class="">
+
+								</div>
+								{% verbatim %}
+								<div>
+									<h5> Nom  : </h5>
+									<p>{{selectedClient.name}}</p>
+								</div>
+
+								<div>
+									<h5> Adresse : </h5>
+									<p>{{selectedClient.address}}</p>
+								</div>
+								<div>
+									<h5> Téléphone : </h5>
+									<p>{{selectedClient.phoneNumber}}</p>
+								</div>
+								<div>
+									<h5> Lien Connexion : </h5>
+									<p>BASE_SERVER/client/{{selectedClient.hashLink}}/login</p>
+								</div>
+								<div>
+									<h5> Administrateur : </h5>
+									<p  ng-repeat="a in selectedClient.admins ">{{a.admin}} </p>
+								</div>
+								{% endverbatim %}
+							</div>
+						</div>
+						<div    ng-hide="loading">
+							<input  class="submitButtton" ng-click="switchAffect()" value="Affecter Administrateur"></input>
+							 <form ng-show="affectShow" method='post' action="{{path('ovt_back_end_admin_gestion_setadmin',{gestion:'client' })}}">
+								<select name="admin">
+									{{ render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins')) }}
+								</select>
+								<input type="text" name="idOrg"  id="idorg" ></input>
+								<input  class="submitButtton" type="submit" value="Soumettre"></input>
+							</form>
+						</div>
+
+						<div    ng-hide="loading">
+							<form method='post' action="{{path('ovt_back_end_admin_gestion_update',{gestion:'client' })}}">
+								<input type="hidden" name="idOrg" value="{% verbatim %}{{clientSelected.id}}{% endverbatim %}" ></input>
+								<input  class="submitButtton" type="submit" value="Modifier"></input>
+							</form>
 						</div>
 					</div>
-					
-					<hr/>
-					
 					 
-
-
+					
 				</div>
 			</div>
 
+			<script>
+				   
+				var app = angular.module('OVTApp', []);
+				
+				app.controller('clientCtrl', function($scope,$http) {
+						$scope.affectShow=false;
+						$scope.loading = false;
+						$scope.actionClick= function (idclient) {
+							//var idService=5;
+							$scope.loading = true;
+				   			{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_get_client_by_id', {id:idclient}); {% endverbatim %}
+				   			$http.get(link).
+						  	success(function(data, status, headers, config) {
+							    $scope.selectedClient=data;
+							    $scope.loading = false;
+							    var id=document.getElementById('idorg').value=$scope.clientSelected.id;
+						  	}).
+						 	error(function(data, status, headers, config) { });
+				   		}
+
+				   		$scope.switchAffect = function (){
+				   			$scope.affectShow=!($scope.affectShow);
+				   		}
+				});
+
+			</script>
 
 		</div>
 	

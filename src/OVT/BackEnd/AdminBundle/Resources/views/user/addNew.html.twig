@@ -37,23 +37,18 @@
 				<div class="infos">
 					<h3>Ajout d'un Nouveau Utilisateur</h3>
 					<hr/>
-					<div class="addForm">
-						<form action="" {{ form_enctype(form) }} method="POST">
-						    {{ form_widget(form) }}
-						    <div>
-						        <input type="submit" value="Ajouter" />
-						    </div>
-						</form>
+					<h5  style="color:red"> {% if error is defined %} {{error}} {% endif %}</h5>
+					<div class="addForm"> 
 						<form action="{{path('ovt_back_end_admin_gestion_new_user')}}" method="post">
 					 		<table>
 					 			<tbody>
 					 				<tr>
-					 					<td><label for="lastname" > Nom </label>
-								 		<td><input style="width:221px" type="text" name="lastname" placeholder="nom"></input></td> <br/>
+					 					<td><label for="lastName" > Nom </label>
+								 		<td><input style="width:221px" type="text" name="lastName" placeholder="nom"></input></td> <br/>
 								 	</tr>
 								 	<tr>
-					 					<td><label for="firstname" > Prénom </label>
-								 		<td><input style="width:221px" type="text" name="firstname" placeholder="Prénom"></input></td> <br/>
+					 					<td><label for="firstName" > Prénom </label>
+								 		<td><input style="width:221px" type="text" name="firstName" placeholder="Prénom"></input></td> <br/>
 								 	</tr>
 								 	<tr>
 					 					<td><label for="email" > Email : </label>
@@ -73,7 +68,15 @@
 								 				<option value="ROLE_COM_CLIENT"> Administrateur client</option>
 								 				<option value="" disabled> ----------------------</option>
 								 				<option value="ROLE_PROVIDER_ADMIN"> Administrateur Prestataire</option>
-								 		</select></td> <br/>
+								 		</select></td> <tr><td></td><td></td></tr>
+								 	<tr>
+					 					<td><label for="password" > Mot de passe : </label>
+								 		<td><input style="width:221px" type="password" name="password" placeholder="password"></input></td> <br/>
+								 	</tr>
+								 	<tr>
+					 					<td><label for="confirmPassword" >Confirmer Mot de passe : </label>
+								 		<td><input style="width:221px" type="password" name="confirmPassword" placeholder="Resaisir mot de passe ici"></input></td> <br/>
+								 	</tr>
 								 	</tr>
 								</tbody>
 							</table>

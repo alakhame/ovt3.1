@@ -20,15 +20,10 @@ class SuperAdminController extends Controller
     }
 
     public function addNewAction($gestion, Request $request){
-	    if($gestion=='user'){
-            $user = new User();
-            $user->setEnabled(true);
-            $formFactory = $this->get('fos_user.registration.form.factory');
-            $form = $formFactory->createForm();
-            $form->setData($user);
-            $form->handleRequest($request);
-
-            return $this->render('OVTBackEndAdminBundle:'.$gestion.':addNew.html.twig',array('form'=>$form->createView()));
+        $error=$request->get('error');
+	    if(isset($error) && $error!=""){
+            
+            return $this->render('OVTBackEndAdminBundle:'.$gestion.':addNew.html.twig',array('error'=>$error));
         }
         return $this->render('OVTBackEndAdminBundle:'.$gestion.':addNew.html.twig');
     }

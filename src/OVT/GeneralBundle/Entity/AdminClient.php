@@ -15,12 +15,15 @@ class AdminClient  extends Client  implements UserManagement
 
 	}
 
-	public function deleteUserById(int $userID){
+	public function deleteUserById( $userID){
 
 	}
 
 	public function getUser(){
 
+	}
+	public function getUserById($userID){
+		
 	}
 }
 
