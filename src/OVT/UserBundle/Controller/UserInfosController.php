@@ -17,7 +17,7 @@ class UserInfosController extends Controller
     {
     	$superAdmin=$this->get('superadmin');
         $user=$this->getUser();
-       	$org=$superAdmin->getOrganisationById($user->getOrganizationid());
+       	$org=$superAdmin->getOrganisationById($user->getOrganisation());
         $hashLink=$org->getHashLink();
         $roles=$user->getRoles();
         

@@ -3,6 +3,7 @@
 	{{parent()}}
 	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
 	<script src="{{asset('ress/js/angular.js')}}" > </script>
+	<script src="{{asset('ress/js/jquery.js')}}" > </script>
 	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 	
@@ -24,7 +25,7 @@
 						<br/>
 
 						<div class="user_list">
-							{{render(controller('OVTBackEndAdminBundle:OrganisationAdmin:getOrganisationsByType',{type:'client'}))}}
+							{{render(controller('OVTBackEndAdminBundle:OrganisationAdmin:getOrganisationsByType',{type:'client',action:'reload'}))}}
 						</div>
 					</div>
 
@@ -41,8 +42,8 @@
 					<div class="user_infos">
 						<div class="user_infos_border" style="float:left">
 							<img src="{{asset('ress/img/loader.gif')}}" ng-show="loading" id="loader">
-							<div ng-hide="loading" id="clientInfo" >
-								<div class="">
+							<div  ng-hide="loading  " id="clientInfo" >
+								<div ng-show="angular.isDefined(selectedClient)">
 
 								</div>
 								{% verbatim %}
@@ -65,50 +66,49 @@
 								</div>
 								<div>
 									<h5> Administrateur : </h5>
-									<p  ng-repeat="a in selectedClient.admins ">{{a.admin}} </p>
+									<p ng-repeat="a in selectedClient.admins" > 
+										{{a.admin}} 
+										<a href="#" ng-click="delAdmin(selectedClient.id,a.id)"  > X</a>
+
+									</p>
 								</div>
 								{% endverbatim %}
 							</div>
 						</div>
-						<div    ng-hide="loading">
+						<div  ng-hide="loading">
 							<input  class="submitButtton" ng-click="switchAffect()" value="Affecter Administrateur"></input>
-							 <form ng-show="affectShow" method='post' action="{{path('ovt_back_end_admin_gestion_setadmin',{gestion:'client' })}}">
+							 <form ng-show="affectShow" method='post' action="{{path('ovt_back_end_admin_gestion_organisation_setadmin',{org:'client'})}}">
 								<select name="admin">
 									{{ render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins')) }}
 								</select>
-								<input type="text" name="idOrg"  id="idorg" ></input>
+								<input type="hidden" name="idOrg"   value="{% verbatim %}{{selectedClient.id}}{% endverbatim %}"></input>
 								<input  class="submitButtton" type="submit" value="Soumettre"></input>
 							</form>
 						</div>
-
+						<br/><br/>
 						<div    ng-hide="loading">
-							<form method='post' action="{{path('ovt_back_end_admin_gestion_update',{gestion:'client' })}}">
-								<input type="hidden" name="idOrg" value="{% verbatim %}{{clientSelected.id}}{% endverbatim %}" ></input>
-								<input  class="submitButtton" type="submit" value="Modifier"></input>
-							</form>
+							<input ng-click="toUpdate(selectedClient.id)"  class="submitButtton" value="Modifier"></input>
 						</div>
 					</div>
-					 
-					
 				</div>
 			</div>
 
-			<script>
-				   
+			<script  >	   
+
 				var app = angular.module('OVTApp', []);
 				
-				app.controller('clientCtrl', function($scope,$http) {
+				app.controller('clientCtrl', function($scope,$http,$location,$window) {
 						$scope.affectShow=false;
 						$scope.loading = false;
 						$scope.actionClick= function (idclient) {
-							//var idService=5;
+						
 							$scope.loading = true;
-				   			{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_get_client_by_id', {id:idclient}); {% endverbatim %}
+				   			{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_get_organisation_by_id', {id:idclient,organisation:'client'}); {% endverbatim %}
 				   			$http.get(link).
 						  	success(function(data, status, headers, config) {
 							    $scope.selectedClient=data;
 							    $scope.loading = false;
-							    var id=document.getElementById('idorg').value=$scope.clientSelected.id;
+
 						  	}).
 						 	error(function(data, status, headers, config) { });
 				   		}
@@ -116,7 +116,21 @@
 				   		$scope.switchAffect = function (){
 				   			$scope.affectShow=!($scope.affectShow);
 				   		}
-				});
+
+				   		$scope.delAdmin= function (idorg,idadmin) {
+							$scope.loading = true;
+				   			{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_client_deleteadmin', {idOrg:idorg,idAdmin:idadmin}); {% endverbatim %}
+				   			$http.get(link).
+						  	success(function(data, status, headers, config) {
+							    $scope.loading = false;
+						  	}).
+						 	error(function(data, status, headers, config) { });
+				   		}
+						$scope.toUpdate= function (idorg) {
+							{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_client_update', {idOrg:idorg}); {% endverbatim %}
+							$window.location.href=link;
+				   		}
+				   	});
 
 			</script>
 

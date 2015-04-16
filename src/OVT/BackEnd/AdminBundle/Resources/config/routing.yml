@@ -26,11 +26,14 @@ ovt_back_end_admin_gestion_get_service_by_id:
     defaults: { _controller: OVTBackEndAdminBundle:ServiceAdmin:getServiceById }
     requirements:
         id:  \d+
-ovt_back_end_admin_gestion_get_client_by_id:
-    path:     /gestion/client/{id}
+        
+ovt_back_end_admin_gestion_get_organisation_by_id:
+    path:     /gestion/{organisation}/{id}
     defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:getOrgById }
     requirements:
         id:  \d+
+    options:
+        expose: true
         
 ovt_back_end_admin_gestion_new_client:
     path:     /gestion/client/addnew
@@ -50,16 +53,32 @@ ovt_back_end_admin_gestion_new_user:
     requirements:
         _method:  POST
         
-ovt_back_end_admin_gestion_setadmin:
-    path: /gestion/{gestion}/setadmin
+ovt_back_end_admin_gestion_organisation_setadmin:
+    path: /gestion/{org}/setadmin
     defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:setAdmin }
     requirements:
-        gestion: user|client|provider|service
         _method:  POST
 
-ovt_back_end_admin_gestion_update:
-    path: /gestion/{gestion}/update
-    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:Update }
+ovt_back_end_admin_gestion_organisation_update:
+    path: /gestion/{org}/update/{idOrg}
+    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:update }
+    options:
+        expose: true
     requirements:
-        gestion: user|client|provider|service
+        _method:  GET
+        
+ovt_back_end_admin_gestion_organisation_update_post:
+    path: /gestion/{org}/update
+    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:update, idOrg:null }
+    options:
+        expose: true
+    requirements:
         _method:  POST
+       
+ovt_back_end_admin_gestion_organisation_deleteadmin:
+    path: /gestion/{org}/deleteadmin/{idOrg}/{idAdmin}
+    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:deleteAdmin }
+    requirements:
+        _method:  GET
+    options:
+        expose: true

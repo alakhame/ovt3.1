@@ -1,0 +1,125 @@
+{% extends "OVTBackEndAdminBundle:SuperAdmin:profil.html.twig" %}
+{% block links %}
+	{{parent()}}
+	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+	<script src="{{asset('ress/js/angular.js')}}" > </script>
+	<script src="{{asset('ress/js/jquery.js')}}" > </script>
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	
+{% endblock %}
+	{% block container %}
+
+		<div id="cadre"  ng-app="OVTApp" ng-controller="providerCtrl">
+			<div id="gestion_title">
+				<p  >Gestion des Prestataires
+			</div>
+			<div id="inside_cadre">
+				<div class="list">
+					<div class="list_border">
+						<div class="entete">
+							<label for="tri"> Trier Par : </label>
+							<select name="choix_tri" > 
+							</select>
+						</div>
+						<br/>
+
+						<div class="user_list">
+							{{render(controller('OVTBackEndAdminBundle:OrganisationAdmin:getOrganisationsByType',{type:'client', action:'redirect'}))}}
+						</div>
+					</div>
+
+					<div class="new_user"  >
+						<a href="{{path('ovt_back_end_admin_gestion_new',{gestion:'service'})}}">
+							<img width="16px" height="16px"  src="{{asset('ress/img/add.png')}}">
+							Nouveau
+						</a>
+					</div>
+
+				</div>
+
+				<div class="infos">
+					<h3>Mise à jour Prestataire </h3>
+					<hr/>
+					<div class="addForm">
+					 	<form action="{{path('ovt_back_end_admin_gestion_client_update_post')}}" method="post">
+					 		<table>
+					 			<tbody>
+					 				<tr>
+					 					<td><label for="orgName" > Nom de l'entreprise : </label>
+								 		<td><input style="width:221px" type="text" name="orgName" value="{{org.name}}"></input></td> <br/>
+								 	</tr>
+								 	<tr>
+					 					<td><label for="address" > Adresse : </label>
+								 		<td><input style="width:221px" type="text" name="address" value="{{org.address}}" ></input></td> <br/>
+								 	</tr>
+								 	<tr>
+					 					<td><label for="phoneNumber" >Numéro de téléphone : </label>
+								 		<td><input style="width:221px" type="text" name="phoneNumber" value="{{org.phoneNumber}}" ></input></td> <br/>
+								 	</tr>
+									<tr>
+					 					<td><label for="adminID" > Administrateur : </label>
+								 		<td>
+								 			<select style="width:221px" type="text" name="adminID"  >
+												{{ render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins'))}}
+								 			</select>
+								 		</td> <br/>
+								 	</tr>
+								</tbody>
+								<input type="hidden" name="orgId" value="{{org.id}}"></input>
+							</table>
+							<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Modifier"> 
+							</input>
+							
+						</form>
+					</div>
+
+				</div>
+			</div>
+
+			<script  >	   
+				   
+				var app = angular.module('OVTApp', []);
+				
+				app.controller('providerCtrl', function($scope,$http,$location,$window) {
+						$scope.affectShow=false;
+						$scope.loading = false;
+						$scope.actionClick= function (idclient) {
+							$scope.loading = true;
+				   			{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_get_organisation_by_id', {id:idclient,organisation:'provider'}); {% endverbatim %}
+				   			$http.get(link).
+						  	success(function(data, status, headers, config) {
+							    $scope.selectedProvider=data;
+							    $scope.loading = false;
+						  	}).
+						 	error(function(data, status, headers, config) { });
+				   		}
+
+				   		$scope.switchAffect = function (){
+				   			$scope.affectShow=!($scope.affectShow);
+				   		}
+
+				   		$scope.delAdmin= function (idorg,idadmin) {
+							$scope.loading = true;
+				   			{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_organisation_deleteadmin', {idOrg:idorg,idAdmin:idadmin,org:'provider'}); {% endverbatim %}
+				   			$http.get(link).
+						  	success(function(data, status, headers, config) {
+							    $scope.loading = false;
+						  	}).
+						 	error(function(data, status, headers, config) { });
+				   		}
+						$scope.toUpdate= function (idorg) {
+							{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_organisation_update', {idOrg:idorg,org:'provider'}); {% endverbatim %}
+							$window.location.href=link;
+				   		}
+				   		$scope.actionRedirect= function (idorg) {
+							{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_organisation_update', {idOrg:idorg,org:'provider'}); {% endverbatim %}
+							$window.location.href=link;
+				   		}
+				   	});
+
+			</script>
+		</div>
+	
+
+	{% endblock %} 

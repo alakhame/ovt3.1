@@ -110,7 +110,7 @@ input.submitButtton  img {
 	width: 200px; 
 }
 
-input.submitButtton   {
+.submitButtton   {
 background : url(../img/button-gray.png) ;
 background-repeat: no-repeat;
 background-size:100% 100%;
