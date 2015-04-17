@@ -28,7 +28,7 @@ class User extends BaseUser
     /**
      *  
      * @ORM\ManyToOne(targetEntity="OVT\GeneralBundle\Entity\Organisation", inversedBy="admins" , cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="organisation", referencedColumnName="id")
+     * @ORM\JoinColumn(name="organisation", referencedColumnName="id",  onDelete="SET NULL")
      */ 
     private $organisation;
 

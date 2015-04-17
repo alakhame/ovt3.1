@@ -83,9 +83,24 @@ class UserAdminController extends Controller
         return $this->render('OVTBackEndAdminBundle:User:allUsers.html.twig',array('orgs'=>$orgs));
     }
 
-    public function listAdminsAction(){
+    public function listAdminsAction($type){
         $superAdmin=$this->get('superadmin');
-        $users=$superAdmin->getAllAdmins();
+        switch ($type) {
+            case 'client':
+                $users=$superAdmin->getClientAdmins();
+                break;
+            case 'provider':
+                $users=$superAdmin->getProviderAdmins();
+                break;
+            case 'super':
+                $users=$superAdmin->getSuperAdmins();
+                break;
+            case 'all':
+                $users=$superAdmin->getAllAdmins();
+                break;
+            default:
+                break;
+        }
         $response="";
         foreach ($users as $u) {
             $response.='<option value="'.$u->getId().'">'.$u->getFirstname().' '.$u->getLastname().'</option> \n';

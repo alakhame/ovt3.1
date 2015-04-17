@@ -21,7 +21,7 @@
 						<br/>
 
 						<div class="user_list">
-							{{render(controller('OVTBackEndAdminBundle:OrganisationAdmin:getOrganisationsByType',{type:'provider'}))}}
+							{{render(controller('OVTBackEndAdminBundle:OrganisationAdmin:getOrganisationsByType',{type:'provider',action:'reload'}))}}
 						</div>
 					</div>
 
@@ -38,7 +38,7 @@
 					<h3>Ajout d'un Nouveau Prestataire </h3>
 					<hr/>
 					<div class="addForm">
-					 	<form action="{{path('ovt_back_end_admin_gestion_new_provider')}}" method="post">
+					 	<form action="{{path('ovt_back_end_admin_gestion_new_organisation',{organisation:'provider'})}}" method="post">
 					 		<table>
 					 			<tbody>
 					 				<tr>
@@ -55,9 +55,11 @@
 								 	</tr>
 									<tr>
 					 					<td><label for="adminID" > Administrateur : </label>
-								 		<td><select style="width:221px" type="text" name="adminID"  >
-								 			
-								 		</select></td> <br/>
+								 		<td>
+								 			<select style="width:221px" type="text" name="adminID"  >
+												{{ render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins'))}}
+								 			</select>
+								 		</td> <br/>
 								 	</tr>
 								</tbody>
 							</table>

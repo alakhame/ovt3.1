@@ -7,6 +7,8 @@ ovt_back_end_admin_gestion:
     defaults: { _controller: OVTBackEndAdminBundle:SuperAdmin:gestion, gestion:'user' }
     requirements:
         gestion: user|client|provider|service
+    options:
+        expose: true
 
 ovt_back_end_admin_gestion_new:
     path:     /gestion/{gestion}/addnew
@@ -34,24 +36,20 @@ ovt_back_end_admin_gestion_get_organisation_by_id:
         id:  \d+
     options:
         expose: true
-        
-ovt_back_end_admin_gestion_new_client:
-    path:     /gestion/client/addnew
-    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:addNewClient }
-    requirements:
-        _method:  POST
-
-ovt_back_end_admin_gestion_new_provider:
-    path:     /gestion/provider/addnew
-    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:addNewProvider }
-    requirements:
-        _method:  POST
+ 
 
 ovt_back_end_admin_gestion_new_user:
     path:     /gestion/user/addnew
     defaults: { _controller: OVTBackEndAdminBundle:UserAdmin:addNew }
     requirements:
         _method:  POST
+        
+ovt_back_end_admin_gestion_new_organisation:
+    path:     /gestion/{organisation}/addnew
+    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:addNewOrg }
+    requirements:
+        _method:  POST
+
         
 ovt_back_end_admin_gestion_organisation_setadmin:
     path: /gestion/{org}/setadmin
@@ -69,7 +67,7 @@ ovt_back_end_admin_gestion_organisation_update:
         
 ovt_back_end_admin_gestion_organisation_update_post:
     path: /gestion/{org}/update
-    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:update, idOrg:null }
+    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:updatePost }
     options:
         expose: true
     requirements:
@@ -82,3 +80,18 @@ ovt_back_end_admin_gestion_organisation_deleteadmin:
         _method:  GET
     options:
         expose: true
+        
+ovt_back_end_admin_gestion_organisation_delete:
+    path: /gestion/{org}/delete/{idOrg}
+    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:deleteOrg }
+    requirements:
+        _method:  GET
+    options:
+        expose: true
+        
+        
+ovt_back_end_admin_profile:
+    path: /profile/view
+    defaults: { _controller: OVTUserBundle:Profile:view }
+    requirements:
+        _method:  GET

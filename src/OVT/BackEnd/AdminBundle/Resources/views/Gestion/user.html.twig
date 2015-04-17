@@ -13,10 +13,16 @@
 	<script src="{{asset('ress/js/lang-all.js')}}">		</script>
 	<script src="{{asset('ress/js//fr.js')}}">			</script>
 	<script src="{{asset('ress/js/gcal.js')}}">			</script>
+
+
+	<script src="{{asset('ress/js/angular.js')}}" > </script>
+	<script src="{{asset('ress/js/jquery.js')}}" > </script>
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 {% endblock %}
 	{% block container %}
 
-		<div id="cadre">
+		<div id="cadre" ng-app="OVTApp" ng-controller="userCtrl">
 			<div id="gestion_title">
 				<p  >Gestion des utilisateur
 			</div>
@@ -70,7 +76,27 @@
 
 				</div>
 			</div>
+				
+				<script type="text/javascript">
+ 					var app = angular.module('OVTApp', []);
+ 					app.controller('userCtrl', function($scope,$http,$location,$window) {
+						$scope.affectShow=false;
+						$scope.loading = false;
+						$scope.actionClick= function (iduser) {
+						
+							$scope.loading = true;
+				   			{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_get_user_by_id', {id:iduser,organisation:'provider'}); {% endverbatim %}
+				   			$http.get(link).
+						  	success(function(data, status, headers, config) {
+							    $scope.selectedProvider=data;
+							    $scope.loading = false;
 
+						  	}).
+						 	error(function(data, status, headers, config) { });
+				   		}
+				   	});
+
+				</script>  
 
 		</div>
 	

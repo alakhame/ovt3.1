@@ -79,15 +79,20 @@
 							<input  class="submitButtton" ng-click="switchAffect()" value="Affecter Administrateur"></input>
 							 <form ng-show="affectShow" method='post' action="{{path('ovt_back_end_admin_gestion_organisation_setadmin',{org:'client'})}}">
 								<select name="admin">
-									{{ render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins')) }}
+									{{ render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins', {type:'client'})) }}
 								</select>
 								<input type="hidden" name="idOrg"   value="{% verbatim %}{{selectedClient.id}}{% endverbatim %}"></input>
+								<input type="hidden" name="org"   value="client"></input>
 								<input  class="submitButtton" type="submit" value="Soumettre"></input>
 							</form>
 						</div>
 						<br/><br/>
 						<div    ng-hide="loading">
 							<input ng-click="toUpdate(selectedClient.id)"  class="submitButtton" value="Modifier"></input>
+						</div>
+						<br/><br/>
+						<div    ng-hide="loading">
+							<input ng-click="deleteOrg(selectedClient.id)"  class="submitButtton" value="Supprimer"></input>
 						</div>
 					</div>
 				</div>
@@ -119,7 +124,7 @@
 
 				   		$scope.delAdmin= function (idorg,idadmin) {
 							$scope.loading = true;
-				   			{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_client_deleteadmin', {idOrg:idorg,idAdmin:idadmin}); {% endverbatim %}
+				   			{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_organisation_deleteadmin', {idOrg:idorg,idAdmin:idadmin,org:'client'}); {% endverbatim %}
 				   			$http.get(link).
 						  	success(function(data, status, headers, config) {
 							    $scope.loading = false;
@@ -127,8 +132,18 @@
 						 	error(function(data, status, headers, config) { });
 				   		}
 						$scope.toUpdate= function (idorg) {
-							{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_client_update', {idOrg:idorg}); {% endverbatim %}
+							{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_organisation_update', {idOrg:idorg,org:'client'}); {% endverbatim %}
 							$window.location.href=link;
+				   		}
+				   		$scope.deleteOrg= function (idorg) {
+							{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_organisation_delete', {idOrg:idorg,org:'client'}); {% endverbatim %}
+							$scope.loading = true;
+							var confirmation = confirm("Voulez vraiment supprimer cette organisation ?");
+							if(confirmation){
+								$window.location.href=link;
+							}else {
+								$scope.loading = false;
+							}
 				   		}
 				   	});
 

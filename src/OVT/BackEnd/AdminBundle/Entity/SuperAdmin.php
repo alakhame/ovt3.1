@@ -66,7 +66,8 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
 	}
 
     public  function deleteOrganisationById( $orgID){
-
+        $org=$this->getOrganisationById($orgID);
+        $this->em->remove($org);
     }
 
 	public  function getOrganisationsByType($type){
@@ -123,7 +124,41 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
             $roles= $u->getRoles();
             if( in_array("ROLE_SUPER_ADMIN",$roles) || 
                 in_array("ROLE_COM_CLIENT",$roles)  || 
-                in_array("ROLE_ADMIN_PROVIDER",$roles)) 
+                in_array("ROLE_PROVIDER_ADMIN",$roles)) 
+                $users[]=$u;
+        }
+        return $users;
+    }
+
+    public  function getProviderAdmins(){
+        $all= $this->em->getRepository('OVTUserBundle:User')->findAll();
+        $users = array();
+        foreach ($all as $u) {
+            $roles= $u->getRoles();
+            if( in_array("ROLE_PROVIDER_ADMIN",$roles)) 
+                $users[]=$u;
+        }
+        return $users;
+    }
+
+
+    public  function getClientAdmins(){
+        $all= $this->em->getRepository('OVTUserBundle:User')->findAll();
+        $users = array();
+        foreach ($all as $u) {
+            $roles= $u->getRoles();
+            if( in_array("ROLE_COM_CLIENT",$roles)) 
+                $users[]=$u;
+        }
+        return $users;
+    }
+
+    public  function getSuperAdmins(){
+        $all= $this->em->getRepository('OVTUserBundle:User')->findAll();
+        $users = array();
+        foreach ($all as $u) {
+            $roles= $u->getRoles();
+            if( in_array("ROLE_SUPER_ADMIN",$roles)) 
                 $users[]=$u;
         }
         return $users;
