@@ -21,16 +21,14 @@
 						<br/>
 
 						<div class="user_list">
-							{{render(controller('OVTBackEndAdminBundle:UserAdmin:getAllUsers'))}}
+							{% if type == "adminClient" %}
+								{{render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins',{type:"client"}))}}
+							{% elseif type == "adminProvider" %}
+								{{render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins',{type:"provider"}))}}
+							{% endif %}
 						</div>
 					</div>
 
-					<div class="new_user"  >
-						<a href="{{path('ovt_back_end_admin_gestion_new',{gestion:'user'})}}">
-							<img width="16px" height="16px"  src="{{asset('ress/img/add.png')}}">
-							Nouveau
-						</a>
-					</div>
 
 				</div>
 
@@ -64,10 +62,14 @@
 								 	</tr>
 									<tr>
 					 					<td><label for="role" > Type </label>
+					 						
 								 		<td><select style="width:221px" type="text" name="role"  >
-								 				<option value="ROLE_COM_CLIENT"> Administrateur client</option>
-								 				<option value="" disabled> ----------------------</option>
-								 				<option value="ROLE_PROVIDER_ADMIN"> Administrateur Prestataire</option>
+								 			{% if type == "adminClient" %}
+												<option value="ROLE_COM_CLIENT" selected> Administrateur client</option>
+											{% elseif type == "adminProvider" %}
+												<option value="ROLE_PROVIDER_ADMIN" selected> Administrateur Prestataire</option>
+											{% endif %}
+								 				
 								 		</select></td> <tr><td></td><td></td></tr>
 								 	<tr>
 					 					<td><label for="password" > Mot de passe : </label>
@@ -80,6 +82,7 @@
 								 	</tr>
 								</tbody>
 							</table>
+							<input type="hidden" name="userType" value="{{type}}"></input>
 							<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Ajouter"> 
 							</input>
 							

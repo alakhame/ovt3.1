@@ -14,17 +14,29 @@ class SuperAdminController extends Controller
     }
 
     public function gestionAction($gestion){
-	  
+        if($gestion=="adminClient"){
+           $gestion="client";
+        }
+	    else if($gestion=="adminProvider"){
+           $gestion="provider";
+        }
     	return $this->render('OVTBackEndAdminBundle:Gestion:'.$gestion.'.html.twig');
         
     }
 
     public function addNewAction($gestion, Request $request){
         $error=$request->get('error');
+        if($gestion=="adminClient" || $gestion=="adminProvider"){
+           $type=$gestion;
+           $gestion="user";
+        }
 	    if(isset($error) && $error!=""){
             
             return $this->render('OVTBackEndAdminBundle:'.$gestion.':addNew.html.twig',array('error'=>$error));
         }
+        
+        if(isset($type)) 
+            return $this->render('OVTBackEndAdminBundle:'.$gestion.':addNew.html.twig',array('type'=>$type));
         return $this->render('OVTBackEndAdminBundle:'.$gestion.':addNew.html.twig');
     }
 }

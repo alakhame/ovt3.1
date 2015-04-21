@@ -61,7 +61,7 @@
 					 					<td><label for="adminID" > Administrateur : </label>
 								 		<td>
 								 			<select style="width:221px" type="text" name="adminID"  >
-												{{ render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins'))}}
+												{{ render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins',{type:"client"}))}}
 								 			</select>
 								 		</td> <br/>
 								 	</tr>

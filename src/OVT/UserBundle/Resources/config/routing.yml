@@ -5,3 +5,9 @@ ovt_user_homepage:
 ovt_user_profil_rediction:
     path:     /profilRedirection
     defaults: { _controller: OVTUserBundle:UserInfos:profilRedirection }
+
+ovt_user_profil_update:
+    path:     /profile/update
+    defaults: { _controller: OVTUserBundle:UserInfos:updateProfile }
+    requirements:
+        _method: POST

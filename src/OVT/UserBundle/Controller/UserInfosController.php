@@ -4,6 +4,8 @@ namespace OVT\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+ use Symfony\Component\HttpFoundation\Request;
+
 
 class UserInfosController extends Controller
 {
@@ -12,7 +14,26 @@ class UserInfosController extends Controller
         return   new Response($this->getUser()->getUsername()) ;
     }
 
+    public function updateProfileAction(Request $req)
+    {
+        $superAdmin=$this->get('superadmin');
+        $user=$superAdmin->getUserById($req->request->get('userId'));
+        
+        $user->setFirstname($req->request->get('firstName'));
+        $user->setLastname($req->request->get('lastName'));
+        $user->setPhoneNumber($req->request->get('phoneNumber'));
+        $user->setAddress($req->request->get('address'));
+        $superAdmin->update();
+        
+        $referer = $req->headers->get('referer');
 
+        return $this->redirect($referer);
+    }
+
+    public function profileViewAction($user)
+    {
+       return $this->render('OVTUserBundle:Default:profile.html.twig',array('user'=>$user));
+    }
     public function profilRedirectionAction()
     {
     	$superAdmin=$this->get('superadmin');

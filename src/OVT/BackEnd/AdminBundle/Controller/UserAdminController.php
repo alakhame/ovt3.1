@@ -20,10 +20,11 @@ class UserAdminController extends Controller
     }
 
 
-    public function addNewAction(){
+    public function addNewAction( ){
         $request = $this->getRequest();
-       $userManager = $this->get('fos_user.user_manager');
-        
+        $userManager = $this->get('fos_user.user_manager');
+        $userType=$request->request->get('userType');
+
         $user = $userManager->createUser();
         $user->setEnabled(true);
         $encoderFactory=$this->get('security.encoder_factory');
@@ -49,7 +50,7 @@ class UserAdminController extends Controller
         }
        
         if($password!=$confirmPassword){
-            return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion_new',array('gestion'=>'user',
+            return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion_new',array('gestion'=>$userType,
                                                         'error'=>'Les mots de passe ne correspondent pas !')));
         }
 
@@ -66,7 +67,7 @@ class UserAdminController extends Controller
         $userManager->updateUser($user);
 
 
-        return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'user')));
+        return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>$userType)));
     }
 
      public function getUserByIdAction($id ){

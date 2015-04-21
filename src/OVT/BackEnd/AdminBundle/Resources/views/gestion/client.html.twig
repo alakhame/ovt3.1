@@ -12,7 +12,13 @@
 
 		<div id="cadre" ng-app="OVTApp" ng-controller="clientCtrl">
 			<div id="gestion_title">
-				<p  >Gestion des entreprises
+				<p  >Gestion des entreprises </p>
+				<div class=""  style="float:right;margin-right:50px" >
+						<a href="{{path('ovt_back_end_admin_gestion_new',{gestion:'adminClient'})}}">
+							<img width="16px" height="16px"  src="{{asset('ress/img/add.png')}}">
+							Nouveau Administrateur Client
+						</a>
+				</div>
 			</div>
 			<div id="inside_cadre">
 				<div class="list">
@@ -72,6 +78,12 @@
 
 									</p>
 								</div>
+								<div>
+									<h5> Services possibles : </h5>
+									<p ng-repeat="s in selectedClient.services" > 
+										{{s.name}} 
+									</p>
+								</div>
 								{% endverbatim %}
 							</div>
 						</div>
@@ -93,6 +105,10 @@
 						<br/><br/>
 						<div    ng-hide="loading">
 							<input ng-click="deleteOrg(selectedClient.id)"  class="submitButtton" value="Supprimer"></input>
+						</div>
+						<br/><br/>
+						<div    ng-hide="loading">
+							<input  ng-click="manageServices(selectedClient.id)"  class="submitButtton" value="Gerer les services"></input>
 						</div>
 					</div>
 				</div>
@@ -144,6 +160,11 @@
 							}else {
 								$scope.loading = false;
 							}
+				   		}
+				   		$scope.manageServices= function (idorg) {
+							{% verbatim %} var link=Routing.generate('ovt_back_end_admin_manage_service', {idOrg:idorg,organisation:'client'}); {% endverbatim %}
+								$window.location.href=link;
+							
 				   		}
 				   	});
 

@@ -1,0 +1,32 @@
+<div id="divForm">
+	<form method="post" action="{{path('ovt_user_profil_update')}}">
+		<table>
+			<tr>
+				<td>Identifiant :</td>
+				<td><input type="text" name="username" value="{{user.username}}" disabled ></input></td>
+			</tr>
+			<tr>
+				<td>Nom :</td>
+				<td><input type="text" name="lastName" value="{{user.lastname}}"  ></input></td>
+			</tr>
+			<tr>
+				<td>Prénom :</td>
+				<td><input type="text" name="firstName" value="{{user.firstname}}"   ></input></td>
+			</tr>
+			<tr>
+				<td>Email :</td>
+				<td><input type="text" name="email" value="{{user.email}}"   disabled></input></td>
+			</tr>
+			<tr>
+				<td>Téléphone :</td>
+				<td><input type="text" name="phoneNumber" value="{{user.phoneNumber}}"   ></input></td>
+			</tr>
+			<tr>
+				<td>Adresse :</td>
+				<td><textarea type="text" name="address"  >{{user.address}}</textarea></td>
+			</tr>
+		</table>
+		<input type="hidden" name="userId" value="{{user.id}}"></input>
+		<input type="submit" value="Enregistrer">
+	</form>
+</div>

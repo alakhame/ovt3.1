@@ -1,8 +1,41 @@
-{"id":{{org.id}}, "name":"{{org.name}}", "address":"{{org.address}}" , "phoneNumber":"{{org.phoneNumber}}" , "hashLink":"{{org.hashLink}}", "admins":[ {% for u in org.admins  %}
-		{% if loop.last %} {"admin":"{{u.firstname ~' '~u.lastname}}","id":"{{u.id}}" }
-		{% else %}  {"admin":"{{u.firstname ~' '~u.lastname}}","id":"{{u.id}}"},
-		{% endif %}
-	
-	{% endfor %}
+{
+	"id":{{org.id}}, 
+	"name":"{{org.name}}", 
+	"address":"{{org.address}}" , 
+	"phoneNumber":"{{org.phoneNumber}}" , 
+	"hashLink":"{{org.hashLink}}", 
+	"admins":
+		[ 
+			{% for u in org.admins  %}
+				{% if loop.last %} 
+					{
+						"admin":"{{u.firstname ~' '~u.lastname}}",
+						"id":"{{u.id}}" 
+					}
+				{% else %}  
+					{
+						"admin":"{{u.firstname ~' '~u.lastname}}",
+						"id":"{{u.id}}"
+					},
+				{% endif %}
+			{% endfor %}
 
- ]}
+ 		],
+	"services":[
+				{% for s in org.service  %}
+					{% if loop.last %} 
+						{
+							"name":"{{s.name}}",
+							"id":"{{s.id}}" 
+						}
+					{% else %}  
+					{
+						"name":"{{s.name}}",
+						"id":"{{s.id}}" 
+					},
+					{% endif %}
+	
+				{% endfor %}
+
+	]
+}

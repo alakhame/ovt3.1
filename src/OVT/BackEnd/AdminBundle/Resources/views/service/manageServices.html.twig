@@ -1,0 +1,62 @@
+{% extends "OVTBackEndAdminBundle:SuperAdmin:profil.html.twig" %}
+{% block links %}
+	{{parent()}}
+	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+	<script src="{{asset('ress/js/angular.js')}}" > </script>
+	<script src="{{asset('ress/js/jquery.js')}}" > </script>
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	
+{% endblock %}
+	{% block container %}
+
+		<div id="cadre"  >
+			<div id="gestion_title">
+				<p  >Gestion des services {% if type == "client" %}
+						client
+						{% elseif type=="provider" %}
+						prestataire
+						{% endif %} 
+				 </p>
+				
+			</div>
+			<div id="inside_cadre">
+				<div class="list">
+					<div class="list_border">
+						<div class="user_list  listserviceli">
+							{{ org.name }}
+						</div>
+					</div>
+
+
+				</div>
+
+				<div class="infos">
+					<div id="message" style="float:right;margin-right:50px;color:red"> 
+						{% if  message is defined %} 
+							<blink>{{message}}</blink> 
+						{% endif %}
+					</div>
+					  <form method="post" action="">
+					  		{% for s in services  %}
+					  			<input name="checkbox_service_{{s.id}}" value="{{s.id}}" type="checkbox" 
+					  			{% if s  in orgServices %}
+					  				checked
+					  			{% endif %}>{{s.name}}</input><br/>
+					  		{% endfor %}
+					  		<br/><br/>
+					  		<div    > 
+									<input type="submit" value ="Mettre à jour" ></input>
+							</div>
+					  </form>
+				</div>
+			</div>
+ 			
+ 			<script type="text/javascript">
+ 				setTimeout(function(){$('#message').hide(8000)},1000);
+ 			</script>
+
+		</div>
+	
+
+	{% endblock %} 

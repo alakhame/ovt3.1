@@ -9,9 +9,9 @@
 			<div id="p4" class="box-title"> Administration </div>
 			<br/>
 				<ul>
-					<li class="menuItem"><img src="{{asset('ress/img/gestionpersonnel.png')}}"  >
+					<!--<li class="menuItem"><img src="{{asset('ress/img/gestionpersonnel.png')}}"  >
 						<a   href="{{path('ovt_back_end_admin_gestion',{gestion:'user'})}}"> Gestion Utilisateur  </a>
-					</li>
+					</li> -->
 					<li class="menuItem"><img src="{{asset('ress/img/gestionpersonnel.png')}}"  >
 						<a   href="{{path('ovt_back_end_admin_gestion',{gestion:'client'})}}"> Gestion des Entreprises  </a>
 					</li>
@@ -20,6 +20,9 @@
 					</li>
 					<li class="menuItem"><img src="{{asset('ress/img/archive.png')}}" >
 						<a   href="{{path('ovt_back_end_admin_gestion',{gestion:'service'})}}"> Gestion des Services</a>
+					</li>
+					<li class="menuItem"><img src="{{asset('ress/img/polls.png')}}" >
+						<a   href=""> Paramètres Plateforme </a>
 					</li>
 					<li class="menuItem"><img src="{{asset('ress/img/polls.png')}}" >
 						<a   href=""> Visualisation des Statistiques </a>
@@ -35,7 +38,7 @@
 			<br/>
 				<ul>
 					<li class="menuItem"><img src="{{asset('ress/img/mesinfo.png')}}"  >
-						<a   href=""> Mes informations</a>
+						<a   href="{{path('ovt_back_end_admin_profile')}}"> Mes informations</a>
 					</li>
 					<li class="menuItem"><img src="{{asset('ress/img/MdP2.png')}} ">
 						<a   href=""> Changer de mot de passe </a>

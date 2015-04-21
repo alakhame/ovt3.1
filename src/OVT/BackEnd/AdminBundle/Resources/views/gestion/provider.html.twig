@@ -12,7 +12,13 @@
 
 		<div id="cadre"  ng-app="OVTApp" ng-controller="providerCtrl">
 			<div id="gestion_title">
-				<p  >Gestion des Prestataires
+				<p  >Gestion des Prestataires </p>
+				<div class=""  style="float:right;margin-right:50px" >
+						<a href="{{path('ovt_back_end_admin_gestion_new',{gestion:'adminProvider'})}}">
+							<img width="16px" height="16px"  src="{{asset('ress/img/add.png')}}">
+							Nouveau Administrateur Prestaire
+						</a>
+				</div>
 			</div>
 			<div id="inside_cadre">
 				<div class="list">
@@ -66,11 +72,17 @@
 									<p>BASE_SERVER/client/{{selectedProvider.hashLink}}/login</p>
 								</div>
 								<div>
-									<h5> Administrateur : </h5>
+									<h5> Administrateurs : </h5>
 									<p ng-repeat="a in selectedProvider.admins" > 
 										{{a.admin}} 
 										<a href="#" ng-click="delAdmin(selectedProvider.id,a.id)"  > X</a>
 
+									</p>
+								</div>
+								<div>
+									<h5> Services offerts : </h5>
+									<p ng-repeat="s in selectedProvider.services" > 
+										{{s.name}} 
 									</p>
 								</div>
 								{% endverbatim %}
@@ -94,6 +106,10 @@
 						<br/><br/>
 						<div    ng-hide="loading">
 							<input ng-click="deleteOrg(selectedProvider.id)"  class="submitButtton" value="Supprimer"></input>
+						</div>
+						<br/><br/>
+						<div    ng-hide="loading">
+							<input  ng-click="manageServices(selectedProvider.id)"  class="submitButtton" value="Gerer les services"></input>
 						</div>
 					</div>
 					
@@ -147,6 +163,11 @@
 							}else {
 								$scope.loading = false;
 							}
+				   		}
+				   		$scope.manageServices= function (idorg) {
+							{% verbatim %} var link=Routing.generate('ovt_back_end_admin_manage_service', {idOrg:idorg,organisation:'provider'}); {% endverbatim %}
+								$window.location.href=link;
+							
 				   		}
 				   	});
 
