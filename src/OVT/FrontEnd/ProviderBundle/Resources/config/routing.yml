@@ -1,7 +1,42 @@
 ovt_front_end_provider_homepage:
     path:     /
-    defaults: { _controller: OVTFrontEndProviderBundle:Default:index }
+    defaults: { _controller: OVTFrontEndProviderBundle:Provider:index }
+
+ovt_front_end_provider_my_sessions:
+    path:     /mysessions
+    defaults: { _controller: OVTFrontEndProviderBundle:Provider:mySessions }
+
+ovt_front_end_provider_calendar:
+    path:     /calendar
+    defaults: { _controller: OVTFrontEndProviderBundle:Provider:calendarView }
+
+ovt_front_end_provider_archives:
+    path:     /archives
+    defaults: { _controller: OVTFrontEndProviderBundle:Provider:archivesView }
+
 
 ovt_front_end_admin_provider_homepage:
-    path:     /admin
-    defaults: { _controller: OVTFrontEndProviderBundle:Default:index }
+    path:     /adminprovider
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:index }
+
+ovt_front_end_admin_provider_set_sessions:
+    path:     /adminprovider/setsession
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:setSessions }
+
+ovt_front_end_admin_provider_worker:
+    path:     /adminprovider/worker
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:worker }
+
+ovt_front_end_admin_provider_group:
+    path:     /adminprovider/group
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:group }
+
+ovt_front_end_admin_provider_profile:
+    path: /adminprovider/profile/view
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:profileView }
+    requirements:
+        _method:  GET
+
+test:
+    path:     /testpro
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:test }

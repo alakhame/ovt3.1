@@ -81,9 +81,13 @@ fos_user:
             type: createAdmin
 
 services:
+    provideradmin:
+        class:        OVT\FrontEnd\ProviderBundle\Entity\ProviderAdmin
+        arguments: ["@doctrine.orm.entity_manager"]
     superadmin:
         class:        OVT\BackEnd\AdminBundle\Entity\SuperAdmin
         arguments: ["@doctrine.orm.entity_manager"]
+
 
 fos_js_routing:
     routes_to_expose: ['ovt_back_end_admin_gestion_get_service_by_id','ovt_back_end_admin_gestion_get_client_by_id']

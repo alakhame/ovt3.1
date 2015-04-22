@@ -1,0 +1,34 @@
+<?php
+
+namespace OVT\FrontEnd\ProviderBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+
+class ProviderController extends Controller
+{
+    public function indexAction()
+    {
+        return $this->render('OVTFrontEndProviderBundle:Provider:index.html.twig');
+    }
+
+  
+
+    public function archivesViewAction()
+    {
+        return $this->render('OVTFrontEndProviderBundle:Provider:archives.html.twig');
+    }
+
+    public function calendarViewAction()
+    {
+        return $this->render('OVTFrontEndProviderBundle:Provider:agenda.html.twig');
+    }
+
+    public function mySessionsAction()
+    {	
+    	$adminProvider=$this->get('provideradmin');
+    	$user=  $this->container->get('security.context')->getToken()->getUser();
+    	$sessions=$adminProvider->retrieveSessionsByState($user);
+        return $this->render('OVTFrontEndProviderBundle:Provider:sessions.html.twig', array('sessions' => $sessions ));
+    }
+}

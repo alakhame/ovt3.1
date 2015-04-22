@@ -1,3 +1,10 @@
+html{
+  height: 100%;
+}
+body {
+  min-height: 100%;
+}
+
 #gestion_title{
 	border-radius:9px 9px 0px 0px;
 	background-image: url(../img/title_header.png);
@@ -8,10 +15,29 @@
 	margin-left:5px;
 	padding-top:9px;
 	padding-left:4px;
+}
 
-	
+.gestion_title{
+	border-radius:9px 9px 0px 0px;
+	background-image: url(../img/title_header.png);
+	height:30px;
+	font-family: Arial, sans-serif;
+	color:white;
+	width:100%; 
+	margin-left:5px;
+	padding-top:9px;
+	padding-left:4px;
+}
+
+#tableDemandes{
+	height: 40%;
 
 }
+
+#detailsDemande{
+	height: 40%;	
+}
+
 .listserviceli {
 	width: 160px;
 	padding: 9.5px;
@@ -45,8 +71,21 @@
 	padding-right: 10px;
 }
 
+.cadre{
+	width:1040px;
+	font-size:11px;
+	font-weight:bold;
+	margin-top:16px;
+	margin-left:220px;
+	padding-right: 10px;
+}
+
+
+
+
+
 #inside_cadre{
-	height:700px;
+	height:100%;
 	padding-left: 10px;
 	padding-top: 10px;
 	padding-right: 20px;

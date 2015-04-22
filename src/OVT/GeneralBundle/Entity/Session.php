@@ -4,14 +4,13 @@ namespace OVT\GeneralBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use OVT\UserBundle\Entity\User as User;
-use OVT\GeneralBundle\Entity\Reservation as Reservation;
 /**
  * Session
  *
- * @ORM\Table(name="session", indexes={@ORM\Index(name="reservationID", columns={"reservationID"}), @ORM\Index(name="workerID", columns={"workerID"})})
+ * @ORM\Table(name="session" )
  * @ORM\Entity
  */
-class Session extends Reservation
+class Session 
 {
     /**
      * @var integer
@@ -21,6 +20,13 @@ class Session extends Reservation
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255, nullable=false)
+     */
+    private $title;
 
     /**
      * @var \DateTime
@@ -48,10 +54,10 @@ class Session extends Reservation
      *
      * @ORM\ManyToOne(targetEntity="Worker")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="workerID", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="Worker", referencedColumnName="id")
      * })
      */
-    private $workerid;
+    private $worker;
 
     /**
      * @var \Reservation
@@ -61,7 +67,8 @@ class Session extends Reservation
      *   @ORM\JoinColumn(name="reservationID", referencedColumnName="id")
      * })
      */
-    private $reservationid;
+    /********************************private $reservationid;
+    ******************************/
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -77,6 +84,82 @@ class Session extends Reservation
      * )
      */
     private $user;
+
+
+
+
+    /**
+     * @var \Service
+     *
+     * @ORM\ManyToOne(targetEntity="Service")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Service", referencedColumnName="id")
+     * })
+     */
+    private $service;
+
+    /**
+     * @var \Organisation
+     *
+     * @ORM\ManyToOne(targetEntity="Organisation")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Organisation", referencedColumnName="id")
+     * })
+     */
+    private $organisation;
+
+    /**
+     * @var \Client
+     *
+     * @ORM\ManyToOne(targetEntity="Client")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Client", referencedColumnName="id")
+     * })
+     */
+    private $client;
+
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     */
+    private $description;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="resquestDate", type="date", nullable=false)
+     */
+    private $resquestdate;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="startTime", type="date", nullable=false)
+     */
+    private $starttime;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="endTime", type="date", nullable=false)
+     */
+    private $endtime;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="state", type="string", length=255, nullable=false)
+     */
+    private $state;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255, nullable=false)
+     */
+    private $type;
+
+
+
+
 
     /**
      * Constructor
@@ -167,26 +250,51 @@ class Session extends Reservation
     }
 
     /**
-     * Set workerid
+     * Set title
      *
-     * @param \OVT\GeneralBundle\Entity\Worker $workerid
+     * @param string $title
      * @return Session
      */
-    public function setWorkerid(\OVT\GeneralBundle\Entity\Worker $workerid = null)
+    public function setTitle($title)
     {
-        $this->workerid = $workerid;
+        $this->title = $title;
     
         return $this;
     }
 
     /**
-     * Get workerid
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+
+
+    /**
+     * Set worker
+     *
+     * @param \OVT\GeneralBundle\Entity\Worker $worker
+     * @return Session
+     */
+    public function setWorker(\OVT\GeneralBundle\Entity\Worker $worker = null)
+    {
+        $this->worker = $worker;
+    
+        return $this;
+    }
+
+    /**
+     * Get worker
      *
      * @return \OVT\GeneralBundle\Entity\Worker 
      */
-    public function getWorkerid()
+    public function getWorker()
     {
-        return $this->workerid;
+        return $this->worker;
     }
 
     /**
@@ -195,7 +303,7 @@ class Session extends Reservation
      * @param \OVT\GeneralBundle\Entity\Reservation $reservationid
      * @return Session
      */
-    public function setReservationid(\OVT\GeneralBundle\Entity\Reservation $reservationid = null)
+    /******************public function setReservationid(\OVT\GeneralBundle\Entity\Reservation $reservationid = null)
     {
         $this->reservationid = $reservationid;
     
@@ -207,7 +315,7 @@ class Session extends Reservation
      *
      * @return \OVT\GeneralBundle\Entity\Reservation 
      */
-    public function getReservationid()
+   /********************* public function getReservationid()
     {
         return $this->reservationid;
     }
@@ -243,5 +351,203 @@ class Session extends Reservation
     public function getUser()
     {
         return $this->user;
+    }
+
+
+    /**
+     * Set service
+     *
+     * @param \OVT\GeneralBundle\Entity\Service $service
+     * @return Reservation
+     */
+    public function setService(\OVT\GeneralBundle\Entity\Service $service = null)
+    {
+        $this->service = $service;
+    
+        return $this;
+    }
+
+    /**
+     * Get service
+     *
+     * @return \OVT\GeneralBundle\Entity\Service 
+     */
+    public function getService()
+    {
+        return $this->service;
+    }
+
+    /**
+     * Set organisation
+     *
+     * @param \OVT\GeneralBundle\Entity\Organisation $organisation
+     * @return Reservation
+     */
+    public function setOrganisation(\OVT\GeneralBundle\Entity\Organisation $organisation = null)
+    {
+        $this->organisation = $organisation;
+    
+        return $this;
+    }
+
+    /**
+     * Get organisation
+     *
+     * @return \OVT\GeneralBundle\Entity\Organisation 
+     */
+    public function getOrganisation()
+    {
+        return $this->organisation;
+    }
+
+    /**
+     * Set client
+     *
+     * @param \OVT\GeneralBundle\Entity\Client $client
+     * @return Reservation
+     */
+    public function setClient(\OVT\GeneralBundle\Entity\Client $client = null)
+    {
+        $this->client = $client;
+    
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return \OVT\GeneralBundle\Entity\Client 
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Reservation
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    /**
+     * Set resquestdate
+     *
+     * @param \DateTime $resquestdate
+     * @return Reservation
+     */
+    public function setResquestdate($resquestdate)
+    {
+        $this->resquestdate = $resquestdate;
+    
+        return $this;
+    }
+    /**
+     * Get resquestdate
+     *
+     * @return \DateTime 
+     */
+    public function getResquestdate()
+    {
+        return $this->resquestdate;
+    }
+    /**
+     * Set starttime
+     *
+     * @param \DateTime $starttime
+     * @return Reservation
+     */
+    public function setStarttime($starttime)
+    {
+        $this->starttime = $starttime;
+    
+        return $this;
+    }
+    /**
+     * Get starttime
+     *
+     * @return \DateTime 
+     */
+    public function getStarttime()
+    {
+        return $this->starttime;
+    }
+    /**
+     * Set endtime
+     *
+     * @param \DateTime $endtime
+     * @return Reservation
+     */
+    public function setEndtime($endtime)
+    {
+        $this->endtime = $endtime;
+    
+        return $this;
+    }
+    /**
+     * Get endtime
+     *
+     * @return \DateTime 
+     */
+    public function getEndtime()
+    {
+        return $this->endtime;
+    }
+    /**
+     * Set state
+     *
+     * @param string $state
+     * @return Reservation
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+    
+        return $this;
+    }
+    /**
+     * Get state
+     *
+     * @return string 
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Reservation
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    
+        return $this;
+    }
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

@@ -8,7 +8,7 @@ use OVT\UserBundle\Entity\User as User;
 /**
  * Worker
  *
- * @ORM\Table(name="worker", indexes={@ORM\Index(name="userID", columns={"userID"}), @ORM\Index(name="groupID", columns={"groupID"})})
+ * @ORM\Table(name="worker" )
  * @ORM\Entity
  */
 class Worker
@@ -34,20 +34,20 @@ class Worker
      *
      * @ORM\ManyToOne(targetEntity="Providerservicegroup")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="groupID", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="group", referencedColumnName="id")
      * })
      */
-    private $groupid;
+    private $group;
 
     /**
      * @var \User
      *
      * @ORM\ManyToOne(targetEntity="OVT\UserBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userID", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="user", referencedColumnName="id")
      * })
      */
-    private $userid;
+    private $user;
     
 
 
@@ -85,48 +85,48 @@ class Worker
     }
 
     /**
-     * Set groupid
+     * Set group
      *
-     * @param \OVT\GeneralBundle\Entity\Providerservicegroup $groupid
+     * @param \OVT\GeneralBundle\Entity\Providerservicegroup $group
      * @return Worker
      */
-    public function setGroupid(\OVT\GeneralBundle\Entity\Providerservicegroup $groupid = null)
+    public function setGroup(\OVT\GeneralBundle\Entity\Providerservicegroup $group = null)
     {
-        $this->groupid = $groupid;
+        $this->group = $group;
     
         return $this;
     }
 
     /**
-     * Get groupid
+     * Get group
      *
      * @return \OVT\GeneralBundle\Entity\Providerservicegroup 
      */
-    public function getGroupid()
+    public function getGroup()
     {
-        return $this->groupid;
+        return $this->group;
     }
 
     /**
-     * Set userid
+     * Set user
      *
-     * @param \OVT\UserBundle\Entity\User $userid
+     * @param \OVT\UserBundle\Entity\User $user
      * @return Worker
      */
-    public function setUserid(User $userid = null)
+    public function setUser(User $user = null)
     {
-        $this->userid = $userid;
+        $this->user = $user;
     
         return $this;
     }
 
     /**
-     * Get userid
+     * Get user
      *
      * @return \OVT\UserBundle\Entity\User 
      */
-    public function getUserid()
+    public function getUser()
     {
-        return $this->userid;
+        return $this->user;
     }
 }

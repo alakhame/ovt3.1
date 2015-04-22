@@ -1,0 +1,42 @@
+{% extends "OVTFrontEndProviderBundle:ProviderAdmin:index.html.twig" %}
+{% block links %}
+	{{parent()}}
+	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+	<script src="{{asset('ress/js/angular.js')}}" > </script>
+	<script src="{{asset('ress/js/jquery.js')}}" > </script>
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	
+{% endblock %}
+	{% block container %}
+
+		<div class="cadre"   >
+			<div class="gestion_title">
+				<p  >Affectation des demandes
+				 </p>
+				
+			</div>
+			<div id="inside_cadre">
+				<div class="list">
+					<div class="list_border">
+						<div class="entete">
+							<label for="tri"> Trier Par : </label>
+							<select name="choix_tri" > 
+							</select>
+						</div>
+						<br/>
+						
+						<div class="user_list" >
+							{{render(controller('OVTFrontEndProviderBundle:ProviderAdmin:getSessionsToAffect'))}}
+						</div>
+					</div>
+
+				</div>
+			</div>
+ 			
+ 			<script type="text/javascript">
+ 			</script>
+
+		</div>
+
+	{% endblock %} 

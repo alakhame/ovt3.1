@@ -10,14 +10,16 @@
 			<br/>
 				<ul>
 					<li class="menuItem"><img src="{{asset('ress/img/published.png')}}"  >
-						<a   href=""> Demandes en attente (--nb--)</a>
+						<a   href="{{path('ovt_front_end_provider_my_sessions')}}"> Mes sessions 
+							({{render(controller('OVTFrontEndProviderBundle:ProviderAdmin:getWaitingSessions'))}})
+						</a>
 					</li>
 					<li class="menuItem"><img src="{{asset('ress/img/calendar.png')}}"  >
-						<a   href=""> Mon planning</a>
+						<a   href="{{path('ovt_front_end_provider_calendar')}}" > Mon planning</a>
 					</li>
 
 					<li class="menuItem"><img src="{{asset('ress/img/archive.png')}}"  >
-						<a   href=""> Mes archives</a>
+						<a   href="{{path('ovt_front_end_provider_archives')}}"> Mes archives </a>
 					</li>
 					
 				</ul>
@@ -28,14 +30,17 @@
 			<br/>
 				<ul>
 					<li class="menuItem"><img src="{{asset('ress/img/affdemande.png')}}"  >
-						<a   href=""> Affecter les demandes (--nb--)</a>
+						<a   href="{{path('ovt_front_end_admin_provider_set_sessions')}}"> 
+							Affecter les demandes
+							({{render(controller('OVTFrontEndProviderBundle:ProviderAdmin:getCountSessionsToAffect'))}})
+							</a>
 					</li>
 					<li class="menuItem"><img src="{{asset('ress/img/calendar.png')}}"  >
-						<a   href=""> Gerer les employés </a>
+						<a   href="{{path('ovt_front_end_admin_provider_worker')}}"> Gerer les employés </a>
 					</li>
 
 					<li class="menuItem"><img src="{{asset('ress/img/archive.png')}}"  >
-						<a   href=""> Gestion des groupes</a>
+						<a   href="{{path('ovt_front_end_admin_provider_group')}}"> Gestion des groupes</a>
 					</li>
 					
 				</ul>
@@ -48,7 +53,7 @@
 			<br/>
 				<ul>
 					<li class="menuItem"><img src="{{asset('ress/img/mesinfo.png')}}"  >
-						<a   href=""> Mes informations</a>
+						<a   href="{{path('ovt_front_end_admin_provider_profile')}}"> Mes informations</a>
 					</li>
 					<li class="menuItem"><img src="{{asset('ress/img/MdP2.png')}} ">
 						<a   href=""> Changer de mot de passe </a>
