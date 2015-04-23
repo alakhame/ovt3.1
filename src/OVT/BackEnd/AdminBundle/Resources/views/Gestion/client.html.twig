@@ -49,45 +49,30 @@
 						<div class="user_infos_border" style="float:left">
 							<img src="{{asset('ress/img/loader.gif')}}" ng-show="loading" id="loader">
 							<div  ng-hide="loading  " id="clientInfo" >
-								<div ng-show="angular.isDefined(selectedClient)">
-
+								<div ng-hide="firstload">
+									{% verbatim %}
+										<h5> Nom  : {{selectedClient.name}}</h5>
+									<h5> Adresse : {{selectedClient.address}}</h5>
+										<p></p>
+									<h5> Téléphone : {{selectedClient.phoneNumber}}</h5>
+									<h5> Lien Connexion : 
+										<p style="overflow: auto;" >
+											BASE_SERVER/client/{{selectedClient.hashLink}}/login </p></h5>
+									<h5> Administrateur :
+										<p ng-repeat="a in selectedClient.admins" > 
+											{{a.admin}} 
+											<a href="#" ng-click="delAdmin(selectedClient.id,a.id)"  > X</a>
+										</p></h5>
+									<h5> Services possibles : 
+										<p ng-repeat="s in selectedClient.services" > 
+											{{s.name}} 
+										</p></h5>
+									{% endverbatim %}
 								</div>
-								{% verbatim %}
-								<div>
-									<h5> Nom  : </h5>
-									<p>{{selectedClient.name}}</p>
-								</div>
-
-								<div>
-									<h5> Adresse : </h5>
-									<p>{{selectedClient.address}}</p>
-								</div>
-								<div>
-									<h5> Téléphone : </h5>
-									<p>{{selectedClient.phoneNumber}}</p>
-								</div>
-								<div>
-									<h5> Lien Connexion : </h5>
-									<p>BASE_SERVER/client/{{selectedClient.hashLink}}/login</p>
-								</div>
-								<div>
-									<h5> Administrateur : </h5>
-									<p ng-repeat="a in selectedClient.admins" > 
-										{{a.admin}} 
-										<a href="#" ng-click="delAdmin(selectedClient.id,a.id)"  > X</a>
-
-									</p>
-								</div>
-								<div>
-									<h5> Services possibles : </h5>
-									<p ng-repeat="s in selectedClient.services" > 
-										{{s.name}} 
-									</p>
-								</div>
-								{% endverbatim %}
+								
 							</div>
 						</div>
-						<div  ng-hide="loading">
+						<div  ng-hide="loading || firstload">
 							<input  class="submitButtton" ng-click="switchAffect()" value="Affecter Administrateur"></input>
 							 <form ng-show="affectShow" method='post' action="{{path('ovt_back_end_admin_gestion_organisation_setadmin',{org:'client'})}}">
 								<select name="admin">
@@ -99,15 +84,15 @@
 							</form>
 						</div>
 						<br/><br/>
-						<div    ng-hide="loading">
+						<div    ng-hide="loading || firstload">
 							<input ng-click="toUpdate(selectedClient.id)"  class="submitButtton" value="Modifier"></input>
 						</div>
 						<br/><br/>
-						<div    ng-hide="loading">
+						<div    ng-hide="loading || firstload">
 							<input ng-click="deleteOrg(selectedClient.id)"  class="submitButtton" value="Supprimer"></input>
 						</div>
 						<br/><br/>
-						<div    ng-hide="loading">
+						<div    ng-hide="loading || firstload">
 							<input  ng-click="manageServices(selectedClient.id)"  class="submitButtton" value="Gerer les services"></input>
 						</div>
 					</div>
@@ -121,8 +106,10 @@
 				app.controller('clientCtrl', function($scope,$http,$location,$window) {
 						$scope.affectShow=false;
 						$scope.loading = false;
+						$scope.firstload=true;
+
 						$scope.actionClick= function (idclient) {
-						
+							$scope.firstload=false;
 							$scope.loading = true;
 				   			{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_get_organisation_by_id', {id:idclient,organisation:'client'}); {% endverbatim %}
 				   			$http.get(link).

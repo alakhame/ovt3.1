@@ -37,6 +37,24 @@ ovt_front_end_admin_provider_profile:
     requirements:
         _method:  GET
 
+ovt_front_end_admin_provider_new_worker:
+    path: /adminprovider/new/worker
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:addNewWorker }
+
+ovt_front_end_admin_provider_get_session_by_id:
+    path: /adminprovider/session/{id}
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:getSessionById}
+    options:
+        expose: true
+
+ovt_front_end_admin_provider_action_session:
+    path: /adminprovider/{action}/session
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:updateStateSession}
+    options:
+        expose: true
+    requirements:
+        _method: POST
+
 test:
     path:     /testpro
     defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:test }

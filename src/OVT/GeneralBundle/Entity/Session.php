@@ -129,9 +129,9 @@ class Session
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="resquestDate", type="date", nullable=false)
+     * @ORM\Column(name="requestDate", type="date", nullable=false)
      */
-    private $resquestdate;
+    private $requestdate;
     /**
      * @var \DateTime
      *
@@ -446,25 +446,25 @@ class Session
         return $this->description;
     }
     /**
-     * Set resquestdate
+     * Set requestdate
      *
-     * @param \DateTime $resquestdate
+     * @param \DateTime $requestdate
      * @return Reservation
      */
-    public function setResquestdate($resquestdate)
+    public function setRequestdate($requestdate)
     {
-        $this->resquestdate = $resquestdate;
+        $this->requestdate = $requestdate;
     
         return $this;
     }
     /**
-     * Get resquestdate
+     * Get requestdate
      *
      * @return \DateTime 
      */
-    public function getResquestdate()
+    public function getRequestdate()
     {
-        return $this->resquestdate;
+        return $this->requestdate;
     }
     /**
      * Set starttime

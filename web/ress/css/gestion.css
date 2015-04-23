@@ -5,6 +5,16 @@ body {
   min-height: 100%;
 }
 
+.buttonTabs {
+	width:100%;
+	height: auto;
+}
+
+.buttonTabs div{
+	float:left;
+}
+
+
 #gestion_title{
 	border-radius:9px 9px 0px 0px;
 	background-image: url(../img/title_header.png);

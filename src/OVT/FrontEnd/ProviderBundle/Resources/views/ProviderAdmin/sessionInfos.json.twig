@@ -1,0 +1,10 @@
+{
+	"id":{{s.id}}, 
+	"name":"{{s.title}}", 
+	"description":"{{s.description}}" , 
+	"startTime":"{{s.startTime|date('Y-m-d')}}" , 
+	"endTime":"{{s.endTime|date('Y-m-d')}}", 
+	"requestDate":"{{s.requestdate|date('Y-m-d')}}", 
+	"type":"{{s.type}}",
+	"client":"{{s.client.user.firstname ~" "~s.client.user.lastname}}"
+}

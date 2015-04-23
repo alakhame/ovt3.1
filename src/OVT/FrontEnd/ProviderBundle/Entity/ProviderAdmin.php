@@ -15,6 +15,9 @@ class ProviderAdmin extends User
         $this->em=$em;
     }
 
+    public function update(){
+       $this->em->flush();
+    }
 
     /************ SESSIONS ************************/
     public function getWaitingSessions(User $user){
@@ -53,6 +56,9 @@ class ProviderAdmin extends User
 
     }
     
+    public function getSessionById($id){
+        return $this->em->getRepository('OVTGeneralBundle:Session')->find($id);
+    }
 
     /************ WORKER ***************************/
 
@@ -63,8 +69,26 @@ class ProviderAdmin extends User
 
     public function retriveWorkersFromAdmin($admin){
         $org=$admin->getOrganisation();
-        $criteria = array('organisation'=>$org,'type'=>"Worker");
+        $criteria = array('organisation'=>$org,'type'=>"Employé Prestataire");
         return $this->em->getRepository('OVTUserBundle:User')->findBy($criteria);
+    }
+
+     public function createWorker($worker){
+        $this->em->persist($worker);
+        $this->em->flush();
+    }
+
+
+
+    /*********** GROUPS  *****************************/
+
+    public function retrieveGroups($admin){
+        $criteria = array('organisation'=>$admin->getOrganisation());
+        return $this->em->getRepository('OVTGeneralBundle:Providerservicegroup')->findBy($criteria);
+    }
+
+    public function getGroupFromId($id){
+        return $this->em->getRepository('OVTGeneralBundle:Providerservicegroup')->find($id);
     }
 
   

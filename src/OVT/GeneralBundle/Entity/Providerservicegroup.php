@@ -46,6 +46,16 @@ class Providerservicegroup
     private $serviceid;
 
 
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="OVT\GeneralBundle\Entity\Organisation")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="organisation", referencedColumnName="id")
+     * })
+     */
+    private $organisation;
+
 
     /**
      * Get id
@@ -124,5 +134,28 @@ class Providerservicegroup
     public function getServiceid()
     {
         return $this->serviceid;
+    }
+
+    /**
+     * Set organisation
+     *
+     * @param \OVT\GeneralBundle\Entity\Organisation $organisation
+     * @return Providerservicegroup
+     */
+    public function setOrganisation(\OVT\GeneralBundle\Entity\Organisation $org = null)
+    {
+        $this->organisation = $org;
+    
+        return $this;
+    }
+
+    /**
+     * Get organisation 
+     *
+     * @return \OVT\GeneralBundle\Entity\Organisation 
+     */
+    public function getOrganisation()
+    {
+        return $this->organisation;
     }
 }

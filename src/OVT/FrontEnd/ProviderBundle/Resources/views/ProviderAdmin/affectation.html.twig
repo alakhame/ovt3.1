@@ -10,7 +10,7 @@
 {% endblock %}
 	{% block container %}
 
-		<div class="cadre"   >
+		<div class="cadre"  ng-app="OVTApp" ng-controller="sessionCtrl">  >
 			<div class="gestion_title">
 				<p  >Affectation des demandes
 				 </p>
@@ -32,10 +32,105 @@
 					</div>
 
 				</div>
+				<div class="infos">
+					<div class="buttonTabs"  >
+						<div >
+							<input ng-click="toUpdate(session.id)"  class="submitButtton" value="Modifier"></input>
+						</div>
+						<div >
+							<input ng-click="cancel(session.id)"  class="submitButtton" value="Annuler"></input>
+						</div>
+						<div >
+							<input ng-click="refuse(session.id)"  class="submitButtton" value="Refuser"></input>
+						</div>
+						<div >
+							<input ng-click="endSession(session.id)"  class="submitButtton" value="Terminer la Session"></input>
+						</div>
+						
+					</div>
+					<div class="user_infos">
+						<div class="user_infos_border" style="float:left">
+							<img src="{{asset('ress/img/loader.gif')}}" ng-show="loading" id="loader">
+							<div  ng-hide="loading  " id="clientInfo" >
+								<div ng-hide="firstload">
+
+									{% verbatim %}
+										<h5> Nom du client : {{session.client}}</h5>
+										<h5> Intitulé : {{session.title}} </h5>
+										<h5> Contexte : {{session.type}}</h5>
+										<h5>Date de la demande : {{session.requestDate}}</h5>
+										<h5> Heure de début : {{session.startTime}} </h5>
+										<h5> Heure de fin : {{session.endTime}}</h5>
+										<h5> Description : {{session.desciption}}</h5>
+									{% endverbatim %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div  ng-show="!firstload && !loading" style="float:left; margin-top:50px">
+							<input ng-click="affectTo(session.id)"  class="submitButtton" value="Affecter à"></input>
+							<select name="worker" ng-model="selectedWorker" >
+								{% for w in workers %}
+									<option value="{{w.id}}">{{w.firstname~" "~w.lastname}}</option>
+								{% endfor %}
+							</select>
+					</div>
+
 			</div>
  			
- 			<script type="text/javascript">
- 			</script>
+ 			<script  >	   
+
+				var app = angular.module('OVTApp', []);
+				
+				app.controller('sessionCtrl', function($scope,$http,$location,$window) {
+						$scope.affectShow=false;
+						$scope.loading = false;
+						$scope.firstload=true;
+
+						$scope.actionClick= function (idsession) {
+							$scope.firstload=false;
+							$scope.loading = true;
+				   			{% verbatim %} var link=Routing.generate('ovt_front_end_admin_provider_get_session_by_id', {id:idsession}); {% endverbatim %}
+				   			$http.get(link).
+						  	success(function(data, status, headers, config) {
+							    $scope.session=data;
+							    $scope.loading = false;
+
+						  	}).
+						 	error(function(data, status, headers, config) { });
+				   		}
+
+				   		$scope.switchAffect = function (){
+				   			$scope.affectShow=!($scope.affectShow);
+				   		}
+				   		$scope.cancel = function(idsession){
+				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_action_session',{action:'cancel'});
+				   			{% endverbatim %}
+							$scope.loading = true;
+							var datat ={idSession:idsession};
+							var confirmation = confirm("Voulez vraiment annuler cette réunion ?");
+							//alert(datat.idSession);
+							if(confirmation){
+								$http.post(link, datat).
+							  	success(function(data, status, headers, config) {
+							     	alert("Annulation menée avec succès !");
+							     	alert(data);
+							  		/*$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); */
+							  	}).
+							  	error(function(data, status, headers, config) {
+							    	alert("Annulation échouée !"+data);
+							    	//alert( headers);
+							    	$scope.loading = false;
+							  	});
+							  	
+							}else {
+								$scope.loading = false;
+							}
+				   		}
+
+				   	});
+
+			</script>
 
 		</div>
 

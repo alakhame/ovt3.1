@@ -12,7 +12,7 @@
 
 		<div class="cadre"   >
 			<div class="gestion_title">
-				<p  >Gestion des employés prestataires 
+				<p  >Gestion des groupes
 				 </p>
 				
 			</div>
@@ -29,10 +29,10 @@
 						<div class="user_list" >
 							 <div>
 								<ul class="listservices">
-								{% for s in workers %}
-									<div class="listserviceli" ng-click="actionClick({{s.id}})">
-										<li >{{s.firstname ~" "~s.lastname}}</li>
-										<input 	type="hidden" value="{{s.id}}" ></input>
+								{% for g in groups %}
+									<div class="listserviceli" ng-click="actionClick({{g.id}})">
+										<li >{{g.name}}</li>
+										<input 	type="hidden" value="{{g.id}}" ></input>
 									</div>	
 								{% endfor %}
 								</ul>
