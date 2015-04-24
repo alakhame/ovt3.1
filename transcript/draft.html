@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Socket.IO chat</title>
+        <link rel="stylesheet" type="text/css" href="css/transcript.css" />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { font: 13px Helvetica, Arial; }
+            .form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+            .form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+            .form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+            #messages { list-style-type: none; margin: 0; padding: 0; }
+            #messages li { padding: 5px 10px; }
+            #messages li:nth-child(odd) { background: #eee; }
+            #msgBlock { width: 80%; float: left}
+            #typing {margin-left:1024px; width: 20%;}
+        </style>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="incomingText"  >
+                <div class="topDiv">
+                    Transcription
+                </div>
+                <div id="styleMenu">
+                    <div class="styleMenuDiv" id ="wideScreen" > 
+                        <img src="img/full_screen.png" height="42px" width="42px" /> 
+                    </div>
+                    <div class="styleMenuDiv">
+                        <select id="fontFamily">
+                            <option value="verdanna"> Verdanna </option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="styleMenuDiv">
+                        <select id="police">
+                            <option value="14"> 14 </option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="styleMenuDiv" id ="fontColor" >
+                        <img  class="styleMenuImage" src="img/font-color.png" />
+                        <div class="colorBar"></div>
+                    </div>
+                    <div class="styleMenuDiv" id="backColor" >
+                        <img class="styleMenuImage"src="img/bgcolor.png" /> 
+                        <div class="colorBar"></div>
+                    </div>
+                    <div class="styleMenuDiv" id="hideSideBar">
+                        <img  height="35px" width="35px" src="img/chat.png" />
+                    </div>
+                    <div class="styleMenuDiv" id="quitButton" style="padding:5px 0px 0px 5px;">
+                        <img src="img/exit.png" style=" float:left;"/> 
+                        <span style="color:white">Fermer</span>
+                    </div>
+
+                </div>
+                <div id="ttarea">
+                    <textarea></textarea>
+                </div>
+            </div>
+
+            <div id ="infoSession">
+                <div class="topDiv">
+                    Details de la Session
+                </div>
+                <div class="detailsSession"> 
+                    <div id="pseudo">
+                    </div>
+                </div>
+            </div>
+
+            <div id="chatBox" >
+                <div class="topDiv">
+                    Messagerie instannée
+                </div>
+                <div id="msgBox"></div>
+                <div id="inputMsg">
+                    <input type="text"></input>
+                    <input type="submit" value="Envoyer"></input>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 
+        <div id="msgBlock">
+        <ul id="messages"></ul>
+        <div><pre id="allkeys"></pre></div>
+        <div class="form">
+        <textarea id="m" autocomplete="off" > </textarea><button>Send</button>
+        </div>
+        </div>
+        <div id="typing"></div> -->
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <script>
+            $('#pseudo').text('user '+Math.floor((Math.random() * 10) + 1));
+            $('#allkeys').html('');
+            var socket = io();
+            socket.on('chat message', function(msg){
+                $('#messages').append($('<li>').text(msg));
+            });
+
+            $( "#m" ).keypress(function(e) {
+                console.log( "Handler for .keypress() called." );
+                var key=e.which;
+                var data={'pseudo':$('#pseudo').text() , 'key': key};
+                socket.emit('is typing', data);
+
+            });
+
+            socket.on('is typing', function(data){
+                $('#typing').css("display:block");
+                $('#typing').text(data.pseudo+" is typing ...");
+
+                $('#allkeys').html($('#allkeys').html()+String.fromCodePoint(data.key));
+                setTimeout(function(){
+                    $('#typing').text('');
+                },3000);
+            });
+        </script>
+    </body>
+</html>
