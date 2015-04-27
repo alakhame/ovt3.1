@@ -103,32 +103,57 @@
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
         <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
         <script src="js/keycodes.js"></script>
+
+        <script type="text/javascript" src="js/jquery.caret.js"></script>
         <script>
+        $(function() {
             $('#pseudo').text('worker');
             $('#ttarea').css("border"," 5px inset red");
             
             var socket = io.connect('localhost:9090',{'sync disconnect on unload': true });
-            var wordBuffer='';
+            wordBuffer='';
 
+            function sendData(text){
+                var data={'pseudo':$('#pseudo').text() , word: wordBuffer};
+                socket.emit('sendingWord', data);
+                wordBuffer='';
+            }
 
+            function validPrintable(keycode){
+                var valid = 
+                    (keycode > 47 && keycode < 58)   || // number keys
+                    keycode == 32 || keycode == 13   || // spacebar & return key(s) (if you want to allow carriage returns)
+                    (keycode > 64 && keycode < 91)   || // letter keys
+                    (keycode > 95 && keycode < 112)  || // numpad keys
+                    (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
+                    (keycode > 218 && keycode < 223);   // [\]' (in order)
+
+                return valid;
+            }
+
+            
             socket.on("connect", function(){
                 socket.emit('workerConnected');
                 $('#ttarea').css("border"," 5px inset green");
             });
 
-            $( "#ttarea textarea" ).keypress(function(e) {
-                var key=e.which;
-                if(key!=KeyCode.SPACE){
-                    wordBuffer+=String.fromCodePoint(key);
-                }else{
-                    var data={'pseudo':$('#pseudo').text() , word: wordBuffer};
-                    socket.emit('sendingWord', data);
-                    wordBuffer='';
-                }
+            $( "#ttarea textarea" ).bind("keydown",function(e) {
+                var key=e.keyCode;
+                var pos =$('#ttarea textarea').caret();
+                var data={'pseudo':$('#pseudo').text() , character:String.fromCodePoint(e.which), position :pos};
                 
-
+                switch(key){
+                    case KeyCode.BACKSPACE :
+                       // alert('ok');
+                        socket.emit('deletingChar', data);
+                        break;
+                    default :
+                            socket.emit('sendingChar', data);
+                       
+                        break;
+                }
             });
-
+        });
             
         </script>
     </body>

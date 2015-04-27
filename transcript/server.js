@@ -26,7 +26,18 @@ io.on('connection', function(socket){
   socket.on('sendingWord', function(data){
     socket.broadcast.emit('incomingWord', data);
   });
+  socket.on('sendingChar', function(data){
+    //server stuff
+    console.log('sending ' +data.character +' at pos : '+data.position);
+    socket.broadcast.emit('incomingChar', data);
+  });
  
+ socket.on('deletingChar', function(data){
+    //server stuff
+    console.log('deleting char  at pos : '+data.position);
+    socket.broadcast.emit('deletingChar', data);
+  });
+
   socket.on('disconnect', function () {
     var i = workers.indexOf(socket);
     socket.broadcast.emit('workerDisconnected');
