@@ -26,16 +26,29 @@ io.on('connection', function(socket){
   socket.on('sendingWord', function(data){
     socket.broadcast.emit('incomingWord', data);
   });
+
   socket.on('sendingChar', function(data){
     //server stuff
     console.log('sending ' +data.character +' at pos : '+data.position);
     socket.broadcast.emit('incomingChar', data);
   });
+
+  socket.on('sendingString', function(data){
+    //server stuff
+    console.log('sending String "' +data.textString +'" at pos : '+data.position);
+    socket.broadcast.emit('incomingString', data);
+  });
  
- socket.on('deletingChar', function(data){
+  socket.on('deletingChar', function(data){
     //server stuff
     console.log('deleting char  at pos : '+data.position);
     socket.broadcast.emit('deletingChar', data);
+  });
+
+  socket.on('deletingString', function(data){
+    //server stuff
+    console.log('deleting String  at pos : '+data.position+' with length : '+data.nbChars);
+    socket.broadcast.emit('deletingString', data);
   });
 
   socket.on('disconnect', function () {

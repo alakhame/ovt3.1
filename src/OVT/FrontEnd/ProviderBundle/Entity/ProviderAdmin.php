@@ -62,15 +62,30 @@ class ProviderAdmin extends User
 
     /************ WORKER ***************************/
 
+
+    public function getWorkerById($id){
+        return $this->em->getRepository('OVTGeneralBundle:Worker')->find($id);
+    }
+
     public function getWorkerFromUser(User $user){
         $criteria = array('user' => $user);
-        return $this->em->getRepository('OVTGeneralBundle:Worker')->findBy($criteria);
+        return $this->em->getRepository('OVTGeneralBundle:Worker')->findOneBy($criteria);
+    }
+    public function getWorkerFromUserID($uID){
+        $user=$this->em->getRepository('OVTUserBundle:User')->find($uID);
+        return $this->getWorkerFromUser($user);
     }
 
     public function retriveWorkersFromAdmin($admin){
         $org=$admin->getOrganisation();
-        $criteria = array('organisation'=>$org,'type'=>"Employé Prestataire");
-        return $this->em->getRepository('OVTUserBundle:User')->findBy($criteria);
+        $all=$this->em->getRepository('OVTUserBundle:User')->findBy(array('organisation'=>$org));
+        $worker=array();
+        foreach ($all as $w) {
+            if(in_array("ROLE_WORKER",$w->getRoles()) && $w->getType="Employé Prestataire")
+                $workers[]=$w;
+        } 
+
+        return $workers;
     }
 
      public function createWorker($worker){

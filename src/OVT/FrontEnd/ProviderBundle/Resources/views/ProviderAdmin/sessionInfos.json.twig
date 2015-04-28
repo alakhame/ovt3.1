@@ -1,10 +1,21 @@
 {
 	"id":{{s.id}}, 
-	"name":"{{s.title}}", 
+	"title":"{{s.title}}", 
 	"description":"{{s.description}}" , 
 	"startTime":"{{s.startTime|date('Y-m-d')}}" , 
 	"endTime":"{{s.endTime|date('Y-m-d')}}", 
 	"requestDate":"{{s.requestdate|date('Y-m-d')}}", 
 	"type":"{{s.type}}",
-	"client":"{{s.client.user.firstname ~" "~s.client.user.lastname}}"
+	"client":"{{s.client.user.firstname ~" "~s.client.user.lastname}}",
+	{% if s.worker!=null %}
+		"woker":"{{s.worker.user.firstname~" "~s.worker.user.lastname}}",
+	{% else %}
+		"worker" : "NONE",
+	{% endif %}
+	"state":"{{s.state}}",
+	{% if s.service!=null %}
+		"service":"{{s.service}}"
+	{% else %}
+		"service": "NONE"
+	{% endif %}
 }

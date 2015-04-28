@@ -29,15 +29,16 @@ class Worker
      */
     private $language;
 
+ 
     /**
      * @var \Providerservicegroup
      *
      * @ORM\ManyToOne(targetEntity="Providerservicegroup")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="`group`", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="providerGroup", referencedColumnName="id")
      * })
      */
-    private $group;
+    private $groupe;
 
     /**
      * @var \User
@@ -84,29 +85,7 @@ class Worker
         return $this->language;
     }
 
-    /**
-     * Set group
-     *
-     * @param \OVT\GeneralBundle\Entity\Providerservicegroup $group
-     * @return Worker
-     */
-    public function setGroup(\OVT\GeneralBundle\Entity\Providerservicegroup $group = null)
-    {
-        $this->group = $group;
     
-        return $this;
-    }
-
-    /**
-     * Get group
-     *
-     * @return \OVT\GeneralBundle\Entity\Providerservicegroup 
-     */
-    public function getGroup()
-    {
-        return $this->group;
-    }
-
     /**
      * Set user
      *
@@ -129,4 +108,29 @@ class Worker
     {
         return $this->user;
     }
+
+
+    /**
+     * Get groupe
+     *
+     * @return \OVT\GeneralBundle\Entity\Providerservicegroup 
+     */
+    public function getGroupe()
+    {
+        return $this->groupe;
+    }
+
+    /**
+     * Set groupe
+     *
+     * @param \OVT\GeneralBundle\Entity\Providerservicegroup $groupe
+     * @return Worker
+     */
+    public function setGroupe(\OVT\GeneralBundle\Entity\Providerservicegroup $groupe = null)
+    {
+        $this->groupe = $groupe;
+    
+        return $this;
+    }
+
 }

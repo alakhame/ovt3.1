@@ -137,7 +137,8 @@ class ProviderAdminController extends Controller
 
     public function updateStateSessionAction(Request $request, $action){
         $idSession=$request->request->get('idSession');
-       // return new Response($idSession);
+        //$rep=var_dump($request->request);
+        //return new Response(" retrieved id:".$rep);
         $adminProvider=$this->get('provideradmin');
         $session=$adminProvider->getSessionById($idSession);
         switch ($action) {
@@ -162,16 +163,53 @@ class ProviderAdminController extends Controller
         $response->send(); */
     }
 
+    public  function updateSessionAction (Request $request){
+        $adminProvider=$this->get('provideradmin');
+        $req=$request->request;
+        $session=$adminProvider->getSessionById($req->get('sessionID'));
 
+        $session->setTitle($req->get('title'));
+        $session->setDescription($req->get('description'));
+        //$session->setStarttime($req->get('startTime'));
+        //$session->setEndtime($req->get('endTime'));
 
+        $adminProvider->update();
+        $referer = $request->headers->get('referer');
 
+        return $this->redirect($referer);
+    }
 
+    public function renderWorkersSelectionAction($workers){
+        $rep="";
+        $rep.="<option value=".$workers[0]->getId()." selected>".$workers[0]->getFirstname()." ".$workers[0]->getLastname()."</option>";
+        
+        for ($i=1;$i<count($workers);$i++) {
+          $rep.="<option value=".$workers[$i]->getId()." >".$workers[$i]->getFirstname()." ".$workers[$i]->getLastname()."</option>";
+        }
+        return new Response($rep);
+    }
+
+    public function affectWorkerToSessionAction(Request $request){
+       $adminProvider=$this->get('provideradmin');
+       $session=$adminProvider->getSessionById($request->request->get('sID'));
+       $worker=$adminProvider->getWorkerFromUserID($request->request->get('wID'));
+       
+       $session->setWorker($worker);
+       $adminProvider->update();
+       return new Response('Success');
+    }
+
+    public function getWorkerByIdAction($id){
+        $adminProvider=$this->get('provideradmin');
+        $worker=$adminProvider->getWorkerFromUserID($id);
+        return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:workerInfos.json.twig',array('w'=>$worker));
+    }
 
 
     public function testAction (){
-    	//$adminProvider=$this->get('provideradmin');
-    	//$w=$adminProvider->getGroupFromId(1);
-        return new Response($this->getSessionByIdAction(3));
+    	$adminProvider=$this->get('provideradmin');
+    	$w=$adminProvider->getWorkerById(1);
+        return new Response(var_dump($w) );
     }
 
 

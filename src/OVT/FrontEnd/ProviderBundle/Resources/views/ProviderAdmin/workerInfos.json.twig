@@ -1,0 +1,16 @@
+{
+	"id":{{w.id}}, 
+	"user": {
+		"firstname":"{{w.user.firstname}}", 
+		"lastname":"{{w.user.lastname}}", 
+		"email":"{{w.user.email}}", 
+		"address":"{{w.user.address}}", 
+		"phoneNumber":"{{w.user.phoneNumber}}"
+	}, 
+	"langue":"{{w.language}}" , 
+	{% if w.groupe!=null %}
+		"group":"{{w.groupe.name}}"
+	{% else %}
+		"group": "NONE"
+	{% endif %}
+}
