@@ -1,0 +1,22 @@
+[
+	{% for g in groups %}
+		{% if loop.last %}
+		{
+			"id"			:	"{{g.id}}", 
+			"name"			: 	"{{g.name}}", 
+			"description"	:	"{{g.description}}" , 
+			"service"		:	"{{g.serviceid.id}}",
+			"serviceName"	:	"{{g.serviceid.name}}"
+		}
+		
+		{% else %}
+		{
+			"id"			:	"{{g.id}}", 
+			"name"			: 	"{{g.name}}", 
+			"description"	:	"{{g.description}}" , 
+			"service"		:	"{{g.serviceid.id}}",
+			"serviceName"	:	"{{g.serviceid.name}}"
+		},
+		{% endif %}
+	{% endfor %}
+]

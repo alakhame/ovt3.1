@@ -202,6 +202,14 @@
                 data={'pseudo':$('#pseudo').text(), position :$('#ttarea textarea').caret(), textString:text};
                 socket.emit('sendingString', data);
             });
+
+            var heartBeat = function(socket) {
+                socket.emit('presenceFrame');
+            }
+            heartBeat(socket); 
+            var timer = setInterval( function() {
+                            socket.emit('presenceFrame');
+                        },5000);
         });
             
         </script>

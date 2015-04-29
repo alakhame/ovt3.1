@@ -10,7 +10,7 @@
 {% endblock %}
 	{% block container %}
 
-		<div class="cadre"  ng-app="OVTApp" ng-controller="sessionCtrl">  >
+		<div class="cadre"  ng-app="OVTApp" ng-controller="sessionCtrl" data-ng-init="init()" >  
 			<div class="gestion_title">
 				<p  >Affectation des demandes
 				 </p>
@@ -46,6 +46,10 @@
 						<div >
 							<input ng-click="endSession(session.id)"  class="submitButtton" value="Terminer la Session"></input>
 						</div>
+						<!--<div >
+							<input ng-click="newSession()"  class="submitButtton" value="Nouvelle Session"></input>
+						</div>-->
+
 						
 					</div>
 					
@@ -59,7 +63,7 @@
 										<h5> Nom du client : {{session.client}}</h5>
 										<h5> Intitulé : {{session.title}} </h5>
 										<h5> Contexte : {{session.type}}</h5>
-										<h5>Date de la demande : {{session.requestDate}}</h5>
+										<h5> Date de la demande : {{session.requestDate}}</h5>
 										<h5> Heure de début : {{session.startTime}} </h5>
 										<h5> Heure de fin : {{session.endTime}}</h5>
 										<h5> Description : {{session.desciption}}</h5>
@@ -108,6 +112,8 @@
 										{% endverbatim %}
 									</form>
 								</div>
+
+								 
 							</div>
 						</div>
 					</div>
@@ -125,11 +131,15 @@
 				var app = angular.module('OVTApp', []);
 				
 				app.controller('sessionCtrl', function($scope,$http,$location,$window) {
-						$scope.affectShow=false;
-						$scope.loading = false;
-						$scope.firstload=true;
-						$scope.modifyText="Modifier";
-						$scope.modifyFlag=false;
+						$scope.init = function (){
+							$scope.affectShow=false;
+							$scope.loading = false;
+							$scope.firstload=true;
+							$scope.modifyText="Modifier";
+							$scope.modifyFlag=false;
+							$scope.actionClick(3);
+						}
+						
 						$scope.actionClick= function (idsession) {
 							$scope.firstload=false;
 							$scope.loading = true;
@@ -255,6 +265,12 @@
 								$scope.loading = false;
 							} 
  
+				   		}
+
+				   		$scope.new= function(idworker){
+				   			$scope.newFlag=!$scope.newFlag;
+				   			$scope.newText=$scope.newFlag?"Retour":"Nouveau";
+				   			if($scope.modifyFlag) $scope.toUpdate();
 				   		}
 
 

@@ -10,7 +10,7 @@
 {% endblock %}
 	{% block container %}
 
-		<div class="cadre"   >
+		<div class="cadre"  ng-app="OVTApp" ng-controller="groupCtrl" data-ng-init="init()"  >
 			<div class="gestion_title">
 				<p  >Gestion des groupes
 				 </p>
@@ -38,18 +38,188 @@
 								</ul>
 							</div>
 						</div>
-					</div>
-					<div class="new_user"  >
-						<a href="{{path('ovt_front_end_admin_provider_new_worker')}}">
-							<img width="16px" height="16px"  src="{{asset('ress/img/add.png')}}">
-							Nouveau 
-						</a>
-					</div>
+					</div> 
 
 				</div>
+
+				<div class="infos">
+					<div class="buttonTabs"  >
+						<div >
+							<input ng-click="toUpdate()"  class="submitButtton" ng-value="modifyText"></input>
+						</div>
+						<div >
+							<input ng-click="toDelete(group.id)"  class="submitButtton" value="Supprimer"></input>
+						</div>
+						<div >
+							<input ng-click="new()"  class="submitButtton" ng-value="newText"></input>
+						</div>
+					</div>
+					
+					<div class="user_infos">
+						<div class="user_infos_border" style="float:left">
+							<img src="{{asset('ress/img/loader.gif')}}" ng-show="loading" id="loader">
+							<div  ng-hide="loading  " id="clientInfo" >
+								<div ng-hide="firstload || modifyFlag || newFlag">
+
+									{% verbatim %}
+										<h5> Intitulé : {{group.name}} </h5>
+										<h5> Description :  {{group.description}} </h5>
+										<h5> Service Concerné : {{group.serviceName}}</h5>
+									{% endverbatim %}
+								</div>
+
+								<div ng-show="modifyFlag">
+									<form action="{{path('ovt_front_end_admin_provider_update_group')}}" method="post">
+										{% verbatim %}
+								 		<table>
+								 			<tbody>
+								 				<tr>
+								 					<td><label for="name" > Intitulé </label>
+											 		<td><input style="width:150px" type="text" name="name" value="{{group.name}}"></input></td> <br/>
+											 	</tr>
+											 	<tr>
+								 					<td><label for="description" > Description </label>
+											 		<td><textarea style="width:150px" type="text" name="description" >{{group.description}}</textarea></td> <br/>
+											 	</tr>
+											 	
+											 	<tr>
+								 					<td><label for="service" >Service</label>
+											 		<td>
+											 			<select style="width:150px"  name="service"  ng-model="aService" ng-options=" service.name for service in services track by service.id ">
+											 				 
+											 			</select>
+											 		</td> <br/>
+											 	</tr>
+												
+											</tbody>
+										</table>
+										<input type="hidden" name="groupID" ng-value="group.id"></input>
+										<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Modifier"> 
+										</input>
+										{% endverbatim %}
+									</form>
+								</div>
+
+								<div ng-show="newFlag" class="addForm" >
+										<form action="{{path('ovt_front_end_admin_provider_new_group')}}" method="post">
+										{% verbatim %}
+								 		<table>
+								 			<tbody>
+								 				<tr>
+								 					<td><label for="name" > Intitulé </label>
+											 		<td><input style="width:150px" type="text" name="name" ></input></td> <br/>
+											 	</tr>
+											 	<tr>
+								 					<td><label for="description" > Description </label>
+											 		<td><textarea style="width:150px" type="text" name="description" > </textarea></td> <br/>
+											 	</tr>
+											 	
+											 	<tr>
+								 					<td><label for="service" >Service</label>
+											 		<td>
+											 			<select style="width:150px"  name="service"  ng-model="aService" ng-options=" service.name for service in services track by service.id ">
+											 				 
+											 			</select>
+											 		</td> <br/>
+											 	</tr>
+												
+											</tbody>
+										</table>
+										<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Nouveau Groupe"> 
+										</input>
+										{% endverbatim %}
+									</form>
+								</div>
+
+								 
+							</div>
+						</div>
+
+					</div>
+
+				</div> <!-- end infos -->
+
 			</div>
  			
  			<script type="text/javascript">
+
+ 				var app = angular.module('OVTApp', []);
+				
+				app.controller('groupCtrl', function($scope,$http,$location,$window) {
+					$scope.init = function (){
+						$scope.loading = false;
+						$scope.firstload=true;
+						$scope.modifyText="Modifier";
+						$scope.newText="Nouveau";
+						$scope.modifyFlag=false;
+						{% verbatim %} 
+							var link=Routing.generate('ovt_front_end_admin_provider_get_services_json');
+			   			{% endverbatim %}
+			   			$http.get(link).
+					  	success(function(data, status, headers, config) {
+						    $scope.services=data;
+						    $scope.loading = false;
+					  	}).
+					 	error(function(data, status, headers, config) { });
+					 	$scope.actionClick(1);
+						
+					}
+					
+					$scope.actionClick= function (idgroup) {
+						$scope.firstload=false;
+						$scope.loading = true;
+			   			{% verbatim %} var link=Routing.generate('ovt_front_end_admin_provider_get_group_by_id', {id:idgroup}); 
+			   			{% endverbatim %}
+			   			$http.get(link).
+					  	success(function(data, status, headers, config) {
+						    $scope.group=data;
+						    $scope.loading = false;
+
+					  	}).
+					 	error(function(data, status, headers, config) { });
+			   		}
+
+			   		$scope.toUpdate = function (){
+			   			$scope.modifyFlag=!$scope.modifyFlag;
+				   		$scope.modifyText=$scope.modifyFlag?"Retour":"Modifier";
+				   		if($scope.newFlag) $scope.new();
+			   		}
+
+			   		$scope.toDelete= function (idgroup){
+			   			{% verbatim %}
+			   				var link=Routing.generate('ovt_front_end_admin_provider_delete_group_by_id');
+			   			{% endverbatim %}
+						$scope.loading = true;
+						var confirmation = confirm("Voulez vraiment supprimer ce groupe ?");
+						if(confirmation){
+							$http({
+							    method: 'POST',
+							    url: link,
+							    data: "idGroup="+idgroup,
+							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+							}).
+							success(function(data, status, headers, config) {
+						  		alert("supression menée avec succès ! ");
+						     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_group'); 
+						  	}).
+						  	error(function(data, status, headers, config) {
+						    	alert("supression échouée !"+data);
+						    	$scope.loading = false;
+						  	});
+						  	
+						}else {
+							$scope.loading = false;
+						}
+
+			   		}
+
+			   		$scope.new= function(idworker){
+			   			$scope.newFlag=!$scope.newFlag;
+			   			$scope.newText=$scope.newFlag?"Retour":"Nouveau";
+			   			if($scope.modifyFlag) $scope.toUpdate();
+			   		}
+				});
+
  			</script>
 
 		</div>

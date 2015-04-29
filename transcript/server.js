@@ -27,6 +27,12 @@ io.on('connection', function(socket){
     socket.broadcast.emit('incomingWord', data);
   });
 
+   socket.on('presenceFrame', function(){
+    console.log('receiving presenceFrame ... ');
+    workers.push(socket);
+    socket.broadcast.emit('workerConnected');
+  });
+
   socket.on('sendingChar', function(data){
     //server stuff
     console.log('sending ' +data.character +' at pos : '+data.position);
@@ -58,7 +64,7 @@ io.on('connection', function(socket){
   });
 
   socket.on('workerConnected',function(){
-  	workers.push(socket);
+    workers.push(socket);
     socket.broadcast.emit('workerConnected');
   });
 

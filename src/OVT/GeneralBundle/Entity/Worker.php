@@ -35,7 +35,7 @@ class Worker
      *
      * @ORM\ManyToOne(targetEntity="Providerservicegroup")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="providerGroup", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="providerGroup", referencedColumnName="id", onDelete="SET NULL")
      * })
      */
     private $groupe;

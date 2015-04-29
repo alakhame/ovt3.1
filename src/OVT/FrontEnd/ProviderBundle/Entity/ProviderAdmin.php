@@ -4,6 +4,7 @@ namespace OVT\FrontEnd\ProviderBundle\Entity;
 use OVT\UserBundle\Entity\User ;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Bundle\DoctrineBundle\Registry as Registry;
+use OVT\GeneralBundle\Entity\Providerservicegroup;
 
 class ProviderAdmin extends User  
 {
@@ -88,10 +89,19 @@ class ProviderAdmin extends User
         return $workers;
     }
 
-     public function createWorker($worker){
+    public function createWorker($worker){
         $this->em->persist($worker);
         $this->em->flush();
     }
+
+    public function deleteWorkerById($workerID){
+        $worker=$this->getWorkerById($workerID);
+        $user=$worker->getUser();
+        $this->em->remove($worker);
+        $this->em->remove($user);
+        $this->em->flush();
+    }
+
 
 
 
@@ -106,6 +116,19 @@ class ProviderAdmin extends User
         return $this->em->getRepository('OVTGeneralBundle:Providerservicegroup')->find($id);
     }
 
-  
+    public function getGroupById($id){
+        return $this->em->getRepository('OVTGeneralBundle:Providerservicegroup')->find($id);
+    }
+
+    public function createGroup(Providerservicegroup $group){
+        $this->em->persist($group);
+        $this->em->flush();
+    }
+    
+    public function deleteGroupById($groupID){
+        $group=$this->getGroupById($groupID);
+       $this->em->remove($group);
+        $this->em->flush();
+    }
    
 }

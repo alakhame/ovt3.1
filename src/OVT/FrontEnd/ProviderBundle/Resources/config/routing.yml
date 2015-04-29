@@ -28,10 +28,14 @@ ovt_front_end_admin_provider_set_sessions:
 ovt_front_end_admin_provider_worker:
     path:     /adminprovider/worker
     defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:worker }
+    options:
+        expose: true
 
 ovt_front_end_admin_provider_group:
     path:     /adminprovider/group
     defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:group }
+    options:
+        expose: true
 
 ovt_front_end_admin_provider_profile:
     path: /adminprovider/profile/view
@@ -44,7 +48,33 @@ ovt_front_end_admin_provider_new_worker:
     defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:addNewWorker }
     options:
         expose: true
-        
+
+ovt_front_end_admin_provider_new_group:
+    path: /adminprovider/new/group
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:addNewGroup }
+    options:
+        expose: true
+    requirements:
+        _method:  POST
+
+ovt_front_end_admin_provider_get_json_groups_by_admin:
+    path: /adminprovider/groups/json
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:renderJSONProviderGroups }
+    options:
+        expose: true
+
+ovt_front_end_admin_provider_get_services_json:
+    path: /adminprovider/services/json
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:getAllServicesJSON }
+    options:
+        expose: true
+
+ovt_front_end_admin_provider_get_group_by_id:
+    path: /adminprovider/group/{id}
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:getGroupById }
+    options:
+        expose: true
+
 ovt_front_end_admin_provider_get_session_by_id:
     path: /adminprovider/session/{id}
     defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:getSessionById}
@@ -57,6 +87,29 @@ ovt_front_end_admin_provider_get_worker_by_id:
     options:
         expose: true
 
+ovt_front_end_admin_provider_delete_worker_by_id:
+    path: /adminprovider/delete/worker
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:deleteWorkerById}
+    options:
+        expose: true
+    requirements:
+        _method: POST
+
+ovt_front_end_admin_provider_delete_group_by_id:
+    path: /adminprovider/delete/group
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:deleteGroupById}
+    options:
+        expose: true
+    requirements:
+        _method: POST
+
+ovt_front_end_admin_provider_set_worker_group:
+    path: /adminprovider/setgroup/worker
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:setGroupWorker}
+    options:
+        expose: true
+    requirements:
+        _method: POST
 
 ovt_front_end_admin_provider_set_worker_to_session:
     path: /adminprovider/affect/worker/session
@@ -69,6 +122,14 @@ ovt_front_end_admin_provider_set_worker_to_session:
 ovt_front_end_admin_provider_update_session:
     path: /adminprovider/update/session
     defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:updateSession}
+    options:
+        expose: true
+    requirements:
+        _method: POST
+
+ovt_front_end_admin_provider_update_group:
+    path: /adminprovider/update/group
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:updateGroup}
     options:
         expose: true
     requirements:

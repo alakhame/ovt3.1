@@ -10,7 +10,7 @@
 {% endblock %}
 	{% block container %}
 
-		<div class="cadre"  ng-app="OVTApp" ng-controller="userCtrl"  >
+		<div class="cadre"  ng-app="OVTApp" ng-controller="userCtrl" data-ng-init="init()" >
 			<div class="gestion_title">
 				<p>Gestion des employés prestataires  </p>
 			</div>
@@ -53,15 +53,19 @@
 							<input ng-click="toUpdate()"  class="submitButtton" ng-value="modifyText"></input>
 						</div>
 						<div >
-							<input ng-click="delete(workerSelected.id)"  class="submitButtton" value="Supprimer"></input>
+							<input ng-click="toDelete(workerSelected.id)"  class="submitButtton" value="Supprimer"></input>
 						</div>
 						<div >
-							<select ng-change="setGroup(workerSelected.id)" ng-model="selectedGroup" class="submitButtton" >
-								{{ render(controller('OVTFrontEndProviderBundle:ProviderAdmin:renderProviderGroups'))}}
+							<input ng-click="seePlaning(workerSelected.id)"  class="submitButtton" value="Voir Planing"></input>
+						</div>
+						<div >
+							<select  ng-change="setGroup(workerSelected.id)"  class="submitButtton" ng-model="selectedGroup" ng-options="group as group.name for group in groups  track by group.id" >
+								<option value="" disabled>Affecter à un groupe</option>
+
 							</select>
 						</div>
 						<div >
-							<input ng-click="new()"  class="submitButtton" value="Nouveau"></input>
+							<input ng-click="new()"  class="submitButtton" ng-value="newText"></input>
 						</div>
 						
 					</div>
@@ -69,7 +73,7 @@
 							<div class="user_infos_border" style="float:left">
 								<img src="{{asset('ress/img/loader.gif')}}" ng-show="loading" id="loader">
 								<div  ng-hide="loading  " id="clientInfo" >
-									<div ng-hide="firstload || modifyFlag">
+									<div ng-hide="firstload || modifyFlag || newFlag || planingFlag">
 										{% verbatim %}
 											<h5> Nom : {{workerSelected.user.lastname}}</h5>
 											<h5> Prénom : {{workerSelected.user.firstname}} </h5>
@@ -87,38 +91,68 @@
 									 		<table>
 									 			<tbody>
 									 				<tr>
-									 					<td><label for="title" > Intitulé </label>
-												 		<td><input style="width:150px" type="text" name="title" value="{{session.title}}"></input></td> <br/>
+									 					<td><label for="lastName" > Nom </label>
+												 		<td><input style="width:150px" type="text" name="lastName" ng-value="workerSelected.user.lastname"></input></td> <br/>
 												 	</tr>
 												 	<tr>
-									 					<td><label for="type" > Type </label>
-												 		<td><input style="width:150px" type="text" name="type" value="{{session.type}}" disabled></input></td> <br/>
+									 					<td><label for="firstName" > Prénom </label>
+												 		<td><input style="width:150px" type="text" name="firstName" ng-value="workerSelected.user.firstname"></input></td> <br/>
 												 	</tr>
 												 	<tr>
-									 					<td><label for="description" > Description </label>
-												 		<td><textarea style="width:150px" type="text" name="description" >{{sessin.description}}</textarea></td> <br/>
+									 					<td><label for="email" > Email : </label>
+												 		<td><input style="width:150px" type="text" name="email" ng-value="workerSelected.user.email"></input></td> <br/>
 												 	</tr>
 												 	<tr>
-									 					<td><label for="startTime" > Date de Début </label>
-												 		<td><input style="width:150px" type="datetime" name="startTime" value="{{session.startTime}}"></input></td> <br/>
+									 					<td><label for="address" > Adresse : </label>
+												 		<td><input style="width:150px" type="text" name="address" ng-value="workerSelected.user.address"></input></td> <br/>
 												 	</tr>
 												 	<tr>
-									 					<td><label for="endTime" > Date de Fin </label>
-												 		<td><input style="width:150px" type="datetime" name="endTime" value="{{session.endTime}}"></input></td> <br/>
+									 					<td><label for="phoneNumber" >Numéro de téléphone : </label>
+												 		<td><input style="width:150px" type="text" name="phoneNumber" ng-value="workerSelected.user.phoneNumber"></input></td> <br/>
+												 	</tr>
+													<tr>
+									 					<td><label for="role" > Type </label>
+									 						
+												 		<td>
+												 			<select style="width:150px" type="text" name="role"  >
+																<option value="ROLE_WORKER" selected> Employé Prestataire</option>
+												 			</select>
+												 		</td> 
 												 	</tr>
 												 	<tr>
-									 					<td><label for="service" > Service</label>
-												 		<td><input style="width:150px" type="text" name="service" ng-value="session.service" disabled></input></td> <br/>
+									 					<td><label for="language" > Langue </label>
+									 						
+												 		<td>
+												 			<select style="width:150px" type="text" name="language"  >
+																<option value="fr" selected> Français</option>
+												 				<option value="en" selected> Anglais</option>
+												 			</select>
+												 		</td>  
+												 	</tr> 
+												 	<tr>
+									 					<td><label for="password" > Mot de passe : </label>
+												 		<td><input style="width:150px" type="password" name="password" placeholder="Mot de passe"></input></td> <br/>
 												 	</tr>
-													
+												 	<tr>
+									 					<td><label for="confirmPassword" >Confirmer Mot de passe : </label>
+												 		<td><input style="width:150px" type="password" name="confirmPassword" placeholder="Resaisir mot de passe ici"></input></td> <br/>
+												 	</tr>
+												 	</tr>
 												</tbody>
 											</table>
-											<input type="hidden" name="sessionID" ng-value="session.id"></input>
-											<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Modifier"> 
+											<input type="hidden" name="workerID" ng-value="workerSelected.id"></input>
+											<input type="hidden" name="userType" value="worker"></input>
+											<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Modifer"> 
 											</input>
 											{% endverbatim %}
 										</form>
-									</div>
+									</div> <!-- end form div -->
+
+
+									<div ng-show="newFlag" class="addForm" >
+										{% include 'OVTFrontEndProviderBundle:ProviderAdmin:addWorker2.html.twig' %}
+									</div> <!-- end form div -->
+
 								</div>
 							</div>
 						</div> <!-- end user infos -->
@@ -130,15 +164,31 @@
  				var app = angular.module('OVTApp', []);
 				
 				app.controller('userCtrl', function($scope,$http,$location,$window) {
-						$scope.affectShow=false;
-						$scope.loading = false;
-						$scope.firstload=true;
-						$scope.modifyText="Modifier";
-						$scope.modifyFlag=false;
+						$scope.init = function (){
+							$scope.affectShow=false;
+							$scope.loading = false;
+							$scope.firstload=true;
+							$scope.modifyText="Modifier";
+							$scope.newText="Nouveau";
+							$scope.modifyFlag=false;
+							$scope.newFlag=false;
+							$scope.actionClick(28);
+							//get groups
+				   			{% verbatim %} 
+				   				var link=Routing.generate('ovt_front_end_admin_provider_get_json_groups_by_admin'); {% endverbatim %}
+				   			$http.get(link).
+						  	success(function(data, status, headers, config) {
+							    $scope.groups=data;
+							    $scope.loading = false;
+
+						  	}).
+						 	error(function(data, status, headers, config) { });
+						}
+
 
 						$scope.actionClick= function (idworker) {
-							$scope.modifyFlag=false;
-				   			$scope.modifyText="Modifier";
+							if($scope.modifyFlag) $scope.toUpdate();
+				   			if($scope.newFlag) $scope.new();
 							$scope.firstload=false;
 							$scope.loading = true;
 				   			{% verbatim %} 
@@ -153,16 +203,68 @@
 
 				   		}
 
+				   		$scope.toDelete = function(idworker){
+				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_delete_worker_by_id');
+				   			{% endverbatim %}
+							$scope.loading = true;
+							var confirmation = confirm("Voulez vraiment SUPPRIMER cet utilisaeur ?");
+							if(confirmation){
+								$http({
+								    method: 'POST',
+								    url: link,
+								    data: "idWorker="+idworker,
+								    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+								}).
+								success(function(data, status, headers, config) {
+							  		alert("Suppression menée avec succès ! ");
+							     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_worker'); 
+							  	}).
+							  	error(function(data, status, headers, config) {
+							    	alert("Suppression échouée !"+data);
+							    	$scope.loading = false;
+							  	});
+							  	
+							}else {
+								$scope.loading = false;
+							}
+				   		}
+
 				   		$scope.toUpdate= function(){
 				   			$scope.modifyFlag=!$scope.modifyFlag;
 				   			$scope.modifyText=$scope.modifyFlag?"Retour":"Modifier";
+				   			if($scope.newFlag) $scope.new();
 				   		}
 
 				   		$scope.setGroup= function(idworker){
-				   			alert("ok");
+				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_set_worker_group');
+				   			{% endverbatim %}
+							$scope.loading = true;
+							var confirmation = confirm("Voulez vous affecter ce groupe à cet utilisateur ?");
+							if(confirmation){
+								$http({
+								    method: 'POST',
+								    url: link,
+								    data: "idWorker="+idworker+"&idGroup="+$scope.selectedGroup.id,
+								    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+								}).
+								success(function(data, status, headers, config) {
+							  		alert("Affectation menée avec succès ! ");
+							     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_worker'); 
+							  	}).
+							  	error(function(data, status, headers, config) {
+							    	alert("Affectation échouée !"+data);
+							    	$scope.loading = false;
+							  	});
+							  	
+							}else {
+								$scope.loading = false;
+							}
 				   		}
+				   		
 				   		$scope.new= function(idworker){
-				   			$window.location.href=Routing.generate('ovt_front_end_admin_provider_new_worker');
+				   			$scope.newFlag=!$scope.newFlag;
+				   			$scope.newText=$scope.newFlag?"Retour":"Nouveau";
+				   			if($scope.modifyFlag) $scope.toUpdate();
 				   		}	
 				});
  			</script>

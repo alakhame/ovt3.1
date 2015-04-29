@@ -57,6 +57,13 @@ class ProviderAdminController extends Controller
         }
         return new Response($response);
     } 
+
+    public function renderJSONProviderGroupsAction(){
+        $adminProvider=$this->get('provideradmin');
+        $admin=  $this->container->get('security.context')->getToken()->getUser();
+        $groups=$adminProvider->retrieveGroups($admin);
+        return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:groupsInfos.json.twig',array('groups'=>$groups));
+    } 
     
     public function workerAction(){
     	$adminProvider=$this->get('provideradmin');
@@ -76,6 +83,19 @@ class ProviderAdminController extends Controller
         $adminProvider=$this->get('provideradmin');
         $session=$adminProvider->getSessionById($id);
         return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:sessionInfos.json.twig',array('s'=>$session));
+    }
+
+    public function getGroupByIdAction($id){
+        $adminProvider=$this->get('provideradmin');
+        $group=$adminProvider->getGroupById($id);
+        return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:groupInfos.json.twig',array('g'=>$group));
+    }
+
+     public function getAllServicesJSONAction(){
+        $superAdmin=$this->get('superadmin');
+        $services=$superAdmin->getAllServices();
+        return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:servicesInfos.json.twig',
+                            array('services'=>$services));
     }
 
     public function addNewWorkerAction(Request $request ){
@@ -128,13 +148,75 @@ class ProviderAdminController extends Controller
         $worker = new Worker();
         $worker->setUser($user);
         $worker->setLanguage($language);
-        $worker->setGroup($adminProvider->getGroupFromId($groupId));
+        $worker->setGroupe($adminProvider->getGroupFromId($groupId));
         $adminProvider->createWorker($worker);
         return $this->redirect($this->generateUrl('ovt_front_end_admin_provider_worker' ));
 
     }
 
+    public function updateWorkerAction(Request $request ){
+        $adminProvider=$this->get('provideradmin');
+        $admin= $this->container->get('security.context')->getToken()->getUser();
+         
+        $worker=$adminProvider->getWorkerById($request->request->get("workerID"));
+        $userType=$request->request->get('userType');
 
+        
+        $encoderFactory=$this->get('security.encoder_factory');
+        $encoder=$encoderFactory->getEncoder($worker->getUser());
+        
+        $firstName=$request->request->get("firstName");
+        $lastName=$request->request->get("lastName");
+        $email=$request->request->get("email");
+        $password=$request->request->get("password");
+        $confirmPassword=$request->request->get("confirmPassword");
+        $address=$request->request->get("address");
+        $phoneNumber=$request->request->get("phoneNumber");
+        $role=$request->request->get("role");
+        $type="Employé Prestataire";
+        
+        $language=$request->request->get("language");
+        $org=$admin->getOrganisation();
+
+        if($password!=$confirmPassword){
+            return $this->redirect($this->generateUrl('ovt_front_end_admin_provider_new_worker',
+                                    array('error'=>'Les mots de passe ne correspondent pas !')));
+        }
+
+        $worker->getUser()->setFirstname($firstName);
+        $worker->getUser()->setLastName($lastName);
+        $worker->getUser()->setUsername($email);
+        $worker->getUser()->setEmail($email);
+        $worker->getUser()->setPassword($encoder->encodePassword($password, $worker->getUser()->getSalt()));
+        $worker->getUser()->setAddress($address);
+        $worker->getUser()->setPhoneNumber($phoneNumber);
+        $worker->getUser()->addRole($role);
+        $worker->getUser()->setType($type);
+        $worker->getUser()->setState("actif");
+        $worker->getUser()->setOrganisation($org);
+        
+        
+        
+        $worker->setLanguage($language);
+         
+        $adminProvider->createWorker($worker);
+        return $this->redirect($this->generateUrl('ovt_front_end_admin_provider_worker' ));
+
+    }
+
+    public function deleteWorkerByIdAction(Request $request){
+        $workerID=$request->request->get('idWorker');
+        $adminProvider=$this->get('provideradmin');
+        $adminProvider->deleteWorkerById($workerID);
+        return new Response("OK!");
+    }
+
+    public function deleteGroupByIdAction(Request $request){
+        $groupID=$request->request->get('idGroup');
+        $adminProvider=$this->get('provideradmin');
+        $adminProvider->deleteGroupById($groupID);
+        return new Response("OK!");
+    }
     public function updateStateSessionAction(Request $request, $action){
         $idSession=$request->request->get('idSession');
         //$rep=var_dump($request->request);
@@ -179,6 +261,40 @@ class ProviderAdminController extends Controller
         return $this->redirect($referer);
     }
 
+    public  function updateGroupAction (Request $request){
+        $adminProvider=$this->get('provideradmin');
+        $superAdmin=$this->get('superadmin');
+        $req=$request->request;
+        $group=$adminProvider->getGroupById($req->get('groupID'));
+
+        $group->setName($req->get('name'));
+        $group->setDescription($req->get('description'));
+        $group->setServiceid($superAdmin->getServiceById($req->get('service')));
+
+        $adminProvider->update();
+        $referer = $request->headers->get('referer');
+
+        return $this->redirect($referer);
+    }
+
+    public function addNewGroupAction(Request $request ){
+        $adminProvider=$this->get('provideradmin');
+        $superAdmin=$this->get('superadmin');
+        $service = $superAdmin->getServiceById($request->request->get('service'));
+        $admin= $this->container->get('security.context')->getToken()->getUser();
+
+        $group = new Providerservicegroup();
+        $group->setName($request->request->get('name'));
+        $group->setDescription($request->request->get('description'));
+        $group->setServiceid($service);
+        $group->setOrganisation($admin->getOrganisation());
+
+        $adminProvider->createGroup($group);
+        $referer = $request->headers->get('referer');
+
+        return $this->redirect($referer);
+    }
+
     public function renderWorkersSelectionAction($workers){
         $rep="";
         $rep.="<option value=".$workers[0]->getId()." selected>".$workers[0]->getFirstname()." ".$workers[0]->getLastname()."</option>";
@@ -205,11 +321,21 @@ class ProviderAdminController extends Controller
         return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:workerInfos.json.twig',array('w'=>$worker));
     }
 
+    public function setGroupWorkerAction(Request $request){
+        $adminProvider=$this->get('provideradmin');
+        $worker=$adminProvider->getWorkerById($request->request->get('idWorker'));
+        $group=$adminProvider->getGroupFromId($request->request->get('idGroup'));
+        $worker->setGroupe($group);
+        $adminProvider->update();
+
+        return new Response($request->request->get('idWorker').'OK'.$request->request->get('idGroup'));
+    }
+
 
     public function testAction (){
     	$adminProvider=$this->get('provideradmin');
     	$w=$adminProvider->getWorkerById(1);
-        return new Response(var_dump($w) );
+        return $this->deleteWorkerByIdAction(6);
     }
 
 

@@ -1,0 +1,18 @@
+[
+	{% for service in services %}
+		{% if loop.last %}
+		{
+			"id"			:	"{{service.id}}", 
+			"name"			:	"{{service.name}}", 
+			"description"	:	"{{service.description}}" 
+		}
+		
+		{% else %}
+		{
+			"id"			:	"{{service.id}}", 
+			"name"			:	"{{service.name}}", 
+			"description"	:	"{{service.description}}" 
+		},
+		{% endif %}
+	{% endfor %}
+]
