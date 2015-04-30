@@ -31,4 +31,16 @@ class ProviderController extends Controller
     	$sessions=$adminProvider->retrieveSessionsByState($user);
         return $this->render('OVTFrontEndProviderBundle:Provider:sessions.html.twig', array('sessions' => $sessions ));
     }
+
+    public function getSessionsByStateAction($state){
+        $adminProvider=$this->get('provideradmin');
+        $user=  $this->container->get('security.context')->getToken()->getUser();
+        $sessions=$adminProvider->getSessionsByWorkerByState($user,$state); 
+        //return new Response(count($sessions));
+        return $this->render('OVTFrontEndProviderBundle:Provider:sessionsTable.html.twig', array('sessions' =>$sessions ));
+    }
+
+    public function testAction (){ 
+        return $this->getSessionsByStateAction('TO_CONFIRM');
+    }
 }

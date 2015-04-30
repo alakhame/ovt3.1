@@ -227,11 +227,20 @@ class ProviderAdminController extends Controller
             case 'cancel':
                 $session->setState('CANCELED');
                 break;
+            case 'accept':
+                $session->setState('ACCEPTED');
+                break;
             case 'refuse':
                 $session->setState('REFUSED');
                 break;
             case 'terminate':
                 $session->setState('TERMINATED');
+                break;
+            case 'delete':
+                $session->setState('DELETED');
+                break;
+            case 'restaure':
+                $session->setState('TO_CONFIRM');
                 break;
             default:
                 break;

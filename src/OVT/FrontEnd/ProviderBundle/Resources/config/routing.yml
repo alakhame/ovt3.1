@@ -5,6 +5,8 @@ ovt_front_end_provider_homepage:
 ovt_front_end_provider_my_sessions:
     path:     /mysessions
     defaults: { _controller: OVTFrontEndProviderBundle:Provider:mySessions }
+    options:
+        expose: true
 
 ovt_front_end_provider_calendar:
     path:     /calendar
@@ -155,4 +157,4 @@ ovt_front_end_admin_provider_action_session:
 
 test:
     path:     /testpro
-    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:test }
+    defaults: { _controller: OVTFrontEndProviderBundle:Provider:test }

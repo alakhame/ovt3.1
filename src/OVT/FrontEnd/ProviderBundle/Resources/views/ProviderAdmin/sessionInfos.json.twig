@@ -1,5 +1,5 @@
 {
-	"id":{{s.id}}, 
+	"id":"{{s.id}}", 
 	"title":"{{s.title}}", 
 	"description":"{{s.description}}" , 
 	"startTime":"{{s.startTime|date('Y-m-d')}}" , 
@@ -14,7 +14,7 @@
 	{% endif %}
 	"state":"{{s.state}}",
 	{% if s.service!=null %}
-		"service":"{{s.service}}"
+		"service":"{{s.service.name}}"
 	{% else %}
 		"service": "NONE"
 	{% endif %}
