@@ -1,0 +1,151 @@
+html{
+  height: 100%;
+}
+body {
+  min-height: 100%;
+  background-image:url('../img/bg.png'); 
+}
+
+
+#wrapper {
+	padding:20px;
+}
+
+#incomingText{
+	width: 70%;
+	height: 100%;
+	float:left;
+	padding: 20px;
+
+}
+
+#infoSession{
+	width: 30%;
+	height: 50%;
+	padding: 20px;
+	float:right;
+}
+
+#chatBox{
+	width: 30%;
+	height: 50%;
+	padding: 20px;
+	float: right;
+}
+#styleMenu{
+	height: 60px;
+	padding: 5px;
+	background-color:rgb(233,232,232); 
+  	margin-left: 5px;
+  	padding-top: 9px;
+  	padding-left: 4px;
+}
+
+.styleMenuDiv {
+	width: auto;
+	float:left;
+	margin-left: 20px;
+}
+
+.buttonTabs {
+	width:100%;
+	height: auto;
+}
+
+.buttonTabs div{
+	float:left;
+}
+
+
+.topDiv{
+	border-radius: 9px 9px 0px 0px;
+	background-image: url(../img/title_header.png);
+	height: 30px;
+	font-family: Arial, sans-serif;
+	color: white;
+	margin-left: 5px;
+	padding-top: 9px;
+	padding-left: 4px;
+}
+
+
+#fontFamily {
+	height: 40px;
+	width: 250px;
+}
+
+#police {
+	height: 40px;
+	width: 120px;
+}
+
+.styleMenuImage{
+	margin-left: 15px;
+	margin-top: 10px;
+	height:15px;
+	width:15px;
+}
+
+.colorBar{
+	background-color:white;
+	height:5px;
+	width:40px;
+	margin-top:5px;
+}
+
+#quitButton{
+	background-image: url('../img/button.gif');
+	width: 70px;
+	height: 29px;
+	margin-top: 5px;
+}
+
+#ttarea{
+	border: 5px inset red;
+	margin: 3px;
+	height: 800px;
+}
+
+#ttarea textarea {
+	width:100%;
+	height: 100%;
+	resize: none;
+}
+
+#infoSession{
+	height: 465px;
+}
+.detailsSession{
+	background-color: white;
+	height: 100%;
+	margin-left: 5px;
+}
+
+#chatBox{
+	height: 465px;
+}
+
+#msgBox{
+	height:83%;
+	background-color: white;
+	margin-left: 5px;
+	padding-top: 9px;
+	padding-left: 4px;
+}
+
+#inputMsg{
+	height:10%;
+	background-color: gray;
+	margin-left: 5px;
+	padding-left: 5px;
+	padding-top: 5px;
+}
+#inputMsg input{
+	height:30px;
+}
+#inputMsg input[type="text"]{
+	width: 75%;
+}
+#inputMsg input[type="submit"]{
+	width: 22%;
+}

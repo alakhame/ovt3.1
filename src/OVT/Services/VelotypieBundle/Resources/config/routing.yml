@@ -1,3 +1,5 @@
-ovt_services_velotypie_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: OVTServicesVelotypieBundle:Default:index }
+ovt_services_velotypie_join:
+    path:     /session/participate/{userType}/{hashLink}
+    defaults: { _controller: OVTServicesVelotypieBundle:Session:join }
+    options:
+        expose: true

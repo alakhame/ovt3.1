@@ -1,20 +1,10 @@
 <!doctype html>
 <html>
     <head>
-        <title>Socket.IO chat</title>
-        <link rel="stylesheet" type="text/css" href="css/transcript.css" />
-        <style>
-            * { margin: 0; padding: 0; box-sizing: border-box; }
-            body { font: 13px Helvetica, Arial; }
-            .form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-            .form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-            .form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-            #messages { list-style-type: none; margin: 0; padding: 0; }
-            #messages li { padding: 5px 10px; }
-            #messages li:nth-child(odd) { background: #eee; }
-            #msgBlock { width: 80%; float: left}
-            #typing {margin-left:1024px; width: 20%;}
-        </style>
+        <title>Session</title>
+        <link rel="stylesheet" type="text/css" href="{{asset('ress/css/transcript.css')}}" />
+        <link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" /> 
+        <script src="{{asset('ress/js/jquery.js')}}" > </script>
     </head>
     <body>
         <div id="wrapper">
@@ -24,7 +14,7 @@
                 </div>
                 <div id="styleMenu">
                     <div class="styleMenuDiv" id ="wideScreen" > 
-                        <img src="img/full_screen.png" height="42px" width="42px" /> 
+                        <img src="{{asset('ress/img/full_screen.png')}}" height="42px" width="42px" /> 
                     </div>
                     <div class="styleMenuDiv">
                         <select id="fontFamily">
@@ -47,18 +37,18 @@
                         </select>
                     </div>
                     <div class="styleMenuDiv" id ="fontColor" >
-                        <img  class="styleMenuImage" src="img/font-color.png" />
+                        <img  class="styleMenuImage" src="{{asset('ress/img/font-color.png')}}" />
                         <div class="colorBar"></div>
                     </div>
                     <div class="styleMenuDiv" id="backColor" >
-                        <img class="styleMenuImage"src="img/bgcolor.png" /> 
+                        <img class="styleMenuImage"src="{{asset('ress/img/bgcolor.png')}}" /> 
                         <div class="colorBar"></div>
                     </div>
                     <div class="styleMenuDiv" id="hideSideBar">
-                        <img  height="35px" width="35px" src="img/chat.png" />
+                        <img  height="35px" width="35px" src="{{asset('ress/img/chat.png')}}" />
                     </div>
                     <div class="styleMenuDiv" id="quitButton" style="padding:5px 0px 0px 5px;">
-                        <img src="img/exit.png" style=" float:left;"/> 
+                        <img src="{{asset('ress/img/exit.png')}}" style=" float:left;"/> 
                         <span style="color:white">Fermer</span>
                     </div>
 
@@ -90,25 +80,14 @@
             </div>
         </div>
 
+        <script src="{{asset('ress/js/socket.io-1.2.0.js')}}"></script>
+        <script src="{{asset('ress/js/keycodes.js')}}"></script>
 
-        <!-- 
-        <div id="msgBlock">
-        <ul id="messages"></ul>
-        <div><pre id="allkeys"></pre></div>
-        <div class="form">
-        <textarea id="m" autocomplete="off" > </textarea><button>Send</button>
-        </div>
-        </div>
-        <div id="typing"></div> -->
-        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-        <script src="js/keycodes.js"></script>
+        <script type="text/javascript" src="{{asset('ress/js/jquery.caret.js')}}"></script>
+        <script type="text/javascript" src="{{asset('ress/js/jquery.selection.js')}}"></script>
 
-        <script type="text/javascript" src="js/jquery.caret.js"></script>
-        <script type="text/javascript" src="js/jquery.selection.js"></script>
-
-        <script>
-        $(function() {
+        <script type="text/javascript"   >   
+            $(function() {
             $('#pseudo').text('worker');
             $('#ttarea').css("border"," 5px inset red");
             
@@ -116,7 +95,7 @@
             wordBuffer='';
 
             function sendData(text){
-                var data={'pseudo':$('#pseudo').text() , word: wordBuffer};
+                var data={'pseudo':$('#pseudo').text(), saloon:saloon , word: wordBuffer};
                 socket.emit('sendingWord', data);
                 wordBuffer='';
             }
@@ -132,10 +111,10 @@
 
                 return valid;
             }
-
-            
+            var saloon= "{{link}}"; 
+            var dataConnect={userID:"{{user.id}}",saloon:saloon};
             socket.on("connect", function(){
-                socket.emit('workerConnected');
+                socket.emit('letMeJoin',dataConnect);
                 $('#ttarea').css("border"," 5px inset green");
             });
 
@@ -143,13 +122,13 @@
                 var selectionLength=$('#ttarea textarea').selection().length;
                 if(selectionLength>1){
                     //alert(selectionLength);
-                    data={'pseudo':$('#pseudo').text(), position :$('#ttarea textarea').caret(), nbChars:selectionLength};
-                    socket.emit('deletingString', data);
+                    data={'pseudo':$('#pseudo').text(), saloon:saloon, position :$('#ttarea textarea').caret(), nbChars:selectionLength};
+                    socket.to().emit('deletingString', data);
                 }
                         
                 var key=e.keyCode;
                 var pos =$('#ttarea textarea').caret();
-                var data={'pseudo':$('#pseudo').text() , character:String.fromCodePoint(e.which), position :pos};
+                var data={'pseudo':$('#pseudo').text(), saloon:saloon , character:String.fromCodePoint(e.which), position :pos};
                 socket.emit('sendingChar', data);
                
             });
@@ -157,7 +136,7 @@
             $( "#ttarea textarea" ).bind("keydown",function(e) {
                 var key=e.keyCode;
                 var pos =$('#ttarea textarea').caret();
-                var data={'pseudo':$('#pseudo').text() , character:String.fromCodePoint(e.which), position :pos};
+                var data={'pseudo':$('#pseudo').text(), saloon:saloon , character:String.fromCodePoint(e.which), position :pos};
                 //alert($('#ttarea textarea').selection().length+' -- '+$('#ttarea textarea').caret());
                 var selectionLength=$('#ttarea textarea').selection().length;
                
@@ -165,7 +144,7 @@
                     case KeyCode.BACKSPACE :
                         if(selectionLength>1){
                            // alert(selectionLength);
-                            data={'pseudo':$('#pseudo').text(), position :pos, nbChars:selectionLength};
+                            data={'pseudo':$('#pseudo').text(), saloon:saloon, position :pos, nbChars:selectionLength};
                             socket.emit('deletingString', data);
                         }else{
                             data.position=data.position-1;
@@ -175,7 +154,7 @@
                     case KeyCode.DEL:
                         if(selectionLength>1){
                             //alert(selectionLength);
-                            data={'pseudo':$('#pseudo').text(), position :pos, nbChars:selectionLength};
+                            data={'pseudo':$('#pseudo').text(), saloon:saloon, position :pos, nbChars:selectionLength};
                             socket.emit('deletingString', data);
                         }else{
                          socket.emit('deletingChar', data);
@@ -189,7 +168,7 @@
                 var selectionLength=$('#ttarea textarea').selection().length;
                 if(selectionLength>0){
                     //alert(selectionLength);
-                    data={'pseudo':$('#pseudo').text(), position :$('#ttarea textarea').caret(), nbChars:selectionLength};
+                    data={'pseudo':$('#pseudo').text(), saloon:saloon, position :$('#ttarea textarea').caret(), nbChars:selectionLength};
                     socket.emit('deletingString', data);
                 }
             });
@@ -199,17 +178,18 @@
                 var text =e.originalEvent.clipboardData.getData('text/plain');
                 //alert(text);
                 
-                data={'pseudo':$('#pseudo').text(), position :$('#ttarea textarea').caret(), textString:text};
+                data={'pseudo':$('#pseudo').text(), saloon:saloon, position :$('#ttarea textarea').caret(), textString:text};
                 socket.emit('sendingString', data);
             });
 
             var heartBeat = function() {
-                socket.emit('presenceFrame');
+                var presenceData={saloon:saloon};
+                //alert(presenceData.saloon);
+                socket.emit('presenceFrame',presenceData);
             }
             heartBeat(socket); 
-            var timer = setInterval(heartBeat   ,5000);
+            var timer = setInterval(heartBeat   ,10000);
         });
-            
         </script>
     </body>
 </html>

@@ -44,6 +44,16 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
 		return $this->em->getRepository("OVTGeneralBundle:Service")->findAll();
     }
 
+    /************** SESSION  ************************************/
+
+    public  function getSessionByLink($link){
+        return $this->em->getRepository("OVTGeneralBundle:Session")->findBy(array('link'=>$link));
+    }
+
+
+
+
+
 
 
     /********* ORGANISATION ***********************/

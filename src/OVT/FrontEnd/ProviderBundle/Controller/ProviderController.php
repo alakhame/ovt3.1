@@ -40,7 +40,21 @@ class ProviderController extends Controller
         return $this->render('OVTFrontEndProviderBundle:Provider:sessionsTable.html.twig', array('sessions' =>$sessions ));
     }
 
+    public function retrieveAffectedSessionsAction(){
+        $adminProvider=$this->get('provideradmin');
+        $user=  $this->container->get('security.context')->getToken()->getUser();
+        $sessions=$adminProvider->getSessionsByWorker($user); 
+        
+        return $this->render('OVTFrontEndProviderBundle:Provider:sessions.json.twig', array('sessions' =>$sessions ));
+    }
+
+
+
     public function testAction (){ 
         return $this->getSessionsByStateAction('TO_CONFIRM');
+    }
+
+    public function JSONFeedAction(){
+        return $this->render('OVTFrontEndProviderBundle:Provider:feedTest.json.twig');
     }
 }

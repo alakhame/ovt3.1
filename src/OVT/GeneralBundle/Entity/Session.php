@@ -129,19 +129,19 @@ class Session
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="requestDate", type="date", nullable=false)
+     * @ORM\Column(name="requestDate", type="datetime", nullable=false)
      */
     private $requestdate;
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="startTime", type="date", nullable=false)
+     * @ORM\Column(name="startTime", type="datetime", nullable=false)
      */
     private $starttime;
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="endTime", type="date", nullable=false)
+     * @ORM\Column(name="endTime", type="datetime", nullable=false)
      */
     private $endtime;
     /**

@@ -16,6 +16,21 @@ ovt_front_end_provider_archives:
     path:     /archives
     defaults: { _controller: OVTFrontEndProviderBundle:Provider:archivesView }
 
+ovt_front_end_provider_retrieve_affected_sessions_to_worker:
+    path: /myaffectedsessions
+    defaults: { _controller: OVTFrontEndProviderBundle:Provider:retrieveAffectedSessions}
+    options:
+        expose: true
+    requirements:
+        _method: GET
+
+
+
+
+
+
+
+
 
 ovt_front_end_admin_provider_homepage:
     path:     /adminprovider
@@ -153,8 +168,27 @@ ovt_front_end_admin_provider_action_session:
     requirements:
         _method: POST
 
+ovt_front_end_admin_provider_worker_calendar:
+    path: /adminprovider/viewworkercalendar
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:viewWorkerCalendar}
+    options:
+        expose: true
+    requirements:
+        _method: POST
 
+ovt_front_end_provider_admin_retrieve_affected_sessions_to_worker:
+    path: /adminprovider/worker/affectedSessions/{id}
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:workerAffectedSessions}
+    options:
+        expose: true
+    requirements:
+        _method: GET
 
 test:
     path:     /testpro
     defaults: { _controller: OVTFrontEndProviderBundle:Provider:test }
+testFeed:
+    path:     /test/feed
+    defaults: { _controller: OVTFrontEndProviderBundle:Provider:JSONFeed }
+    options:
+        expose: true

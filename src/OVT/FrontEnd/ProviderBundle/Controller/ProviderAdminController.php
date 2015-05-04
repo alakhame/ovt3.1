@@ -340,6 +340,16 @@ class ProviderAdminController extends Controller
         return new Response($request->request->get('idWorker').'OK'.$request->request->get('idGroup'));
     }
 
+    public function viewWorkerCalendarAction(Request $request){
+        return $this->render('OVTFrontEndProviderBundle:Provider:agendaCore.html.twig',
+            array('idWorker'=>$request->request->get('idWorker')));
+    }
+
+    public function workerAffectedSessionsAction($id){
+        $adminProvider=$this->get('provideradmin');
+        $sessions=$adminProvider->getSessionsByWorkerId($id); 
+        return $this->render('OVTFrontEndProviderBundle:Provider:sessions.json.twig', array('sessions' =>$sessions ));
+    }
 
     public function testAction (){
     	$adminProvider=$this->get('provideradmin');

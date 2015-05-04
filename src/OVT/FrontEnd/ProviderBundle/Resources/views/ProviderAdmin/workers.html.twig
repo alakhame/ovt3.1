@@ -4,6 +4,7 @@
 	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
 	<script src="{{asset('ress/js/angular.js')}}" > </script>
 	<script src="{{asset('ress/js/jquery.js')}}" > </script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
 	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 	
@@ -83,6 +84,11 @@
 											<h5> Langue : {{workerSelected.langue}} </h5>
 											<h5> Groupe : {{workerSelected.group}} </h5>
 										{% endverbatim %}
+									</div>
+
+									<div ng-show="calendarFlag" >
+										<div id="workerCalendar"></div>
+
 									</div>
 
 									<div ng-show="modifyFlag">
@@ -171,6 +177,7 @@
 							$scope.modifyText="Modifier";
 							$scope.newText="Nouveau";
 							$scope.modifyFlag=false;
+							$scope.calendarFlag=false;
 							$scope.newFlag=false;
 							$scope.actionClick(28);
 							//get groups
@@ -260,11 +267,35 @@
 								$scope.loading = false;
 							}
 				   		}
+
+				   		$scope.seePlaning= function(idworker){
+				   				{% verbatim %}
+					   				var link=Routing.generate('ovt_front_end_admin_provider_worker_calendar');
+					   			{% endverbatim %}
+								$scope.loading = true;
+								$http({
+								    method: 'POST',
+								    url: link,
+								    data: "idWorker="+idworker,
+								    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+								}).
+								success(function(data, status, headers, config) {
+							  		$scope.loading = false;
+							     	$('#workerCalendar').html(data); 
+							  	}).
+							  	error(function(data, status, headers, config) {
+							    	$scope.loading = false;
+							  	});
+							  	$scope.calendarFlag=true;
+				   			
+							 
+				   		}
 				   		
 				   		$scope.new= function(idworker){
 				   			$scope.newFlag=!$scope.newFlag;
 				   			$scope.newText=$scope.newFlag?"Retour":"Nouveau";
 				   			if($scope.modifyFlag) $scope.toUpdate();
+				   			if($scope.calendarFlag)$scope.calendarFlag =false;
 				   		}	
 				});
  			</script>

@@ -67,6 +67,18 @@ class ProviderAdmin extends User
         return $this->em->getRepository('OVTGeneralBundle:Session')->findBy($criteria);
     }
 
+    public function getSessionsByWorker(User $user){
+        $worker=$this->getWorkerFromUser( $user);
+        $criteria  = array('worker' =>$worker);
+        return $this->em->getRepository('OVTGeneralBundle:Session')->findBy($criteria);
+    }
+
+    public function getSessionsByWorkerId($idWorker){
+        $worker=$this->getWorkerById($idWorker);
+        $criteria  = array('worker' =>$worker);
+        return $this->em->getRepository('OVTGeneralBundle:Session')->findBy($criteria);
+    }
+
     /************ WORKER ***************************/
 
 

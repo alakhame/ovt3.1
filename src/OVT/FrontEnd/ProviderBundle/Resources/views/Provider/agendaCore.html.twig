@@ -1,7 +1,5 @@
-{% extends "OVTFrontEndProviderBundle:ProviderAdmin:index.html.twig" %}
+
 {% block links %}
-	{{parent()}}
-	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
 	<link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" /> 
 	<link rel="stylesheet" href="{{asset('ress/css/fullcalendar.css')}}" />  
 	<link rel="stylesheet" href="{{asset('ress/css/calendar.css')}}" /> 
@@ -19,13 +17,6 @@
 {% endblock %}
 	{% block container %}
 
-		<div class="cadre"  ng-app="OVTApp" ng-controller="sessionsCtrl" data-ng-init="init()" >
-			<div class="gestion_title">
-				<p  > Planning des Sessions
-				 </p>
-				
-			</div>
-			<div id="inside_cadre">
 				<div id='calendar'></div>
 				<div  id="bootstrapModalFullCalendar" ></div>
 				<div id="fullCalModal" class="modal fade">
@@ -58,7 +49,6 @@
 				<div id="legende" style="height:20px;padding-bottom:-2px; background-color: #f6f6f6;">
 					<div  id="divLegende" >		</div>
 				</div>
-			</div>
  			
  			<script type="text/javascript">
  				
@@ -78,9 +68,11 @@
  				}
 
 				$(document).ready(function() {
-					{% verbatim %} 
- 						var link=Routing.generate('ovt_front_end_provider_retrieve_affected_sessions_to_worker'); 
- 					{% endverbatim %}
+					{% verbatim %}
+		        		var link= Routing.generate('ovt_front_end_provider_admin_retrieve_affected_sessions_to_worker',
+		        									{id:idWorker});
+		        	{% endverbatim %}
+		        	alert(link);
 					$('#calendar').fullCalendar({
 						events: link,
 						header: {
@@ -101,8 +93,6 @@
 						eventLimit: true, // allow "more" link when too many events
 					
 						eventClick:  function(event, jsEvent, view) {
-				            //console.log(event);
-				            //alert(event.start);
 				            $('#modalTitle').html(event.title);
 				            $('#sessionDesc').html(event.description);
 				            $('#nomClient').html(event.client);
@@ -119,34 +109,9 @@
 				        }
 						 
 					});
-					//resize();
-					//$('#calendar').fullCalendar('gotoDate', new Date());
 
 				});
-				var app = angular.module('OVTApp', []);
-		
-				app.controller('sessionsCtrl', function($scope,$http,$location,$window) {
-					$scope.init = function (){
-						$scope.loading = false;
-						$scope.firstload=true;
-						$scope.atraiterFlag=true;
-						$scope.planifieesFlag=false;
-						$scope.annuleesFlag=false;
-						$scope.refuseesFlag=false;
-					}
-
-					$scope.setSelectedSession= function(idsession){
-						$scope.firstload=false;
-						$scope.loading = true;
-			   			{% verbatim %} var link=Routing.generate('ovt_front_end_admin_provider_get_session_by_id', {id:idsession}); {% endverbatim %}
-			   			$http.get(link).
-					  	success(function(data, status, headers, config) {
-						    $scope.session=data;
-						    $scope.loading = false;
-					  	}).
-					 	error(function(data, status, headers, config) { });
-					}
-				});
+				
 
 
 
@@ -157,6 +122,5 @@
 
  			</script>
 
-		</div>
 
 	{% endblock %} 
