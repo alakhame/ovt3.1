@@ -1,4 +1,4 @@
-{% extends "OVTFrontEndProviderBundle:Provider:index.html.twig" %}
+{% extends "OVTFrontEndClientBundle:Client:index.html.twig" %}
 {% block links %}
 	{{parent()}}
 	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
@@ -12,7 +12,7 @@
 	<div ng-app="OVTApp" ng-controller="sessionsCtrl" data-ng-init="init()" >
 		<div class="cadre" id="tableDemandes" >
 			<div class="gestion_title">
-				<p  > Gestion des demandes 
+				<p  > Gestion des réservations
 				 </p>
 				
 			</div>
@@ -36,14 +36,14 @@
 					<table class="tableSessions">
 						<thead>
 							<td>...</td>
-							<td>Demandeur</td>
+							<td>Prestataire</td>
 							<td>Date de la réservation</td>
 							<td>Intitulé</td> 
 							<td>Heure de début</td>
 							<td>Heure de fin</td>
 						</thead>
 						<tbody>
-								{{render(controller('OVTFrontEndProviderBundle:Provider:getSessionsByState',{state:'TO_CONFIRM'})) }}
+								{{render(controller('OVTFrontEndClientBundle:Client:getSessionsByState',{state:'TO_CONFIRM'})) }}
 						</tbody>
 					</table>
 				</div>
@@ -52,14 +52,14 @@
 					<table class="tableSessions">
 						<thead>
 							<td>...</td>
-							<td>Demandeur</td>
+							<td>Prestataire</td>
 							<td>Date de la réservation</td>
 							<td>Intitulé</td> 
 							<td>Heure de début</td>
 							<td>Heure de fin</td>
 						</thead>
 						<tbody>
-								{{render(controller('OVTFrontEndProviderBundle:Provider:getSessionsByState',{state:'ACCEPTED'})) }}
+								{{render(controller('OVTFrontEndClientBundle:Client:getSessionsByState',{state:'ACCEPTED'})) }}
 						</tbody>
 					</table>
 				</div>
@@ -68,14 +68,14 @@
 					<table class="tableSessions">
 						<thead>
 							<td>...</td>
-							<td>Demandeur</td>
+							<td>Prestataire</td>
 							<td>Date de la réservation</td>
 							<td>Intitulé</td> 
 							<td>Heure de début</td>
 							<td>Heure de fin</td>
 						</thead>
 						<tbody>
-								{{render(controller('OVTFrontEndProviderBundle:Provider:getSessionsByState',{state:'CANCELED'})) }}
+								{{render(controller('OVTFrontEndClientBundle:Client:getSessionsByState',{state:'CANCELED'})) }}
 						</tbody>
 					</table>
 				</div>
@@ -84,14 +84,14 @@
 					<table class="tableSessions">
 						<thead>
 							<td>...</td>
-							<td>Demandeur</td>
+							<td>Prestataire</td>
 							<td>Date de la réservation</td>
 							<td>Intitulé</td> 
 							<td>Heure de début</td>
 							<td>Heure de fin</td>
 						</thead>
 						<tbody>
-								{{render(controller('OVTFrontEndProviderBundle:Provider:getSessionsByState',{state:'REFUSED'})) }}
+								{{render(controller('OVTFrontEndClientBundle:Client:getSessionsByState',{state:'REFUSED'})) }}
 						</tbody>
 					</table>
 				</div>
@@ -109,11 +109,8 @@
 				<div id="apercuATraiter" ng-show="!firstload && atraiterFlag && !loading">
 					<div class="buttonTabs"  >
 						<div >
-							<input  ng-click="accept(session.id)"  class="submitButtton"  value="ACCEPTER"></input>
-						</div>
-						<div >
-							<input  ng-click="refuse(session.id)" ng-click="" class="submitButtton" value="REFUSER"></input>
-						</div>
+							<input  ng-click="cancel(session.id)"  class="submitButtton"  value="ANNULER"></input>
+						</div>	
 						
 					</div><br/>
 					<div  >
@@ -139,17 +136,11 @@
 				<div id="apercuPlanifiees" ng-show="!firstload && planifieesFlag && !loading">
 					<div class="buttonTabs"  >
 						<div >
-							<input  ng-click="modify(session.id)"  class="submitButtton"  value="MODIFIER"></input>
-						</div>
-						<div >
-							<input  ng-click="refuse(session.id)"  class="submitButtton"  value="REFUSER"></input>
-						</div>
-						<div >
 							<input  ng-click="cancel(session.id)"  class="submitButtton"  value="ANNULER"></input>
-						</div>					
+						</div> 					
 					</div><br/>
 					<div  >
-						Session refusée
+						Session programmée
 					</div><br/>
 					<div class="detailsSessions" style="width:500px" >
 						{% verbatim %}
@@ -198,10 +189,7 @@
 					<div class="buttonTabs"  >
 						<div >
 							<input  ng-click="delete(session.id)"  class="submitButtton"  value="SUPPRIMER"></input>
-						</div>
-						<div >
-							<input  ng-click="restaure(session.id)"  class="submitButtton"  value="RESTAURER"></input>
-						</div>					
+						</div> 				
 					</div><br/>
 					<div  >
 						Session refusée
@@ -253,7 +241,7 @@
 			$scope.setSelectedSession= function(idsession){
 				$scope.firstload=false;
 				$scope.loading = true;
-	   			{% verbatim %} var link=Routing.generate('ovt_front_end_admin_provider_get_session_by_id', {id:idsession}); {% endverbatim %}
+	   			{% verbatim %} var link=Routing.generate('ovt_front_end_admin_client_get_session_by_id', {id:idsession}); {% endverbatim %}
 	   			$http.get(link).
 			  	success(function(data, status, headers, config) {
 				    $scope.session=data;
@@ -295,60 +283,8 @@
 				$scope.firstload=true;
 			}
 
-			$scope.refuse = function(idsession){
-	   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_action_session',{action:'refuse'});
-	   			{% endverbatim %}
-				$scope.loading = true;
-				var confirmation = confirm("Voulez vraiment refuser cette réunion ?");
-				if(confirmation){
-					$http({
-					    method: 'POST',
-					    url: link,
-					    data: "idSession="+idsession,
-					    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-					}).
-					success(function(data, status, headers, config) {
-				  		alert("Refus mené avec succès ! ");
-				     	$window.location.href=Routing.generate('ovt_front_end_provider_my_sessions'); 
-				  	}).
-				  	error(function(data, status, headers, config) {
-				    	alert("Refus échoué !"+data);
-				    	$scope.loading = false;
-				  	});
-				  	
-				}else {
-					$scope.loading = false;
-				}
-	   		}
-
-	   		$scope.accept = function(idsession){
-	   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_action_session',{action:'accept'});
-	   			{% endverbatim %}
-				$scope.loading = true;
-				var confirmation = confirm("Voulez vraiment refuser cette réunion ?");
-				if(confirmation){
-					$http({
-					    method: 'POST',
-					    url: link,
-					    data: "idSession="+idsession,
-					    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-					}).
-					success(function(data, status, headers, config) {
-				  		alert("Acceptation menée avec succès ! ");
-				     	$window.location.href=Routing.generate('ovt_front_end_provider_my_sessions'); 
-				  	}).
-				  	error(function(data, status, headers, config) {
-				    	alert("Acceptation échouée !"+data);
-				    	$scope.loading = false;
-				  	});
-				  	
-				}else {
-					$scope.loading = false;
-				}
-	   		}
-
 	   		$scope.delete = function(idsession){
-	   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_action_session',{action:'delete'});
+	   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_client_action_session',{action:'delete'});
 	   			{% endverbatim %}
 				$scope.loading = true;
 				var confirmation = confirm("Voulez vraiment supprimer cette réunion ?");
@@ -361,7 +297,7 @@
 					}).
 					success(function(data, status, headers, config) {
 				  		alert("Suppression menée avec succès ! ");
-				     	$window.location.href=Routing.generate('ovt_front_end_provider_my_sessions'); 
+				     	$window.location.href=Routing.generate('ovt_front_end_client_list_sessions'); 
 				  	}).
 				  	error(function(data, status, headers, config) {
 				    	alert("Suppression  échouée !"+data);
@@ -373,34 +309,10 @@
 				}
 	   		}
 
-	   		$scope.restaure = function(idsession){
-	   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_action_session',{action:'restaure'});
-	   			{% endverbatim %}
-				$scope.loading = true;
-				var confirmation = confirm("Voulez vraiment restaurer cette réunion ?");
-				if(confirmation){
-					$http({
-					    method: 'POST',
-					    url: link,
-					    data: "idSession="+idsession,
-					    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-					}).
-					success(function(data, status, headers, config) {
-				  		alert("Restauration menée avec succès ! ");
-				     	$window.location.href=Routing.generate('ovt_front_end_provider_my_sessions'); 
-				  	}).
-				  	error(function(data, status, headers, config) {
-				    	alert("Restauration  échouée !"+data);
-				    	$scope.loading = false;
-				  	});
-				  	
-				}else {
-					$scope.loading = false;
-				}
-	   		}
+	   		 
 
 	   		$scope.cancel = function(idsession){
-	   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_action_session',{action:'cancel'});
+	   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_client_action_session',{action:'cancel'});
 	   			{% endverbatim %}
 				$scope.loading = true;
 				var confirmation = confirm("Voulez vraiment annuler cette réunion ?");
@@ -413,7 +325,7 @@
 					}).
 					success(function(data, status, headers, config) {
 				  		alert("Annulation menée avec succès ! ");
-				     	$window.location.href=Routing.generate('ovt_front_end_provider_my_sessions'); 
+				     	$window.location.href=Routing.generate('ovt_front_end_client_list_sessions'); 
 				  	}).
 				  	error(function(data, status, headers, config) {
 				    	alert("Annulation  échouée !"+data);

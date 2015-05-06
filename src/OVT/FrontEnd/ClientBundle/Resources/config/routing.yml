@@ -1,7 +1,119 @@
 ovt_front_end_client_homepage:
     path:     /
-    defaults: { _controller: OVTFrontEndClientBundle:FrontClient:index }
+    defaults: { _controller: OVTFrontEndClientBundle:Client:index }
+
+ovt_front_end_client_profile:
+    path:     /profile/view
+    defaults: { _controller: OVTFrontEndClientBundle:Client:profileView }
+
+ovt_front_end_client_session_new:
+    path:     /new/session
+    defaults: { _controller: OVTFrontEndClientBundle:Client:addSession }
+    options:
+        expose: true
+    requirements:
+        _method: POST
+
+ovt_front_end_client_calendar:
+    path:     /calendar/{idClient}
+    defaults: { _controller: OVTFrontEndClientBundle:Client:calendarView, idClient:-1, coreCalendar:-1 }
+
+ovt_front_end_client_authorized_services:
+    path:     /getAllowedServices/{orgID}
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:authorizedServices, orgID:-1 }
+    options:
+        expose: true
+
+ovt_front_end_client_retrieve_client_sessions:
+    path: /myreservations/{idClient}
+    defaults: { _controller: OVTFrontEndClientBundle:Client:retrieveClientSessions}
+    options:
+        expose: true
+    requirements:
+        _method: GET
+
+ovt_front_end_client_list_sessions:
+    path:     /listsessions
+    defaults: { _controller: OVTFrontEndClientBundle:Client:listSessions }
+    options:
+        expose: true
+
+
+
+
+
+
 
 ovt_front_end_admin_client_homepage:
-    path:     /admin
-    defaults: { _controller: OVTFrontEndClientBundle:FrontClient:index }
+    path:     /adminclient
+    defaults: { _controller: OVTFrontEndClientBundle:Client:index }
+
+ovt_front_end_admin_client_get_session_by_id:
+    path: /adminclient/session/{id}
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:getSessionById}
+    options:
+        expose: true
+
+ovt_front_end_admin_client_action_session:
+    path: /adminclient/{action}/session
+    defaults: { _controller:  OVTFrontEndClientBundle:ClientAdmin:updateStateSession}
+    options:
+        expose: true
+    requirements:
+        _method: POST
+
+ovt_front_end_admin_client_users:
+    path:     /adminclient/users
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:users }
+    options:
+        expose: true
+
+ovt_front_end_admin_client_get_user_by_id:
+    path: /adminclient/user/{id}
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:getClientById}
+    options:
+        expose: true
+
+ovt_front_end_admin_client_get_json_groups_by_admin:
+    path: /adminclient/groups/json
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:renderJSONClientServiceGroups }
+    options:
+        expose: true
+
+ovt_front_end_admin_client_delete_user_by_id:
+    path: /adminclient/delete/user
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:deleteUserById}
+    options:
+        expose: true
+    requirements:
+        _method: POST
+
+ovt_front_end_admin_client_set_user_group:
+    path: /adminclient/setgroup/user
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:setGroupUser}
+    options:
+        expose: true
+    requirements:
+        _method: POST
+
+ovt_front_end_admin_client_update_user:
+    path: /adminclient/update/user
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:updateClient}
+    options:
+        expose: true
+    requirements:
+        _method: POST
+
+ovt_front_end_admin_client_new_user:
+    path: /adminclient/new/user
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:addNewClient }
+    options:
+        expose: true
+    requirements:
+        _method: POST
+
+
+
+ovt_front_end_admin_client_test:
+    path:   /test
+    defaults: {_controller: OVTFrontEndClientBundle:ClientAdmin:test}

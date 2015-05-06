@@ -47,7 +47,7 @@ class Providerservicegroup
 
 
     /**
-     * @var \User
+     * @var OVT\GeneralBundle\Entity\Organisation
      *
      * @ORM\ManyToOne(targetEntity="OVT\GeneralBundle\Entity\Organisation")
      * @ORM\JoinColumns({

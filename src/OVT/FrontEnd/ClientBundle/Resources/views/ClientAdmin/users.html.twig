@@ -1,4 +1,4 @@
-{% extends "OVTFrontEndProviderBundle:ProviderAdmin:index.html.twig" %}
+{% extends "OVTFrontEndClientBundle:ClientAdmin:index.html.twig" %}
 {% block links %}
 	{{parent()}}
 	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
@@ -13,14 +13,14 @@
 
 		<div class="cadre"  ng-app="OVTApp" ng-controller="userCtrl" data-ng-init="init()" >
 			<div class="gestion_title">
-				<p>Gestion des employés prestataires  </p>
+				<p>Gestion des utilisateurs clients  </p>
 			</div>
 			<div id="inside_cadre">
 				<div class="list">
 					<div class="list_border">
 						<div class="entete">
 							<label for="tri"> Trier Par : </label>
-							<select name="choix_tri" > 
+							<select name="choix_tri" style="width: 50px;" > 
 							</select>
 						</div>
 						<br/>
@@ -28,7 +28,7 @@
 						<div class="user_list" >
 							 <div>
 								<ul class="listservices">
-								{% for s in workers %}
+								{% for s in clients %}
 									<div class="listserviceli" ng-click="actionClick({{s.id}})">
 										<li >{{s.firstname ~" "~s.lastname}}</li>
 										<input 	type="hidden" value="{{s.id}}" ></input>
@@ -38,14 +38,7 @@
 							</div>
 						</div>
 
-					</div>
-
-					<div class="new_user"  >
-						<a href="{{path('ovt_front_end_admin_provider_new_worker')}}">
-							<img width="16px" height="16px"  src="{{asset('ress/img/add.png')}}">
-							Nouveau 
-						</a>
-					</div>
+					</div> 
 
 				</div> <!-- end list -->
 				<div class="infos">
@@ -54,13 +47,13 @@
 							<input ng-click="toUpdate()"  class="submitButtton" ng-value="modifyText"></input>
 						</div>
 						<div >
-							<input ng-click="toDelete(workerSelected.id)"  class="submitButtton" value="Supprimer"></input>
+							<input ng-click="toDelete(clientSelected.id)"  class="submitButtton" value="Supprimer"></input>
 						</div>
 						<div >
-							<input ng-click="seePlaning(workerSelected.id)"  class="submitButtton" value="Voir Planing"></input>
+							<input ng-click="seePlaning(clientSelected.id)"  class="submitButtton" value="Voir Planing"></input>
 						</div>
 						<div >
-							<select  ng-change="setGroup(workerSelected.id)"  class="submitButtton" ng-model="selectedGroup" ng-options="group as group.name for group in groups  track by group.id" >
+							<select  ng-change="setGroup(clientSelected.id)"  class="submitButtton" ng-model="selectedGroup" ng-options="group as group.name for group in groups  track by group.id" >
 								<option value="" disabled>Affecter à un groupe</option>
 
 							</select>
@@ -73,7 +66,7 @@
 						<div class="user_infos">
 
 							<div   ng-show="planingFlag" >
-								<div id="workerCalendar"></div>
+								<div id="clientCalendar"></div>
 
 							</div>
 
@@ -82,47 +75,48 @@
 								<div  ng-hide="loading  " id="clientInfo" >
 									<div ng-hide="firstload || modifyFlag || newFlag || planingFlag ">
 										{% verbatim %}
-											<h5> Nom : {{workerSelected.user.lastname}}</h5>
-											<h5> Prénom : {{workerSelected.user.firstname}} </h5>
-											<h5> Email : {{workerSelected.user.email}}</h5>
-											<h5> Adresse : {{workerSelected.user.address}}</h5>
-											<h5> Numéro de Téléphone : {{workerSelected.user.phoneNumber}} </h5>
-											<h5> Langue : {{workerSelected.langue}} </h5>
-											<h5> Groupe : {{workerSelected.group}} </h5>
+											<h5> Nom : {{clientSelected.user.lastname}}</h5>
+											<h5> Prénom : {{clientSelected.user.firstname}} </h5>
+											<h5> Email : {{clientSelected.user.email}}</h5>
+											<h5> Adresse : {{clientSelected.user.address}}</h5>
+											<h5> Numéro de Téléphone : {{clientSelected.user.phoneNumber}} </h5>
+											<h5> Langue : {{clientSelected.langue}} </h5>
+											<h5> Groupe : {{clientSelected.group}} </h5>
+											<h5> Equipements : {{clientSelected.equipments}} </h5>
 										{% endverbatim %}
 									</div>
 
 									<div ng-show="modifyFlag">
-										<form action="{{path('ovt_front_end_admin_provider_update_worker')}}" method="post">
+										<form action="{{path('ovt_front_end_admin_client_update_user')}}" method="post">
 											{% verbatim %}
 									 		<table>
 									 			<tbody>
 									 				<tr>
 									 					<td><label for="lastName" > Nom </label>
-												 		<td><input style="width:150px" type="text" name="lastName" ng-value="workerSelected.user.lastname"></input></td> <br/>
+												 		<td><input style="width:150px" type="text" name="lastName" ng-value="clientSelected.user.lastname"></input></td> <br/>
 												 	</tr>
 												 	<tr>
 									 					<td><label for="firstName" > Prénom </label>
-												 		<td><input style="width:150px" type="text" name="firstName" ng-value="workerSelected.user.firstname"></input></td> <br/>
+												 		<td><input style="width:150px" type="text" name="firstName" ng-value="clientSelected.user.firstname"></input></td> <br/>
 												 	</tr>
 												 	<tr>
 									 					<td><label for="email" > Email : </label>
-												 		<td><input style="width:150px" type="text" name="email" ng-value="workerSelected.user.email"></input></td> <br/>
+												 		<td><input style="width:150px" type="text" name="email" ng-value="clientSelected.user.email"></input></td> <br/>
 												 	</tr>
 												 	<tr>
 									 					<td><label for="address" > Adresse : </label>
-												 		<td><input style="width:150px" type="text" name="address" ng-value="workerSelected.user.address"></input></td> <br/>
+												 		<td><input style="width:150px" type="text" name="address" ng-value="clientSelected.user.address"></input></td> <br/>
 												 	</tr>
 												 	<tr>
 									 					<td><label for="phoneNumber" >Numéro de téléphone : </label>
-												 		<td><input style="width:150px" type="text" name="phoneNumber" ng-value="workerSelected.user.phoneNumber"></input></td> <br/>
+												 		<td><input style="width:150px" type="text" name="phoneNumber" ng-value="clientSelected.user.phoneNumber"></input></td> <br/>
 												 	</tr>
 													<tr>
 									 					<td><label for="role" > Type </label>
 									 						
 												 		<td>
 												 			<select style="width:150px" type="text" name="role"  >
-																<option value="ROLE_WORKER" selected> Employé Prestataire</option>
+																<option value="ROLE_CLIENT" selected> Utilisateur Client</option>
 												 			</select>
 												 		</td> 
 												 	</tr>
@@ -137,6 +131,15 @@
 												 		</td>  
 												 	</tr> 
 												 	<tr>
+									 					<td><label for="equipments" > Equipements </label>
+									 						
+												 		<td>
+												 			<input style="width:150px"   name="equipments" ng-value="clientSelected.equipments" > 
+												 				
+												 			</input>
+												 		</td>  
+												 	</tr> 
+												 	<tr>
 									 					<td><label for="password" > Mot de passe : </label>
 												 		<td><input style="width:150px" type="password" name="password" placeholder="Mot de passe"></input></td> <br/>
 												 	</tr>
@@ -147,8 +150,8 @@
 												 	</tr>
 												</tbody>
 											</table>
-											<input type="hidden" name="workerID" ng-value="workerSelected.id"></input>
-											<input type="hidden" name="userType" value="worker"></input>
+											<input type="hidden" name="clientID" ng-value="clientSelected.id"></input>
+											<input type="hidden" name="userType" value="client"></input>
 											<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Modifer"> 
 											</input>
 											{% endverbatim %}
@@ -157,7 +160,7 @@
 
 
 									<div ng-show="newFlag" class="addForm" >
-										{% include 'OVTFrontEndProviderBundle:ProviderAdmin:addWorker2.html.twig' %}
+										{% include 'OVTFrontEndClientBundle:ClientAdmin:addClient.html.twig' %}
 									</div> <!-- end form div -->
 
 								</div>
@@ -180,10 +183,10 @@
 							$scope.modifyFlag=false;
 							$scope.planingFlag=false;
 							$scope.newFlag=false;
-							$scope.actionClick(28);
+							$scope.actionClick(35);
 							//get groups
 				   			{% verbatim %} 
-				   				var link=Routing.generate('ovt_front_end_admin_provider_get_json_groups_by_admin'); {% endverbatim %}
+				   				var link=Routing.generate('ovt_front_end_admin_client_get_json_groups_by_admin'); {% endverbatim %}
 				   			$http.get(link).
 						  	success(function(data, status, headers, config) {
 							    $scope.groups=data;
@@ -194,17 +197,17 @@
 						}
 
 
-						$scope.actionClick= function (idworker) {
+						$scope.actionClick= function (idclient) {
 							if($scope.modifyFlag) $scope.toUpdate();
 				   			if($scope.newFlag) $scope.new();
 				   			if($scope.planingFlag)$scope.planingFlag =false;
 							$scope.firstload=false;
 							$scope.loading = true;
 				   			{% verbatim %} 
-				   				var link=Routing.generate('ovt_front_end_admin_provider_get_worker_by_id', {id:idworker}); {% endverbatim %}
+				   				var link=Routing.generate('ovt_front_end_admin_client_get_user_by_id', {id:idclient}); {% endverbatim %}
 				   			$http.get(link).
 						  	success(function(data, status, headers, config) {
-							    $scope.workerSelected=data;
+							    $scope.clientSelected=data;
 							    $scope.loading = false;
 
 						  	}).
@@ -212,8 +215,8 @@
 
 				   		}
 
-				   		$scope.toDelete = function(idworker){
-				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_delete_worker_by_id');
+				   		$scope.toDelete = function(idclient){
+				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_client_delete_user_by_id');
 				   			{% endverbatim %}
 							$scope.loading = true;
 							var confirmation = confirm("Voulez vraiment SUPPRIMER cet utilisaeur ?");
@@ -221,12 +224,12 @@
 								$http({
 								    method: 'POST',
 								    url: link,
-								    data: "idWorker="+idworker,
+								    data: "idClient="+idclient,
 								    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 								}).
 								success(function(data, status, headers, config) {
 							  		alert("Suppression menée avec succès ! ");
-							     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_worker'); 
+							     	$window.location.href=Routing.generate('ovt_front_end_admin_client_users'); 
 							  	}).
 							  	error(function(data, status, headers, config) {
 							    	alert("Suppression échouée !"+data);
@@ -245,8 +248,8 @@
 				   			if($scope.newFlag) $scope.new();
 				   		}
 
-				   		$scope.setGroup= function(idworker){
-				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_set_worker_group');
+				   		$scope.setGroup= function(idclient){
+				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_client_set_user_group');
 				   			{% endverbatim %}
 							$scope.loading = true;
 							var confirmation = confirm("Voulez vous affecter ce groupe à cet utilisateur ?");
@@ -254,12 +257,12 @@
 								$http({
 								    method: 'POST',
 								    url: link,
-								    data: "idWorker="+idworker+"&idGroup="+$scope.selectedGroup.id,
+								    data: "idClient="+idclient+"&idGroup="+$scope.selectedGroup.id,
 								    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 								}).
 								success(function(data, status, headers, config) {
 							  		alert("Affectation menée avec succès ! ");
-							     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_worker'); 
+							     	$window.location.href=Routing.generate('ovt_front_end_admin_client_users'); 
 							  	}).
 							  	error(function(data, status, headers, config) {
 							    	alert("Affectation échouée !"+data);

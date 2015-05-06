@@ -1,0 +1,57 @@
+<div class="menu_complet">
+	<div id="menu_title">
+		<p id="p1">Menu
+	</div>
+	
+	<div id="menu_compo">
+
+		<div class="box">
+			<div id="p4" class="box-title"> Mes reservations</div>
+			<br/>
+				<ul class="list-unstyled" >
+					<li class="menuItem"><img src="{{asset('ress/img/calendar.png')}}"  >
+						<a   href="{{path('ovt_front_end_client_calendar')}}"> Mon agenda</a>
+					</li>
+					<li class="menuItem"><img src="{{asset('ress/img/gestiondemande.png')}} ">
+						<a   href="{{path('ovt_front_end_client_list_sessions')}}"> Mes reservations</a>
+					</li>
+					<li class="menuItem"><img src="{{asset('ress/img/published.png')}}" >
+						<a   href=""> Mes documents</a>
+					</li>
+
+				</ul>
+		</div>
+		<hr/>
+		<div class="box">
+			<div id="p5" class="box-title">Gestion Admininstrateur</div>
+			<br/>
+				<ul class="list-unstyled">
+					<li class="menuItem"><img src="{{asset('ress/img/calendar.png')}}"  >
+						<a   href="{{path('ovt_front_end_admin_client_users')}}"> Utilisateurs </a>
+					</li>
+
+					<li class="menuItem"><img src="{{asset('ress/img/archive.png')}}"  >
+						<a   href="{{path('ovt_front_end_admin_provider_group')}}"> Groupes</a>
+					</li>
+ 
+				</ul>
+		</div>
+
+		<hr/>
+
+		<div class="box">
+			<div id="p44" class="box-title"> Mon compte </div>
+			<br/>
+				<ul class="list-unstyled">
+					<li class="menuItem"><img src="{{asset('ress/img/mesinfo.png')}}"  >
+						<a    href="{{path('ovt_front_end_client_profile')}}"  > Mes informations</a>
+					</li>
+					<li class="menuItem"><img src="{{asset('ress/img/MdP2.png')}} ">
+						<a   href=""> Changer de mot de passe </a>
+					</li> 
+
+				</ul>
+		</div>
+		
+	</div>
+</div>

@@ -42,10 +42,7 @@ class ProviderAdminController extends Controller
 		return new Response(count($adminProvider->getSessionsToAffect()));
     }
 
-    public function profileViewAction(){
-        $user= $this->container->get('security.context')->getToken()->getUser();
-        return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:profile.html.twig',array('user'=>$user));
-    }
+   
 
     public function renderProviderGroupsAction(){
         $response="";

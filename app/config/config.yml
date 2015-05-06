@@ -81,6 +81,9 @@ fos_user:
             type: createAdmin
 
 services:
+    clientadmin:
+        class:        OVT\FrontEnd\ClientBundle\Entity\ClientAdmin
+        arguments: ["@doctrine.orm.entity_manager"]
     provideradmin:
         class:        OVT\FrontEnd\ProviderBundle\Entity\ProviderAdmin
         arguments: ["@doctrine.orm.entity_manager"]

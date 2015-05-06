@@ -59,7 +59,7 @@ class UserInfosController extends Controller
 			return $this->redirect($this->generateUrl('ovt_front_end_provider_homepage'));
         		
 		}
-		else if(in_array('ROLE_COM_ADMIN', $roles)){
+		else if(in_array('ROLE_COM_CLIENT', $roles)){
 			return $this->redirect($this->generateUrl('ovt_front_end_admin_client_homepage'));
         		
 		}

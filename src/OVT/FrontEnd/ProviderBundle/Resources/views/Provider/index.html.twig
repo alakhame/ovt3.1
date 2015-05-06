@@ -1,1 +1,19 @@
-Hello {{ name }}!
+{% extends "::profileLayout.twig.html" %}
+
+{% block links %}
+	{{parent()}}
+	<link rel="stylesheet" href="{{asset('ress/css/navigation_menu.css')}}" />
+{% endblock %}
+
+{% block mainContainer %}
+	{% block userBar %}
+		{{parent()}}
+	{% endblock %}
+	
+	{% block menu %}
+		{% include "OVTFrontEndProviderBundle:Provider:menu.html.twig" %}
+	{% endblock %}
+
+	{% block container %}
+	{% endblock %} 
+{% endblock %}

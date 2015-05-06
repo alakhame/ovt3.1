@@ -1,4 +1,4 @@
-<div class="menu_complet">
+a<div class="menu_complet">
 	<div id="menu_title">
 		<p id="p1">Menu
 	</div>
@@ -10,14 +10,16 @@
 			<br/>
 				<ul>
 					<li class="menuItem"><img src="{{asset('ress/img/published.png')}}"  >
-						<a   href=""> Demandes en attente (--nb--)</a>
+						<a   href="{{path('ovt_front_end_provider_my_sessions')}}" > Demandes en attente 
+							({{render(controller('OVTFrontEndProviderBundle:ProviderAdmin:getWaitingSessions'))}})
+						</a>
 					</li>
 					<li class="menuItem"><img src="{{asset('ress/img/calendar.png')}}"  >
-						<a   href=""> Mon planning</a>
+						<a   href="{{path('ovt_front_end_provider_calendar')}}"> Mon planning</a>
 					</li>
 
 					<li class="menuItem"><img src="{{asset('ress/img/archive.png')}}"  >
-						<a   href=""> Mes archives</a>
+						<a   href="{{path('ovt_front_end_provider_archives')}}"> Mes archives</a>
 					</li>
 					
 				</ul>
@@ -30,7 +32,7 @@
 			<br/>
 				<ul>
 					<li class="menuItem"><img src="{{asset('ress/img/mesinfo.png')}}"  >
-						<a   href=""> Mes informations</a>
+						<a   href="{{path('ovt_front_end_provider_profile')}}" > Mes informations</a>
 					</li>
 					<li class="menuItem"><img src="{{asset('ress/img/MdP2.png')}} ">
 						<a   href=""> Changer de mot de passe </a>

@@ -57,6 +57,19 @@ class Clientservicegroup
      */
     private $organisation;
 
+
+
+    /**
+     * @var OVT\GeneralBundle\Entity\Organisation
+     *
+     * @ORM\ManyToOne(targetEntity="OVT\GeneralBundle\Entity\Organisation")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="owner", referencedColumnName="id")
+     * })
+     */
+    private $orgClientOwner;
+
+
     /**
      * Constructor
      */
@@ -65,6 +78,29 @@ class Clientservicegroup
         $this->organisation = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
+     /**
+     * Set orgClientOwner
+     *
+     * @param \OVT\GeneralBundle\Entity\Organisation $org
+     * @return Providerservicegroup
+     */
+    public function setOrgClientOwner(\OVT\GeneralBundle\Entity\Organisation $org = null)
+    {
+        $this->orgClientOwner = $org;
+    
+        return $this;
+    }
+
+    /**
+     * Get orgClientOwner
+     *
+     * @return \OVT\GeneralBundle\Entity\Organisation 
+     */
+    public function getOrgClientOwner()
+    {
+        return $this->orgClientOwner;
+    }
 
     /**
      * Get id

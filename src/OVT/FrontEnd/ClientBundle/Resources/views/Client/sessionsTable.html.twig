@@ -1,0 +1,14 @@
+{% for s in sessions %}
+	<tr ng-click="setSelectedSession({{s.id}})">
+		<td>...</td>
+		{% if s.worker!=null %}
+			<td>{{s.worker.user.firstname~" "~s.worker.user.lastname}}</td>
+		{% else %}
+			<td>NONE</td>
+		{% endif %}
+		<td>{{s.requestdate|date('d/m/y H:i:s')}}</td>
+		<td>{{s.title}}</td>
+		<td>{{s.starttime|date('d/m/y H:i:s')}}</td>
+		<td>{{s.endtime|date('d/m/y H:i:s')}}</td>
+	<tr>
+{% endfor %}

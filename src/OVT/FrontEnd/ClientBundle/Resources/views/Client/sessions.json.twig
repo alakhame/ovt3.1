@@ -1,0 +1,83 @@
+{% set 
+	colors={
+		'REFUSED':'#FD5C32',
+		'TO_CONFIRM':'#9696DC',
+		'CANCELED':'#F69999',
+		'ACCEPTED':'#C5F6AD',
+		'TERMINATED':'#F0E646',
+		'DELETED':'#D2D2D2'
+	} 
+%}
+
+
+[
+{% for s in sessions %}
+	{% if loop.last %}
+		{
+			"id":"{{s.id}}", 
+			"title":"{{s.title}}", 
+			"description":"{{s.description}}" , 
+			"start":"{{s.startTime|date('Y-m-d H:i:s')}}" , 
+			"end":"{{s.endTime|date('Y-m-d H:i:s')}}", 
+			"startTime":"{{s.startTime|date('Y-m-d H:i:s')}}" , 
+			"endTime":"{{s.endTime|date('Y-m-d H:i:s')}}", 
+			"requestDate":"{{s.requestdate|date('Y-m-d H:i:s')}}", 
+			"type":"{{s.type}}",
+			"client":"{{s.client.user.firstname ~" "~s.client.user.lastname}}",
+			"allday":"false",
+			"borderColor":"#5173DA",
+			"color":"{{ attribute(colors, s.state) }}",
+			"textColor":"#000000",
+			{% if s.state!="DELETED"  %}
+				"link":"{{s.link}}",
+			{% else %}
+				"link":"",
+			{% endif %}
+			{% if s.worker!=null %}
+				"woker":"{{s.worker.user.firstname~" "~s.worker.user.lastname}}",
+			{% else %}
+				"worker" : "NONE",
+			{% endif %}
+			"state":"{{s.state}}",
+			{% if s.service!=null %}
+				"service":"{{s.service.name}}"
+			{% else %}
+				"service": "NONE"
+			{% endif %}
+		}
+	{% else %}
+		{
+			"id":"{{s.id}}", 
+			"title":"{{s.title}}", 
+			"description":"{{s.description}}" , 
+			"start":"{{s.startTime|date('Y-m-d H:i:s')}}" , 
+			"end":"{{s.endTime|date('Y-m-d H:i:s')}}", 
+			"startTime":"{{s.startTime|date('Y-m-d H:i:s')}}" , 
+			"endTime":"{{s.endTime|date('Y-m-d H:i:s')}}", 
+			"requestDate":"{{s.requestdate|date('Y-m-d H:i:s')}}", 
+			"type":"{{s.type}}",
+			"client":"{{s.client.user.firstname ~" "~s.client.user.lastname}}",
+			"allday":"false",
+			"borderColor":"#5173DA",
+			"color":"{{ attribute(colors, s.state) }}",
+			"textColor":"#000000",
+			{% if s.state!="DELETED"  %}
+				"link":"{{s.link}}",
+			{% else %}
+				"link":"",
+			{% endif %}
+			{% if s.worker!=null %}
+				"woker":"{{s.worker.user.firstname~" "~s.worker.user.lastname}}",
+			{% else %}
+				"worker" : "NONE",
+			{% endif %}
+			"state":"{{s.state}}",
+			{% if s.service!=null %}
+				"service":"{{s.service.name}}"
+			{% else %}
+				"service": "NONE"
+			{% endif %}
+		},
+	{% endif %}
+{% endfor %}
+]

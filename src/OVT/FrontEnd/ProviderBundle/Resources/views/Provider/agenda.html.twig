@@ -1,4 +1,6 @@
-{% extends "OVTFrontEndProviderBundle:ProviderAdmin:index.html.twig" %}
+
+{% extends "OVTFrontEndProviderBundle:Provider:index.html.twig" %}
+
 {% block links %}
 	{{parent()}}
 	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
@@ -17,11 +19,12 @@
 	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 	
 {% endblock %}
+
 	{% block container %}
 
 		<div class="cadre"  ng-app="OVTApp" ng-controller="sessionsCtrl" data-ng-init="init()" >
 			<div class="gestion_title">
-				<p  > Planning des Sessions
+				<p  > Planning des Sessions 
 				 </p>
 				
 			</div>
@@ -78,9 +81,10 @@
  				}
 
 				$(document).ready(function() {
-					{% verbatim %} 
- 						var link=Routing.generate('ovt_front_end_provider_retrieve_affected_sessions_to_worker'); 
- 					{% endverbatim %}
+					var id ={{idWorker}};
+					//{% verbatim %}
+ 						var link=Routing.generate('ovt_front_end_provider_retrieve_affected_sessions_to_worker',{idWorker:id}); 
+ 					//{% endverbatim %}
 					$('#calendar').fullCalendar({
 						events: link,
 						header: {

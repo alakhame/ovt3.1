@@ -9,22 +9,26 @@ ovt_front_end_provider_my_sessions:
         expose: true
 
 ovt_front_end_provider_calendar:
-    path:     /calendar
-    defaults: { _controller: OVTFrontEndProviderBundle:Provider:calendarView }
+    path:     /calendar/{idWorker}
+    defaults: { _controller: OVTFrontEndProviderBundle:Provider:calendarView, idWorker:-1, coreCalendar:-1 }
 
 ovt_front_end_provider_archives:
     path:     /archives
     defaults: { _controller: OVTFrontEndProviderBundle:Provider:archivesView }
 
 ovt_front_end_provider_retrieve_affected_sessions_to_worker:
-    path: /myaffectedsessions
+    path: /myaffectedsessions/{idWorker}
     defaults: { _controller: OVTFrontEndProviderBundle:Provider:retrieveAffectedSessions}
     options:
         expose: true
     requirements:
         _method: GET
 
-
+ovt_front_end_provider_profile:
+    path: /profile/view
+    defaults: { _controller: OVTFrontEndProviderBundle:Provider:profileView }
+    requirements:
+        _method:  GET
 
 
 
@@ -54,11 +58,6 @@ ovt_front_end_admin_provider_group:
     options:
         expose: true
 
-ovt_front_end_admin_provider_profile:
-    path: /adminprovider/profile/view
-    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:profileView }
-    requirements:
-        _method:  GET
 
 ovt_front_end_admin_provider_new_worker:
     path: /adminprovider/new/worker
@@ -169,12 +168,11 @@ ovt_front_end_admin_provider_action_session:
         _method: POST
 
 ovt_front_end_admin_provider_worker_calendar:
-    path: /adminprovider/viewworkercalendar
-    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:viewWorkerCalendar}
+    path: /adminprovider/calendar/{idWorker}/{coreCalendar}
+    defaults: { _controller: OVTFrontEndProviderBundle:Provider:calendarView, idWorker:-1, coreCalendar:-1 }
     options:
         expose: true
-    requirements:
-        _method: POST
+
 
 ovt_front_end_provider_admin_retrieve_affected_sessions_to_worker:
     path: /adminprovider/worker/affectedSessions/{id}
@@ -183,6 +181,11 @@ ovt_front_end_provider_admin_retrieve_affected_sessions_to_worker:
         expose: true
     requirements:
         _method: GET
+
+
+
+
+
 
 test:
     path:     /testpro

@@ -1,0 +1,75 @@
+<form action="{{path('ovt_front_end_admin_client_new_user')}}" method="post">
+		<table>
+			<tbody>
+				<tr>
+					<td><label for="lastName" > Nom </label>
+		 		<td><input style="width:150px" type="text" name="lastName" placeholder="nom"></input></td> <br/>
+		 	</tr>
+		 	<tr>
+					<td><label for="firstName" > Prénom </label>
+		 		<td><input style="width:150px" type="text" name="firstName" placeholder="Prénom"></input></td> <br/>
+		 	</tr>
+		 	<tr>
+					<td><label for="email" > Email : </label>
+		 		<td><input style="width:150px" type="text" name="email" placeholder="email"></input></td> <br/>
+		 	</tr>
+		 	<tr>
+					<td><label for="address" > Adresse : </label>
+		 		<td><input style="width:150px" type="text" name="address" placeholder="adresse"></input></td> <br/>
+		 	</tr>
+		 	<tr>
+					<td><label for="phoneNumber" >Numéro de téléphone : </label>
+		 		<td><input style="width:150px" type="text" name="phoneNumber" placeholder="Numéro de téléphone"></input></td> <br/>
+		 	</tr>
+			<tr>
+					<td><label for="role" > Type </label>
+						
+		 		<td>
+		 			<select style="width:150px" type="text" name="role"  >
+						<option value="ROLE_CLIENT" selected> Utilisateur Client</option>
+		 			</select>
+		 		</td> 
+		 	</tr>
+		 	<tr>
+					<td><label for="language" > Langue </label>
+						
+		 		<td>
+		 			<select style="width:150px" type="text" name="language"  >
+						<option value="fr" selected> Français</option>
+		 				<option value="en" selected> Anglais</option>
+		 			</select>
+		 		</td>  
+		 	</tr>
+			<tr>
+				<td><label for="equipments" > Equipements </label>
+				<td>
+		 			<input style="width:150px"   name="equipments"  > 
+		 				
+		 			</input>
+		 		</td>  
+		 	</tr> 
+		 	<tr>
+					<td><label for="group" > Group </label>
+		
+		 		<td>
+		 			<select style="width:150px" type="text" name="group"  >
+						 {{render(controller('OVTFrontEndClientBundle:ClientAdmin:renderClientGroups'))}}
+		 			</select>
+		 		</td>  
+		 	</tr>
+		 	<tr>
+					<td><label for="password" > Mot de passe : </label>
+		 		<td><input style="width:150px" type="password" name="password" placeholder="password"></input></td> <br/>
+		 	</tr>
+		 	<tr>
+					<td><label for="confirmPassword" >Confirmer Mot de passe : </label>
+		 		<td><input style="width:150px" type="password" name="confirmPassword" placeholder="Resaisir mot de passe ici"></input></td> <br/>
+		 	</tr>
+		 	</tr>
+		</tbody>
+	</table>
+	<input type="hidden" name="userType" value="client"></input>
+	<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Ajouter"> 
+	</input>
+	
+</form>

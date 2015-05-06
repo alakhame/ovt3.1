@@ -10,10 +10,10 @@
 			<br/>
 				<ul>
 					<li class="menuItem"><img src="{{asset('ress/img/calendar.png')}}"  >
-						<a   href=""> Mon agenda</a>
+						<a   href="{{path('ovt_front_end_client_calendar')}}"> Mon agenda</a>
 					</li>
 					<li class="menuItem"><img src="{{asset('ress/img/gestiondemande.png')}} ">
-						<a   href=""> Mes demandes</a>
+						<a   href="{{path('ovt_front_end_client_list_sessions')}}"> Mes reservations</a>
 					</li>
 					<li class="menuItem"><img src="{{asset('ress/img/published.png')}}" >
 						<a   href=""> Mes documents</a>
@@ -29,7 +29,7 @@
 			<br/>
 				<ul>
 					<li class="menuItem"><img src="{{asset('ress/img/mesinfo.png')}}"  >
-						<a   href=""> Mes informations</a>
+						<a    href="{{path('ovt_front_end_client_profile')}}"  > Mes informations</a>
 					</li>
 					<li class="menuItem"><img src="{{asset('ress/img/MdP2.png')}} ">
 						<a   href=""> Changer de mot de passe </a>

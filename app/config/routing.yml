@@ -35,7 +35,7 @@ ovtapi_web_rtc:
 
 ovt_front_end_provider:
     resource: "@OVTFrontEndProviderBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /provider
 
 ovt_front_end_client:
     resource: "@OVTFrontEndClientBundle/Resources/config/routing.yml"
