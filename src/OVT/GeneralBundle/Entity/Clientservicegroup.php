@@ -79,6 +79,11 @@ class Clientservicegroup
     }
 
 
+     public function initializeOrganisation()
+    {
+        $this->organisation = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
      /**
      * Set orgClientOwner
      *

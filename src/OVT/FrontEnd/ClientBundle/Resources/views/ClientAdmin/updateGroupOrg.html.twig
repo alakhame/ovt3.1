@@ -1,0 +1,101 @@
+{% extends "OVTFrontEndClientBundle:ClientAdmin:index.html.twig" %}
+{% block links %}
+	{{parent()}}
+	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+	<script src="{{asset('ress/js/angular.js')}}" > </script>
+	<script src="{{asset('ress/js/jquery.js')}}" > </script>
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	
+{% endblock %}
+	{% block container %}
+
+		<div class="cadre"  ng-app="OVTApp" ng-controller="groupCtrl" data-ng-init="init()"  >
+			<div class="gestion_title">
+				<p  >Gestion des groupes clients
+				 </p>
+				
+			</div>
+			<div id="inside_cadre">
+				<div class="list">
+					<div class="list_border">
+						<div class="entete">
+							<label for="tri"> Trier Par : </label>
+							<select name="choix_tri" > 
+							</select>
+						</div>
+						<br/>
+						
+						<div class="user_list" >
+							 <div>
+								<ul class="listservices"> 
+									<div class="listserviceli"  >
+										<li >{{g.name}}</li>
+										<input 	type="hidden" value="{{g.id}}" ></input>
+									</div>	 
+								</ul>
+							</div>
+						</div>
+					</div> 
+
+				</div>
+
+				<div class="infos">
+					 <h4> Modifier les prestataires concernés par le groupe </h4> <hr/>
+					
+					<div class="user_infos">
+						<div class="user_infos_border" style="float:left">
+							<img src="{{asset('ress/img/loader.gif')}}" ng-show="loading" id="loader">
+							<div  ng-hide="loading  " id="clientInfo" >
+								 
+								<div  >
+								  	<form method="post" action="{{path('ovt_front_end_admin_client_manage_org_group')}}">
+								  		{% for p in prestas  %}
+								  			<input name="checkbox_prestas[]" value="{{p.id}}" type="checkbox" 
+								  			{% if p  in selectedPrestas %}
+								  				checked
+								  			{% endif %}>{{p.name}}</input><br/>
+								  		{% endfor %}
+								  		<br/><br/>
+								  		<div    > 
+								  				<input type="hidden" name="idGroup" value ="{{g.id}}" ></input>
+												<input type="submit" value ="Mettre à jour" ></input>
+										</div>
+								  	</form>
+								</div>
+								 
+							</div>
+						</div>
+
+					</div>
+
+				</div> <!-- end infos -->
+
+			</div>
+ 			
+ 			<script type="text/javascript">
+
+ 				var app = angular.module('OVTApp', []);
+				
+				app.controller('groupCtrl', function($scope,$http,$location,$window) {
+					$scope.init = function (){
+						$scope.loading = false;
+						$scope.firstload=true;
+						$scope.modifyText="Modifier";
+						$scope.newText="Nouveau";
+						$scope.gererText="Gérer Prestataires";
+						$scope.modifyFlag=false;
+						$scope.gererFlag=false;
+						$scope.newFlag=false;
+						 
+						
+					}
+					
+					 
+				});
+
+ 			</script>
+
+		</div>
+
+	{% endblock %} 

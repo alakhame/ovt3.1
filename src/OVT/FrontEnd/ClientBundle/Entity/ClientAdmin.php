@@ -4,6 +4,7 @@ namespace OVT\FrontEnd\ClientBundle\Entity;
 use OVT\UserBundle\Entity\User ;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Bundle\DoctrineBundle\Registry as Registry;
+use OVT\GeneralBundle\Entity\Document ;
  
 class ClientAdmin extends User  
 {
@@ -39,7 +40,14 @@ class ClientAdmin extends User
     }
 
     public function createSession($session){
+        $doc = new Document();
+        $doc->setCreationDate(new \DateTime('now'));
+        $doc->setLastModificationDate(new \DateTime('now'));
+        
+        $session->setDocument($doc);
+        
         $this->em->persist($session);
+        $this->em->persist($doc);
         $this->em->flush();
     }
 
@@ -144,4 +152,19 @@ class ClientAdmin extends User
         return $this->em->getRepository('OVTGeneralBundle:Clientservicegroup')->find($id);
     }
 
+    public function deleteGroupById($groupID){
+        $group=$this->getGroupById($groupID);
+        $this->em->remove($group);
+        $this->em->flush();
+    }
+
+    public function create($foo){
+        $this->em->persist($foo);
+        $this->em->flush();
+    }
+
+    public function getAllPrestas(){
+        $criteria=array("type"=>"provider");
+        return $this->em->getRepository('OVTGeneralBundle:Organisation')->findBy($criteria);
+    }
 }

@@ -17,7 +17,7 @@
 			</div>
 			<div id="inside_cadre">
 				<div class="list">
-					<div class="list_border">
+					<div class="list_border" style="float:left;width: auto;">
 						<div class="entete">
 							<label for="tri"> Trier Par : </label>
 							<select name="choix_tri" style="width: 50px;" > 
@@ -41,7 +41,11 @@
 					</div> 
 
 				</div> <!-- end list -->
-				<div class="infos">
+							<div class="infos"  ng-show="planingFlag"  >
+								<div id="clientCalendar"></div>
+
+							</div>
+				<div class="infos"  ng-hide="planingFlag">
 					<div class="buttonTabs"  >
 						<div >
 							<input ng-click="toUpdate()"  class="submitButtton" ng-value="modifyText"></input>
@@ -63,13 +67,11 @@
 						</div>
 						
 					</div>
-						<div class="user_infos">
+					
 
-							<div   ng-show="planingFlag" >
-								<div id="clientCalendar"></div>
+						<div class="user_infos"  >
 
-							</div>
-
+							
 							<div class="user_infos_border" style="float:left">
 								<img src="{{asset('ress/img/loader.gif')}}" ng-show="loading" id="loader">
 								<div  ng-hide="loading  " id="clientInfo" >
@@ -274,22 +276,17 @@
 							}
 				   		}
 
-				   		$scope.seePlaning= function(idworker){
+				   		$scope.seePlaning= function(idclient){
 			   				if($scope.modifyFlag) $scope.toUpdate();
 			   				if($scope.newFlag) $scope.new();
 							{% verbatim %}
-				   				var link=Routing.generate('ovt_front_end_admin_provider_worker_calendar',{idWorker:idworker,coreCalendar:1});
+				   				var link=Routing.generate('ovt_front_end_client_calendar',{idClient:idclient,coreCalendar:1});
 				   			{% endverbatim %}
 							$scope.loading = true;
-							$http({
-							    method: 'POST',
-							    url: link,
-							    data: "idWorker="+idworker,
-							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-							}).
+							$http.get(link).
 							success(function(data, status, headers, config) {
 						  		$scope.loading = false;
-						     	$('#workerCalendar').html(data);
+						     	$('#clientCalendar').html(data);
 						     	$scope.planingFlag=true;
 						  	}).
 						  	error(function(data, status, headers, config) {
@@ -298,7 +295,7 @@
 			   									 
 				   		}
 				   		
-				   		$scope.new= function(idworker){
+				   		$scope.new= function(idclient){
 				   			$scope.newFlag=!$scope.newFlag;
 				   			$scope.newText=$scope.newFlag?"Retour":"Nouveau";
 				   			if($scope.modifyFlag) $scope.toUpdate();

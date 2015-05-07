@@ -15,7 +15,7 @@ class Session
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=true)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,28 +24,28 @@ class Session
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255, nullable=false)
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="duration", type="time", nullable=false)
+     * @ORM\Column(name="duration", type="time", nullable=true)
      */
     private $duration;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     * @ORM\Column(name="password", type="string", length=255, nullable=true)
      */
     private $password;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="link", type="string", length=255, nullable=false)
+     * @ORM\Column(name="link", type="string", length=255, nullable=true)
      */
     private $link;
 
@@ -58,6 +58,16 @@ class Session
      * })
      */
     private $worker;
+
+    /**
+     * @var \Document
+     *
+     * @ORM\ManyToOne(targetEntity="Document")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="document", referencedColumnName="id")
+     * })
+     */
+    private $document;
 
     /**
      * @var \Reservation
@@ -123,37 +133,37 @@ class Session
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
     private $description;
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="requestDate", type="datetime", nullable=false)
+     * @ORM\Column(name="requestDate", type="datetime", nullable=true)
      */
     private $requestdate;
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="startTime", type="datetime", nullable=false)
+     * @ORM\Column(name="startTime", type="datetime", nullable=true)
      */
     private $starttime;
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="endTime", type="datetime", nullable=false)
+     * @ORM\Column(name="endTime", type="datetime", nullable=true)
      */
     private $endtime;
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=255, nullable=false)
+     * @ORM\Column(name="state", type="string", length=255, nullable=true)
      */
     private $state;
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=255, nullable=false)
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
      */
     private $type;
 
@@ -295,6 +305,30 @@ class Session
     public function getWorker()
     {
         return $this->worker;
+    }
+
+
+     /**
+     * Set Document
+     *
+     * @param \OVT\GeneralBundle\Entity\Document $document
+     * @return Session
+     */
+    public function setDocument(\OVT\GeneralBundle\Entity\Document $document = null)
+    {
+        $this->document = $document;
+    
+        return $this;
+    }
+
+    /**
+     * Get document
+     *
+     * @return \OVT\GeneralBundle\Entity\Document 
+     */
+    public function getDocument()
+    {
+        return $this->document;
     }
 
     /**

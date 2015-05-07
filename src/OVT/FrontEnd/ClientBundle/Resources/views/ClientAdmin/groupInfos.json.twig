@@ -1,0 +1,15 @@
+{
+	"id"			:	"{{g.id}}", 
+	"name"			: 	"{{g.name}}", 
+	"description"	:	"{{g.description}}" , 
+	"moneyLimit"	:	"{{g.moneylimit}}",
+	"groupPrestas"	: [
+		{% for org in g.organisation %}
+			{% if loop.last %}
+				{"id":"{{org.id}}","name":"{{org.name}}" }
+			{% else %}
+				{"id":"{{org.id}}","name":"{{org.name}}" },
+			{% endif %}
+		{% endfor %}
+	]	 
+}

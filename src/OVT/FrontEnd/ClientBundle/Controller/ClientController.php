@@ -93,11 +93,11 @@ class ClientController extends Controller
         return $this->render('OVTFrontEndClientBundle:Client:sessionsTable.html.twig', array('sessions' =>$sessions ));
     }
 
-    public function calendarViewAction($idClient,$coreCalendar)
+    public function calendarViewAction(Request $req, $idClient,$coreCalendar)
     {
-        if($coreCalendar!=-1)
+        if($req->get('coreCalendar')!=-1){ 
             return $this->render('OVTFrontEndClientBundle:Client:agendaCore.html.twig',array('idClient'=>$idClient));
-        else {
+        } else {
             if(!$this->isAdmin()){
                return $this->render('OVTFrontEndClientBundle:Client:agenda.html.twig',array('idClient'=>$idClient));
             

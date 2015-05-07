@@ -1,0 +1,243 @@
+{% extends "OVTFrontEndClientBundle:ClientAdmin:index.html.twig" %}
+{% block links %}
+	{{parent()}}
+	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+	<script src="{{asset('ress/js/angular.js')}}" > </script>
+	<script src="{{asset('ress/js/jquery.js')}}" > </script>
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	
+{% endblock %}
+	{% block container %}
+
+		<div class="cadre"  ng-app="OVTApp" ng-controller="groupCtrl" data-ng-init="init()"  >
+			<div class="gestion_title">
+				<p  >Gestion des groupes clients
+				 </p>
+				
+			</div>
+			<div id="inside_cadre">
+				<div class="list">
+					<div class="list_border">
+						<div class="entete">
+							<label for="tri"> Trier Par : </label>
+							<select name="choix_tri" > 
+							</select>
+						</div>
+						<br/>
+						
+						<div class="user_list" >
+							 <div>
+								<ul class="listservices">
+								{% for g in groups %}
+									<div class="listserviceli" ng-click="actionClick({{g.id}})">
+										<li >{{g.name}}</li>
+										<input 	type="hidden" value="{{g.id}}" ></input>
+									</div>	
+								{% endfor %}
+								</ul>
+							</div>
+						</div>
+					</div> 
+
+				</div>
+
+				<div class="infos">
+					<div class="buttonTabs"  >
+						<div >
+							<input ng-click="toUpdate()"  class="submitButtton" ng-value="modifyText"></input>
+						</div>
+						<div >
+							<input ng-click="toDelete(group.id)"  class="submitButtton" value="Supprimer"></input>
+						</div>
+						<div >
+							<input ng-click="new()"  class="submitButtton" ng-value="newText"></input>
+						</div>
+						<div >
+							<input ng-click="manageOrg(group.id)"  class="submitButtton" ng-value="gererText"></input>
+						</div>
+					</div>
+					
+					<div class="user_infos">
+						<div class="user_infos_border" style="float:left">
+							<img src="{{asset('ress/img/loader.gif')}}" ng-show="loading" id="loader">
+							<div  ng-hide="loading  " id="clientInfo" >
+								<div ng-hide="firstload || modifyFlag || newFlag || gererFlag">
+
+									{% verbatim %}
+										<h5> Intitulé : {{group.name}} </h5>
+										<h5> Description :  {{group.description}} </h5>
+										<h5> Limite de facture :  {{group.moneyLimit}} </h5>
+										<h5 id="groupPrestas"> Prestataires Concernés :  
+											<ul>
+											  <li ng-repeat="org	in group.groupPrestas">
+											    {{ org.name }}
+											  </li>
+											</ul>
+										</h5>
+									{% endverbatim %}
+								</div>
+
+								<div ng-show="modifyFlag">
+									<form action="{{path('ovt_front_end_admin_client_update_group')}}" method="post">
+										{% verbatim %}
+								 		<table>
+								 			<tbody>
+								 				<tr>
+								 					<td><label for="name" > Intitulé </label>
+											 		<td><input style="width:150px" type="text" name="name" value="{{group.name}}"></input></td> <br/>
+											 	</tr>
+											 	<tr>
+								 					<td><label for="description" > Description </label>
+											 		<td><textarea style="width:150px" type="text" name="description" >{{group.description}}</textarea></td> <br/>
+											 	</tr>
+											 	
+											 	<tr>
+								 					<td><label for="moneyLimit" >Limite de facture</label>
+											 		<td>
+											 			<input style="width:150px"  name="moneyLimit"  ng-value="group.moneyLimit"> </input>
+											 		</td> <br/>
+											 	</tr>
+												
+											</tbody>
+										</table>
+										<input type="hidden" name="groupID" ng-value="group.id"></input>
+										<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Modifier"> 
+										</input>
+										{% endverbatim %}
+									</form>
+								</div>
+
+								<div ng-show="newFlag" class="addForm" >
+										<form action="{{path('ovt_front_end_admin_client_new_group')}}" method="post">
+										{% verbatim %}
+								 		<table>
+								 			<tbody>
+								 				<tr>
+								 					<td><label for="name" > Intitulé </label>
+											 		<td><input style="width:150px" type="text" name="name" ></input></td> <br/>
+											 	</tr>
+											 	<tr>
+								 					<td><label for="description" > Description </label>
+											 		<td><textarea style="width:150px" type="text" name="description" > </textarea></td> <br/>
+											 	</tr>
+											 	
+											 	<tr>
+								 					<td><label for="moneyLimit" >Limite de facture</label>
+											 		<td>
+											 			<input style="width:150px"  name="moneyLimit"   > </input>
+											 		</td> <br/>
+											 	</tr>
+												
+											</tbody>
+										</table>
+										<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Nouveau Groupe"> 
+										</input>
+										{% endverbatim %}
+									</form>
+								</div>
+
+								 
+								 
+							</div>
+						</div>
+
+					</div>
+
+				</div> <!-- end infos -->
+
+			</div>
+ 			
+ 			<script type="text/javascript">
+
+ 				var app = angular.module('OVTApp', []);
+				
+				app.controller('groupCtrl', function($scope,$http,$location,$window) {
+					$scope.init = function (){
+						$scope.loading = false;
+						$scope.firstload=true;
+						$scope.modifyText="Modifier";
+						$scope.newText="Nouveau";
+						$scope.gererText="Gérer Prestataires";
+						$scope.modifyFlag=false;
+						$scope.gererFlag=false;
+						$scope.newFlag=false;
+						{% verbatim %} 
+							var link=Routing.generate('ovt_front_end_admin_provider_get_services_json');
+			   			{% endverbatim %}
+			   			$http.get(link).
+					  	success(function(data, status, headers, config) {
+						    $scope.services=data;
+						    $scope.loading = false;
+					  	}).
+					 	error(function(data, status, headers, config) { });
+					 	$scope.actionClick(1);
+						
+					}
+					
+					$scope.actionClick= function (idgroup) {
+						$scope.firstload=false;
+						$scope.loading = true;
+			   			{% verbatim %} var link=Routing.generate('ovt_front_end_admin_client_get_group_by_id', {id:idgroup}); 
+			   			{% endverbatim %}
+			   			$http.get(link).
+					  	success(function(data, status, headers, config) {
+						    $scope.group=data;
+						    //document.getElementById('prestaGroup')..innerHTML=$scope.group.prestaGroup;
+						    $scope.loading = false;
+
+					  	}).
+					 	error(function(data, status, headers, config) { });
+			   		}
+
+			   		$scope.toUpdate = function (){
+			   			$scope.modifyFlag=!$scope.modifyFlag;
+				   		$scope.modifyText=$scope.modifyFlag?"Retour":"Modifier";
+				   		if($scope.newFlag) $scope.new();
+				   		if($scope.gererFlag) $scope.manageOrg();
+			   		}
+
+			   		$scope.toDelete= function (idgroup){
+			   			{% verbatim %}
+			   				var link=Routing.generate('ovt_front_end_admin_client_delete_group_by_id');
+			   			{% endverbatim %}
+						$scope.loading = true;
+						var confirmation = confirm("Voulez vraiment supprimer ce groupe ?");
+						if(confirmation){
+							$http({
+							    method: 'POST',
+							    url: link,
+							    data: "idGroup="+idgroup,
+							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+							}).
+							success(function(data, status, headers, config) {
+						  		alert("supression menée avec succès ! ");
+						     	$window.location.href=Routing.generate('ovt_front_end_admin_client_group'); 
+						  	}).
+						  	error(function(data, status, headers, config) {
+						    	alert("supression échouée !"+data);
+						    	$scope.loading = false;
+						  	});
+						  	
+						}else {
+							$scope.loading = false;
+						}
+
+			   		}
+
+			   		$scope.new= function(  ){
+			   			$scope.newFlag=!$scope.newFlag;
+			   			$scope.newText=$scope.newFlag?"Retour":"Nouveau";
+			   			if($scope.modifyFlag) $scope.toUpdate();
+			   			if($scope.gererFlag) $scope.manageOrg();
+			   		}
+			   		$scope.manageOrg= function(idgroup ){
+			   			$window.location.href=Routing.generate('ovt_front_end_admin_client_manage_org_group',{id:idgroup});
+			   		}
+				});
+
+ 			</script>
+
+		</div>
+
+	{% endblock %} 

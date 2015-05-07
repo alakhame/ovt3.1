@@ -239,10 +239,89 @@ class ClientAdminController extends Controller
     } 
 
 
+    public function groupAction(){
+        $adminClient=$this->get('clientadmin'); 
+        $admin= $this->container->get('security.context')->getToken()->getUser();
+        $groups=$adminClient->retrieveGroups($admin);
+        return $this->render('OVTFrontEndClientBundle:ClientAdmin:groups.html.twig',array('groups'=>$groups));
+    }
+
+    public function getGroupByIdAction($id){
+        $adminClient=$this->get('clientadmin'); 
+        $group=$adminClient->getGroupById($id);
+        return $this->render('OVTFrontEndClientBundle:ClientAdmin:groupInfos.json.twig',array('g'=>$group));
+    }
 
 
+    public function deleteGroupByIdAction(Request $request){
+        $groupID=$request->request->get('idGroup');
+        $adminClient=$this->get('clientadmin'); 
+        $adminClient->deleteGroupById($groupID);
+        return new Response("OK!");
+    }
+
+    public  function updateGroupAction (Request $request){
+        $adminClient=$this->get('clientadmin'); 
+        $req=$request->request;
+        $group=$adminClient->getGroupById($req->get('groupID'));
+
+        $group->setName($req->get('name'));
+        $group->setDescription($req->get('description'));
+        $group->setMoneyLimit($req->get('moneyLimit'));
+
+        $adminClient->update();
+        $referer = $request->headers->get('referer');
+
+        return $this->redirect($referer);
+    }
+
+    public function addNewGroupAction(Request $request ){
+        $adminClient=$this->get('clientadmin');  
+        $admin= $this->container->get('security.context')->getToken()->getUser();
+
+        $group = new Clientservicegroup();
+        $group->setName($request->request->get('name'));
+        $group->setDescription($request->request->get('description'));
+        $group->setMoneyLimit($request->request->get('moneyLimit'));
+        $group->setOrgClientOwner($admin->getOrganisation());
+
+        $adminClient->create($group);
+        $referer = $request->headers->get('referer');
+
+        return $this->redirect($referer);
+    }
 
 
+    public function manageOrgGroupAction(Request $request, $id){
+        $adminClient=$this->get('clientadmin'); 
+        
+
+        if($request->getMethod()=="GET"){
+            $group=$adminClient->getGroupById($id);
+            $selectedPrestas=$group->getOrganisation();
+            $prestas=$adminClient->getAllPrestas();return $this->render('OVTFrontEndClientBundle:ClientAdmin:updateGroupOrg.html.twig',
+            array('g'=>$group,'prestas'=>$prestas,'selectedPrestas'=>$selectedPrestas));
+        }
+
+       
+        $group=$adminClient->getGroupById($request->request->get('idGroup'));
+        $checkedOrgs = $request->request->get('checkbox_prestas');
+        $group->initializeOrganisation( );
+        //return new Response(var_dump($checkedOrgs));
+        if(!empty($checkedOrgs)){
+            $n=count($checkedOrgs);
+            for($i=0; $i <$n; $i++)
+            {
+                $choosedOrg=$adminClient->getOrganisationById($checkedOrgs[$i]);
+                $group->addOrganisation($choosedOrg);
+            }
+        }
+
+        $adminClient->update();
+
+        return $this->groupAction();
+
+    }
 
 
 

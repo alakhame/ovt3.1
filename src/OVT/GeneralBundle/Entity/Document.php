@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Document
  *
- * @ORM\Table(name="document", indexes={@ORM\Index(name="sessionID", columns={"sessionID"})})
+ * @ORM\Table(name="document" )
  * @ORM\Entity
  */
 class Document
@@ -20,37 +20,27 @@ class Document
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+ 
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="content", type="text",   nullable=true)
      */
-    private $name;
+    private $content;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     * @ORM\Column(name="creationDate", type="datetime", nullable=false)
      */
-    private $description;
-
+    private $creationDate;
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="link", type="string", length=255, nullable=false)
+     * @ORM\Column(name="lastModificationDate", type="datetime", nullable=false)
      */
-    private $link;
-
-    /**
-     * @var \Service
-     *
-     * @ORM\ManyToOne(targetEntity="Service")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sessionID", referencedColumnName="id")
-     * })
-     */
-    private $sessionid;
+    private $lastModificationDate;
 
 
 
@@ -64,95 +54,73 @@ class Document
         return $this->id;
     }
 
+    
     /**
-     * Set name
+     * Set content
      *
-     * @param string $name
+     * @param string $content
      * @return Document
      */
-    public function setName($name)
+    public function setContent($content)
     {
-        $this->name = $name;
+        $this->content = $content;
     
         return $this;
     }
 
     /**
-     * Get name
+     * Get content
      *
      * @return string 
      */
-    public function getName()
+    public function getContent()
     {
-        return $this->name;
+        return $this->content;
     }
 
     /**
-     * Set description
+     * Set creationDate
      *
-     * @param string $description
-     * @return Document
+     * @param \DateTime $creationDate
+     * @return Reservation
      */
-    public function setDescription($description)
+    public function setCreationDate($creationDate)
     {
-        $this->description = $description;
+        $this->creationDate = $creationDate;
     
         return $this;
     }
-
     /**
-     * Get description
+     * Get creationDate
      *
-     * @return string 
+     * @return \DateTime 
      */
-    public function getDescription()
+    public function getCreationDate()
     {
-        return $this->description;
+        return $this->creationDate;
     }
-
+    
     /**
-     * Set link
+     * Set lastModificationDate
      *
-     * @param string $link
-     * @return Document
+     * @param \DateTime $lastModificationDate
+     * @return Reservation
      */
-    public function setLink($link)
+    public function setLastModificationDate($lastModificationDate)
     {
-        $this->link = $link;
+        $this->lastModificationDate = $lastModificationDate;
     
         return $this;
     }
-
     /**
-     * Get link
+     * Get lastModificationDate
      *
-     * @return string 
+     * @return \DateTime 
      */
-    public function getLink()
+    public function getLastModificationDate()
     {
-        return $this->link;
+        return $this->lastModificationDate;
     }
 
-    /**
-     * Set sessionid
-     *
-     * @param \OVT\GeneralBundle\Entity\Service $sessionid
-     * @return Document
-     */
-    public function setSessionid(\OVT\GeneralBundle\Entity\Service $sessionid = null)
-    {
-        $this->sessionid = $sessionid;
-    
-        return $this;
-    }
-
-    /**
-     * Get sessionid
-     *
-     * @return \OVT\GeneralBundle\Entity\Service 
-     */
-    public function getSessionid()
-    {
-        return $this->sessionid;
-    }
+  
 }

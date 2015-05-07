@@ -17,6 +17,8 @@ ovt_front_end_client_session_new:
 ovt_front_end_client_calendar:
     path:     /calendar/{idClient}
     defaults: { _controller: OVTFrontEndClientBundle:Client:calendarView, idClient:-1, coreCalendar:-1 }
+    options:
+        expose: true
 
 ovt_front_end_client_authorized_services:
     path:     /getAllowedServices/{orgID}
@@ -111,6 +113,55 @@ ovt_front_end_admin_client_new_user:
         expose: true
     requirements:
         _method: POST
+
+ovt_front_end_admin_client_group:
+    path:     /adminclient/group
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:group }
+    options:
+        expose: true
+
+
+ovt_front_end_admin_client_get_group_by_id:
+    path: /adminclient/group/{id}
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:getGroupById }
+    options:
+        expose: true
+    requirements:
+        id : \d+
+
+ovt_front_end_admin_client_delete_group_by_id:
+    path: /adminclient/delete/group
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:deleteGroupById}
+    options:
+        expose: true
+    requirements:
+        _method: POST
+
+ovt_front_end_admin_client_update_group:
+    path: /adminclient/update/group
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:updateGroup}
+    options:
+        expose: true
+    requirements:
+        _method: POST
+
+
+ovt_front_end_admin_client_new_group:
+    path: /adminclient/new/group
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:addNewGroup }
+    options:
+        expose: true
+    requirements:
+        _method:  POST
+
+ovt_front_end_admin_client_manage_org_group:
+    path: /adminclient/group/manageOrg/{id}
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:manageOrgGroup, id:-1 }
+    options:
+        expose: true
+    requirements:
+        id : \d+
+
 
 
 
