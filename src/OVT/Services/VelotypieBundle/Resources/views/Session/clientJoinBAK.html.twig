@@ -90,30 +90,9 @@
 
         <script type="text/javascript" src="{{asset('ress/js/jquery.caret.js')}}"></script>
         <script type="text/javascript" src="{{asset('ress/js/jquery.selection.js')}}"></script>
-        <script type="text/javascript" src="{{asset('ress/js/socket.js')}}"></script>
+
         <script type="text/javascript"   > 
-
-            var app = angular.module('OVTApp', ['btford.socket-io']);
-            
-            app.factory('clientSocket', function (socketFactory) {
-               return socketFactory({ 
-                    ioSocket: io.connect('localhost:9090',{'sync disconnect on unload': true })
-                  });
-            }).
-            controller('velotypieClientCtrl', function(clientSocket,$scope,$http,$location,$window) {
-                alert(clientSocket);
-                var dataConnect={userID:"{{user.id}}",saloon:"{{link}}"};
-                clientSocket.on("connect", function(){
-                    clientSocket.emit('letMeJoin',dataConnect);
-                });
-                $scope.init = function (){
-                    
-                    
-                }
-            });
-
-
-            /*$('#pseudo').text('client');
+            $('#pseudo').text('client');
             $('#allkeys').html('');
 
             function deleteBackWards(textCantainer, position, nbChars){
@@ -148,7 +127,13 @@
             });
 
              socket.on('deletingChar', function(data){
-               
+               /* 
+                var content = $('#ttarea textarea').text();
+                var pos=data.position;
+                var left=content.substring(0,pos-1);
+                var right=content.substring(pos,content.length);
+                
+                $('#ttarea textarea').text(left+right);*/
                 deleteBackWards($('#ttarea textarea'),data.position,1);
             });
 
@@ -163,13 +148,20 @@
 
             socket.on('workerDisconnected', function(data){
                 $('#ttarea').css("border"," 5px inset red");
-            });*/
+            });
          </script> 
         
         <!--- ****************************** SEPARATOR *************************  -->
         
         <script type="text/javascript">
-           
+            var app = angular.module('OVTApp', []);
+            
+            app.controller('velotypieClientCtrl', function($scope,$http,$location,$window) {
+                $scope.init = function (){
+                    
+                    
+                }
+            });
 
         </script>
 
