@@ -14,6 +14,16 @@ ovt_front_end_client_session_new:
     requirements:
         _method: POST
 
+ovt_front_end_client_document:
+    path:     /document
+    defaults: { _controller: OVTFrontEndClientBundle:Client:documentView }
+
+ovt_front_end_admin_client_get_pdf_document_by_id:
+    path: /document/getpdf/{idSession}
+    defaults: { _controller: OVTFrontEndClientBundle:Client:getPDFBySessionId}
+    options:
+        expose: true
+
 ovt_front_end_client_calendar:
     path:     /calendar/{idClient}
     defaults: { _controller: OVTFrontEndClientBundle:Client:calendarView, idClient:-1, coreCalendar:-1 }

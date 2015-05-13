@@ -1,39 +1,42 @@
 <!doctype html>
 <html>
     <head>
-        <title>Session</title>
+        <title>Session</title> 
         <link rel="stylesheet" type="text/css" href="{{asset('ress/css/transcript.css')}}" />
         <link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" /> 
+        <script src="{{asset('ress/js/angular.js')}}" > </script>
         <script src="{{asset('ress/js/jquery.js')}}" > </script>
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
     </head>
     <body>
-        <div id="wrapper">
+        <div id="wrapper" ng-app="OVTApp" ng-controller="velotypieWorkerCtrl" data-ng-init="init()" >
             <div id="incomingText"  >
                 <div class="topDiv">
-                    Transcription
+                    Transcription  
                 </div>
                 <div id="styleMenu">
                     <div class="styleMenuDiv" id ="wideScreen" > 
                         <img src="{{asset('ress/img/full_screen.png')}}" height="42px" width="42px" /> 
                     </div>
                     <div class="styleMenuDiv">
-                        <select id="fontFamily">
-                            <option value="verdanna"> Verdanna </option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
+                        <select id="fontFamily">    
+                            <option selected="selected" disabled>--- Font Family Selector ---</option>
+                            <option>Arial</option>
+                            <option>Tahoma</option>
+                            <option>Times New Roman</option>
+                            <option>Verdana</option>
                         </select>
                     </div>
                     <div class="styleMenuDiv">
                         <select id="police">
-                            <option value="14"> 14 </option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
+                            <option selected="selected" disabled>--- Font Size Setter ---</option>
+                            <option value="12px"> 12px </option>
+                            <option value="14px">14px</option>
+                            <option value="16px">16px</option>
+                            <option value="18px">18px</option>
+                            <option value="24px">24px</option>
+                            <option value="30px">30px</option>
                         </select>
                     </div>
                     <div class="styleMenuDiv" id ="fontColor" >
@@ -54,17 +57,118 @@
 
                 </div>
                 <div id="ttarea">
-                    <textarea></textarea>
+                    <textarea ng-bind="textareaField" ></textarea>
                 </div>
             </div>
 
             <div id ="infoSession">
                 <div class="topDiv">
                     Details de la Session
-                </div>
-                <div class="detailsSession"> 
-                    <div id="pseudo">
-                    </div>
+                </div> 
+                <div class="detailsSession" style="overflow: scroll;"> 
+                    <table id="newtable" class="table table-bordered table-striped  "> 
+                        <tbody>
+                            <tr>
+                                <td colspan="0"> 
+                                    <div  >
+                                        Connecté en tant que :
+                                    </div>                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="0"> 
+                                    <div  >
+                                        {{user.firstName ~" "~user.lastName}}
+                                    </div>                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="0"> 
+                                    <div  >
+                                        Intitulé :
+                                    </div>                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="0"> 
+                                    <div  >
+                                        {{session.title}}
+                                    </div>                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="0"> 
+                                    <div  >
+                                        Organisateur :
+                                    </div>                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="0"> 
+                                    <div  >
+                                        {{session.client.user.firstName ~" "~session.client.user.lastName}}
+                                    </div>                                     
+                                </td>
+                            </tr>
+                             <tr>
+                                <td colspan="0"> 
+                                    <div  >
+                                        Transcripteur :
+                                    </div>                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="0"> 
+                                    <div  >
+                                        {{session.worker.user.firstName ~" "~session.worker.user.lastName}}
+                                    </div>                                     
+                                </td>
+                            </tr>
+                             <tr>
+                                <td colspan="0"> 
+                                    <div  >
+                                        Heure de début :
+                                    </div>                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="0"> 
+                                    <div  >
+                                        {{session.starttime|date('Y-m-d H:i:s') }}
+                                    </div>                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="0"> 
+                                    <div  >
+                                        Heure de fin :
+                                    </div>                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="0"> 
+                                    <div  >
+                                        {{session.endtime|date('Y-m-d H:i:s') }}
+                                    </div>                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="0"> 
+                                    <div  >
+                                        Détails supplémentaires :
+                                    </div>                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="0"> 
+                                    <textarea >
+                                        {{session.description }}
+                                    </textarea>                                     
+                                </td>
+                            </tr>
+                        </tbody>    
+                    </table>            
+                    
                 </div>
             </div>
 
@@ -74,8 +178,8 @@
                 </div>
                 <div id="msgBox"></div>
                 <div id="inputMsg">
-                    <input type="text"></input>
-                    <input type="submit" value="Envoyer"></input>
+                    <input type="text" id="chatField" class="col-md-9"></input>
+                    <input type="submit" id="chatSender" class="col-md-3"value="Envoyer"></input>
                 </div>
             </div>
         </div>
@@ -85,111 +189,229 @@
 
         <script type="text/javascript" src="{{asset('ress/js/jquery.caret.js')}}"></script>
         <script type="text/javascript" src="{{asset('ress/js/jquery.selection.js')}}"></script>
+        <script type="text/javascript" src="{{asset('ress/js/socket.js')}}"></script>
 
         <script type="text/javascript"   >   
-            $(function() {
-            $('#pseudo').text('worker');
-            $('#ttarea').css("border"," 5px inset red");
+          
+ 
+
+            var app = angular.module('OVTApp', ['btford.socket-io']);
             
-            var socket = io.connect('localhost:9090',{'sync disconnect on unload': true });
-            wordBuffer='';
+            app.factory('workerSocket', function (socketFactory) {
+               return socketFactory({ 
+                    ioSocket: io.connect('localhost:9090',{'sync disconnect on unload': true })
+                  });
+            }).
+            controller('velotypieWorkerCtrl', function(workerSocket,$scope,$http,$location,$window) {
+                
 
-            function sendData(text){
-                var data={'pseudo':$('#pseudo').text(), saloon:saloon , word: wordBuffer};
-                socket.emit('sendingWord', data);
-                wordBuffer='';
-            }
-
-            function validPrintable(keycode){
-                var valid = 
-                    (keycode > 47 && keycode < 58)   || // number keys
-                    keycode == 32 || keycode == 13   || // spacebar & return key(s) (if you want to allow carriage returns)
-                    (keycode > 64 && keycode < 91)   || // letter keys
-                    (keycode > 95 && keycode < 112)  || // numpad keys
-                    (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
-                    (keycode > 218 && keycode < 223);   // [\]' (in order)
-
-                return valid;
-            }
-            var saloon= "{{link}}"; 
-            var dataConnect={userID:"{{user.id}}",saloon:saloon};
-            socket.on("connect", function(){
-                socket.emit('letMeJoin',dataConnect);
-                $('#ttarea').css("border"," 5px inset green");
-            });
-
-            $( "#ttarea textarea" ).bind("keypress",function(e) {
-                var selectionLength=$('#ttarea textarea').selection().length;
-                if(selectionLength>1){
-                    //alert(selectionLength);
-                    data={'pseudo':$('#pseudo').text(), saloon:saloon, position :$('#ttarea textarea').caret(), nbChars:selectionLength};
-                    socket.to().emit('deletingString', data);
+                function sendChatMessage(data){
+                    $('#msgBox').append('<div  > <span class="spanBlue">Moi:  </span>'+decodeURIComponent(data.content)+'</div>');
+                    workerSocket.emit('newChatMessage',data);
+                    $('#chatField').val("");
                 }
-                        
-                var key=e.keyCode;
-                var pos =$('#ttarea textarea').caret();
-                var data={'pseudo':$('#pseudo').text(), saloon:saloon , character:String.fromCodePoint(e.which), position :pos};
-                socket.emit('sendingChar', data);
-               
-            });
 
-            $( "#ttarea textarea" ).bind("keydown",function(e) {
-                var key=e.keyCode;
-                var pos =$('#ttarea textarea').caret();
-                var data={'pseudo':$('#pseudo').text(), saloon:saloon , character:String.fromCodePoint(e.which), position :pos};
-                //alert($('#ttarea textarea').selection().length+' -- '+$('#ttarea textarea').caret());
-                var selectionLength=$('#ttarea textarea').selection().length;
-               
-                switch(key){
-                    case KeyCode.BACKSPACE :
-                        if(selectionLength>1){
-                           // alert(selectionLength);
-                            data={'pseudo':$('#pseudo').text(), saloon:saloon, position :pos, nbChars:selectionLength};
-                            socket.emit('deletingString', data);
-                        }else{
-                            data.position=data.position-1;
-                            socket.emit('deletingChar', data);
+                function initChatBox (){
+                    var link = Routing.generate('ovt_services_velotypie_API_get_chat_by_session_id',{sessionID:{{session.id}}});
+                    var chatMessages; 
+                    $http.get(link).
+                    success(function(data, status, headers, config) {
+                        chatMessages = data;
+                        for(var i = 0; i<chatMessages.length; i++ ){
+                        if(chatMessages[i].sender=={{session.worker.user.id}}){
+                            $('#msgBox').append('<div  > <span class="spanBlue">Moi :  </span>'+decodeURIComponent(chatMessages[i].content)+'</div>');
                         }
-                        break;
-                    case KeyCode.DEL:
-                        if(selectionLength>1){
-                            //alert(selectionLength);
-                            data={'pseudo':$('#pseudo').text(), saloon:saloon, position :pos, nbChars:selectionLength};
-                            socket.emit('deletingString', data);
-                        }else{
-                         socket.emit('deletingChar', data);
+                        else{
+                            $('#msgBox').append('<div> <span class="spanRed">Client :  </span>'+decodeURIComponent(chatMessages[i].content)+'</div>');
                         }
-                        break;
+                    }
+                    }).
+                    error(function(data, status, headers, config) { }); 
+                }            
+
+                function init(){  
+                    $('#ttarea').css("border"," 5px inset red");
+                    inactivity = 0; 
+                    wordBuffer='';
+                    saloon= "{{link}}"; 
+                    var link = Routing.generate('ovt_services_velotypie_API_get_content_by_id',{sessionID:{{session.id}}});
+                    $http.get(link).
+                    success(function(data, status, headers, config) {
+                         $scope.textareaField = data;
+
+                    }).
+                    error(function(data, status, headers, config) { });
+                   
+                    initChatBox ();
                 }
             
+                init();
+                
+                //////// handling incoming s
+                workerSocket.on("connect", function(){
+                    var dataConnect={userID:"{{user.id}}",saloon:saloon};
+                    workerSocket.emit('letMeJoin',dataConnect);
+                    $('#ttarea').css("border"," 5px inset green");
+                });
+
+                ////// CHAT HANDLER ///////////
+                workerSocket.on('newChatMessage', function(data){
+                    $('#msgBox').append('<div> <span class="spanRed">Client :  </span>'+decodeURIComponent(data.content)+'</div>');
+                });
+
+
+                ////// Handling events  ///////
+                $("#ttarea textarea" ).bind("keypress",function(e) {
+                    var selectionLength=$('#ttarea textarea').selection().length;
+                    if(selectionLength>1){
+                        data={'session':{{session.id}}, saloon:saloon, position :$('#ttarea textarea').caret(), nbChars:selectionLength};
+                        workerSocket.emit('deletingString', data); 
+                    }
+                            
+                    var key=e.keyCode;
+                    var pos =$('#ttarea textarea').caret();
+                    var data={'session':{{session.id}}, saloon:saloon , textString:encodeURIComponent(String.fromCodePoint(e.which)), character:String.fromCodePoint(e.which), position :pos};
+                    workerSocket.emit('sendingString', data);
+                    inactivity = 0;
+                   
+                });
+
+                $("#ttarea textarea" ).bind("keydown",function(e) {
+                    var key=e.keyCode;
+                    var pos =$('#ttarea textarea').caret();
+                    var data={'session':{{session.id}}, saloon:saloon , character:String.fromCodePoint(e.which), position :pos, nbChars:0};
+                    var selectionLength=$('#ttarea textarea').selection().length;
+                    switch(key){
+                        case KeyCode.BACKSPACE :
+                            if(selectionLength>0){
+                                alert(selectionLength);
+                                data={'session':{{session.id}}, saloon:saloon, position :pos, nbChars:selectionLength};
+                                workerSocket.emit('deletingString', data);
+                            }else{
+                                data.nbChars=1;
+                                data.position=data.position-1;
+                                workerSocket.emit('deletingString', data);
+                            }
+                            break;
+                        case KeyCode.DEL:
+                            if(selectionLength>0){
+                                alert(selectionLength);
+                                data={'session':{{session.id}}, saloon:saloon, position :pos, nbChars:selectionLength};
+                                workerSocket.emit('deletingString', data);
+                            }else{
+                                data.nbChars=1;
+                                workerSocket.emit('deletingString', data);
+                            }
+                            break;
+                    }
+                    inactivity = 0;
+                
+                }); 
+
+                $( "#ttarea textarea" ).bind("cut",function(e) {
+                    var selectionLength=$('#ttarea textarea').selection().length;
+                    if(selectionLength>0){
+                        //alert(selectionLength);
+                        data={'session':{{session.id}}, saloon:saloon, position :$('#ttarea textarea').caret(), nbChars:selectionLength};
+                        workerSocket.emit('deletingString', data);
+                    }
+                    inactivity = 0;
+                });
+
+                $( "#ttarea textarea" ).bind("paste",function(e) {
+                    //console.debug(e);
+                    var text =e.originalEvent.clipboardData.getData('text/plain');
+                    //alert(text);
+                    
+                    data={'session':{{session.id}}, saloon:saloon, position :$('#ttarea textarea').caret(), textString:text};
+                    workerSocket.emit('sendingString', data);
+                    inactivity = 0;
+                });
+
+
+
+
+                $('#chatSender').click(function(){
+                    data={
+                        saloon : "{{link}}",
+                        session:{{session.id}},
+                        sender : {{session.worker.user.id }},
+                        receiver : {{session.client.user.id}},
+                        content: encodeURIComponent($('#chatField').val()) 
+                    };
+                    sendChatMessage(data);
+                });
+                $('#chatField').bind("keydown", function(e){
+                    if(e.keyCode==KeyCode.RETURN){
+                        data={
+                            saloon : "{{link}}",
+                            session:{{session.id}},
+                            sender : {{session.worker.user.id }},
+                            receiver : {{session.client.user.id}},
+                            content: encodeURIComponent($('#chatField').val()) 
+                        };
+                        sendChatMessage(data);
+                    }
+                });
+
+
+                var heartBeat = function() {
+                    var presenceData={saloon:saloon};
+                     
+                    workerSocket.emit('presenceFrame',presenceData);
+                }
+                heartBeat(); 
+                var timer = setInterval(heartBeat   ,10000);
+
+
+                var updateDBContent = setInterval(function(){
+                        var content = $("#ttarea textarea").val() ;
+                        var link2 = Routing.generate('ovt_services_velotypie_API_add_content_by_id_bis',
+                        { sessionID:{{session.id}}, content: content});
+                        if(inactivity++ < 2)
+                            $.get(link2, function(data, status){
+                                console.log("updating db --- ");
+                            });
+
+                    },5000);
+
+                });
+
+
+
+
+            
+
+
+
+
+
+
+
+
+
+            ////////////////////////////////////
+ 
+        </script>
+        
+        <!--- ****************************** SEPARATOR *************************  -->
+        
+        <script type="text/javascript">
+            
+            // font family picker     
+            $('#fontFamily').change(function() {
+                $('#ttarea textarea').css('font-family',$(this).val());
             }); 
 
-            $( "#ttarea textarea" ).bind("cut",function(e) {
-                var selectionLength=$('#ttarea textarea').selection().length;
-                if(selectionLength>0){
-                    //alert(selectionLength);
-                    data={'pseudo':$('#pseudo').text(), saloon:saloon, position :$('#ttarea textarea').caret(), nbChars:selectionLength};
-                    socket.emit('deletingString', data);
-                }
-            });
+            // font size setter     
+            $('#police').change(function() { 
+                $('#ttarea textarea').css('font-size',$(this).val());
+            }); 
 
-            $( "#ttarea textarea" ).bind("paste",function(e) {
-                //console.debug(e);
-                var text =e.originalEvent.clipboardData.getData('text/plain');
-                //alert(text);
-                
-                data={'pseudo':$('#pseudo').text(), saloon:saloon, position :$('#ttarea textarea').caret(), textString:text};
-                socket.emit('sendingString', data);
-            });
 
-            var heartBeat = function() {
-                var presenceData={saloon:saloon};
-                //alert(presenceData.saloon);
-                socket.emit('presenceFrame',presenceData);
-            }
-            heartBeat(socket); 
-            var timer = setInterval(heartBeat   ,10000);
-        });
         </script>
+
+
+
     </body>
 </html>

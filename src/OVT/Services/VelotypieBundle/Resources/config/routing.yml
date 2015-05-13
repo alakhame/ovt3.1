@@ -3,3 +3,34 @@ ovt_services_velotypie_join:
     defaults: { _controller: OVTServicesVelotypieBundle:Session:join }
     options:
         expose: true
+
+ovt_services_velotypie_API_add_content_by_id:
+    path:     /API/session/addString/{sessionID}
+    defaults: { _controller: OVTServicesVelotypieBundle:ContentAPI:addString }
+    options:
+        expose: true
+
+ovt_services_velotypie_API_add_content_by_id_bis:
+    path:     /API/session/addStringBis/{sessionID}
+    defaults: { _controller: OVTServicesVelotypieBundle:ContentAPI:addStringBis }
+    options:
+        expose: true
+
+
+ovt_services_velotypie_API_get_content_by_id:
+    path:     /API/session/get/{sessionID}
+    defaults: { _controller: OVTServicesVelotypieBundle:ContentAPI:get }
+    options:
+        expose: true
+
+ovt_services_velotypie_API_add_chat_message:
+    path:     /API/chatmessage/add/new
+    defaults: { _controller: OVTServicesVelotypieBundle:ChatBox:addnewMessage }
+    options:
+        expose: true
+
+ovt_services_velotypie_API_get_chat_by_session_id:
+    path:     /API/chatmessage/get/{sessionID}
+    defaults: { _controller: OVTServicesVelotypieBundle:ChatBox:getChatBySession }
+    options:
+        expose: true

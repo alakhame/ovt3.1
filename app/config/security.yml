@@ -30,13 +30,14 @@ security:
                 target: /login
             anonymous:    true
 
-    access_control:
-        - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/client/, role: ROLE_CLIENT }
-#        - { path: ^/worker/, role: ROLE_WORKER }
-#        - { path: ^/accounting/, role: ROLE_ACCOUNTING }
-#        - { path: ^/provider_admin/, role: ROLE_PROVIDER_ADMIN }
-#        - { path: ^/super_admin/, role: ROLE_SUPER_ADMIN }
+    access_control: 
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/client$, role: ROLE_CLIENT }
+        - { path: ^/client/adminclient/session/, role: ROLE_CLIENT }
+        - { path: ^/client/adminclient, role: ROLE_COM_ADMIN }
+        - { path: ^/provider/, role: ROLE_WORKER }
+        - { path: ^/accounting/, role: ROLE_ACCOUNTING }
+        - { path: ^/provider/adminprovider/, role: ROLE_PROVIDER_ADMIN }
+        - { path: ^/superadmin, role: ROLE_SUPER_ADMIN }

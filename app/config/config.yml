@@ -90,7 +90,15 @@ services:
     superadmin:
         class:        OVT\BackEnd\AdminBundle\Entity\SuperAdmin
         arguments: ["@doctrine.orm.entity_manager"]
+    apihelper:
+        class:        OVT\Services\VelotypieBundle\Entity\ApiHelper
+        arguments: ["@doctrine.orm.entity_manager"]
 
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\""
+        options:    []
 
 fos_js_routing:
     routes_to_expose: ['ovt_back_end_admin_gestion_get_service_by_id','ovt_back_end_admin_gestion_get_client_by_id']

@@ -34,6 +34,18 @@ class ClientController extends Controller
         else return $this->render('OVTFrontEndClientBundle:Client:profile.html.twig',array('user'=>$user));
     }
 
+    public function documentViewAction(){
+        $adminClient=$this->get('clientadmin');
+        $user= $this->container->get('security.context')->getToken()->getUser();
+        $sessions=$adminClient->getSessionsByClientByState($user,"TERMINATED"); 
+        if($this->isAdmin())
+            return $this->render('OVTFrontEndClientBundle:ClientAdmin:documents.html.twig',
+                array('user'=>$user,'sessions'=>$sessions));
+        else 
+            return $this->render('OVTFrontEndClientBundle:Client:documents.html.twig',
+                array('user'=>$user,'sessions'=>$sessions));
+    }
+
     public function addSessionAction(Request $request ){
        	$adminClient=$this->get('clientadmin');
         $user= $this->container->get('security.context')->getToken()->getUser(); 
@@ -115,6 +127,18 @@ class ClientController extends Controller
         return $this->render('OVTFrontEndClientBundle:Client:sessions.json.twig', array('sessions' =>$sessions ));
     }
 
+    public function getPDFBySessionIdAction($idSession){
+        $adminClient=$this->get('clientadmin'); 
+        $session=$adminClient->getSessionById($idSession);
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml(
+                    $this->renderView("OVTFrontEndClientBundle:Client:document.html.twig", array('session'=>$session ))
+                ),
+                200,
+                array(  'Content-Type' => 'application/pdf')
+            ); 
+
+    }
 
 
 

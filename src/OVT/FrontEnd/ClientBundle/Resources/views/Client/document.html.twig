@@ -1,0 +1,61 @@
+<html>
+<head>
+<link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" />
+</head>
+<body style="padding-left:10px;padding-top:10px">
+    <div class="detailsSession  " > 
+        <table id="newtable" class="table table-bordered table-striped " style="width:75%;float:left"> 
+            <tbody>
+                <tr>
+                    <td > 
+                        <div  >
+                            Intitulé :{{session.title}}
+                        </div>                                     
+                    </td>
+                </tr>
+                <tr>
+                    <td > 
+                        <div  >
+                            Organisateur : {{session.client.user.firstName ~" "~session.client.user.lastName}}
+                        </div>                                     
+                    </td>
+                </tr>
+                 <tr>
+                    <td > 
+                        <div  >
+                            Transcripteur :{{session.worker.user.firstName ~" "~session.worker.user.lastName}}
+                        </div>                                     
+                    </td>
+                </tr>
+                 <tr>
+                    <td > 
+                        <div  >
+                            Heure de début :{{session.starttime|date('Y-m-d H:i:s') }}
+                        </div>                                     
+                    </td>
+                </tr>
+                <tr>
+                    <td > 
+                        <div  >
+                            Heure de fin :{{session.endtime|date('Y-m-d H:i:s') }}
+                        </div>                                     
+                    </td>
+                </tr>
+                <tr>
+                    <td > 
+                        <div  >
+                            Détails supplémentaires :<textarea >{{session.description }}</textarea>  
+                        </div>                                     
+                    </td>
+                </tr>
+            </tbody>    
+        </table>   
+    </div>         
+    <div class="col-xs-6" >Dervniere date de modification : <br/>{{session.document.lastModificationDate|date('Y-m-d H:i:s')}}</div>
+</div>
+<div style="margin-top:300px"></div>
+<hr/>
+
+<div  style="width:900px; border: 5px solid blue;border-radius: 25px; padding:20px"> 
+    {{session.document.content|nl2br}}</div>
+</div>
