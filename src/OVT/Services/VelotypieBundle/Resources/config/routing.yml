@@ -29,6 +29,12 @@ ovt_services_velotypie_API_add_chat_message:
     options:
         expose: true
 
+ovt_services_velotypie_API_session_authentification:
+    path:     API/sessionAuth
+    defaults: { _controller: OVTServicesVelotypieBundle:Session:auth }
+    options:
+        expose: true
+
 ovt_services_velotypie_API_get_chat_by_session_id:
     path:     /API/chatmessage/get/{sessionID}
     defaults: { _controller: OVTServicesVelotypieBundle:ChatBox:getChatBySession }

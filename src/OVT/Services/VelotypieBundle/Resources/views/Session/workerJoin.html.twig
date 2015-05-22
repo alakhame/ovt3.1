@@ -57,7 +57,7 @@
 
                 </div>
                 <div id="ttarea">
-                    <textarea ng-bind="textareaField" ></textarea>
+                    <textarea ng-bind="textareaField" > </textarea>
                 </div>
             </div>
 
@@ -247,12 +247,35 @@
             
                 init();
                 
-                //////// handling incoming s
+                //////////// authentification handler /////////////////
                 workerSocket.on("connect", function(){
                     var dataConnect={userID:"{{user.id}}",saloon:saloon};
-                    workerSocket.emit('letMeJoin',dataConnect);
-                    $('#ttarea').css("border"," 5px inset green");
+                    workerSocket.emit('workerJoin',dataConnect);
+                    //$('#ttarea').css("border"," 5px inset green");
+                    workerSocket.emit('workerPresence',dataConnect);
                 });
+                
+                workerSocket.on("accessGranted", function(id){
+                    // alert('le serveur a accepté la connextion pour '+id);
+                });
+
+                workerSocket.on("accessDenied", function(id){
+                     alert('l\'access a été refusée par le serveur pour '+id);
+                });
+
+                workerSocket.on('clientConnected', function(data){
+                    $('#ttarea').css("border"," 5px inset green");
+                    var dataConnect={userID:"{{user.id}}",saloon:saloon};
+                    workerSocket.emit('workerPresenceACK',dataConnect);
+                });
+
+                workerSocket.on('clientConnectedACK', function(data){
+                    $('#ttarea').css("border"," 5px inset green"); 
+                });
+
+                workerSocket.on('clientDisconnected', function(data){
+                    $('#ttarea').css("border"," 5px inset red");
+                }); 
 
                 ////// CHAT HANDLER ///////////
                 workerSocket.on('newChatMessage', function(data){
@@ -360,8 +383,8 @@
                      
                     workerSocket.emit('presenceFrame',presenceData);
                 }
-                heartBeat(); 
-                var timer = setInterval(heartBeat   ,10000);
+                //heartBeat(); 
+                //var timer = setInterval(heartBeat   ,10000);
 
 
                 var updateDBContent = setInterval(function(){

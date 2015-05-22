@@ -1,3 +1,5 @@
-ovt_services_lfs_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: OVTServicesLFSBundle:Default:index }
+ovt_services_lfs_join:
+    path:     /lfs/session/participate/{userType}/{hashLink}
+    defaults: { _controller: OVTServicesLFSBundle:Session:join }
+    options:
+        expose: true

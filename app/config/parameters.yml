@@ -12,3 +12,5 @@ parameters:
     mailer_password: null
     locale: en
     secret: 57d04d116f6afea649063287b7fb78208ea0d887
+    transcripting_server: http://localhost:9090
+    signaling_server: http://localhost:8888

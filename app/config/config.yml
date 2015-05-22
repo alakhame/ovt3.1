@@ -27,6 +27,9 @@ framework:
 
 # Twig Configuration
 twig:
+    globals:
+        SIGNALING_SERVER: "%signaling_server%"
+        TRANSCRIPTING_SERVER: "%transcripting_server%"
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
 

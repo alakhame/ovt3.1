@@ -1,6 +1,7 @@
 <?php
 
-namespace OVT\Services\VelotypieBundle\Controller;
+namespace OVT\Services\LFSBundle\Controller;
+ 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,10 +18,10 @@ class SessionController extends Controller
     	$dataArray=array('user'=>$user,'session'=>$session,'link'=>$hashLink); 
     	//return new Response(var_dump($session));
         if($userType=="client"){
-			return $this->render('OVTServicesVelotypieBundle:Session:clientJoin.html.twig', $dataArray);
+			return $this->render('OVTServicesLFSBundle:Session:clientJoin.html.twig', $dataArray);
     	}
     	else if($userType=="worker"){
-    		return $this->render('OVTServicesVelotypieBundle:Session:workerJoin.html.twig', $dataArray);
+    		return $this->render('OVTServicesLFSBundle:Session:workerJoin.html.twig', $dataArray);
     	}
         
     }

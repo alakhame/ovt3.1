@@ -8,59 +8,32 @@
         <script src="{{asset('ress/js/jquery.js')}}" > </script>
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script> 
-        <script src="{{asset('ress/js/bootstrap-colorpicker.js')}}" > </script>
-    </script></head>
+        <script src="{{asset('ress/js/simplewebrtc.bundle.js')}}" > </script>
+    	<style>
+            #remoteVideos video {
+            	width:100%;
+				height: 100%;
+				position:relative
+				top:0;
+				left:0;
+               
+            }
+            #localVideo { 
+            	height: 150px;   
+            	position:relative ;
+            	z-index: 10;     
+           	}
+        </style>
+	</head>
     <body>
-        <div id="wrapper" ng-app="OVTApp" ng-controller="velotypieClientCtrl" data-ng-init="init()">
+        <div id="wrapper"  ng-app="OVTApp" ng-controller="LFSClientCtrl" data-ng-init="init()">
             <div id="incomingText"  >
                 <div class="topDiv">
                     Transcription
-                </div>
-                <div id="styleMenu">
-                    <div class="styleMenuDiv" id ="wideScreen" > 
-                        <img src="{{asset('ress/img/full_screen.png')}}" height="42px" width="42px" /> 
-                    </div>
-                    <div class="styleMenuDiv">
-                        <select id="fontFamily">    
-                            <option selected="selected" disabled>--- Font Family Selector ---</option>
-                            <option>Arial</option>
-                            <option>Tahoma</option>
-                            <option>Times New Roman</option>
-                            <option>Verdana</option>
-                        </select>
-                    </div>
-                    <div class="styleMenuDiv">
-                        <select id="police">
-                            <option selected="selected" disabled>--- Font Size Setter ---</option>
-                            <option value="12px"> 12px </option>
-                            <option value="14px">14px</option>
-                            <option value="16px">16px</option>
-                            <option value="18px">18px</option>
-                            <option value="24px">24px</option>
-                            <option value="30px">30px</option>
-                        </select>
-                    </div>
-                    <div class="styleMenuDiv" id ="fontColor" >
-                        <img  class="styleMenuImage" src="{{asset('ress/img/font-color.png')}}" />
-                        <div class="colorBar"></div>
-                    </div>
-                    <div class="styleMenuDiv" id="backColor" > 
-                        <img class="styleMenuImage"src="{{asset('ress/img/bgcolor.png')}}" /> 
-                       
-                        <div class="colorBar"> </div>
-                    </div>
-                    <div class="styleMenuDiv" id="hideSideBar">
-                        <img  height="35px" width="35px" src="{{asset('ress/img/chat.png')}}" />
-                    </div>
-                    <div onclick="window.close()" class="styleMenuDiv" id="quitButton" style="padding:5px 0px 0px 5px;">
-                        <img src="{{asset('ress/img/exit.png')}}" style=" float:left;"/> 
-                        <span style="color:white">Fermer</span>
-                    </div>
-                    
-
-                </div>
+                </div> 
                 <div id="ttarea">
-                    <textarea  ng-bind="textareaField" readonly></textarea>
+                        <div id="remoteVideos"></div>  
+                         <video id="localVideo"></video>
                 </div>
             </div>
 
@@ -164,22 +137,22 @@
                             </tr>
                             <tr>
                                 <td colspan="0"> 
-                                    <textarea >
+                                    <textarea readonly >
                                         {{session.description }}
                                     </textarea>                                     
                                 </td>
                             </tr>
                         </tbody>    
                     </table>            
-                    
+
                 </div>
             </div>
 
-            <div id="chatBox" >
+            <div id="chatBox" ng-controller="ChatClientCtrl">
                 <div class="topDiv">
                     Messagerie instannée
                 </div>
-                <div id="msgBox"></div>
+                <div id="msgBox" style="overflow: scroll;"></div>
                 <div id="inputMsg">
                     <input type="text" id="chatField" class="col-md-9"></input>
                     <input type="submit" id="chatSender" class="col-md-3"value="Envoyer"></input>
@@ -187,54 +160,39 @@
             </div>
         </div>
 
-
-        <script src="{{asset('ress/js/socket.io-1.2.0.js')}}"></script>
+ 
+        <!--- ****************************** SEPARATOR *************************  -->
+        <script src="{{asset('ress/js/socket.io.min.js')}}"></script>
         <script src="{{asset('ress/js/keycodes.js')}}"></script>
-
-        <script type="text/javascript" src="{{asset('ress/js/jquery.caret.js')}}"></script>
-        <script type="text/javascript" src="{{asset('ress/js/jquery.selection.js')}}"></script>
-        <script type="text/javascript" src="{{asset('ress/js/socket.js')}}"></script>
-        <script type="text/javascript"   > 
-
-            function deleteBackWards(textCantainer, position, nbChars){
-                var content = textCantainer.text();
-                var left=content.substring(0,position);
-                var right=content.substring(position+nbChars);
-                textCantainer.text(left+right);
-            }
-
-
-
-            
-
-
-            var app = angular.module('OVTApp', ['btford.socket-io']);
+        <script type="text/javascript" src="{{asset('ress/js/socket.js')}}"></script>        
+        <script type="text/javascript">
+        	var app = angular.module('OVTApp', ['btford.socket-io']);
             
             app.factory('clientSocket', function (socketFactory) {
                return socketFactory({ 
-                    ioSocket: io.connect('localhost:9090',{'sync disconnect on unload': true })
+                    ioSocket: io.connect("{{TRANSCRIPTING_SERVER}}", {'sync disconnect on unload': true })
                   });
             }).
-            controller('velotypieClientCtrl', function(clientSocket,$scope,$http,$location,$window) {
-                
-                function initChatBox (){
+            controller('LFSClientCtrl', function(clientSocket,$scope,$http,$location,$window) {
+	            var webrtc;
+            	function initChatBox (){
                     var link = Routing.generate('ovt_services_velotypie_API_get_chat_by_session_id',{sessionID:{{session.id}}});
                     var chatMessages; 
                     $http.get(link).
                     success(function(data, status, headers, config) {
                         chatMessages = data;
                         for(var i = 0; i<chatMessages.length; i++ ){
-                        if(chatMessages[i].sender=={{user.id}}){
+                        if(chatMessages[i].sender=={{session.worker.user.id}}){
                             $('#msgBox').append('<div  > <span class="spanBlue">Moi :  </span>'+decodeURIComponent(chatMessages[i].content)+'</div>');
                         }
                         else{
-                            $('#msgBox').append('<div> <span class="spanRed">Transcripteur :  </span>'+decodeURIComponent(chatMessages[i].content)+'</div>');
+                            $('#msgBox').append('<div> <span class="spanRed">Client :  </span>'+decodeURIComponent(chatMessages[i].content)+'</div>');
                         }
                     }
                     }).
                     error(function(data, status, headers, config) { }); 
                     
-                    
+ 
                 }
 
                 $scope.init = function (){
@@ -246,90 +204,45 @@
                     }).
                     error(function(data, status, headers, config) { });
                     initChatBox()
-                    
+
                 }
 
-                function sendChatMessage(data){
+
+ 			
+ 				webrtc = new SimpleWebRTC({
+				    localVideoEl: 'localVideo',
+				    remoteVideosEl: 'remoteVideos',
+				    autoRequestMedia: true ,
+				    url:'{{TRANSCRIPTING_SERVER}}'
+				}); 
+	           	webrtc.on('readyToCall', function () {
+				    webrtc.joinRoom('{{link}}');
+				});
+
+            });
+
+
+
+
+        </script> 
+
+        <script>
+        	 //// CHAT HANDLER 
+        	app.controller('ChatClientCtrl', function(clientSocket,$scope,$http,$location,$window) {
+        		function sendChatMessage(data){
                     //console.log(data);
                     $('#msgBox').append('<div  > <span class="spanBlue">Moi :  </span>'+decodeURIComponent(data.content)+'</div>');
                     clientSocket.emit('newChatMessage',data);
                     $('#chatField').val("");
-                }
-
-
-                //////////// authentification handler /////////////////
-
-                
-                clientSocket.on("connect", function(){
-                    //clientSocket.emit('letMeJoin',dataConnect);
-                    var dataConnect={userID: "{{user.id}}",  saloon:"{{link}}"};
-                    clientSocket.emit('clientJoin',dataConnect);
-                    clientSocket.emit('clientPresence',dataConnect);
-                });
-
-                clientSocket.on("accessGranted", function(id){
-                    // alert('le serveur a accepté la connextion pour '+id);
-                });
-
-                clientSocket.on("accessDenied", function(id){
-                     alert('l\'access a été refusée par le serveur pour '+id);
-                });
-
-
-
-
-
-
-                /////// dealing with the trnascription ////////////
-
-                clientSocket.on('incomingChar', function(data){
-                    var content = $('#ttarea textarea').text();
-                    var pos=data.position;
-                    var left=content.substring(0,pos);
-                    var right=content.substring(pos,content.length);
-                    $('#ttarea textarea').text(left+data.character+right); 
-                });
-
-                clientSocket.on('incomingString', function(data){
-                    var content = $('#ttarea textarea').text();
-                    var pos=data.position;
-                    var left=content.substring(0,pos);
-                    var right=content.substring(pos,content.length);
-                    $('#ttarea textarea').text(left+decodeURIComponent(data.textString)+right);
-                });
-
-                
-                clientSocket.on('deletingString', function(data){ 
-                   deleteBackWards($('#ttarea textarea'),data.position,data.nbChars);
-                });
-
-                clientSocket.on('workerConnected', function(data){
-                    $('#ttarea').css("border"," 5px inset green");
-                    var dataConnect={userID: "{{user.id}}",  saloon:"{{link}}"};
-                    clientSocket.emit('clientPresenceACK',dataConnect);
-                });
-
-                clientSocket.on('workerConnectedACK', function(data){
-                    $('#ttarea').css("border"," 5px inset green"); 
-                });
-
-                clientSocket.on('newChatMessage', function(data){
-                    $('#msgBox').append('<div> <span class="spanRed">Transcripteur :  </span>'+decodeURIComponent(data.content)+'</div>');
-                });
-
-                clientSocket.on('workerDisconnected', function(data){
-                    $('#ttarea').css("border"," 5px inset red");
-                }); 
-
-                //// CHAT HANDLER 
+                } 
 
                 $('#chatSender').click(function(){
                     data={
                         saloon : "{{link}}",
                         session:{{session.id}},
-                        sender : {{session.client.user.id }},
-                        receiver : {{session.worker.user.id}},
-                       content:  encodeURIComponent($('#chatField').val()) 
+                        sender : {{session.worker.user.id }},
+                        receiver : {{session.client.user.id}},
+                        content: encodeURIComponent($('#chatField').val()) 
                     };
                     sendChatMessage(data);
                 });
@@ -338,50 +251,15 @@
                         data={
                             saloon : "{{link}}",
                             session:{{session.id}},
-                            sender : {{session.client.user.id}},
-                            receiver : {{session.worker.user.id}},
+                            sender : {{session.worker.user.id }},
+                            receiver : {{session.client.user.id}},
                             content: encodeURIComponent($('#chatField').val()) 
                         };
                         sendChatMessage(data);
                     }
                 });
-
-                
-
-            });
-
-
-            /* 
-
- 
-
-*/
-         </script> 
-        
-        <!--- ****************************** SEPARATOR *************************  -->
-        
-        <script type="text/javascript">
-            
-            // font family picker     
-            $('#fontFamily').change(function() {
-                $('#ttarea textarea').css('font-family',$(this).val());
-            }); 
-
-            // font size setter     
-            $('#police').change(function() { 
-                $('#ttarea textarea').css('font-size',$(this).val());
-            }); 
-
-
-        </script>
-        <!-- Chat Handler -->
-        <script>
-            $(function(){
-                
-
-            });
-        </script>
-
+	        });
+         </script>
 
 
     </body>
