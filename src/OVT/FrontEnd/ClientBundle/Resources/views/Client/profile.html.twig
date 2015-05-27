@@ -1,29 +1,151 @@
-{% extends "OVTFrontEndClientBundle:Client:index.html.twig" %}
-{% block links %}
-	{{parent()}}
-	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
-	<script src="{{asset('ress/js/angular.js')}}" > </script>
-	<script src="{{asset('ress/js/jquery.js')}}" > </script>
-	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+{% extends "::baseProfil.html.twig" %}
+ 	
+ 	{% block tabTitle %} 
+ 		<div class="header_tab_4 header_tab" style="display: block;">
+			<div class="title_tab title_tab_4">	Profil utilisateur</div>
+		</div> 	
+	{% endblock %}
 	
-{% endblock %}
-	{% block container %}
+	{% block menu %}
+		{% include "OVTFrontEndClientBundle:Client:menuNew.html.twig" %}
+	{% endblock %}
+ 
+	{% block containerTab %} 
+		<div class="container_tab_4 container_tab" style="display: block;">
+			<div class="position_content_tab_4">
+				<div class="container_profil subtitle_color_border_08">
+					<div class="container_name_pp_profil">
+						<div class="container_pp_edit">
+ 
 
-		<div id="cadre"  >
-			<div id="gestion_title">
-				<p  > Mes informations
-				 </p>
-				
+							<div class="pp_tab_4 subtitle_color_border default" style="background-image: url({{asset('svg/default_pp.svg')}})"></div>
+ 
+						</div>
+						<div class="container_name_tab_4 title_color_text">
+							<div class="first_name name_tab_4_style">{{user.firstname}}</div>
+							<div class="last_name name_tab_4_style">{{user.lastname}}</div>
+						</div>
+					</div>
+					<div class="container_save_or_edit">
+							<form method="post" action="{{path('ovt_user_profil_update')}}" onsubmit="return fetchContent()" id="updateForm" style="display:none">
+								<input type="text" name="lastName"    id="lastnameForm"		></input>
+								<input type="text" name="firstName"   id="firstnameForm"	></input>
+								<input type="text" name="phoneNumber" id="phoneNumberForm" 	></input>
+								<input type="text" name="address"  	  id="addressForm"		></input>
+								<input type="hidden" name="userId" value="{{user.id}}"></input>
+								<input type="submit" value="aaa"							></input>
+							</form>
+						<div class="button_save_tab_4 button_tab_4 theme_color_background" id="formSubmit">Enregistrer
+							<div class="container_done_save_tab_4">
+								<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="15" height="12" viewBox="0 0 22 17">
+									<use xlink:href="{{asset('svg/done_white.svg#done_white')}}"></use>
+								</svg>
+							</div>
+						</div>
+						<div class="button_edit_tab_4 button_tab_4 theme_color_text theme_color_border">Editer</div>
+					</div>
+					<div class="container_info_tab_4 subtitle_color_text">INFORMATIONS</div>
+				</div>
+				<div class="container_info_contact_tab_4">
+					<div class="column_1_tab_4 column_tab_4_style">
+						<div class="container_info_editable_user_style">
+							<div class="content_info_editable_user_style title_color_text" id="lastnameDiv">{{user.lastname}}</div>
+							<div class="name_info_editable_user_style subtitle_color_text">Nom</div>
+						</div>
+						<div class="container_info_editable_user_style">
+							<div class="content_info_editable_user_style title_color_text" id="firstnameDiv">{{user.firstname}}</div>
+							<div class="name_info_editable_user_style subtitle_color_text">Prénom</div>
+						</div>
+						<div class="container_info_editable_user_style">
+							<div class="content_info_noneditable_user_style title_color_text">{{user.type}}</div>
+							<div class="name_info_editable_user_style subtitle_color_text">Role</div>
+						</div>
+						<div class="container_info_editable_user_style">
+							<div class="content_info_editable_user_style title_color_text" id="phoneNumberDiv">{{user.phoneNumber}}</div>
+							<div class="name_info_editable_user_style subtitle_color_text" >Mobile</div>
+						</div> 
+						<div class="container_info_editable_user_style">
+							<div class="content_info_editable_user_style title_color_text" id="addressDiv">{{user.address}}</div>
+							<div class="name_info_editable_user_style subtitle_color_text">Adresse</div>
+						</div>
+					</div>
+					<div class="column_2_tab_4 column_tab_4_style">
+						<div class="container_info_editable_user_style">
+							<div class="content_info_noneditable_user_style title_color_text">{{user.email}}</div>
+							<div class="name_info_editable_user_style subtitle_color_text">Email</div> 
+						</div>
+						<div class="container_info_editable_user_style">
+							<div class="content_info_noneditable_user_style title_color_text">***************</div>
+							<div class="name_info_editable_user_style subtitle_color_text">Mot de passe</div>
+							<div class="change_content_style action_change_password theme_color_text">Changer de mot de passe</div>
+						</div>
+						<a href="{{path('fos_user_security_logout')}}">
+						<div class="container_info_editable_user_style container_info_editable_user_logout title_color_text">
+							<div class="container_logo_logout">
+								<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="10" height="11" viewBox="0 0 20 22">
+									<use xlink:href="{{asset('svg/logout_logo.svg')}}#logout_logo"></use>
+								</svg>
+							</div>
+							Se déconnecter
+						</div> 
+						</a>
+					</div>
+				</div> 
+				<div class="container_change_password">
+					<form method="post" action="{{path('ovt_user_password_update')}}" onsubmit="return fetchPassword()" id="updatePasswordForm" >
+						<div class="title_new_data title_color_text">Nouveau mot de passe</div> 
+						<div class="container_data_style">
+							<div class="text_data_style new_password subtitle_color_text">Nouveau mot de passe</div>	
+							<input type="password" name="newPassword" id="newPassword" class="input_data">
+						</div>
+						<div class="container_data_style">
+							<div class="text_data_style confirm_new_password subtitle_color_text">
+								Retapez mot de passe</div>	
+							<input type="password" name="newPassword2" id="newPassword2" class="input_data">
+						</div>
+						<input type="hidden" name="userId" value="{{user.id}}"></input>	
+					</form>
+					<div class="container_save_new_data">
+						<div class="button_save_new_data save_new_password theme_color_background" id="formPasswordSubmit">Modifier
+							<div class="container_check_valid_data">
+								<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="15" height="12" viewBox="0 0 22 17">
+									<use xlink:href="{{asset('svg/done_white.svg#done_white')}}"></use>
+								</svg>
+							</div>
+						</div>
+						<div class="cancel_save_new_data title_color_text">Annuler</div>
+					</div>
+				</div> 
 			</div>
-			<div id="inside_cadre">
-				 {{ render(controller('OVTUserBundle:UserInfos:profileView',{user:user})) }}
-			</div>
- 			
- 			<script type="text/javascript">
- 			</script>
+
+			<script type="text/javascript">
+				function fetchContent(){
+					$("#lastnameForm").val($('#lastnameDiv').text());
+					$("#firstnameForm").val($('#firstnameDiv').text());
+					$("#phoneNumberForm").val($('#phoneNumberDiv').text());
+					$("#addressForm").val($('#addressDiv').text());
+					return true;
+				}
+				$('#formSubmit').click(function(){
+					$('#updateForm').submit();
+				});
+				function fetchPassword(){ 
+					if($("#newPassword").val()!=$("#newPassword2").val()){
+						alert('Les mots de passe ne correspondent pas');
+						return false;
+					}
+					else{ 
+						return true;
+					}
+				}
+				$('#formPasswordSubmit').click(function(){
+					$('#updatePasswordForm').submit();
+				});
+
+			</script>
+
+
 
 		</div>
-	
 
-	{% endblock %} 
+	{% endblock %}

@@ -8,8 +8,9 @@ use OVT\GeneralBundle\Entity\AdminClient;
 class DefaultController extends Controller
 {
     public function indexAction()
-    {
-        return $this->render('OVTTestBundle:Default:index.html.twig');
+    {   
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        return $this->render('OVTFrontEndClientBundle:Client:documentN.html.twig',array('user'=>$user));
     }
 
      public function interfaceAction()

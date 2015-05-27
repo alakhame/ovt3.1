@@ -1,0 +1,57 @@
+<html>
+	<head>
+		{% block header %}
+		<meta charset="utf-8" />
+
+		<script type="text/javascript" src="{{asset('js/jquery.min.js')}}"></script>
+
+		<link rel="icon" href="{{asset('favicon.png')}}" />
+
+		<link rel="stylesheet" type="text/css" href="{{asset('css/visio_desktop.css')}}"/>
+
+		<link rel="stylesheet" type="text/css" href="{{asset('css/visio_responsive.css')}} "/> 
+		{% endblock %}
+
+	</head>
+	<body>
+		<header>
+			<img src= "{{asset('img/orange/orange.png')}}" class="logo_visio_header theme_color_background" />
+
+			{% block tabTitle %} {% endblock %}
+
+			<div class="container_user_account">
+				<div class="name_user title_color_text">
+					{% block userName %} {% endblock %}
+				</div>
+
+				<div id="logoUserDefault" class="pp_user_default subtitle_color_border" 
+					style="background-image: url({{asset('svg/default_pp.svg')}})">	0
+				</div>
+				
+			</div>
+			
+			<div class="container_notif">
+				<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="18" height="20" viewBox="0 0 36 41">
+					<use xlink:href="{{asset('svg/logo_notif.svg')}}#logo_notif"></use>
+				</svg>
+			</div> 
+			<a href="{{path('fos_user_security_logout')}}">
+			<div class="container_maj subtitle_color_text" style="width:50px;"> 
+				<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"  width="18" height="20" viewBox="0 0 20 22">
+					<use xlink:href="{{asset('svg/logout_logo.svg')}}#logout_logo"></use>
+				</svg>
+			</div>
+			</a>
+		</header>
+
+		<div class="bar_left height">
+			{% block menu %} {% endblock %}
+			 
+		</div> 
+		
+		{% block containerTab %} {% endblock %}
+ 		
+		<script type="text/javascript" src="{{asset('js/visio.js')}}"></script>
+
+	</body>
+</html>

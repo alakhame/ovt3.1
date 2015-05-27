@@ -1,0 +1,225 @@
+@font-face {
+	font-family: "myriad_pro_regular";
+	src: url(../fonts/myriad_pro_regular.otf);
+}
+@font-face {
+	font-family: "myriad_pro_light";
+	src: url(../fonts/MyriadPro-Light.otf);
+}
+@font-face {
+	font-family: "OpenSans-Regular";
+	src: url(../fonts/OpenSans-Regular.ttf);
+}
+body, html, *
+{
+	padding: 0px;
+	margin: 0px;
+}
+body, html {
+	width: 100%;
+	height: 100%;
+	min-height: 580px;
+}
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+#header_text {
+  font-family: Arial, sans-serif;
+  padding-top: 17px;
+  padding-left: 10px;
+  display: inline-block;
+  color: black;
+  vertical-align: top;
+}
+#header_title {
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 0px 2px 7px black;
+}
+#logorange {
+  display: inline-block;
+  margin-top: 17px;
+  margin-left: 10px;
+  width: 36px;
+  height: 36px;
+  vertical-align: top;
+}
+#header_subtitle {
+  font-size: 12px;
+}
+#header {
+  top: 0px;
+  height: 70px;
+}
+.theme_color_background
+{
+	background-color: #f60;
+}
+.container
+{
+	height: 100%;
+	width: 100%;
+	background-color: #eff1f5;
+	padding-top: 30px;
+}
+.logo
+{
+	width: 25px;
+	height: 34px;
+	margin: auto;
+}
+.title_connexion
+{
+	color: #222;
+	font-family: "myriad_pro_regular";
+	font-size: 22px;
+	text-align: center;
+	margin-top: 29px;
+	position: relative;
+}
+.title_connexion div
+{
+	display: block;
+	position: absolute;
+
+	top: 50%;
+  	left: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	-o-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+.title_connexion span
+{
+	display: none;
+	position: absolute;
+
+	top: 50%;
+  	left: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	-o-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+.mail
+{
+	margin-top: 100px;
+}
+input
+{
+	width: 275px;
+	height: 44px;
+	opacity: 0.5;
+	background-color: white;
+	border-radius: 6px;
+	border: none;
+	display: block;
+	margin: auto;
+	margin-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 14px;
+	outline: none;
+	border: 1px solid white;
+
+	-webkit-transition: all .25s ease;
+	   -moz-transition: all .25s ease;
+	    -ms-transition: all .25s ease;
+	     -o-transition: all .25s ease;
+	        transition: all .25s ease;
+}
+input:focus
+{
+	border: 1px solid #f60;
+	opacity: 1;
+}
+.remail
+{
+	height: 0px;
+	overflow: hidden;
+	border: 0px solid white; 
+	-webkit-transition: all .45s ease;
+	   -moz-transition: all .45s ease;
+	    -ms-transition: all .45s ease;
+	     -o-transition: all .45s ease;
+	        transition: all .45s ease;
+}
+.remail.show
+{ 
+	height: 44px;
+	border: 1px solid white;
+}
+.password.hide
+{
+	border: 0px solid white;
+	height: 0px;
+	margin-top: 0px;
+	-webkit-transition: all .45s ease;
+	   -moz-transition: all .45s ease;
+	    -ms-transition: all .45s ease;
+	     -o-transition: all .45s ease;
+	        transition: all .45s ease;
+}
+.forgot_password
+{
+	width: 275px;
+	height: 10px;
+	margin: auto;
+	color: #3f434d;
+	font-size: 12px;
+	font-family: "myriad_pro_light";
+	text-align: right;
+	font-style: italic;
+	cursor: pointer;
+	margin-top: 10px;
+}
+.log
+{
+	cursor: pointer;
+	width: 90px;
+	height: 40px;
+	border-radius: 20px;
+	opacity: 1;
+	color: #FFF;
+	font-size: 12px;
+	font-family: "OpenSans-Regular";
+
+	-webkit-transition: all .45s ease;
+	   -moz-transition: all .45s ease;
+	    -ms-transition: all .45s ease;
+	     -o-transition: all .45s ease;
+	        transition: all .45s ease;
+}
+.log.value
+{
+	width: 200px;
+}
+.text_no_password
+{
+	width: 110px;
+	height: 30px;
+	color: #a5a5a5;
+	font-family: "OpenSans-Regular";
+	font-size: 12px;
+	margin: auto;
+	text-align: center;
+	margin-top: 72px;
+	margin-bottom: 9px;
+}
+.creat_compte
+{
+	margin-top: 9px;
+	width: 153px;
+	height: 40px;
+	background-color: #bcdcd8;
+	border-radius: 20px;
+	margin: auto;
+	font-family: "OpenSans-Regular";
+	font-size: 12px;
+	color: #FFF;
+	text-align: center;
+	line-height: 40px;
+	cursor: pointer;
+}

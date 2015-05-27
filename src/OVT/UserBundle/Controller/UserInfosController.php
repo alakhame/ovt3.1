@@ -11,7 +11,7 @@ class UserInfosController extends Controller
 {
     public function getUserNameAction()
     {
-        return   new Response($this->getUser()->getUsername()) ;
+        return   new Response($this->getUser()->getFirstname()." ".$this->getUser()->getLastname()) ;
     }
 
     public function updateProfileAction(Request $req)
@@ -25,6 +25,24 @@ class UserInfosController extends Controller
         $user->setAddress($req->request->get('address'));
         $superAdmin->update();
         
+        $referer = $req->headers->get('referer');
+
+        return $this->redirect($referer);
+    }
+
+    public function updatePasswordAction(Request $req)
+    {
+
+        $superAdmin=$this->get('superadmin');
+        $user=$superAdmin->getUserById($req->request->get('userId'));
+
+        $password=$req->request->get("newPassword");
+        $encoderFactory=$this->get('security.encoder_factory');
+        $encoder=$encoderFactory->getEncoder($user);
+
+        $user->setPassword($encoder->encodePassword($password, $user->getSalt()));
+        $superAdmin->update();
+
         $referer = $req->headers->get('referer');
 
         return $this->redirect($referer);

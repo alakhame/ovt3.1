@@ -8,7 +8,7 @@
 	"type":"{{s.type}}",
 	"client":"{{s.client.user.firstname ~" "~s.client.user.lastname}}",
 	{% if s.worker!=null %}
-		"woker":"{{s.worker.user.firstname~" "~s.worker.user.lastname}}",
+		"worker":"{{s.worker.user.firstname~" "~s.worker.user.lastname}}",
 	{% else %}
 		"worker" : "NONE",
 	{% endif %}

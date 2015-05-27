@@ -33,6 +33,7 @@ class ClientController extends Controller
             return $this->render('OVTFrontEndClientBundle:ClientAdmin:profile.html.twig',array('user'=>$user));
         else return $this->render('OVTFrontEndClientBundle:Client:profile.html.twig',array('user'=>$user));
     }
+ 
 
     public function documentViewAction(){
         $adminClient=$this->get('clientadmin');

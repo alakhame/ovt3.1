@@ -48,9 +48,7 @@ ovt_front_end_client_list_sessions:
     path:     /listsessions
     defaults: { _controller: OVTFrontEndClientBundle:Client:listSessions }
     options:
-        expose: true
-
-
+        expose: true 
 
 
 
@@ -67,7 +65,7 @@ ovt_front_end_admin_client_get_session_by_id:
         expose: true
 
 ovt_front_end_admin_client_action_session:
-    path: /adminclient/{action}/session
+    path: /{action}/session
     defaults: { _controller:  OVTFrontEndClientBundle:ClientAdmin:updateStateSession}
     options:
         expose: true
@@ -93,7 +91,7 @@ ovt_front_end_admin_client_get_json_groups_by_admin:
         expose: true
 
 ovt_front_end_admin_client_delete_user_by_id:
-    path: /adminclient/delete/user
+    path: /delete/user
     defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:deleteUserById}
     options:
         expose: true
@@ -101,7 +99,7 @@ ovt_front_end_admin_client_delete_user_by_id:
         _method: POST
 
 ovt_front_end_admin_client_set_user_group:
-    path: /adminclient/setgroup/user
+    path: /setgroup/user
     defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:setGroupUser}
     options:
         expose: true
@@ -109,7 +107,7 @@ ovt_front_end_admin_client_set_user_group:
         _method: POST
 
 ovt_front_end_admin_client_update_user:
-    path: /adminclient/update/user
+    path: /update/user
     defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:updateClient}
     options:
         expose: true

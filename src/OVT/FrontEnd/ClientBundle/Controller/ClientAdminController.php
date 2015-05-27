@@ -39,7 +39,7 @@ class ClientAdminController extends Controller
 		$adminClient=$this->get('clientadmin');
 		$user= $this->container->get('security.context')->getToken()->getUser();
 		$orgs = $adminClient->getClientOrgGroupByUser($user);
-		$response='<option value="">---</option>';
+		$response='<option value="" disabled selected>---</option>';
 		foreach ($orgs as $o) {
 			$response.='<option value="'.$o->getId().'">'.$o->getName().'</option>';
 		}

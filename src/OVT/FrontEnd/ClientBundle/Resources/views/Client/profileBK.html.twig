@@ -1,0 +1,29 @@
+{% extends "OVTFrontEndClientBundle:Client:index.html.twig" %}
+{% block links %}
+	{{parent()}}
+	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+	<script src="{{asset('ress/js/angular.js')}}" > </script>
+	<script src="{{asset('ress/js/jquery.js')}}" > </script>
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	
+{% endblock %}
+	{% block container %}
+
+		<div id="cadre"  >
+			<div id="gestion_title">
+				<p  > Mes informations
+				 </p>
+				
+			</div>
+			<div id="inside_cadre">
+				 {{ render(controller('OVTUserBundle:UserInfos:profileView',{user:user})) }}
+			</div>
+ 			
+ 			<script type="text/javascript">
+ 			</script>
+
+		</div>
+	
+
+	{% endblock %} 

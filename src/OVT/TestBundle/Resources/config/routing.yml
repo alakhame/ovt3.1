@@ -6,6 +6,6 @@ ovt_test_view:
     path:     /view
     defaults: { _controller: OVTTestBundle:Default:view }
 
-ovt_test_angular:
-    path:     /angular
+ovt_test:
+    path:     /
     defaults: { _controller: OVTTestBundle:Default:index }

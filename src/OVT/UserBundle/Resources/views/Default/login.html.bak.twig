@@ -1,0 +1,35 @@
+
+
+{% extends "::generalLayout.twig.html" %}
+
+	{% block mainContainer %}
+    	<div style="height:100%; padding-top: 40px;">
+			<form action="{{ path("fos_user_security_check") }}" method="post">
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+				<div id="bloc">
+					<img src="{{asset('ress/img/cadenas.png')}}" id="cadenas"/>
+					<h3 id="authentification"><p>Authentification</p></h3>
+					<div class="intitule" id="first_intitule">
+						<label class="libelle">Identifiant</label>
+						<input type="text" class="connex" id="username" name="_username" value="{{ last_username }}" required="required" autofocus /> 
+					</div><br>
+					<div class="intitule" >
+						<label class="libelle">Mot de passe</label>
+						<input type="password" class="connex" id="password" name="_password" required="required" /> 
+					</div><br>
+					<div class="serappeler">
+					 	<input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+    					<label for="remember_me"> se rappeler de moi ?</label>
+					</div>
+					<div id="mdp_oublie">
+					<img src="{{asset('ress/img/fleche_droite.gif')}}" style="width:13px; display:inline;" />
+					<a id="mdpoublie"> Mot de passe oublié ?</a>
+					{% if error %}
+					    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+					{% endif %}
+					</div><br>
+					<button  type="submit" id="_submit" name="_submit" >  Connexion </button> 
+				</div>
+			</form>
+		</div>
+	{% endblock %}

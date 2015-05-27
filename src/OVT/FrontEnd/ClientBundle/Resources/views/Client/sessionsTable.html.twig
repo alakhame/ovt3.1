@@ -1,14 +1,59 @@
+ 
 {% for s in sessions %}
-	<tr ng-click="setSelectedSession({{s.id}})">
-		<td>...</td>
-		{% if s.worker!=null %}
-			<td>{{s.worker.user.firstname~" "~s.worker.user.lastname}}</td>
-		{% else %}
-			<td>NONE</td>
-		{% endif %}
-		<td>{{s.requestdate|date('d/m/y H:i:s')}}</td>
-		<td>{{s.title}}</td>
-		<td>{{s.starttime|date('d/m/y H:i:s')}}</td>
-		<td>{{s.endtime|date('d/m/y H:i:s')}}</td>
-	<tr>
+	<div class="type_historique subtitle_color_text" ng-click="setSelectedSession({{s.id}})">
+		<div class="element_historique_container_historique element_historique_container_historique_date">
+			<div class="content_element_historique content_element_historique_date">
+				{{s.requestdate|date('d/m/y H:i:s')}}
+			</div>
+		</div>
+		<div class="element_historique_container_historique element_historique_container_historique_name">
+			<div class="content_element_historique content_element_historique_name">
+				{% if s.worker!=null %}
+					<td>{{s.worker.user.firstname~" "~s.worker.user.lastname}}</td>
+				{% else %}
+					<td>NONE</td>
+				{% endif %}
+			</div>
+		</div>
+		<div class="element_historique_container_historique element_historique_container_historique_duree">
+			<div class="content_element_historique">
+				{{s.title}}
+			</div>
+		</div>
+		<div class="element_historique_container_historique element_historique_container_historique_canal">
+			<div class="content_element_historique content_element_historique_canal">
+				{{s.service.name}}
+			</div>
+		</div>
+		<div class="element_historique_container_historique element_historique_container_historique_date">
+			<div class="content_element_historique content_element_historique_date">
+				{{s.starttime|date('d/m/y H:i:s')}}
+			</div>
+		</div>
+		<div class="element_historique_container_historique element_historique_container_historique_date">
+			<div class="content_element_historique content_element_historique_date">
+				{{s.endtime|date('d/m/y H:i:s')}}
+			</div>
+		</div>
+		<div class="element_historique_container_historique element_historique_container_historique_commentaire">
+			<div class="content_element_historique content_element_historique_commentaire">
+				<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="10" height="12" viewBox="0 0 19 23" class="title_color_fill">
+					<use xlink:href="{{asset('svg/commentaire_logo.svg')}}#commentaire_logo"></use>
+				</svg>
+				<div class="container_drop_down_commentaire">
+					<div class="arrow_drop_down_commentaire">
+						<img src="{{asset('img/arrow_drop_down.png')}}">
+					</div>
+					<div class="drop_down_commentaire">
+						<div class="cross_close_drop_down_commentaire">
+							<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="7" height="7" viewBox="0 0 13 13" class="subtitle_color_fill">
+								<use xlink:href="{{asset('svg/cross_close_drop_down.svg')}}#cross_close_drop_down"></use>
+							</svg>
+						</div>
+						<textarea class="subtitle_color_border_08 subtitle_color_text textarea_commentaire" placeholder="Ajouter votre commentaire...">{{s.description}}</textarea> 
+					</div>
+				</div> 
+			</div>
+		</div> 
+	</div>
 {% endfor %}

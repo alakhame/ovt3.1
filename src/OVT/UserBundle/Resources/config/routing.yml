@@ -11,3 +11,9 @@ ovt_user_profil_update:
     defaults: { _controller: OVTUserBundle:UserInfos:updateProfile }
     requirements:
         _method: POST
+
+ovt_user_password_update:
+    path:     /password/update
+    defaults: { _controller: OVTUserBundle:UserInfos:updatePassword }
+    requirements:
+        _method: POST
