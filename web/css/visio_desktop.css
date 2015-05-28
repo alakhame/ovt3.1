@@ -71,7 +71,36 @@ body, html {
 	overflow: scroll;
 
 }
- 
+ .change_passworK_style {
+  font-size: 11px;
+  font-family: "OpenSans-Regular";
+  text-decoration: underline;
+  cursor: pointer;
+  text-align: left;
+  position: relative;
+  width: 170px; 
+  top: 50%;
+  -webkit-transform: translate(0%,-50%);
+  -ms-transform: translate(0%,-50%);
+  -o-transform: translate(0%,-50%);
+  transform: translate(0%,-50%);
+}
+.button_save_new_data_New
+{
+	height: 50px;
+	width: 135px;
+	border-radius: 25px; 
+	text-align: center;
+	line-height: 50px;
+	color: #FFF;
+	font-family: "OpenSans-Regular";
+	font-size: 12px;
+	display: inline-block;
+	margin-right: 80px;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+}
 /* ----------------- Title color -----------------*/
 .title_color_text
 {

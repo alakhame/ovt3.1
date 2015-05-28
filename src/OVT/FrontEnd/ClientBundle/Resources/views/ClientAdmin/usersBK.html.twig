@@ -1,0 +1,309 @@
+{% extends "OVTFrontEndClientBundle:ClientAdmin:index.html.twig" %}
+{% block links %}
+	{{parent()}}
+	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+	<script src="{{asset('ress/js/angular.js')}}" > </script>
+	<script src="{{asset('ress/js/jquery.js')}}" > </script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	
+{% endblock %}
+	{% block container %}
+
+		<div class="cadre"  ng-app="OVTApp" ng-controller="userCtrl" data-ng-init="init()" >
+			<div class="gestion_title">
+				<p>Gestion des utilisateurs clients  </p>
+			</div>
+			<div id="inside_cadre">
+				<div class="list">
+					<div class="list_border" style="float:left;width: auto;">
+						<div class="entete">
+							<label for="tri"> Trier Par : </label>
+							<select name="choix_tri" style="width: 50px;" > 
+							</select>
+						</div>
+						<br/>
+						
+						<div class="user_list" >
+							 <div>
+								<ul class="listservices">
+								{% for s in clients %}
+									<div class="listserviceli" ng-click="actionClick({{s.id}})">
+										<li >{{s.firstname ~" "~s.lastname}}</li>
+										<input 	type="hidden" value="{{s.id}}" ></input>
+									</div>	
+								{% endfor %}
+								</ul>
+							</div>
+						</div>
+
+					</div> 
+
+				</div> <!-- end list -->
+							<div class="infos"  ng-show="planingFlag"  >
+								<div id="clientCalendar"></div>
+
+							</div>
+				<div class="infos"  ng-hide="planingFlag">
+					<div class="buttonTabs"  >
+						<div >
+							<input ng-click="toUpdate()"  class="submitButtton" ng-value="modifyText"></input>
+						</div>
+						<div >
+							<input ng-click="toDelete(clientSelected.id)"  class="submitButtton" value="Supprimer"></input>
+						</div>
+						<div >
+							<input ng-click="seePlaning(clientSelected.id)"  class="submitButtton" value="Voir Planing"></input>
+						</div>
+						<div >
+							<select  ng-change="setGroup(clientSelected.id)"  class="submitButtton" ng-model="selectedGroup" ng-options="group as group.name for group in groups  track by group.id" >
+								<option value="" disabled>Affecter à un groupe</option>
+
+							</select>
+						</div>
+						<div >
+							<input ng-click="new()"  class="submitButtton" ng-value="newText"></input>
+						</div>
+						
+					</div>
+					
+
+						<div class="user_infos"  >
+
+							
+							<div class="user_infos_border" style="float:left">
+								<img src="{{asset('ress/img/loader.gif')}}" ng-show="loading" id="loader">
+								<div  ng-hide="loading  " id="clientInfo" >
+									<div ng-hide="firstload || modifyFlag || newFlag || planingFlag ">
+										{% verbatim %}
+											<h5> Nom : {{clientSelected.user.lastname}}</h5>
+											<h5> Prénom : {{clientSelected.user.firstname}} </h5>
+											<h5> Email : {{clientSelected.user.email}}</h5>
+											<h5> Adresse : {{clientSelected.user.address}}</h5>
+											<h5> Numéro de Téléphone : {{clientSelected.user.phoneNumber}} </h5>
+											<h5> Langue : {{clientSelected.langue}} </h5>
+											<h5> Groupe : {{clientSelected.group}} </h5>
+											<h5> Equipements : {{clientSelected.equipments}} </h5>
+										{% endverbatim %}
+									</div>
+
+									<div ng-show="modifyFlag">
+										<form action="{{path('ovt_front_end_admin_client_update_user')}}" method="post">
+											{% verbatim %}
+									 		<table>
+									 			<tbody>
+									 				<tr>
+									 					<td><label for="lastName" > Nom </label>
+												 		<td><input style="width:150px" type="text" name="lastName" ng-value="clientSelected.user.lastname"></input></td> <br/>
+												 	</tr>
+												 	<tr>
+									 					<td><label for="firstName" > Prénom </label>
+												 		<td><input style="width:150px" type="text" name="firstName" ng-value="clientSelected.user.firstname"></input></td> <br/>
+												 	</tr>
+												 	<tr>
+									 					<td><label for="email" > Email : </label>
+												 		<td><input style="width:150px" type="text" name="email" ng-value="clientSelected.user.email"></input></td> <br/>
+												 	</tr>
+												 	<tr>
+									 					<td><label for="address" > Adresse : </label>
+												 		<td><input style="width:150px" type="text" name="address" ng-value="clientSelected.user.address"></input></td> <br/>
+												 	</tr>
+												 	<tr>
+									 					<td><label for="phoneNumber" >Numéro de téléphone : </label>
+												 		<td><input style="width:150px" type="text" name="phoneNumber" ng-value="clientSelected.user.phoneNumber"></input></td> <br/>
+												 	</tr>
+													<tr>
+									 					<td><label for="role" > Type </label>
+									 						
+												 		<td>
+												 			<select style="width:150px" type="text" name="role"  >
+																<option value="ROLE_CLIENT" selected> Utilisateur Client</option>
+												 			</select>
+												 		</td> 
+												 	</tr>
+												 	<tr>
+									 					<td><label for="language" > Langue </label>
+									 						
+												 		<td>
+												 			<select style="width:150px" type="text" name="language"  >
+																<option value="fr" selected> Français</option>
+												 				<option value="en" selected> Anglais</option>
+												 			</select>
+												 		</td>  
+												 	</tr> 
+												 	<tr>
+									 					<td><label for="equipments" > Equipements </label>
+									 						
+												 		<td>
+												 			<input style="width:150px"   name="equipments" ng-value="clientSelected.equipments" > 
+												 				
+												 			</input>
+												 		</td>  
+												 	</tr> 
+												 	<tr>
+									 					<td><label for="password" > Mot de passe : </label>
+												 		<td><input style="width:150px" type="password" name="password" placeholder="Mot de passe"></input></td> <br/>
+												 	</tr>
+												 	<tr>
+									 					<td><label for="confirmPassword" >Confirmer Mot de passe : </label>
+												 		<td><input style="width:150px" type="password" name="confirmPassword" placeholder="Resaisir mot de passe ici"></input></td> <br/>
+												 	</tr>
+												 	</tr>
+												</tbody>
+											</table>
+											<input type="hidden" name="clientID" ng-value="clientSelected.id"></input>
+											<input type="hidden" name="userType" value="client"></input>
+											<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Modifer"> 
+											</input>
+											{% endverbatim %}
+										</form>
+									</div> <!-- end form div -->
+
+
+									<div ng-show="newFlag" class="addForm" >
+										{% include 'OVTFrontEndClientBundle:ClientAdmin:addClient.html.twig' %}
+									</div> <!-- end form div -->
+
+								</div>
+							</div>
+						</div> <!-- end user infos -->
+					</div> <!-- end   infos -->
+
+			</div>
+ 			
+ 			<script type="text/javascript">
+ 				var app = angular.module('OVTApp', []);
+				
+				app.controller('userCtrl', function($scope,$http,$location,$window) {
+						$scope.init = function (){
+							$scope.affectShow=false;
+							$scope.loading = false;
+							$scope.firstload=true;
+							$scope.modifyText="Modifier";
+							$scope.newText="Nouveau";
+							$scope.modifyFlag=false;
+							$scope.planingFlag=false;
+							$scope.newFlag=false;
+							$scope.actionClick(35);
+							//get groups
+				   			{% verbatim %} 
+				   				var link=Routing.generate('ovt_front_end_admin_client_get_json_groups_by_admin'); {% endverbatim %}
+				   			$http.get(link).
+						  	success(function(data, status, headers, config) {
+							    $scope.groups=data;
+							    $scope.loading = false;
+
+						  	}).
+						 	error(function(data, status, headers, config) { });
+						}
+
+
+						$scope.actionClick= function (idclient) {
+							if($scope.modifyFlag) $scope.toUpdate();
+				   			if($scope.newFlag) $scope.new();
+				   			if($scope.planingFlag)$scope.planingFlag =false;
+							$scope.firstload=false;
+							$scope.loading = true;
+				   			{% verbatim %} 
+				   				var link=Routing.generate('ovt_front_end_admin_client_get_user_by_id', {id:idclient}); {% endverbatim %}
+				   			$http.get(link).
+						  	success(function(data, status, headers, config) {
+							    $scope.clientSelected=data;
+							    $scope.loading = false;
+
+						  	}).
+						 	error(function(data, status, headers, config) { });
+
+				   		}
+
+				   		$scope.toDelete = function(idclient){
+				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_client_delete_user_by_id');
+				   			{% endverbatim %}
+							$scope.loading = true;
+							var confirmation = confirm("Voulez vraiment SUPPRIMER cet utilisaeur ?");
+							if(confirmation){
+								$http({
+								    method: 'POST',
+								    url: link,
+								    data: "idClient="+idclient,
+								    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+								}).
+								success(function(data, status, headers, config) {
+							  		alert("Suppression menée avec succès ! ");
+							     	$window.location.href=Routing.generate('ovt_front_end_admin_client_users'); 
+							  	}).
+							  	error(function(data, status, headers, config) {
+							    	alert("Suppression échouée !"+data);
+							    	$scope.loading = false;
+							  	});
+							  	
+							}else {
+								$scope.loading = false;
+							}
+				   		}
+
+				   		$scope.toUpdate= function(){
+				   			if($scope.planingFlag)$scope.planingFlag =false;
+				   			$scope.modifyFlag=!$scope.modifyFlag;
+				   			$scope.modifyText=$scope.modifyFlag?"Retour":"Modifier";
+				   			if($scope.newFlag) $scope.new();
+				   		}
+
+				   		$scope.setGroup= function(idclient){
+				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_client_set_user_group');
+				   			{% endverbatim %}
+							$scope.loading = true;
+							var confirmation = confirm("Voulez vous affecter ce groupe à cet utilisateur ?");
+							if(confirmation){
+								$http({
+								    method: 'POST',
+								    url: link,
+								    data: "idClient="+idclient+"&idGroup="+$scope.selectedGroup.id,
+								    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+								}).
+								success(function(data, status, headers, config) {
+							  		alert("Affectation menée avec succès ! ");
+							     	$window.location.href=Routing.generate('ovt_front_end_admin_client_users'); 
+							  	}).
+							  	error(function(data, status, headers, config) {
+							    	alert("Affectation échouée !"+data);
+							    	$scope.loading = false;
+							  	});
+							  	
+							}else {
+								$scope.loading = false;
+							}
+				   		}
+
+				   		$scope.seePlaning= function(idclient){
+			   				if($scope.modifyFlag) $scope.toUpdate();
+			   				if($scope.newFlag) $scope.new();
+							{% verbatim %}
+				   				var link=Routing.generate('ovt_front_end_client_calendar',{idClient:idclient,coreCalendar:1});
+				   			{% endverbatim %}
+							$scope.loading = true;
+							$http.get(link).
+							success(function(data, status, headers, config) {
+						  		$scope.loading = false;
+						     	$('#clientCalendar').html(data);
+						     	$scope.planingFlag=true;
+						  	}).
+						  	error(function(data, status, headers, config) {
+						    	$scope.loading = false;
+						  	});		
+			   									 
+				   		}
+				   		
+				   		$scope.new= function(idclient){
+				   			$scope.newFlag=!$scope.newFlag;
+				   			$scope.newText=$scope.newFlag?"Retour":"Nouveau";
+				   			if($scope.modifyFlag) $scope.toUpdate();
+				   			if($scope.planingFlag)$scope.planingFlag =false;
+				   		}	
+				});
+ 			</script>
+
+		</div>
+
+	{% endblock %} 

@@ -1,0 +1,342 @@
+{% extends "OVTFrontEndClientBundle:ClientAdmin:index.html.twig" %}
+{% block links %}
+	{{parent()}}
+	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+	<script src="{{asset('ress/js/angular.js')}}" > </script>
+	<script src="{{asset('ress/js/jquery.js')}}" > </script>
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	
+{% endblock %}
+	{% block container %}
+	<div ng-app="OVTApp" ng-controller="sessionsCtrl" data-ng-init="init()" >
+		<div class="cadre" id="tableDemandes" >
+			<div class="gestion_title">
+				<p  > Gestion des réservations
+				 </p>
+				
+			</div>
+			<div id="inside_cadre">
+				<div class="buttonTabs"  >
+					<div >
+						<input  ng-click="viewATraiter()"  class="submitButtton"  value="Demandes à traiter"></input>
+					</div>
+					<div >
+						<input  ng-click="viewPlanifiees()" class="submitButtton" value="Demandes planifiées"></input>
+					</div>
+					<div >
+						<input  ng-click="viewAnnulees()" class="submitButtton"  value="Demandes annulées"></input>
+					</div>
+					<div >
+						<input  ng-click="viewRefusees()" class="submitButtton"  value="Demandes refusées"></input>
+					</div>
+				</div>
+
+				<div id="tableATraiter"   ng-show="atraiterFlag && !planifieesFlag && ! annuleesFlag && !refuseesFlag " >
+					<table class="tableSessions">
+						<thead>
+							<td>...</td>
+							<td>Prestataire</td>
+							<td>Date de la réservation</td>
+							<td>Intitulé</td> 
+							<td>Heure de début</td>
+							<td>Heure de fin</td>
+						</thead>
+						<tbody>
+								{{render(controller('OVTFrontEndClientBundle:Client:getSessionsByState',{state:'TO_CONFIRM'})) }}
+						</tbody>
+					</table>
+				</div>
+
+				<div id="tablePlanifees"  ng-show="!atraiterFlag && planifieesFlag && !annuleesFlag && !refuseesFlag ">
+					<table class="tableSessions">
+						<thead>
+							<td>...</td>
+							<td>Prestataire</td>
+							<td>Date de la réservation</td>
+							<td>Intitulé</td> 
+							<td>Heure de début</td>
+							<td>Heure de fin</td>
+						</thead>
+						<tbody>
+								{{render(controller('OVTFrontEndClientBundle:Client:getSessionsByState',{state:'ACCEPTED'})) }}
+						</tbody>
+					</table>
+				</div>
+
+				<div id="tableAnnulees" ng-show="!atraiterFlag && !planifieesFlag && annuleesFlag && !refuseesFlag ">
+					<table class="tableSessions">
+						<thead>
+							<td>...</td>
+							<td>Prestataire</td>
+							<td>Date de la réservation</td>
+							<td>Intitulé</td> 
+							<td>Heure de début</td>
+							<td>Heure de fin</td>
+						</thead>
+						<tbody>
+								{{render(controller('OVTFrontEndClientBundle:Client:getSessionsByState',{state:'CANCELED'})) }}
+						</tbody>
+					</table>
+				</div>
+
+				<div id="tableARefusees"   ng-show="!atraiterFlag && !planifieesFlag && !annuleesFlag && refuseesFlag ">
+					<table class="tableSessions">
+						<thead>
+							<td>...</td>
+							<td>Prestataire</td>
+							<td>Date de la réservation</td>
+							<td>Intitulé</td> 
+							<td>Heure de début</td>
+							<td>Heure de fin</td>
+						</thead>
+						<tbody>
+								{{render(controller('OVTFrontEndClientBundle:Client:getSessionsByState',{state:'REFUSED'})) }}
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+
+		<div class="cadre" id="detailsDemande" >
+			<div class="gestion_title">
+				<p> Details de la demande </p> 
+			</div>
+			<div id="inside_cadre">
+				<img src="{{asset('ress/img/loader.gif')}}" ng-show="loading" id="loader">
+				<div id="apercuATraiter" ng-show="!firstload && atraiterFlag && !loading">
+					<div class="buttonTabs"  >
+						<div >
+							<input  ng-click="cancel(session.id)"  class="submitButtton"  value="ANNULER"></input>
+						</div>	
+						
+					</div><br/>
+					<div  >
+						Session à traiter
+					</div><br/>
+					<div class="detailsSessions" style="width:500px" >
+						{% verbatim %}
+							<h5> Nom du client : {{session.client}}</h5>
+							<h5 style="float:right"> Description : 
+								<textarea disabled>{{session.description}}</textarea></h5>
+							<h5> Intitulé : {{session.title}} </h5>
+							<h5> Contexte : {{session.type}}</h5>
+							<h5> Date de la demande : {{session.requestDate}}</h5>
+							<h5> Heure de début : {{session.startTime}} </h5>
+							<h5> Heure de fin : {{session.endTime}}</h5>
+							
+							<h5> Service : {{session.service}}</h5>
+							<br/>
+						{% endverbatim %}
+					</div>
+				</div>
+
+				<div id="apercuPlanifiees" ng-show="!firstload && planifieesFlag && !loading">
+					<div class="buttonTabs"  >
+						<div >
+							<input  ng-click="cancel(session.id)"  class="submitButtton"  value="ANNULER"></input>
+						</div> 					
+					</div><br/>
+					<div  >
+						Session programmée
+					</div><br/>
+					<div class="detailsSessions" style="width:500px" >
+						{% verbatim %}
+							<h5> Nom du client : {{session.client}}</h5>
+							<h5 style="float:right"> Description : 
+								<textarea disabled>{{session.description}}</textarea></h5>
+							<h5> Intitulé : {{session.title}} </h5>
+							<h5> Contexte : {{session.type}}</h5>
+							<h5> Date de la demande : {{session.requestDate}}</h5>
+							<h5> Heure de début : {{session.startTime}} </h5>
+							<h5> Heure de fin : {{session.endTime}}</h5>
+							
+							<h5> Service : {{session.service}}</h5>
+							<br/>
+						{% endverbatim %}
+					</div>
+				</div>
+
+				<div id="apercuAnnulees" ng-show="!firstload && annuleesFlag && !loading">
+					<div class="buttonTabs"  >
+						<div >
+							<input  ng-click="delete(session.id)"  class="submitButtton"  value="SUPPRIMER"></input>
+						</div>						
+					</div><br/>
+					<div  >
+						Session annulée
+					</div><br/>
+					<div class="detailsSessions" style="width:500px" >
+						{% verbatim %}
+							<h5> Nom du client : {{session.client}}</h5>
+							<h5 style="float:right"> Description : 
+								<textarea disabled>{{session.description}}</textarea></h5>
+							<h5> Intitulé : {{session.title}} </h5>
+							<h5> Contexte : {{session.type}}</h5>
+							<h5> Date de la demande : {{session.requestDate}}</h5>
+							<h5> Heure de début : {{session.startTime}} </h5>
+							<h5> Heure de fin : {{session.endTime}}</h5>
+							
+							<h5> Service : {{session.service}}</h5>
+							<br/>
+						{% endverbatim %}
+					</div>
+				</div>
+
+				<div id="apercuRefusees" ng-show="!firstload && refuseesFlag && !loading">
+					<div class="buttonTabs"  >
+						<div >
+							<input  ng-click="delete(session.id)"  class="submitButtton"  value="SUPPRIMER"></input>
+						</div> 				
+					</div><br/>
+					<div  >
+						Session refusée
+					</div><br/>
+					<div class="detailsSessions" style="width:500px" >
+						{% verbatim %}
+							<h5> Nom du client : {{session.client}}</h5>
+							<h5 style="float:right"> Description : 
+								<textarea disabled>{{session.description}}</textarea></h5>
+							<h5> Intitulé : {{session.title}} </h5>
+							<h5> Contexte : {{session.type}}</h5>
+							<h5> Date de la demande : {{session.requestDate}}</h5>
+							<h5> Heure de début : {{session.startTime}} </h5>
+							<h5> Heure de fin : {{session.endTime}}</h5>
+							
+							<h5> Service : {{session.service}}</h5>
+							<br/>
+						{% endverbatim %}
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+ 			
+ 			
+
+		</div>
+		
+	</div>
+		
+
+	<script type="text/javascript">
+		var app = angular.module('OVTApp', []);
+		
+		app.controller('sessionsCtrl', function($scope,$http,$location,$window) {
+			$scope.init = function (){
+				$scope.loading = false;
+				$scope.firstload=true;
+				//flags
+				$scope.atraiterFlag=true;
+				$scope.planifieesFlag=false;
+				$scope.annuleesFlag=false;
+				$scope.refuseesFlag=false;
+				
+			}
+
+			$scope.setSelectedSession= function(idsession){
+				$scope.firstload=false;
+				$scope.loading = true;
+	   			{% verbatim %} var link=Routing.generate('ovt_front_end_admin_client_get_session_by_id', {id:idsession}); {% endverbatim %}
+	   			$http.get(link).
+			  	success(function(data, status, headers, config) {
+				    $scope.session=data;
+				    $scope.loading = false;
+
+			  	}).
+			 	error(function(data, status, headers, config) { });
+			}
+
+			$scope.viewATraiter= function (){
+				$scope.atraiterFlag=true;
+				$scope.planifieesFlag=false;
+				$scope.annuleesFlag=false;
+				$scope.refuseesFlag=false;
+				$scope.firstload=true;
+			}
+
+			$scope.viewPlanifiees= function (){
+				$scope.atraiterFlag=false;
+				$scope.planifieesFlag=true;
+				$scope.annuleesFlag=false;
+				$scope.refuseesFlag=false;
+				$scope.firstload=true;
+			}
+
+			$scope.viewAnnulees= function (){
+				$scope.atraiterFlag=false;
+				$scope.planifieesFlag=false;
+				$scope.annuleesFlag=true;
+				$scope.refuseesFlag=false;
+				$scope.firstload=true;
+			}
+
+			$scope.viewRefusees= function (){
+				$scope.atraiterFlag=false;
+				$scope.planifieesFlag=false;
+				$scope.annuleesFlag=false;
+				$scope.refuseesFlag=true;
+				$scope.firstload=true;
+			}
+
+	   		$scope.delete = function(idsession){
+	   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_client_action_session',{action:'delete'});
+	   			{% endverbatim %}
+				$scope.loading = true;
+				var confirmation = confirm("Voulez vraiment supprimer cette réunion ?");
+				if(confirmation){
+					$http({
+					    method: 'POST',
+					    url: link,
+					    data: "idSession="+idsession,
+					    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+					}).
+					success(function(data, status, headers, config) {
+				  		alert("Suppression menée avec succès ! ");
+				     	$window.location.href=Routing.generate('ovt_front_end_client_list_sessions'); 
+				  	}).
+				  	error(function(data, status, headers, config) {
+				    	alert("Suppression  échouée !"+data);
+				    	$scope.loading = false;
+				  	});
+				  	
+				}else {
+					$scope.loading = false;
+				}
+	   		}
+
+	   		 
+
+	   		$scope.cancel = function(idsession){
+	   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_client_action_session',{action:'cancel'});
+	   			{% endverbatim %}
+				$scope.loading = true;
+				var confirmation = confirm("Voulez vraiment annuler cette réunion ?");
+				if(confirmation){
+					$http({
+					    method: 'POST',
+					    url: link,
+					    data: "idSession="+idsession,
+					    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+					}).
+					success(function(data, status, headers, config) {
+				  		alert("Annulation menée avec succès ! ");
+				     	$window.location.href=Routing.generate('ovt_front_end_client_list_sessions'); 
+				  	}).
+				  	error(function(data, status, headers, config) {
+				    	alert("Annulation  échouée !"+data);
+				    	$scope.loading = false;
+				  	});
+				  	
+				}else {
+					$scope.loading = false;
+				}
+	   		}
+		});
+	</script>
+	
+	{% endblock %} 

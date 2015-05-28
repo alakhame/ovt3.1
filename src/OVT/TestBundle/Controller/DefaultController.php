@@ -10,7 +10,7 @@ class DefaultController extends Controller
     public function indexAction()
     {   
         $user = $this->container->get('security.context')->getToken()->getUser();
-        return $this->render('OVTFrontEndClientBundle:Client:documentN.html.twig',array('user'=>$user));
+        return $this->render('OVTFrontEndClientBundle:ClientAdmin:usersN.html.twig',array('user'=>$user));
     }
 
      public function interfaceAction()
