@@ -9,8 +9,12 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {   
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        return $this->render('OVTFrontEndClientBundle:ClientAdmin:usersN.html.twig',array('user'=>$user));
+        //$user = $this->container->get('security.context')->getToken()->getUser();
+        $adminClient=$this->get('clientadmin');
+        $admin= $this->container->get('security.context')->getToken()->getUser();
+        $clients = $adminClient->retriveClientsFromAdmin($admin);
+        return new Response(var_dump($clients));
+        //return $this->render('OVTFrontEndClientBundle:ClientAdmin:usersN.html.twig',array('user'=>$user));
     }
 
      public function interfaceAction()

@@ -87,7 +87,7 @@ class ClientAdminController extends Controller
     public function usersAction(){
     	$adminClient=$this->get('clientadmin');
     	$admin= $this->container->get('security.context')->getToken()->getUser();
-    	$clients = $adminClient->retriveClientsFromAdmin($admin);
+    	$clients = $adminClient->retriveClientsFromAdmin($admin); 
     	return $this->render('OVTFrontEndClientBundle:ClientAdmin:users.html.twig',array('clients'=>$clients));
     }
 

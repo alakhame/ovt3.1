@@ -191,6 +191,7 @@
 							        </div>
 							    </div>
 							</div>
+
 						</div>
 			 		</div>
 
@@ -220,7 +221,7 @@
 						     
 							var id ={{idClient}};
 							var link=Routing.generate('ovt_front_end_client_retrieve_client_sessions',{idClient:id}); 
-								
+							console.log(link);
 							$('#calendar').fullCalendar({
 								events:  link ,
 								header: {

@@ -1,13 +1,22 @@
 {% extends "::baseProfil.html.twig" %}
  
 	{% block header %}
+		
+		<link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" /> 
 		{{parent()}}
 		<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+		<link rel="stylesheet" href="{{asset('ress/css/fullcalendar.css')}}" />  
+		<link rel="stylesheet" href="{{asset('ress/css/calendar.css')}}" /> 
+		<link rel='stylesheet' href="{{asset('ress/css/fullcalendar.print.css')}}"media='print' /> 
+
 		<script src="{{asset('ress/js/angular.js')}}" > </script>
 		<script src="{{asset('ress/js/jquery.js')}}" > </script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
 		<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 		<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+		<script src="{{asset('ress/js/bootstrap.min.js')}}" > </script>
+
 	{% endblock %}
 
  	{% block tabTitle %} 
@@ -44,14 +53,14 @@
 							</div>
 							<div class="container_list_contact_program_now subtitle_color_border_08" style="  max-height: 100%; min-height: 100%;">
 								{% for s in clients %}
-								<div class="container_contact_program_now_style">
+								<div class="container_contact_program_now_style"  ng-click="actionClick({{s.user.id}})" id="user_infos_{{s.user.id}}" >
 									<div class="container_pp_contact_program_now_style" style="background-image: url({{asset('svg/default_pp.svg')}})"> 
 									</div>
 									<div class="container_info_contact_program_now">
-										<div class="name_contact_program_now title_color_text">{{s.firstname ~" "~s.lastname}}</div>
-										<div class="role_contact_program_now subtitle_color_text">Mockeper / Home</div>
+										<div class="name_contact_program_now title_color_text">{{s.user.firstname ~" "~s.user.lastname}}</div>
+										<div class="role_contact_program_now subtitle_color_text">{{s.group.name}}</div>
 									</div>
-									<div class="container_check_contact_program_now">
+									<div class="container_check_contact_program_now_new " id="select_check_{{s.user.id}}">
 										<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="11" height="8" viewBox="0 0 22 17">
 											<use xlink:href="{{asset('svg/done_green_2.svg')}}#done_green_2"></use>
 										</svg>
@@ -66,7 +75,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="container_right_tab_1 container_in_tab_1" style="width:60%">
+				<div class="container_right_tab_1 container_in_tab_1" style="width:60%" ng-hide="planingFlag">
 					<div class="container_info_contact_tab_4" style="margin:auto;">
 					 	<div class="column_1_tab_4 column_tab_4_style" ng-hide="passwordChange">
 					 		{% verbatim %}
@@ -117,17 +126,18 @@
 							</div>  
 						</div>
 
-						<div style="width:80%; margin:auto;" >
+						<div style="width:80%; margin:auto;" ng-hide="passwordChange">
 							<form method="post" action="{{path('ovt_front_end_admin_client_update_user')}}" id="updateForm" style="display:none"   >
 								<input type="text" name="lastName" 				id="lastnameKForm" ></input>
 								<input type="text" name="firstName" 			id="firstnameKForm"></input>
 								<input type="text" name="email" 				id="emailKForm"></input>
 								<input type="text" name="address"  				id="addressKForm"></input>
-								<input type="text" name="phoneNumber" 			id="phoneNumberKForm"></input>		
-								<input type="text" name="language"  			id="addressKForm" ></input>
+								<input type="text" 	name="phoneNumber" 			id="phoneNumberKForm"></input>		
+								<input type="text" 	name="language"  			id="langueKForm" ></input>
 								<input type="text"  name="equipments" 			id="equipementsKForm"></input>
 								<input type="hidden" name="clientID" 			ng-value="clientSelected.id"></input>
-								<input type="hidden" name="userType" value="client"></input>
+								<input type="hidden" name="userType" id="userTypeKForm" value="client"></input>
+								<input type="hidden" name="role"   value="ROLE_CLIENT"></input>
 								<input type="submit" />
 							</form>
 							<div class="button_save_tab_4 button_tab_4 theme_color_background" id="formSubmit" style="float:left;width:30%; margin:auto">Enregistrer
@@ -152,7 +162,7 @@
 										Retapez mot de passe</div>	
 									<input type="password" name="newPassword2" id="newPassword2" class="input_data">
 								</div>
-								<input type="hidden" name="userId" ng-value="clientSelected.id"></input>	
+								<input type="hidden" name="userId" ng-value="clientSelected.user.id"></input>	
 							</form>
 							<div class="container_save_new_data">
 								<div class=" button_save_new_data_New save_new_password theme_color_background" id="formPasswordSubmit">Modifier
@@ -166,10 +176,74 @@
 							</div>
 						</div>
 					</div>
+					
 				</div>
+				<div class="container_right_tab_1 container_in_tab_1" style="width:60%" ng-show="planingFlag" >
+					<div  class="container_info_contact_tab_4" style="margin:auto;" >
+							<div id="clientCalendar"></div>
+					</div>
+				</div>
+
+				<div class="modal hide modal-static fade"   id="waitingModal"  data-backdrop="static" data-keyboard="false" href="#" role="dialog" aria-hidden="true">
+				    <div class="modal-dialog">
+				        <div class="modal-content">
+				            <div class="modal-body">
+				                <div class="text-center">
+				                    <img src="http://www.travislayne.com/images/loading.gif" class="icon" />
+				                    <h4>Veuillez patienter... </h4>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+
+				<div id="modalsPopUp">		
+					<div id="addClientModal"  class="modal hide fade"  > 
+						<div class="modal-dialog">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">Fermer</span></button>
+					                <h4  class="modal-title"> Ajout d'un nouvel client</h4>
+					            </div> 
+					            {% include 'OVTFrontEndClientBundle:ClientAdmin:addClient.html.twig' %}
+					        </div>
+					    </div> 
+					</div>
+					<div id="fullCalModal" class="modal hide fade"  >
+					    {% verbatim %}
+					    <div class="modal-dialog">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+					                <h4 id="modalTitle" class="modal-title"> </h4>
+					            </div>
+					            <div id="modalBody" class="modal-body">
+								<h5> Nom du client : <span id="nomClient"></span></h5>
+									<h5  style="float:right"> Description : 
+										<textarea class="modal-body" disabled id="sessionDesc"></textarea></h5>
+									<h5 > Contexte : <span id="contexteSession"></span></h5>
+									<h5> Date de la demande : <span id="dateDemandeSession"></span> </h5>
+									<h5> Heure de début :  <span type="date"  id="debutSession"></span></h5>
+									<h5> Heure de fin : <span id="finSession"></span></h5>
+									<h5> Service :  <span id="serviceSession"></span></h5>
+									<br/>
+					            </div>
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					                <button class="btn btn-primary"><a id="joinUrl" target="_blank" >Joindre</a></button>
+					            </div>
+					        </div>
+					    </div>
+					    {% endverbatim %}
+					</div>
+				</div>
+
 			</div> 
 
- 			<script type="text/javascript">
+
+			<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+			<script src="{{asset('ress/js/fullcalendar.js')}}" > </script>  
+ 			<script type="text/javascript"> 
 
  				$('#formSubmit').click(function(){
  					$('#lastnameKForm').val($('#lastnameDiv').text());
@@ -177,10 +251,9 @@
 					$('#emailKForm').val($('#emailDiv').text());
 					$('#addressKForm').val($('#addressDiv').text());
 					$('#phoneNumberKForm').val($('#phoneNumberDiv').text());
-					$('#addressKForm').val($('#addressDiv').text());
-					$('#equipementsKForm').val($('#equipementsDiv').text());
- 					alert($('#lastnameKForm').val());
-					//$('#updateForm').submit();
+					$('#langueKForm').val($('#langueDiv').text());
+					$('#equipementsKForm').val($('#equipementsDiv').text());  
+					$('#updateForm').submit();
 				});
  				function fetchPassword(){ 
 					if($("#newPassword").val()!=$("#newPassword2").val()){
@@ -194,7 +267,15 @@
 				$('#formPasswordSubmit').click(function(){
 					$('#updatePasswordForm').submit();
 				});
-
+				$('#addNewClientFormButton').click(function(){
+					if($("#newClientPassword").val()!=$("#newClientPasswordRe").val()){
+						alert('Les mots de passe ne correspondent pas');
+						return false;
+					}
+					else{  
+						$('#addNewClientForm').submit(); 
+					}
+				});
 
 				/* --------- SEPARATOR ------------  */
  				var app = angular.module('OVTApp', []);
@@ -203,7 +284,7 @@
 						$scope.init = function (){
 							$scope.affectShow=false;
 							$scope.passwordChange=false;
-							$scope.loading = false;
+							$scope.loading = true; $("#waitingModal").modal('show');
 							$scope.firstload=true;
 							$scope.modifyText="Modifier";
 							$scope.newText="Nouveau";
@@ -217,7 +298,7 @@
 				   			$http.get(link).
 						  	success(function(data, status, headers, config) {
 							    $scope.groups=data;
-							    $scope.loading = false;
+							    $scope.loading = false; $("#waitingModal").modal('hide');
 
 						  	}).
 						 	error(function(data, status, headers, config) { });
@@ -229,23 +310,78 @@
 				   			if($scope.newFlag) $scope.new();
 				   			if($scope.planingFlag)$scope.planingFlag =false;
 							$scope.firstload=false;
-							$scope.loading = true;
+							$scope.loading = true; $("#waitingModal").modal('show');
 				   			{% verbatim %} 
-				   				var link=Routing.generate('ovt_front_end_admin_client_get_user_by_id', {id:idclient}); {% endverbatim %}
+				   				var link=Routing.generate('ovt_front_end_admin_client_get_user_by_id', {id:idclient});
+				   			{% endverbatim %}
 				   			$http.get(link).
 						  	success(function(data, status, headers, config) {
 							    $scope.clientSelected=data;
-							    $scope.loading = false;
+							    $scope.loading = false; $("#waitingModal").modal('hide');
+							    $('.container_check_contact_program_now_new').removeClass('active');
+							    $('#select_check_'+idclient).addClass('active');
 
 						  	}).
 						 	error(function(data, status, headers, config) { });
+
+
+							{% verbatim %}
+				   				var link2=Routing.generate('ovt_front_end_client_retrieve_client_sessions',{idClient:idclient}); 
+				   				console.log(link2);
+				   			{% endverbatim %}
+				   			alert('link '+link2);
+						 	$('#clientCalendar').fullCalendar({
+								events:  link2 ,
+								header: {
+									left: 'today',
+									center: 'prev, title, next'
+								},
+								businessHours:{
+									start: '08:00', 
+									end: '19:00',
+									dow: [ 0, 1, 2, 3, 4, 5, 6 ]
+								},
+								
+								defaultView: 'agendaWeek',
+								scrollTime: '07:00:00',
+								selectable: true, 
+								eventLimit: true, 
+							
+								eventClick:  function(event, jsEvent, view) {
+						            $('#modalTitle').html(event.title);
+						            $('#sessionDesc').html(event.description);
+						            $('#nomClient').html(event.client);
+						            $('#fullCalModal').modal();
+						            $('#contexteSession').html(event.type);
+						            $('#dateDemandeSession').html(event.requestDate);
+						        	$('#debutSession').html(event.startTime)  ;
+						        	$('#finSession').html(event.endTime);
+						        	$('#serviceSession').html(event.service);
+						        	{% verbatim %}
+						        		var toSession= Routing.generate('ovt_services_velotypie_join',{userType:'client',hashLink:event.link});
+						        	{% endverbatim %}
+						        	if(event.link!="")
+						        	$('#joinUrl').attr('href',toSession);
+						        },
+								 
+								select : function( start, end, jsEvent, view ) {
+									 
+								},
+								loading: function(bool) {
+						            if (bool) {
+						                $('#waitingModal').modal('show');
+						            } else {
+						                $('#waitingModal').modal('hide');
+						            }
+						        }
+							});
 
 				   		}
 
 				   		$scope.toDelete = function(idclient){
 				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_client_delete_user_by_id');
 				   			{% endverbatim %}
-							$scope.loading = true;
+							$scope.loading = true; $("#waitingModal").modal('show');
 							var confirmation = confirm("Voulez vraiment SUPPRIMER cet utilisaeur ?");
 							if(confirmation){
 								$http({
@@ -260,26 +396,23 @@
 							  	}).
 							  	error(function(data, status, headers, config) {
 							    	alert("Suppression échouée !"+data);
-							    	$scope.loading = false;
+							    	$scope.loading = false; $("#waitingModal").modal('hide');
 							  	});
 							  	
 							}else {
-								$scope.loading = false;
+								$scope.loading = false; $("#waitingModal").modal('hide');
 							}
 				   		}
 
 				   		$scope.toUpdate= function(){
 				   			if($scope.planingFlag)$scope.planingFlag =false;
-				   			$scope.modifyFlag=!$scope.modifyFlag;
-				   			$scope.modifyText=$scope.modifyFlag?"Retour":"Modifier";
-				   			if($scope.newFlag) $scope.new();
-
+				   			$scope.modifyFlag=true;  
+				   			$scope.passwordChange=false; 
 				   		}
-
 				   		$scope.setGroup= function(idclient){
 				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_client_set_user_group');
 				   			{% endverbatim %}
-							$scope.loading = true;
+							$scope.loading = true; $("#waitingModal").modal('show');
 							var confirmation = confirm("Voulez vous affecter ce groupe à cet utilisateur ?");
 							if(confirmation){
 								$http({
@@ -294,38 +427,37 @@
 							  	}).
 							  	error(function(data, status, headers, config) {
 							    	alert("Affectation échouée !"+data);
-							    	$scope.loading = false;
+							    	$scope.loading = false; $("#waitingModal").modal('hide');
 							  	});
 							  	
 							}else {
-								$scope.loading = false;
+								$scope.loading = false; $("#waitingModal").modal('hide');
 							}
 				   		}
 
 				   		$scope.seePlaning= function(idclient){
-			   				if($scope.modifyFlag) $scope.toUpdate();
-			   				if($scope.newFlag) $scope.new();
-							{% verbatim %}
+			   				$scope.modifyFlag=false;
+			   				$scope.newFlag=false;
+			   				$scope.planingFlag=true;
+							/*{% verbatim %}
 				   				var link=Routing.generate('ovt_front_end_client_calendar',{idClient:idclient,coreCalendar:1});
 				   			{% endverbatim %}
-							$scope.loading = true;
+							$scope.loading = true; $("#waitingModal").modal('show');
+							
 							$http.get(link).
 							success(function(data, status, headers, config) {
-						  		$scope.loading = false;
+						  		$scope.loading = false; $("#waitingModal").modal('hide');
 						     	$('#clientCalendar').html(data);
 						     	$scope.planingFlag=true;
 						  	}).
 						  	error(function(data, status, headers, config) {
-						    	$scope.loading = false;
-						  	});		
+						    	$scope.loading = false;   $("#waitingModal").modal('hide');
+						  	});		*/
 			   									 
 				   		}
 				   		
 				   		$scope.new= function(idclient){
-				   			$scope.newFlag=!$scope.newFlag;
-				   			$scope.newText=$scope.newFlag?"Retour":"Nouveau";
-				   			if($scope.modifyFlag) $scope.toUpdate();
-				   			if($scope.planingFlag)$scope.planingFlag =false;
+					   		$('#addClientModal').modal('show'); 
 				   		}	
 				});
  			</script>
