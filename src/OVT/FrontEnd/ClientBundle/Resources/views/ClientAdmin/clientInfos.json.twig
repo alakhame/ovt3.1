@@ -15,5 +15,20 @@
 		"group":"{{w.group.name}}"
 	{% else %}
 		"group": "NONE"
-	{% endif %}
+	{% endif %},
+	"authorizedServices": [
+	{% for s in w.authorizedServices %}
+		{% if loop.last %}
+		{
+			"id":"{{s.id}}",
+			"name":"{{s.name}}"
+		}
+		{% else %}
+		{
+			"id":"{{s.id}}",
+			"name":"{{s.name}}"
+		},
+		{% endif %}
+	{% endfor %}
+	]
 }

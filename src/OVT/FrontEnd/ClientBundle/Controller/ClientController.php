@@ -107,15 +107,24 @@ class ClientController extends Controller
     }
 
     public function calendarViewAction(Request $req, $idClient,$coreCalendar)
-    {
+    {   
+        $adminClient=$this->get('clientadmin');
+       
         if($req->get('coreCalendar')!=-1){ 
-            return $this->render('OVTFrontEndClientBundle:Client:agendaCore.html.twig',array('idClient'=>$idClient));
+            
+             $client=$adminClient->getClientFromUserID($idClient);
+            return $this->render('OVTFrontEndClientBundle:Client:agendaCore.html.twig',
+                array('idClient'=>$idClient, 'client'=>$client));
         } else {
+            $client=$adminClient->getClientFromUser($this->container->get('security.context')->getToken()->getUser());
+            
             if(!$this->isAdmin()){
-               return $this->render('OVTFrontEndClientBundle:Client:agenda.html.twig',array('idClient'=>$idClient));
+               return $this->render('OVTFrontEndClientBundle:Client:agenda.html.twig',
+                array('idClient'=>$idClient, 'client'=>$client));
             
             }else
-                return $this->render('OVTFrontEndClientBundle:ClientAdmin:agenda.html.twig',array('idClient'=>$idClient));
+                return $this->render('OVTFrontEndClientBundle:ClientAdmin:agenda.html.twig',
+                    array('idClient'=>$idClient, 'client'=>$client));
         }
     }
 
@@ -124,6 +133,15 @@ class ClientController extends Controller
         $user= $this->container->get('security.context')->getToken()->getUser();
         if($idClient==-1) $sessions=$adminClient->getSessionsByClient($user); 
         else $sessions=$adminClient->getSessionsByClientId($idClient); 
+        
+        return $this->render('OVTFrontEndClientBundle:Client:sessions.json.twig', array('sessions' =>$sessions ));
+    }
+
+    public function retrieveClientSessionsByUserIdAction($idUser){
+        $adminClient=$this->get('clientadmin');
+        $user= $this->container->get('security.context')->getToken()->getUser();
+        if($idUser==-1) $sessions=$adminClient->getSessionsByClient($user); 
+        else $sessions=$adminClient->getSessionsByUserId($idUser); 
         
         return $this->render('OVTFrontEndClientBundle:Client:sessions.json.twig', array('sessions' =>$sessions ));
     }

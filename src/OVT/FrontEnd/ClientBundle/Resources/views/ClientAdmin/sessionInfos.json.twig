@@ -2,9 +2,9 @@
 	"id":"{{s.id}}", 
 	"title":"{{s.title}}", 
 	"description":"{{s.description}}" , 
-	"startTime":"{{s.startTime|date('Y-m-d')}}" , 
-	"endTime":"{{s.endTime|date('Y-m-d')}}", 
-	"requestDate":"{{s.requestdate|date('Y-m-d')}}", 
+	"startTime":"{{s.startTime|date('Y-m-d H:i:s')}}" , 
+	"endTime":"{{s.endTime|date('Y-m-d H:i:s')}}", 
+	"requestDate":"{{s.requestdate|date('Y-m-d H:i:s')}}", 
 	"type":"{{s.type}}",
 	"client":"{{s.client.user.firstname ~" "~s.client.user.lastname}}",
 	{% if s.worker!=null %}

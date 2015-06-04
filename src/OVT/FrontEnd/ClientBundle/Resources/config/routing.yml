@@ -44,12 +44,25 @@ ovt_front_end_client_retrieve_client_sessions:
     requirements:
         _method: GET
 
+ovt_front_end_client_retrieve_client_sessions_by_user_id:
+    path: /myreservations/byuser/{idUser}
+    defaults: { _controller: OVTFrontEndClientBundle:Client:retrieveClientSessionsByUserId}
+    options:
+        expose: true
+    requirements:
+        _method: GET
+
 ovt_front_end_client_list_sessions:
     path:     /listsessions
     defaults: { _controller: OVTFrontEndClientBundle:Client:listSessions }
     options:
         expose: true 
 
+ovt_front_end_client_get_orgs_by_service:
+    path:     /getOrgByService/{serviceId}
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:getOrgByService, serviceId:-1 }
+    options:
+        expose: true
 
 
 
@@ -170,6 +183,21 @@ ovt_front_end_admin_client_manage_org_group:
     requirements:
         id : \d+
 
+ovt_front_end_admin_client_services_choice:
+    path: /adminclient/services/choice/{idClient}
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:servicesChoice}
+    options:
+        expose: true
+    requirements:
+        _method: GET
+
+ovt_front_end_admin_client_service_toggle:
+    path: /adminclient/services/choice/{idClient}/{idService}
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:serviceToggle}
+    options:
+        expose: true
+    requirements:
+        _method: GET
 
 
 

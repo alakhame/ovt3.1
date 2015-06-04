@@ -46,7 +46,7 @@ body, html {
 	padding-top: 3px;
 	padding-bottom: 3px;
 	position: relative;
-
+	margin-top: 10px; 
 	margin-left: 40px; 
 	cursor: pointer;
 
@@ -164,6 +164,34 @@ input.input_data {
 }
 select.input_data{
 	height: 30px;	
+}
+.button_select_service
+{ 
+	font-size: 11px;
+	width: 60px;
+	height: 25px;
+	display: inline-block;
+	border-radius: 13px; 
+ 	line-height: 25px;
+ 	text-align: center;
+ 	cursor: pointer;
+ 	margin-right: 50px;
+ 	overflow: hidden;
+ 	margin-top: 10px;
+ 	-webkit-transform: translate( 0%,-0%);
+	-ms-transform: translate( 0%,-0%);
+	-o-transform: translate( 0%,-0%);
+	transform: translate( 0%,-0%);
+	-webkit-transition: all .25s ease;
+	   -moz-transition: all .25s ease;
+	    -ms-transition: all .25s ease;
+	     -o-transition: all .25s ease;
+	        transition: all .25s ease;
+} 
+ 
+.button_select_service.active
+{
+	color: transparent;
 }
 /* ----------------- Title color -----------------*/
 .title_color_text
@@ -3536,7 +3564,7 @@ li:nth-child(n+23) .container_drop_down_more_rdv .drop_down_more_rdv
 }
 .content_info_editable_user_style, .content_info_noneditable_user_style
 {
-	width: 270px;
+	width: 200px;
 	height: 43px;
 	float: right;
 	text-align: left;

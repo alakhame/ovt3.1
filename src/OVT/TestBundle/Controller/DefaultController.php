@@ -13,8 +13,7 @@ class DefaultController extends Controller
         $adminClient=$this->get('clientadmin');
         $admin= $this->container->get('security.context')->getToken()->getUser();
         $clients = $adminClient->retriveClientsFromAdmin($admin);
-        return new Response(var_dump($clients));
-        //return $this->render('OVTFrontEndClientBundle:ClientAdmin:usersN.html.twig',array('user'=>$user));
+         return $this->render('OVTFrontEndClientBundle:ClientAdmin:groupsN.html.twig' );
     }
 
      public function interfaceAction()

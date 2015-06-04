@@ -34,6 +34,20 @@ class ClientAdminController extends Controller
 
 		return new Response($response);
 	}
+
+    public function getOrgByServiceAction($serviceId){
+        
+        $adminClient=$this->get('clientadmin');
+        $user= $this->container->get('security.context')->getToken()->getUser();
+        $response='';
+        $allOrgsService = $adminClient->getAllOrgsByServiceId($serviceId); 
+
+        foreach ($allOrgsService as $o) { 
+            $response.='<option value="'.$o->getId().'">'.$o->getName().'</option>';
+        }
+
+        return new Response($response);
+    }
 	
 	public function authorisedOrgsAction(){
 		$adminClient=$this->get('clientadmin');
@@ -323,6 +337,33 @@ class ClientAdminController extends Controller
 
     }
 
+    public function servicesChoiceAction($idClient){
+        $adminClient=$this->get('clientadmin');
+        $client=$adminClient->getClientFromUserID($idClient);
+        
+        $allservices=$client->getUser()->getOrganisation()->getService();
+        $clientServices = $client->getAuthorizedServices();
+        return $this->render('OVTFrontEndClientBundle:ClientAdmin:servicesChoice.html.twig',array(
+                'allS'=>$allservices,
+                'authS'=>$clientServices,
+                'client'=>$client));
+    }
+
+    public function serviceToggleAction($idClient,$idService){
+        $adminClient=$this->get('clientadmin');
+        $client=$adminClient->getClientFromUserID($idClient);
+        $service=$adminClient->getServiceById($idService);
+         
+        if($client->getAuthorizedServices()->contains($service)){
+            $client->removeAuthorizedServices($service);
+            $adminClient->update();
+            return new Response('0');
+        } else {
+            $client->addAuthorizedServices($service);
+            $adminClient->update();
+            return new Response('1');
+        }
+    }
 
 
 

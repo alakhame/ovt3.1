@@ -39,6 +39,12 @@ class ClientAdmin extends User
         return $this->em->getRepository('OVTGeneralBundle:Session')->findBy($criteria);
     }
 
+    public function getSessionsByUserId($idUser){
+        $client=$this->getClientFromUserID($idUser);
+        $criteria  = array('client' =>$client);
+        return $this->em->getRepository('OVTGeneralBundle:Session')->findBy($criteria);
+    }
+
     public function createSession($session){
         $doc = new Document();
         $doc->setCreationDate(new \DateTime('now'));
@@ -80,9 +86,7 @@ class ClientAdmin extends User
     
     public function getServiceById($id){
         return $this->em->getRepository('OVTGeneralBundle:Service')->find($id);
-    }
-
-
+    } 
 
     /************ Client ***************************/
 
@@ -150,6 +154,17 @@ class ClientAdmin extends User
 
     public function getOrganisationById($id) {
         return $this->em->getRepository('OVTGeneralBundle:Organisation')->find($id);
+    }
+
+    public function getAllOrgsByServiceId($serviceId){
+        $service = $this->getServiceById($serviceId);
+        $allOrgs = $this->em->getRepository('OVTGeneralBundle:Organisation')->findAll();
+        $result = array();
+        foreach ($allOrgs as $org) {
+            if($org->getService()->contains($service))
+                $result[]=$org;
+        }
+        return $result;
     }
      
    

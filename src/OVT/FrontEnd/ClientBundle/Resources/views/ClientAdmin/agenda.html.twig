@@ -110,24 +110,24 @@
 													 	</select>
 													</div>
 												</div>
-												<div class="form-group" >
-												 	<label class="control-label col-sm-2" for="organisation">Organisation cible</label>
-												 	<div class="col-sm-10">				 		
-														<select  id="orgSelect" class="form-control" name="provider">
-													 		{{render(controller('OVTFrontEndClientBundle:ClientAdmin:authorisedOrgs'))}}
+ 												
+ 												<div class="form-group" id="serviceSelectDiv" >
+												 	<label class="control-label col-sm-2" for="service">Service</label>
+												 	<div class="col-sm-10">
+												 		<select class="form-control" id="serviceSelect" name="service">		<option disabled selected > choisir service </option>
+												 			{% for s in client.authorizedServices %}
+													 			<option value="{{s.id}}"> {{s.name}} </option>
+													 		{% endfor %}
 												 		</select>
-												 	</div>
-												 	<div id="loading"  style="display: none;"> 
-												 		<img  src="{{asset('ress/img/loader.gif')}}" /> 
 												 	</div>
 												</div>
-												<div class="form-group" id="serviceSelectDiv" >
-												 	
-												 	<label class="control-label col-sm-2" for="service">Service </label>
-												 	<div class="col-sm-10">
-												 		<select class="form-control" id="serviceSelect" name="service"> 
+
+												<div class="form-group" id="orgSelectDiv" >
+												 	<label class="control-label col-sm-2" for="organisation">Organisation cible</label>
+												 	<div class="col-sm-10">				 		
+														<select  id="orgSelect" class="form-control" name="provider">  
 												 		</select>
-												 	</div>
+												 	</div> 
 												</div>
 												
 												<div class="form-group" >
@@ -286,18 +286,20 @@
 							 	$('#addSessionModal').modal('show');
 							 })
 
-							$('#orgSelect').change(function(){
-								$( "#serviceSelectDiv" ).hide(); 
-								$('#waitingingModal').modal('show'); 
-								$("#dummyOption").hide();
-								var val =$("#orgSelect").val();
-								var slink=Routing.generate('ovt_front_end_client_authorized_services',{orgID:val}); 
+							
+							$('#serviceSelectDiv').change(function(){
+								$( "#orgSelectDiv" ).hide(); 
+								$('#waitingingModal').modal('show');  
+								var val =$("#serviceSelect").val();
+								var slink=Routing.generate('ovt_front_end_client_get_orgs_by_service',{serviceId:val});
 								$.get( slink, function( data ) {
-									$( "#serviceSelect" ).html( data );
+									console.log(data);
+									$( "#orgSelect" ).html( data );
 									$('#waitingingModal').modal('hide');
-									$("#serviceSelectDiv" ).show();
+									$("#orgSelectDiv" ).show();
 								});
 							});
+
 
 						});  
 

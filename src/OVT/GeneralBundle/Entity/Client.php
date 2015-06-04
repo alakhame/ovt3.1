@@ -56,7 +56,53 @@ class Client
      */
     private $user;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Service" )
+     *  
+     */
+    private $authorizedServices;
 
+
+
+    public function __construct()
+    {
+        $this->authorizedServices = new   \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add service
+     *
+     * @param \OVT\GeneralBundle\Entity\Service $service
+     * @return Client
+     */
+    public function addAuthorizedServices(\OVT\GeneralBundle\Entity\Service $service)
+    {
+        $this->authorizedServices[] = $service;
+    
+        return $this;
+    }
+
+    /**
+     * Remove service
+     *
+     * @param \OVT\GeneralBundle\Entity\Service $service
+     */
+    public function removeAuthorizedServices(\OVT\GeneralBundle\Entity\Service $service)
+    {
+        $this->authorizedServices->removeElement($service);
+    }
+
+    /**
+     * Get services
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAuthorizedServices()
+    {
+        return $this->authorizedServices;
+    }
 
     /**
      * Get id

@@ -49,15 +49,7 @@
 			</div>
 			<input type="text"  name="equipments"  class="input_data"> 
 		</div>
-
-		<div class="container_data_style">
-			<div class="text_data_style new_password subtitle_color_text">
-				<label for="group" > Group </label>
-			</div>		
-			<select type="text" name="group" class="input_data"  >
-			 	{{render(controller('OVTFrontEndClientBundle:ClientAdmin:renderClientGroups'))}}
-			</select>   
-		</div>
+ 
 
 		<div class="container_data_style">
 			<div class="text_data_style new_password subtitle_color_text">
@@ -74,14 +66,14 @@
 			<div class="text_data_style new_password subtitle_color_text">
 				<label for="password" > Mot de passe : </label>
 			</div>
-			<input type="password" id="newClientPassword" name="password" placeholder="password" class="input_data"> 
+			<input type="password" id="newClientPassword" name="password" placeholder="mot de passe" class="input_data"> 
 		</div>
 
 		<div class="container_data_style">
 			<div class="text_data_style new_password subtitle_color_text">
 				<label for="confirmPassword" >Confirmer Mot de passe : </label>
 			</div>
-			<input type="password" id="newClientPasswordRe" name="confirmPassword" placeholder="Resaisir mot de passe ici" class="input_data"> 
+			<input type="password" id="newClientPasswordRe" name="confirmPassword" placeholder="Resaisir mot de passe" class="input_data"> 
 		</div>
 		<input type="submit" style="display:none"> 
 		<input type="hidden" name="userType" value="Client"> 
