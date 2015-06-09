@@ -36,7 +36,7 @@ body, html {
 .SessionTabbuttons {
 	display: inline-block;
 	height: 39px;
-	width: 200px;
+	width: 160px;
 	border-radius: 25px;
 	line-height: 30px; 
 	text-align: center;
@@ -193,6 +193,15 @@ select.input_data{
 {
 	color: transparent;
 }
+
+.my_special.show {
+	display: block;
+}
+
+.my_special {
+	display: none;
+}
+
 /* ----------------- Title color -----------------*/
 .title_color_text
 {
@@ -5265,7 +5274,7 @@ li:nth-child(n+23) .container_drop_down_more_rdv .drop_down_more_rdv
 }
 .head_container_slide.show
 {
-	height: 125px;
+	height: auto;
 }
 .button_show_detail
 {

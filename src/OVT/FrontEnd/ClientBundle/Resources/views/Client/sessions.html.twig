@@ -141,16 +141,16 @@
 
 			<div class="container_info_details"> 
 				<div id="apercuATraiter" ng-show="!firstload && atraiterFlag && !loading">
-					<div class="SessionTabbuttons theme_color_background" ng-click="cancel(session.id)"  class="submitButtton"  >ANNULER</div>
+					<div class="SessionTabbuttons theme_color_background" ng-click="cancel(session.id)"  >ANNULER</div>
 				</div>
 				<div id="apercuPlanifiees" ng-show="!firstload && planifieesFlag && !loading">
-					<div class="SessionTabbuttons theme_color_background" ng-click="cancel(session.id)"  class="submitButtton" >ANNULER</div>
+					<div class="SessionTabbuttons theme_color_background" ng-click="cancel(session.id)"  >ANNULER</div>
 				</div>
 				<div id="apercuAnnulees" ng-show="!firstload && annuleesFlag && !loading">
-					<div class="SessionTabbuttons theme_color_background" ng-click="delete(session.id)"  class="submitButtton" >SUPPRIMER</div>
+					<div class="SessionTabbuttons theme_color_background" ng-click="delete(session.id)">SUPPRIMER</div>
 				</div>
 				<div id="apercuRefusees" ng-show="!firstload && refuseesFlag && !loading">
-					<div class="SessionTabbuttons theme_color_background" ng-click="delete(session.id)"  class="submitButtton" >SUPPRIMER</div> 	
+					<div class="SessionTabbuttons theme_color_background" ng-click="delete(session.id)">SUPPRIMER</div> 	
 				</div>
 
 				{% verbatim %}

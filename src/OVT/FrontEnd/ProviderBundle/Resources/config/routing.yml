@@ -24,6 +24,14 @@ ovt_front_end_provider_retrieve_affected_sessions_to_worker:
     requirements:
         _method: GET
 
+ovt_front_end_provider_retrieve_affected_sessions_to_worker_by_user:
+    path: /affectedsessions/{idUser}
+    defaults: { _controller: OVTFrontEndProviderBundle:Provider:retrieveAffectedSessionsByUser}
+    options:
+        expose: true
+    requirements:
+        _method: GET
+
 ovt_front_end_provider_profile:
     path: /profile/view
     defaults: { _controller: OVTFrontEndProviderBundle:Provider:profileView }

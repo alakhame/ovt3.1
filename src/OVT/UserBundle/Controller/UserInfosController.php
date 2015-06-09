@@ -37,7 +37,7 @@ class UserInfosController extends Controller
         $user=$superAdmin->getUserById($req->request->get('userId'));
 
         $password=$req->request->get("newPassword");
-        $encoderFactory=$this->get('security.encoder_factory');
+        $encoderFactory=$this->get('security.encoder_factory'); 
         $encoder=$encoderFactory->getEncoder($user);
 
         $user->setPassword($encoder->encodePassword($password, $user->getSalt()));

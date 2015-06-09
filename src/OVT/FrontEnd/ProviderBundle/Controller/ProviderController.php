@@ -9,39 +9,43 @@ class ProviderController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('OVTFrontEndProviderBundle:Provider:index.html.twig');
+        return $this->redirect($this->generateUrl('ovt_front_end_provider_calendar')); 
     }
 
     public function isAdmin()
     {   
         $user= $this->container->get('security.context')->getToken()->getUser();
-        if(in_array('ROLE_ADMIN_PROVIDER',$user->getRoles()))
+        if(in_array('ROLE_PROVIDER_ADMIN',$user->getRoles()))
             return true;
         else return false;
     }
     public function profileViewAction(){
         $user= $this->container->get('security.context')->getToken()->getUser();
-        if(in_array('ROLE_ADMIN_PROVIDER',$user->getRoles()))
+        if($this->isAdmin())
             return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:profile.html.twig',array('user'=>$user));
         else return $this->render('OVTFrontEndProviderBundle:Provider:profile.html.twig',array('user'=>$user));
     }
 
     public function archivesViewAction()
-    {
-        return $this->render('OVTFrontEndProviderBundle:Provider:archives.html.twig');
+    {   
+        $adminProvider=$this->get('provideradmin');
+        $user= $this->container->get('security.context')->getToken()->getUser();
+        $sessions=$adminProvider->getSessionsByWorkerByState($user,"TERMINATED"); 
+        if($this->isAdmin())
+            return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:archives.html.twig',
+                array('user'=>$user,'sessions'=>$sessions));
+        else 
+            return $this->render('OVTFrontEndProviderBundle:Provider:archives.html.twig',
+                array('user'=>$user,'sessions'=>$sessions)); 
     }
 
     public function calendarViewAction($idWorker,$coreCalendar)
     {
-        //return new Response($idWorker);
-        if($coreCalendar!=-1)
-            return $this->render('OVTFrontEndProviderBundle:Provider:agendaCore.html.twig',array('idWorker'=>$idWorker));
-        else {
-            if(!$this->isAdmin()){
-               return $this->render('OVTFrontEndProviderBundle:Provider:agenda.html.twig',array('idWorker'=>$idWorker));
-            
-            }else
-                return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:agenda.html.twig',array('idWorker'=>$idWorker));
+        //return new Response(var_dump($this->isAdmin()));
+        if($this->isAdmin()){
+            return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:agenda.html.twig',array('idWorker'=>$idWorker));
+        }else {
+            return $this->render('OVTFrontEndProviderBundle:Provider:agenda.html.twig',array('idWorker'=>$idWorker));
         }
     }
 
@@ -68,7 +72,19 @@ class ProviderController extends Controller
         $adminProvider=$this->get('provideradmin');
         $user= $this->container->get('security.context')->getToken()->getUser();
         if($idWorker==-1) $sessions=$adminProvider->getSessionsByWorker($user); 
-        else $sessions=$adminProvider->getSessionsByWorkerId($idWorker); 
+        else {
+            //return new Response('fzef');
+            $sessions=$adminProvider->getSessionsByWorkerId($idWorker);
+        } 
+        
+        return $this->render('OVTFrontEndProviderBundle:Provider:sessions.json.twig', array('sessions' =>$sessions ));
+    }
+
+    public function retrieveAffectedSessionsByUserAction($idUser){
+        $adminProvider=$this->get('provideradmin');
+        $user= $this->container->get('security.context')->getToken()->getUser();
+        if($idUser==-1) $sessions=$adminProvider->getSessionsByWorker($user); 
+        else $sessions=$adminProvider->getSessionsByUserId($idUser); 
         
         return $this->render('OVTFrontEndProviderBundle:Provider:sessions.json.twig', array('sessions' =>$sessions ));
     }

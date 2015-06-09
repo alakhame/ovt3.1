@@ -72,7 +72,7 @@ ovt_front_end_admin_client_homepage:
     defaults: { _controller: OVTFrontEndClientBundle:Client:index }
 
 ovt_front_end_admin_client_get_session_by_id:
-    path: /adminclient/session/{id}
+    path: /session/{id}
     defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:getSessionById}
     options:
         expose: true

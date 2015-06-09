@@ -21,13 +21,21 @@ class ProviderAdminController extends Controller
         $adminProvider=$this->get('provideradmin');
         $admin= $this->container->get('security.context')->getToken()->getUser();
         $workers = $adminProvider->retriveWorkersFromAdmin($admin);
-        return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:affectation.html.twig',array('workers'=>$workers));
+        $sessions=$adminProvider->getSessionsToAffect();
+        return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:affectation.html.twig',
+            array('workers'=>$workers,'sessionsToAffect'=>$sessions));
     }
 
     public function getWaitingSessionsAction(){
     	$adminProvider=$this->get('provideradmin');
     	$user=  $this->container->get('security.context')->getToken()->getUser();
     	return new Response($adminProvider->getWaitingSessions($user));
+    } 
+
+    public function getPlanifiedSessionsAction(){
+        $adminProvider=$this->get('provideradmin');
+        $user=  $this->container->get('security.context')->getToken()->getUser();
+        return new Response($adminProvider->getPlanifiedSessions($user));
     } 
 
   	public function getSessionsToAffectAction(){
@@ -121,7 +129,7 @@ class ProviderAdminController extends Controller
         $type="Employé Prestataire";
         
         $language=$request->request->get("language");
-        $groupId=$request->request->get("group");
+        //$groupId=$request->request->get("group");
         $org=$admin->getOrganisation();
 
         if($password!=$confirmPassword){
@@ -145,7 +153,7 @@ class ProviderAdminController extends Controller
         $worker = new Worker();
         $worker->setUser($user);
         $worker->setLanguage($language);
-        $worker->setGroupe($adminProvider->getGroupFromId($groupId));
+        //$worker->setGroupe($adminProvider->getGroupFromId($groupId));
         $adminProvider->createWorker($worker);
         return $this->redirect($this->generateUrl('ovt_front_end_admin_provider_worker' ));
 
@@ -237,7 +245,7 @@ class ProviderAdminController extends Controller
                 $session->setState('DELETED');
                 break;
             case 'restaure':
-                $session->setState('TO_CONFIRM');
+                $session->setState('ACCEPTED');
                 break;
             default:
                 break;
@@ -317,6 +325,9 @@ class ProviderAdminController extends Controller
        $worker=$adminProvider->getWorkerFromUserID($request->request->get('wID'));
        
        $session->setWorker($worker);
+       $session->setState('ACCEPTED');
+        $session->setLink(md5($session->getRequestdate()->format('Y-m-d H:i:s')+'-'+$session->getId()));
+
        $adminProvider->update();
        return new Response('Success');
     }

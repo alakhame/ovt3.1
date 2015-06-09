@@ -7,5 +7,5 @@ ovt_test_view:
     defaults: { _controller: OVTTestBundle:Default:view }
 
 ovt_test:
-    path:     /
+    path:     /{id}
     defaults: { _controller: OVTTestBundle:Default:index }

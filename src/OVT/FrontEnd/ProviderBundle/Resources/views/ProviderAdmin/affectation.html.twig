@@ -1,284 +1,335 @@
-{% extends "OVTFrontEndProviderBundle:ProviderAdmin:index.html.twig" %}
-{% block links %}
-	{{parent()}}
-	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
-	<script src="{{asset('ress/js/angular.js')}}" > </script>
-	<script src="{{asset('ress/js/jquery.js')}}" > </script>
-	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-	
-{% endblock %}
-	{% block container %}
-
-		<div class="cadre"  ng-app="OVTApp" ng-controller="sessionCtrl" data-ng-init="init()" >  
-			<div class="gestion_title">
-				<p  >Affectation des demandes
-				 </p>
-				
-			</div>
-			<div id="inside_cadre">
-				<div class="list">
-					<div class="list_border">
-						<div class="entete">
-							<label for="tri"> Trier Par : </label>
-							<select name="choix_tri" > 
-							</select>
-						</div>
-						<br/>
-						
-						<div class="user_list" >
-							{{render(controller('OVTFrontEndProviderBundle:ProviderAdmin:getSessionsToAffect'))}}
-						</div>
-					</div>
-
-				</div>
-				<div class="infos">
-					<div class="buttonTabs"  >
-						<div >
-							<input ng-click="toUpdate()"  class="submitButtton" ng-value="modifyText"></input>
-						</div>
-						<div >
-							<input ng-click="cancel(session.id)"  class="submitButtton" value="Annuler"></input>
-						</div>
-						<div >
-							<input ng-click="refuse(session.id)"  class="submitButtton" value="Refuser"></input>
-						</div>
-						<div >
-							<input ng-click="endSession(session.id)"  class="submitButtton" value="Terminer la Session"></input>
-						</div>
-						<!--<div >
-							<input ng-click="newSession()"  class="submitButtton" value="Nouvelle Session"></input>
-						</div>-->
-
-						
-					</div>
-					
-					<div class="user_infos">
-						<div class="user_infos_border" style="float:left">
-							<img src="{{asset('ress/img/loader.gif')}}" ng-show="loading" id="loader">
-							<div  ng-hide="loading  " id="clientInfo" >
-								<div ng-hide="firstload || modifyFlag">
-
-									{% verbatim %}
-										<h5> Nom du client : {{session.client}}</h5>
-										<h5> Intitulé : {{session.title}} </h5>
-										<h5> Contexte : {{session.type}}</h5>
-										<h5> Date de la demande : {{session.requestDate}}</h5>
-										<h5> Heure de début : {{session.startTime}} </h5>
-										<h5> Heure de fin : {{session.endTime}}</h5>
-										<h5> Description : {{session.desciption}}</h5>
-										<h5> Service : {{session.service}}</h5>
-										<h5> Etat : {{session.state}}</h5>
-										<br/>
-										<h5> Velotypeur : {{session.worker}}</h5>
-									{% endverbatim %}
-								</div>
-
-								<div ng-show="modifyFlag">
-									<form action="{{path('ovt_front_end_admin_provider_update_session')}}" method="post">
-										{% verbatim %}
-								 		<table>
-								 			<tbody>
-								 				<tr>
-								 					<td><label for="title" > Intitulé </label>
-											 		<td><input style="width:150px" type="text" name="title" value="{{session.title}}"></input></td> <br/>
-											 	</tr>
-											 	<tr>
-								 					<td><label for="type" > Type </label>
-											 		<td><input style="width:150px" type="text" name="type" value="{{session.type}}" disabled></input></td> <br/>
-											 	</tr>
-											 	<tr>
-								 					<td><label for="description" > Description </label>
-											 		<td><textarea style="width:150px" type="text" name="description" >{{sessin.description}}</textarea></td> <br/>
-											 	</tr>
-											 	<tr>
-								 					<td><label for="startTime" > Date de Début </label>
-											 		<td><input style="width:150px" type="datetime" name="startTime" value="{{session.startTime}}"></input></td> <br/>
-											 	</tr>
-											 	<tr>
-								 					<td><label for="endTime" > Date de Fin </label>
-											 		<td><input style="width:150px" type="datetime" name="endTime" value="{{session.endTime}}"></input></td> <br/>
-											 	</tr>
-											 	<tr>
-								 					<td><label for="service" > Service</label>
-											 		<td><input style="width:150px" type="text" name="service" ng-value="session.service" disabled></input></td> <br/>
-											 	</tr>
-												
-											</tbody>
-										</table>
-										<input type="hidden" name="sessionID" ng-value="session.id"></input>
-										<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Modifier"> 
-										</input>
-										{% endverbatim %}
-									</form>
-								</div>
-
-								 
-							</div>
-						</div>
-					</div>
-					<div  ng-show="!firstload && !loading" style="float:left; margin-top:50px">
-							<input ng-click="affectTo(session.id,selectedWorker)"  class="submitButtton" value="Affecter à"></input>
-							<select name="worker" ng-model="selectedWorker" >
-								{{ render(controller('OVTFrontEndProviderBundle:ProviderAdmin:renderWorkersSelection',{workers:workers}))}}
-							</select>
-					</div>
-
-				</div>
- 			
- 			<script  >	   
-
-				var app = angular.module('OVTApp', []);
-				
-				app.controller('sessionCtrl', function($scope,$http,$location,$window) {
-						$scope.init = function (){
-							$scope.affectShow=false;
-							$scope.loading = false;
-							$scope.firstload=true;
-							$scope.modifyText="Modifier";
-							$scope.modifyFlag=false;
-							$scope.actionClick(3);
-						}
-						
-						$scope.actionClick= function (idsession) {
-							$scope.firstload=false;
-							$scope.loading = true;
-				   			{% verbatim %} var link=Routing.generate('ovt_front_end_admin_provider_get_session_by_id', {id:idsession}); {% endverbatim %}
-				   			$http.get(link).
-						  	success(function(data, status, headers, config) {
-							    $scope.session=data;
-							    $scope.loading = false;
-
-						  	}).
-						 	error(function(data, status, headers, config) { });
-				   		}
-
-				   		$scope.switchAffect = function (){
-				   			$scope.affectShow=!($scope.affectShow);
-				   		}
-				   		
-				   		$scope.cancel = function(idsession){
-				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_action_session',{action:'cancel'});
-				   			{% endverbatim %}
-							$scope.loading = true;
-							var confirmation = confirm("Voulez vraiment annuler cette réunion ?");
-							if(confirmation){
-								$http({
-								    method: 'POST',
-								    url: link,
-								    data: "idSession="+idsession,
-								    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-								}).
-								success(function(data, status, headers, config) {
-							  		alert("Annulation menée avec succès ! ");
-							     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
-							  	}).
-							  	error(function(data, status, headers, config) {
-							    	alert("Annulation échouée !"+data);
-							    	$scope.loading = false;
-							  	});
-							  	
-							}else {
-								$scope.loading = false;
-							}
-				   		}
-
-				   		$scope.refuse = function(idsession){
-				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_action_session',{action:'refuse'});
-				   			{% endverbatim %}
-							$scope.loading = true;
-							var confirmation = confirm("Voulez vraiment refuser cette réunion ?");
-							if(confirmation){
-								$http({
-								    method: 'POST',
-								    url: link,
-								    data: "idSession="+idsession,
-								    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-								}).
-								success(function(data, status, headers, config) {
-							  		alert("Refus mené avec succès ! ");
-							     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
-							  	}).
-							  	error(function(data, status, headers, config) {
-							    	alert("Refus échoué !"+data);
-							    	$scope.loading = false;
-							  	});
-							  	
-							}else {
-								$scope.loading = false;
-							}
-				   		}
-
-				   		$scope.endSession = function(idsession){
-				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_action_session',{action:'terminate'});
-				   			{% endverbatim %}
-							$scope.loading = true;
-							var confirmation = confirm("Voulez vraiment terminer cette réunion ?");
-							if(confirmation){
-								$http({
-								    method: 'POST',
-								    url: link,
-								    data: "idSession="+idsession,
-								    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-								}).
-								success(function(data, status, headers, config) {
-							  		alert("Finition menée avec succès ! ");
-							     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
-							  	}).
-							  	error(function(data, status, headers, config) {
-							    	alert("Finition échouée !"+data);
-							    	$scope.loading = false;
-							  	});
-							  	
-							}else {
-								$scope.loading = false;
-							}
-				   		}
-
-				   		$scope.toUpdate= function(){
-				   			$scope.modifyFlag=!$scope.modifyFlag;
-				   			$scope.modifyText=$scope.modifyFlag?"Retour":"Modifier";;
-				   		}
-
-				   		$scope.affectTo = function(idsession,selectedWorker){
-				   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_set_worker_to_session');
-				   			{% endverbatim %}
-							$scope.loading = true;
-							var confirmation = confirm("Voulez confirmer cette affectation ?");
-							if(confirmation){
-								$http({
-								    method: 'POST',
-								    url: link,
-								    data: "sID="+idsession+"&wID="+selectedWorker,
-								    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-								}).
-								success(function(data, status, headers, config) {
-							  		alert("Affectation menée avec succès ! ");
-							     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
-							  	}).
-							  	error(function(data, status, headers, config) {
-							    	alert("Affectation échouée !"+data);
-							    	$scope.loading = false;
-							  	});
-							  	
-							}else {
-								$scope.loading = false;
-							} 
+{% extends "::baseProfil.html.twig" %}
  
-				   		}
+	{% block header %}
+		
+		<link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" />
+		{{parent()}}
 
-				   		$scope.new= function(idworker){
-				   			$scope.newFlag=!$scope.newFlag;
-				   			$scope.newText=$scope.newFlag?"Retour":"Nouveau";
-				   			if($scope.modifyFlag) $scope.toUpdate();
-				   		}
+		<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+		<script src="{{asset('ress/js/angular.js')}}" > </script>
+		<script src="{{asset('ress/js/jquery.js')}}" > </script>
+		<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+		<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+		<script src="{{asset('ress/js/bootstrap.min.js')}}" > </script>
 
+	{% endblock %}
 
+ 	{% block tabTitle %} 
+ 		<div class="header_tab_4 header_tab" style="display: block;">
+			<div class="title_tab title_tab_4">	Affectation des demandes </div>
+		</div> 	
+	{% endblock %}
+	
+	{% block menu %}
+		{% include "OVTFrontEndProviderBundle:ProviderAdmin:menuNew.html.twig" %}
+	{% endblock %}
+ 
+	{% block containerTab %} 
+		<div id="wrap" class="container_tab_1 container_tab " ng-app="OVTApp" ng-controller="sessionCtrl" data-ng-init="init()" >
+			<div class="container_notif_rdv">
+				<div class="SessionTabbuttons theme_color_background" ng-click="toUpdate()" ng-bind="modifyText" > 
+				</div>
+				<div class="SessionTabbuttons theme_color_background" ng-click="cancel(session.id)" >    				Annuler
+				</div>
+				<div class="SessionTabbuttons theme_color_background" ng-click="refuse(session.id)" >
+					Refuser				
+				</div>   
+				<div class="SessionTabbuttons theme_color_background" ng-click="endSession(session.id)" >
+					Terminer la Session		
+				</div> 
+				<select name="worker" ng-model="selectedWorker" ng-change="affectTo(session.id,selectedWorker)" class="SessionTabbuttons theme_color_background">
+					<option value="0" selected disabled> Affecter à </option>
+					{% for w in workers %}
+						<option value="{{w.id}}"  >{{w.firstname~" "~w.lastname}}</option>
+					{% endfor %} 
+				</select>
+			</div>
+ 			
+ 			<div class="container_position_tab_1">
+				<div class="bar_middle_tab_1" style="left:40%"></div> 
 
-				   	});
+				<div class="container_left_tab_1 container_in_tab_1" style="width:40%">
+					<div class="container_date_time_program_now" style="margin-top:0px; height:80%">
+						<div class="container_add_contact_program_now" style="height:100%">
+							<div class="container_input_search_contact_program_now">
+								<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="16" height="16" viewBox="0 0 32 33">
+									<use xlink:href="{{asset('svg/add_contact.svg#add_contact')}}"></use>
+								</svg>
+								<input type="text" class="container_search_contact_program_now theme_color_focus" placeholder="Recherche par titre...">
+							</div>
+							<div class="container_list_contact_program_now subtitle_color_border_08" style="  max-height: 100%; min-height: 100%;">
+								{% for s in sessionsToAffect %}
+								<div class="container_contact_program_now_style"  ng-click="actionClick({{s.id}})" id="session_list_infos_{{s.id}}" >
+									<div class="container_pp_contact_program_now_style" style="background-image: url({{asset('svg/default_pp.svg')}})"> 
+									</div>
+									<div class="container_info_contact_program_now">
+										<div class="name_contact_program_now title_color_text">{{s.title}}</div>
+										<div class="role_contact_program_now subtitle_color_text">
+											{{s.service.name}} 
+										</div>
+									</div>
+									<div class="container_check_contact_program_now_new " id="select_check_{{s.id}}">
+										<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="11" height="8" viewBox="0 0 22 17">
+											<use xlink:href="{{asset('svg/done_green_2.svg')}}#done_green_2"></use>
+										</svg>
+									</div>
+								</div>								
+								{% endfor %}
+							</div> 
+						</div>
+					</div>
+				</div>
 
-			</script>
+				<div class="container_right_tab_1 container_in_tab_1" style="width:60%"  >
+					<div class="container_info_contact_tab_4" style="margin:auto;" ng-hide="loading  || firstload || modifyFlag">
+						<div class="column_1_tab_4 column_tab_4_style"  >
+					 		{% verbatim %}
+							<div class="container_info_editable_user_style">
+								<div class="content_info_noneditable_user_style title_color_text" id="">{{session.client}}</div>
+								<div class="name_info_editable_user_style subtitle_color_text"> Nom du client</div>
+							</div>
+							<div class="container_info_editable_user_style">
+								<div class="content_info_editable_user_style title_color_text" id="titleDiv"> {{session.title}}</div>
+								<div class="name_info_editable_user_style subtitle_color_text">Intitulé</div>
+							</div>
+							<div class="container_info_editable_user_style">
+								<div class="content_info_noneditable_user_style title_color_text">{{session.type}}</div>
+								<div class="name_info_editable_user_style subtitle_color_text">Contexte </div>
+							</div>
+							<div class="container_info_editable_user_style">
+								<div class="content_info_noneditable_user_style title_color_text" id="">{{session.requestDate}}</div>
+								<div class="name_info_editable_user_style subtitle_color_text" >Date de la demande : </div>
+							</div> 
+							<div class="container_info_editable_user_style">
+								<div class="content_info_noneditable_user_style title_color_text" id="" >
+									{{session.worker}}</div>
+								<div class="name_info_editable_user_style subtitle_color_text">Prestataire</div> 
+							</div>  
+						</div>
+						
+						<div class="column_2_tab_4 column_tab_4_style" >
+							<div class="container_info_editable_user_style">
+								<div class="content_info_noneditable_user_style title_color_text" id="" >{{session.startTime}} </div>
+								<div class="name_info_editable_user_style subtitle_color_text">Heure de début</div> 
+							</div> 
+							<div class="container_info_editable_user_style">
+								<div class="content_info_noneditable_user_style title_color_text" id="" >{{session.endTime}}</div>
+								<div class="name_info_editable_user_style subtitle_color_text">Heure de fin</div> 
+							</div>
+							<div class="container_info_editable_user_style">
+								<div class="content_info_noneditable_user_style title_color_text" id="" >
+									{{session.service}}</div>
+								<div class="name_info_editable_user_style subtitle_color_text">Service</div> 
+							</div>
+							<div class="container_info_editable_user_style">
+								<div class="content_info_editable_user_style title_color_text">
+									<textarea id="descriptionDiv" >{{session.description}}</textarea>
+								</div>
+								<div class="name_info_editable_user_style subtitle_color_text">Description</div>
+							</div>
+							{% endverbatim %}  
+						</div>
+
+						<div style="width:80%; margin:auto;"  >
+							<form method="post" action="{{path('ovt_front_end_admin_provider_update_session')}}" id="updateForm" style="display:none"   > 
+								<input type="text" name="title" id="titleKForm" >
+								<textarea type="text" name="description" id="descriptionKForm" ></textarea>
+								<input type="hidden" name="sessionID" ng-value="session.id"></input>
+								<input type="submit" />
+							</form>
+							<div class="button_save_tab_4 button_tab_4 theme_color_background" id="formSubmit" style="float:left;width:30%; margin:auto">Enregistrer
+								<div class="container_done_save_tab_4">
+									<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="15" height="12" viewBox="0 0 22 17">
+										<use xlink:href="{{asset('svg/done_white.svg#done_white')}}"></use>
+									</svg>
+								</div>
+							</div>
+							<div style="width:30%;margin-left:50%" class="button_edit_tab_4 button_tab_4 theme_color_text theme_color_border">Editer</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
 
 		</div>
+		<div id="modalsPopUp">	
+			<div class="modal hide modal-static fade"   id="waitingModal"  data-backdrop="static" data-keyboard="false" href="#" role="dialog" aria-hidden="true">
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-body">
+			                <div class="text-center">
+			                    <img src="http://www.travislayne.com/images/loading.gif" class="icon" />
+			                    <h4>Veuillez patienter... </h4>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			</div> 
+		</div>
+   
+		<script >	   
+
+			$('#formSubmit').click(function(){
+				$('#titleKForm').val($('#titleDiv').text());
+				$('#descriptionKForm').val($('#descriptionDiv').val());  
+				$('#updateForm').submit();
+			}); 
+
+		
+
+			/////////////////////////////////////////////////////////////////////////////
+
+			var app = angular.module('OVTApp', []);
+			
+			app.controller('sessionCtrl', function($scope,$http,$location,$window) {
+					$scope.init = function (){
+						$scope.affectShow=false;
+						$scope.loading = false; $('#waitingModal').modal('hide');
+						$scope.firstload=true;
+						$scope.modifyText="Modifier";
+						$scope.modifyFlag=false;
+						$scope.actionClick(3);
+						$scope.selectedWorker=0;
+					}
+					
+					$scope.actionClick= function (idsession) {
+						$scope.firstload=false;
+						$scope.loading = true; $('#waitingModal').modal('show');
+			   			{% verbatim %} var link=Routing.generate('ovt_front_end_admin_provider_get_session_by_id', {id:idsession}); {% endverbatim %}
+			   			$http.get(link).
+					  	success(function(data, status, headers, config) {
+						    $scope.session=data;
+						    $scope.loading = false; $('#waitingModal').modal('hide');
+
+					  	}).
+					 	error(function(data, status, headers, config) { });
+			   		}
+
+			   		$scope.switchAffect = function (){
+			   			$scope.affectShow=!($scope.affectShow);
+			   		}
+			   		
+			   		$scope.cancel = function(idsession){
+			   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_action_session',{action:'cancel'});
+			   			{% endverbatim %}
+						$scope.loading = true; $('#waitingModal').modal('show');
+						var confirmation = confirm("Voulez vraiment annuler cette réunion ?");
+						if(confirmation){
+							$http({
+							    method: 'POST',
+							    url: link,
+							    data: "idSession="+idsession,
+							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+							}).
+							success(function(data, status, headers, config) {
+						  		alert("Annulation menée avec succès ! ");
+						     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
+						  	}).
+						  	error(function(data, status, headers, config) {
+						    	alert("Annulation échouée !"+data);
+						    	$scope.loading = false; $('#waitingModal').modal('hide');
+						  	});
+						  	
+						}else {
+							$scope.loading = false; $('#waitingModal').modal('hide');
+						}
+			   		}
+
+			   		$scope.refuse = function(idsession){
+			   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_action_session',{action:'refuse'});
+			   			{% endverbatim %}
+						$scope.loading = true; $('#waitingModal').modal('show');
+						var confirmation = confirm("Voulez vraiment refuser cette réunion ?");
+						if(confirmation){
+							$http({
+							    method: 'POST',
+							    url: link,
+							    data: "idSession="+idsession,
+							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+							}).
+							success(function(data, status, headers, config) {
+						  		alert("Refus mené avec succès ! ");
+						     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
+						  	}).
+						  	error(function(data, status, headers, config) {
+						    	alert("Refus échoué !"+data);
+						    	$scope.loading = false; $('#waitingModal').modal('hide');
+						  	});
+						  	
+						}else {
+							$scope.loading = false; $('#waitingModal').modal('hide');
+						}
+			   		}
+
+			   		$scope.endSession = function(idsession){
+			   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_action_session',{action:'terminate'});
+			   			{% endverbatim %}
+						$scope.loading = true; $('#waitingModal').modal('show');
+						var confirmation = confirm("Voulez vraiment terminer cette réunion ?");
+						if(confirmation){
+							$http({
+							    method: 'POST',
+							    url: link,
+							    data: "idSession="+idsession,
+							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+							}).
+							success(function(data, status, headers, config) {
+						  		alert("Finition menée avec succès ! ");
+						     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
+						  	}).
+						  	error(function(data, status, headers, config) {
+						    	alert("Finition échouée !"+data);
+						    	$scope.loading = false; $('#waitingModal').modal('hide');
+						  	});
+						  	
+						}else {
+							$scope.loading = false; $('#waitingModal').modal('hide');
+						}
+			   		}
+
+			   		$scope.toUpdate= function(){ 
+			   		}
+
+			   		$scope.affectTo = function(idsession,selectedWorker){ 
+			   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_set_worker_to_session');
+			   			{% endverbatim %}
+						$scope.loading = true; $('#waitingModal').modal('show');
+						var confirmation = confirm("Voulez confirmer cette affectation ?");
+						if(confirmation){
+							$http({
+							    method: 'POST',
+							    url: link,
+							    data: "sID="+idsession+"&wID="+selectedWorker,
+							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+							}).
+							success(function(data, status, headers, config) {
+						  		alert("Affectation menée avec succès ! ");
+						     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
+						  	}).
+						  	error(function(data, status, headers, config) {
+						    	alert("Affectation échouée !"+data);
+						    	$scope.loading = false; $('#waitingModal').modal('hide');
+						  	});
+						  	
+						}else {
+							$scope.loading = false; $('#waitingModal').modal('hide');
+						} 
+
+			   		}
+
+			   		$scope.new= function(idworker){
+			   			$scope.newFlag=!$scope.newFlag;
+			   			$scope.newText=$scope.newFlag?"Retour":"Nouveau";
+			   			if($scope.modifyFlag) $scope.toUpdate();
+			   		}
+
+
+
+			   	});
+
+		</script>
+
+		 
 
 	{% endblock %} 

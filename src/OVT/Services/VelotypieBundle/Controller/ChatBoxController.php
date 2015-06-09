@@ -28,21 +28,26 @@ class ChatBoxController extends Controller
         $apiHelper = $this->get('apiHelper');
         $response='[';
         $chatMessages = $apiHelper->getChatBySession($sessionID);
-        for ($i=0; $i<count($chatMessages)-1; $i++ ) {
+        if(count($chatMessages)>0){
+            for ($i=0; $i<count($chatMessages)-1; $i++ ) {
+                $response.='{ 
+                                "session":'.$chatMessages[$i]->getSession()->getId().',
+                                "sender" : '.$chatMessages[$i]->getSender()->getId().',
+                                "receiver" : '.$chatMessages[$i]->getReceiver()->getId().',
+                                "content":  "'.$chatMessages[$i]->getContent().'"
+                            }, ';
+            }
             $response.='{ 
-                            "session":'.$chatMessages[$i]->getSession()->getId().',
-                            "sender" : '.$chatMessages[$i]->getSender()->getId().',
-                            "receiver" : '.$chatMessages[$i]->getReceiver()->getId().',
-                            "content":  "'.$chatMessages[$i]->getContent().'"
-                        }, ';
+                                "session":'.$chatMessages[count($chatMessages)-1]->getSession()->getId().',
+                                "sender" : '.$chatMessages[count($chatMessages)-1]->getSender()->getId().',
+                                "receiver" : '.$chatMessages[count($chatMessages)-1]->getReceiver()->getId().',
+                                "content":  "'.$chatMessages[count($chatMessages)-1]->getContent().'"
+                            } ';
+            $response.=']';
         }
-        $response.='{ 
-                            "session":'.$chatMessages[count($chatMessages)-1]->getSession()->getId().',
-                            "sender" : '.$chatMessages[count($chatMessages)-1]->getSender()->getId().',
-                            "receiver" : '.$chatMessages[count($chatMessages)-1]->getReceiver()->getId().',
-                            "content":  "'.$chatMessages[count($chatMessages)-1]->getContent().'"
-                        } ';
-        $response.=']';
+        else{
+            $response='[]';
+        }
         return new Response($response);
     }
 }

@@ -184,6 +184,7 @@
 								<div class=" change_passworK_style title_color_text" ng-click="passwordChange=!passwordChange">Annuler</div>
 							</div>
 						</div>
+						
 					</div>	
 				</div>
 				
@@ -294,7 +295,7 @@
 
 				/* --------- SEPARATOR ------------  */
  				var app = angular.module('OVTApp', []);
-				
+				var linkToCallEvents ;
 				app.controller('userCtrl', function($scope,$http,$location,$window) {
 						$scope.init = function (){
 							$scope.affectShow=false;
@@ -307,7 +308,8 @@
 							$scope.planingFlag=false;
 							$scope.newFlag=false;
 							$scope.actionClick(35); 
-				   				var link=Routing.generate('ovt_front_end_admin_client_get_json_groups_by_admin');  
+							linkToCallEvents=Routing.generate('ovt_front_end_client_retrieve_client_sessions_by_user_id',{idUser:35});
+				   			$scope.callCal();
 						}
 
 						$scope.loadServiceTab = function(idclient) {
@@ -325,32 +327,9 @@
 						 	error(function(data, status, headers, config) { }); 
 						}
 
-						$scope.actionClick= function (idclient) {
-							if($scope.modifyFlag) $scope.toUpdate();
-				   			if($scope.newFlag) $scope.new();
-				   			if($scope.planingFlag)$scope.planingFlag =false;
-							$scope.firstload=false;
-							$scope.loading = true; $("#waitingModal").modal('show');
-				   			{% verbatim %} 
-				   				var link=Routing.generate('ovt_front_end_admin_client_get_user_by_id', {id:idclient});
-				   			{% endverbatim %}
-				   			$http.get(link).
-						  	success(function(data, status, headers, config) {
-							    $scope.clientSelected=data;
-							    $scope.loading = false; $("#waitingModal").modal('hide');
-							    $('.container_check_contact_program_now_new').removeClass('active');
-							    $('#select_check_'+idclient).addClass('active');
-
-						  	}).
-						 	error(function(data, status, headers, config) { });
-
-						 	$scope.loadServiceTab(idclient);
-
-							{% verbatim %}
-				   				var link2=Routing.generate('ovt_front_end_client_retrieve_client_sessions_by_user_id',{idUser:idclient});  
-				   			{% endverbatim %} 
-						 	$('#clientCalendar').fullCalendar({
-								events:  link2 ,
+						$scope.callCal= function(link){
+							$('#clientCalendar').fullCalendar( {
+								events:  linkToCallEvents ,
 								header: {
 									left: 'today',
 									center: 'prev, title, next'
@@ -389,11 +368,51 @@
 								loading: function(bool) {
 						            if (bool) {
 						                $('#waitingModal').modal('show');
+
 						            } else {
 						                $('#waitingModal').modal('hide');
 						            }
-						        }
-							});
+						        } 
+
+							});  
+						}
+
+						$scope.reCallCal = function(newLink){
+							console.log('in recall \n');
+							$('#clientCalendar').fullCalendar('removeEventSource', linkToCallEvents);
+						    $('#clientCalendar').fullCalendar('refetchEvents');
+						    $('#clientCalendar').fullCalendar('addEventSource', newLink);
+						    $('#clientCalendar').fullCalendar('refetchEvents');
+						    linkToCallEvents = newLink ;
+						    console.log('done');
+						}
+
+						$scope.actionClick= function (idclient) {
+							if($scope.modifyFlag) $scope.toUpdate();
+				   			if($scope.newFlag) $scope.new();
+				   			if($scope.planingFlag)$scope.planingFlag =false;
+							$scope.firstload=false;
+							$scope.loading = true; $("#waitingModal").modal('show');
+				   			{% verbatim %} 
+				   				var link=Routing.generate('ovt_front_end_admin_client_get_user_by_id', {id:idclient});
+				   			{% endverbatim %}
+				   			$http.get(link).
+						  	success(function(data, status, headers, config) {
+							    $scope.clientSelected=data;
+							    $scope.loading = false; $("#waitingModal").modal('hide');
+							    $('.container_check_contact_program_now_new').removeClass('active');
+							    $('#select_check_'+idclient).addClass('active');
+
+						  	}).
+						 	error(function(data, status, headers, config) { });
+
+						 	$scope.loadServiceTab(idclient);
+
+							{% verbatim %}
+				   				var link2=Routing.generate('ovt_front_end_client_retrieve_client_sessions_by_user_id',{idUser:idclient});  
+				   			{% endverbatim %} 
+				   			 
+ 							$scope.reCallCal(link2); 
 
 				   		}
 

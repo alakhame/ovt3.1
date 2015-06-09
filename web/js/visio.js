@@ -480,6 +480,7 @@ $('.button_show_container_slide').click(function() {
 
 $('.button_show_detail').click(function() {
 	$(this).toggleClass('active');
+	$('.my_special').toggleClass('show');
 	$('.head_container_slide').toggleClass('show');
 	$('.head_container_slide p').toggleClass('show');
 	$('.contact_detail_head_slide').toggleClass('show');

@@ -7,13 +7,13 @@ use Symfony\Component\HttpFoundation\Response;
 use OVT\GeneralBundle\Entity\AdminClient;
 class DefaultController extends Controller
 {
-    public function indexAction()
+    public function indexAction($id)
     {   
-        //$user = $this->container->get('security.context')->getToken()->getUser();
+       /* //$user = $this->container->get('security.context')->getToken()->getUser();
         $adminClient=$this->get('clientadmin');
         $admin= $this->container->get('security.context')->getToken()->getUser();
-        $clients = $adminClient->retriveClientsFromAdmin($admin);
-         return $this->render('OVTFrontEndClientBundle:ClientAdmin:groupsN.html.twig' );
+        $clients = $adminClient->retriveClientsFromAdmin($admin);*/
+         return $this->render('OVTFrontEndClientBundle:ClientAdmin:standAloneCalendar.html.twig',array('id' =>$id ) );
     }
 
      public function interfaceAction()

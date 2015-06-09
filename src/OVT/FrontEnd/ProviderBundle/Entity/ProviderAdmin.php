@@ -5,6 +5,8 @@ use OVT\UserBundle\Entity\User ;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Bundle\DoctrineBundle\Registry as Registry;
 use OVT\GeneralBundle\Entity\Providerservicegroup;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class ProviderAdmin extends User  
 {
@@ -29,11 +31,19 @@ class ProviderAdmin extends User
         return count($waitingSessions);
     }
 
+    public function getPlanifiedSessions(User $user){
+        $worker=$this->getWorkerFromUser($user);
+        $criteria = array('worker' => $worker,"state"=>"ACCEPTED");
+        $waitingSessions=$this->em->getRepository("OVTGeneralBundle:Session")->findBy($criteria);
+       
+        return count($waitingSessions);
+    }
+
     public function getSessionsToAffect(){
         $allSessions=$this->em->getRepository("OVTGeneralBundle:Session")->findAll();
         $sessions=array();
         foreach ($allSessions as $s) {
-               if($s->getWorker()==null )
+               if($s->getWorker()==null && $s->getState()=="TO_CONFIRM")
                 $sessions[]=$s;
         }
         return $sessions;
@@ -75,6 +85,14 @@ class ProviderAdmin extends User
 
     public function getSessionsByWorkerId($idWorker){
         $worker=$this->getWorkerById($idWorker);
+        if($worker==null) return null;
+        $criteria  = array('worker' =>$worker);
+        return $this->em->getRepository('OVTGeneralBundle:Session')->findBy($criteria);
+    }
+
+    public function getSessionsByUserId($idUser){
+        $worker=$this->getWorkerFromUserID($idUser);
+        if($worker==null) return null;
         $criteria  = array('worker' =>$worker);
         return $this->em->getRepository('OVTGeneralBundle:Session')->findBy($criteria);
     }

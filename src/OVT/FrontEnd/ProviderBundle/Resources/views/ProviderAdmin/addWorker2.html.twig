@@ -1,67 +1,77 @@
-<form action="{{path('ovt_front_end_admin_provider_new_worker')}}" method="post">
-		<table>
-			<tbody>
-				<tr>
-					<td><label for="lastName" > Nom </label>
-		 		<td><input style="width:150px" type="text" name="lastName" placeholder="nom"></input></td> <br/>
-		 	</tr>
-		 	<tr>
-					<td><label for="firstName" > Prénom </label>
-		 		<td><input style="width:150px" type="text" name="firstName" placeholder="Prénom"></input></td> <br/>
-		 	</tr>
-		 	<tr>
-					<td><label for="email" > Email : </label>
-		 		<td><input style="width:150px" type="text" name="email" placeholder="email"></input></td> <br/>
-		 	</tr>
-		 	<tr>
-					<td><label for="address" > Adresse : </label>
-		 		<td><input style="width:150px" type="text" name="address" placeholder="adresse"></input></td> <br/>
-		 	</tr>
-		 	<tr>
-					<td><label for="phoneNumber" >Numéro de téléphone : </label>
-		 		<td><input style="width:150px" type="text" name="phoneNumber" placeholder="Numéro de téléphone"></input></td> <br/>
-		 	</tr>
-			<tr>
-					<td><label for="role" > Type </label>
-						
-		 		<td>
-		 			<select style="width:150px" type="text" name="role"  >
-						<option value="ROLE_WORKER" selected> Employé Prestataire</option>
-		 			</select>
-		 		</td> 
-		 	</tr>
-		 	<tr>
-					<td><label for="language" > Langue </label>
-						
-		 		<td>
-		 			<select style="width:150px" type="text" name="language"  >
-						<option value="fr" selected> Français</option>
-		 				<option value="en" selected> Anglais</option>
-		 			</select>
-		 		</td>  
-		 	</tr> 
-		 	<tr>
-					<td><label for="group" > Group </label>
+<div class="newWorkerForm">  
+	<form action="{{path('ovt_front_end_admin_provider_new_worker')}}" method="post" id="addNewWorkerForm">
 		
-		 		<td>
-		 			<select style="width:150px" type="text" name="group"  >
-						 {{render(controller('OVTFrontEndProviderBundle:ProviderAdmin:renderProviderGroups'))}}
-		 			</select>
-		 		</td>  
-		 	</tr>
-		 	<tr>
-					<td><label for="password" > Mot de passe : </label>
-		 		<td><input style="width:150px" type="password" name="password" placeholder="password"></input></td> <br/>
-		 	</tr>
-		 	<tr>
-					<td><label for="confirmPassword" >Confirmer Mot de passe : </label>
-		 		<td><input style="width:150px" type="password" name="confirmPassword" placeholder="Resaisir mot de passe ici"></input></td> <br/>
-		 	</tr>
-		 	</tr>
-		</tbody>
-	</table>
-	<input type="hidden" name="userType" value="worker"></input>
-	<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Ajouter"> 
-	</input>
-	
-</form>
+		<div class="container_data_style">
+			<div class="text_data_style new_password subtitle_color_text">
+				<label for="lastName" > Nom </label>
+			</div>
+		 	<input  type="text" name="lastName" placeholder="nom" class="input_data">
+		</div>
+
+		<div class="container_data_style">
+			<div class="text_data_style new_password subtitle_color_text">
+				<label for="firstName" > Prénom </label>
+			</div>
+			<input type="text" name="firstName" placeholder="Prénom" class="input_data"> 
+		</div>
+
+		<div class="container_data_style">
+			<div class="text_data_style new_password subtitle_color_text">
+				<label for="email" > Email : </label>
+			</div>
+			<input type="text" name="email" placeholder="email" class="input_data"> 
+		</div>
+
+		<div class="container_data_style">
+			<div class="text_data_style new_password subtitle_color_text">
+				<label for="address" > Adresse : </label>
+			</div>
+			<input type="text" name="address" placeholder="adresse" class="input_data"> 
+		</div>
+
+		<div class="container_data_style">
+			<div class="text_data_style new_password subtitle_color_text">
+				<label for="phoneNumber" >Numéro de téléphone : </label>
+			</div>
+			<input type="text" name="phoneNumber" placeholder="Numéro de téléphone" class="input_data">	
+		</div> 
+
+		<div class="container_data_style">
+			<div class="text_data_style new_password subtitle_color_text">
+				<label for="language" > Langue </label>
+			</div>
+			<input type="text" name="language" class="input_data"  ></input>
+		</div> 
+
+		<div class="container_data_style">
+			<div class="text_data_style new_password subtitle_color_text">
+				<label for="role" > Type </label>
+			</div>
+			<select type="text" name="role"  class="input_data" >
+				<option value="ROLE_WORKER" selected> Employé Prestataire</option>
+			</select> 
+		</div>
+
+		<div style="  border: 1px solid rgba(165, 165, 165, 0.2);"></div>
+
+		<div class="container_data_style">
+			<div class="text_data_style new_password subtitle_color_text">
+				<label for="password" > Mot de passe : </label>
+			</div>
+			<input type="password" name="password"  id="newWorkerPassword" name="password" placeholder="mot de passe" class="input_data"> 
+		</div>
+
+		<div class="container_data_style">
+			<div class="text_data_style new_password subtitle_color_text">
+				<label for="confirmPassword" >Confirmer Mot de passe : </label>
+			</div>
+			<input type="password" id="newWorkerPasswordRe" name="confirmPassword" placeholder="Resaisir mot de passe" class="input_data"> 
+		</div>
+		<input type="submit" style="display:none"> 
+		<input type="hidden" name="userType" value="Worker"></input>
+	</form>
+	<div id="addNewWorkerFormButton" class="SessionTabbuttons  theme_color_background"  > Ajouter </div> 
+</div>
+
+
+    

@@ -1,188 +1,142 @@
-<!doctype html>
-<html>
-    <head>
-        <title>Session</title> 
-        <link rel="stylesheet" type="text/css" href="{{asset('ress/css/transcript.css')}}" />
-        <link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" /> 
+{% extends "::baseProfil.html.twig" %}
+ 
+    {% block header %}
+
+        {{parent()}}
+        <link rel="stylesheet" type="text/css" href="{{asset('ress/css/transcript.css')}}" /> 
         <script src="{{asset('ress/js/angular.js')}}" > </script>
         <script src="{{asset('ress/js/jquery.js')}}" > </script>
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    </head>
-    <body>
-        <div id="wrapper" ng-app="OVTApp" ng-controller="velotypieWorkerCtrl" data-ng-init="init()" >
-            <div id="incomingText"  >
-                <div class="topDiv">
-                    Transcription  
-                </div>
-                <div id="styleMenu">
-                    <div class="styleMenuDiv" id ="wideScreen" > 
-                        <img src="{{asset('ress/img/full_screen.png')}}" height="42px" width="42px" /> 
-                    </div>
-                    <div class="styleMenuDiv">
-                        <select id="fontFamily">    
-                            <option selected="selected" disabled>--- Font Family Selector ---</option>
-                            <option>Arial</option>
-                            <option>Tahoma</option>
-                            <option>Times New Roman</option>
-                            <option>Verdana</option>
-                        </select>
-                    </div>
-                    <div class="styleMenuDiv">
-                        <select id="police">
-                            <option selected="selected" disabled>--- Font Size Setter ---</option>
-                            <option value="12px"> 12px </option>
-                            <option value="14px">14px</option>
-                            <option value="16px">16px</option>
-                            <option value="18px">18px</option>
-                            <option value="24px">24px</option>
-                            <option value="30px">30px</option>
-                        </select>
-                    </div>
-                    <div class="styleMenuDiv" id ="fontColor" >
-                        <img  class="styleMenuImage" src="{{asset('ress/img/font-color.png')}}" />
-                        <div class="colorBar"></div>
-                    </div>
-                    <div class="styleMenuDiv" id="backColor" >
-                        <img class="styleMenuImage"src="{{asset('ress/img/bgcolor.png')}}" /> 
-                        <div class="colorBar"></div>
-                    </div>
-                    <div class="styleMenuDiv" id="hideSideBar">
-                        <img  height="35px" width="35px" src="{{asset('ress/img/chat.png')}}" />
-                    </div>
-                    <div class="styleMenuDiv" id="quitButton" style="padding:5px 0px 0px 5px;">
-                        <img src="{{asset('ress/img/exit.png')}}" style=" float:left;"/> 
-                        <span style="color:white">Fermer</span>
-                    </div>
 
-                </div>
-                <div id="ttarea">
-                    <textarea ng-bind="textareaField" > </textarea>
-                </div>
-            </div>
+    {% endblock %}
 
-            <div id ="infoSession">
-                <div class="topDiv">
-                    Details de la Session
+    {% block tabTitle %} 
+        <div class="header_tab_5 header_tab" style="display: block;">
+            <div class="title_tab title_tab_5">Session de transcription ( Prestataire )</div>
+        </div>  
+    {% endblock %}
+    
+    {% block menu %}
+        {% include "OVTFrontEndProviderBundle:Provider:menuNew.html.twig" %}
+    {% endblock %}
+ 
+    {% block containerTab %}  
+    <div class="container_tab_5 container_tab" ng-app="OVTApp"ng-controller="velotypieWorkerCtrl" data-ng-init="init()"     style="display:block">
+        <div class="container_video full">
+            <div class="position_container_tools_video"> 
+                <div class="gradient_bottom_video"></div>
+                <div class="container_time"><!-- add class="more" fore timer red -->
+                    <span>-</span>01: 24 : 52
+                </div>
+                <div class="video">
+                    <div id="incomingText"  >  
+                        <div id="ttarea">
+                            <textarea ng-bind="textareaField" > </textarea>
+                        </div>
+                    </div>
                 </div> 
-                <div class="detailsSession" style="overflow: scroll;"> 
-                    <table id="newtable" class="table table-bordered table-striped  "> 
-                        <tbody>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        Connecté en tant que :
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        {{user.firstName ~" "~user.lastName}}
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        Intitulé :
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        {{session.title}}
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        Organisateur :
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        {{session.client.user.firstName ~" "~session.client.user.lastName}}
-                                    </div>                                     
-                                </td>
-                            </tr>
-                             <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        Transcripteur :
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        {{session.worker.user.firstName ~" "~session.worker.user.lastName}}
-                                    </div>                                     
-                                </td>
-                            </tr>
-                             <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        Heure de début :
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        {{session.starttime|date('Y-m-d H:i:s') }}
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        Heure de fin :
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        {{session.endtime|date('Y-m-d H:i:s') }}
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        Détails supplémentaires :
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <textarea >
-                                        {{session.description }}
-                                    </textarea>                                     
-                                </td>
-                            </tr>
-                        </tbody>    
-                    </table>            
-                    
-                </div>
-            </div>
 
-            <div id="chatBox" >
-                <div class="topDiv">
-                    Messagerie instannée
-                </div>
-                <div id="msgBox"></div>
-                <div id="inputMsg">
-                    <input type="text" id="chatField" class="col-md-9"></input>
-                    <input type="submit" id="chatSender" class="col-md-3"value="Envoyer"></input>
-                </div>
             </div>
         </div>
+
+         <!-- for anim add class="anim theme_color_fill" -->
+        <div class="button_show_container_slide anim title_color_fill theme_color_fill">
+            <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="7" height="9" viewBox="0 0 13 18">
+                <use xlink:href="{{asset('svg/arrow_show_slide.svg')}}#arrow_show_slide"></use>
+            </svg>
+        </div>
+
+        <div class="container_slide"> 
+            <div class="head_container_slide show"  >
+                <p>Voir les détails</p>
+                <div class="button_show_detail active">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="8" height="5" viewBox="0 0 12 7" class="first_arrow">
+                        <use xlink:href="{{asset('svg/arrow_down.svg')}}#arrow_down"></use>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="8" height="5" viewBox="0 0 12 7">
+                        <use xlink:href="{{asset('svg/arrow_down.svg')}}#arrow_down"></use>
+                    </svg>
+                </div>
+
+                <!-- add class="more" pour 2 -->
+                <div class=" ">
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Connecté en tant que </div>
+                            <div class="email_contact_head_slide info_contact_head_slide">
+                                {{user.firstName ~" "~user.lastName}}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Intitulé </div>
+                            <div class="email_contact_head_slide info_contact_head_slide">{{session.title}}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Organisateur</div>
+                            <div class="email_contact_head_slide info_contact_head_slide">
+                                {{session.client.user.firstName ~" "~session.client.user.lastName}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Transcripteur</div>
+                            <div class="email_contact_head_slide info_contact_head_slide">
+                                {{session.worker.user.firstName ~" "~session.worker.user.lastName}}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Heure de début </div>
+                            <div class="email_contact_head_slide info_contact_head_slide">
+                                {{session.starttime|date('Y-m-d H:i:s') }}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Heure de fin </div>
+                            <div class="email_contact_head_slide info_contact_head_slide"> 
+                                {{session.endtime|date('Y-m-d H:i:s') }}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Détails supplémentaires</div>
+                            <div class="email_contact_head_slide info_contact_head_slide">{{session.description }}</div>
+                        </div>
+                    </div> 
+                </div>
+            </div> 
+
+            <div class="container_tool_chat" style="display:block">
+                <input type="text" id="chatField" class="input_chat" placeholder="Ecrire un message..."><div class="container_send_message">
+                    <div id="chatSender" class="send_round theme_color_background">
+                        <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"     xmlns:ev="http://www.w3.org/2001/xml-events" width="6" height="10" viewBox="0 0 11 19" class="white_fill">
+                            <use xlink:href="{{asset('svg/arrow_right.svg')}}#arrow_right"></use>
+                        </svg>
+                    </div>
+                </div> 
+            </div>
+            <div class="container_discussion" style="display:block">
+                <div id="msgBox" class="discussion_contact container_contact_2_choose_action_discussion" style="display:block">  
+
+                </div>
+            </div> 
+
+        </div>
+    </div>
+
+
 
         <script src="{{asset('ress/js/socket.io-1.2.0.js')}}"></script>
         <script src="{{asset('ress/js/keycodes.js')}}"></script>
@@ -206,7 +160,16 @@
                 
 
                 function sendChatMessage(data){
-                    $('#msgBox').append('<div  > <span class="spanBlue">Moi:  </span>'+decodeURIComponent(data.content)+'</div>');
+                    $('#msgBox').append(
+                        '<div class="container_message_style container_message_user">'
+                            +'<div class="container_info_message_type container_info_message subtitle_color_text">'
+                                +'<div class="info_message name_info_message spanBlue">Moi</div>'
+                            +'</div>'
+                            +'<div class="container_message_type container_message_user subtitle_color_background_08 title_color_text">'
+                                +decodeURIComponent(data.content)
+                            +'</div>'
+                        +'</div>');
+
                     workerSocket.emit('newChatMessage',data);
                     $('#chatField').val("");
                 }
@@ -219,10 +182,28 @@
                         chatMessages = data;
                         for(var i = 0; i<chatMessages.length; i++ ){
                         if(chatMessages[i].sender=={{session.worker.user.id}}){
-                            $('#msgBox').append('<div  > <span class="spanBlue">Moi :  </span>'+decodeURIComponent(chatMessages[i].content)+'</div>');
+                            var toAppend=
+                            '<div class="container_message_style container_message_user">'
+                                +'<div class="container_info_message_type container_info_message subtitle_color_text">'
+                                    +'<div class="info_message name_info_message spanBlue">Moi</div>'
+                                +'</div>'
+                                +'<div class="container_message_type container_message_user subtitle_color_background_08 title_color_text">'
+                                    +decodeURIComponent(chatMessages[i].content)
+                                +'</div>'
+                            +'</div>'; 
+                            $('#msgBox').append(toAppend); 
                         }
                         else{
-                            $('#msgBox').append('<div> <span class="spanRed">Client :  </span>'+decodeURIComponent(chatMessages[i].content)+'</div>');
+                            var toAppend=
+                            '<div class="container_message_style container_message_contact">'
+                                +'<div class="container_info_message_type container_info_message subtitle_color_text">'
+                                    +'<div class="info_message name_info_message spanRed">Client</div>'
+                                +'</div>'
+                                +'<div class="container_message_type subtitle_color_background_08 title_color_text">'
+                                    +decodeURIComponent(chatMessages[i].content)
+                                +'</div>'
+                            +'</div>'; 
+                            $('#msgBox').append(toAppend);
                         }
                     }
                     }).
@@ -279,7 +260,16 @@
 
                 ////// CHAT HANDLER ///////////
                 workerSocket.on('newChatMessage', function(data){
-                    $('#msgBox').append('<div> <span class="spanRed">Client :  </span>'+decodeURIComponent(data.content)+'</div>');
+                    var toAppend=
+                        '<div class="container_message_style container_message_contact">'
+                            +'<div class="container_info_message_type container_info_message subtitle_color_text">'
+                                +'<div class="info_message name_info_message spanRed">Client</div>'
+                            +'</div>'
+                            +'<div class="container_message_type subtitle_color_background_08 title_color_text">'
+                                +decodeURIComponent(data.content)
+                            +'</div>'
+                        +'</div>'; 
+                    $('#msgBox').append(toAppend); 
                 });
 
 
@@ -403,15 +393,6 @@
 
 
 
-            
-
-
-
-
-
-
-
-
 
             ////////////////////////////////////
  
@@ -434,7 +415,6 @@
 
         </script>
 
+    {% endblock %}
 
 
-    </body>
-</html>
