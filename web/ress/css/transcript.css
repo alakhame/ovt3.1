@@ -12,10 +12,10 @@ body {
 }
 
 #incomingText{
-	width: 90%;
-	height: 100%;
-	float:left;
-	padding: 20px;
+	/*width: 90%;
+	//height: 100%;
+	//float:left;
+	//padding: 20px;*/
 
 }
 
@@ -109,7 +109,7 @@ body {
 #ttarea{
 	border: 5px inset red;
 	margin: 3px;
-	height: 700px;
+	height: auto;
 }
 
 #ttarea textarea {

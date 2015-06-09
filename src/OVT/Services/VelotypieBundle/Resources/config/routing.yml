@@ -1,5 +1,5 @@
 ovt_services_velotypie_join:
-    path:     /session/participate/{userType}/{hashLink}
+    path:     /velotypie/session/participate/{userType}/{hashLink}
     defaults: { _controller: OVTServicesVelotypieBundle:Session:join }
     options:
         expose: true

@@ -320,16 +320,19 @@ class ProviderAdminController extends Controller
     }
 
     public function affectWorkerToSessionAction(Request $request){
-       $adminProvider=$this->get('provideradmin');
-       $session=$adminProvider->getSessionById($request->request->get('sID'));
-       $worker=$adminProvider->getWorkerFromUserID($request->request->get('wID'));
+        $adminProvider=$this->get('provideradmin');
+        $session=$adminProvider->getSessionById($request->request->get('sID'));
+        $worker=$adminProvider->getWorkerFromUserID($request->request->get('wID'));
        
-       $session->setWorker($worker);
-       $session->setState('ACCEPTED');
-        $session->setLink(md5($session->getRequestdate()->format('Y-m-d H:i:s')+'-'+$session->getId()));
+        $session->setWorker($worker);
+        $session->setState('ACCEPTED');
+        
+        $hash=md5($session->getRequestdate()->format('Y-m-d H:i:s')+'-'+$session->getId());
+  
+        $session->setLink($hash);  
 
-       $adminProvider->update();
-       return new Response('Success');
+        $adminProvider->update();
+        return new Response('Success');
     }
 
     public function getWorkerByIdAction($id){

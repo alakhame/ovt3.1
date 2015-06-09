@@ -8,6 +8,7 @@
         <script src="{{asset('ress/js/jquery.js')}}" > </script>
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
 
     {% endblock %}
 
@@ -26,8 +27,8 @@
         <div class="container_video full">
             <div class="position_container_tools_video"> 
                 <div class="gradient_bottom_video"></div>
-                <div class="container_time"><!-- add class="more" fore timer red -->
-                    <span>-</span>01: 24 : 52
+                <div id="timeBox" class="container_time"><!-- add class="more" fore timer red -->
+                     
                 </div>
                 <div class="video">
                     <div id="incomingText"  >  
@@ -144,9 +145,45 @@
         <script type="text/javascript" src="{{asset('ress/js/jquery.caret.js')}}"></script>
         <script type="text/javascript" src="{{asset('ress/js/jquery.selection.js')}}"></script>
         <script type="text/javascript" src="{{asset('ress/js/socket.js')}}"></script>
+        <script type="text/javascript" src="{{asset('js/jquery.countdown.min.js')}}"></script>
 
         <script type="text/javascript"   >   
-          
+
+            function sanitizeNumber(number){
+                if(number < 10 )
+                    return '0'+number
+                return number;
+            }
+
+            function initiateTimer(){
+                var starttime = moment("{{session.starttime|date('Y-m-d H:i:s')}}");
+                var endtime   = moment("{{session.endtime|date('Y-m-d H:i:s')}}");
+                var now = moment(); 
+                if(starttime > now ){
+                    console.log('1');
+                    $('#timeBox').html('<span style="color:green"> Cette session n\'a pas encore débuté</span> ');
+                }
+                else if(endtime<now){
+                    console.log('2');
+                    $('#timeBox').html('<span style="color:green"> Cette session est terminée et archivée</span> ');
+                }
+                else{
+                    console.log('3');
+                    setInterval(function(){refreshCounter()},1000);
+                }
+
+                function refreshCounter(){
+                    var actualNow  = moment(); 
+                   var countdown = moment.duration(endtime - actualNow);
+                    $('#timeBox').toggleClass('more');
+                    var h = sanitizeNumber(countdown.hours());
+                    var min = sanitizeNumber(countdown.minutes());
+                    var s = sanitizeNumber(countdown.seconds()) ;
+                    var formatted   = 'Temps restant       '+h+' : '+min+' : '+s;
+                    $('#timeBox').html(formatted);/**/
+                }
+
+            }
  
 
             var app = angular.module('OVTApp', ['btford.socket-io']);
@@ -224,6 +261,7 @@
                     error(function(data, status, headers, config) { });
                    
                     initChatBox ();
+                    initiateTimer();
                 }
             
                 init();

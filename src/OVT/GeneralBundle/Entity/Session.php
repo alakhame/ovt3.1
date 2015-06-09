@@ -48,6 +48,7 @@ class Session
      * @ORM\Column(name="link", type="string", length=255, nullable=true)
      */
     private $link;
+ 
 
     /**
      * @var \Worker
@@ -258,6 +259,8 @@ class Session
     {
         return $this->link;
     }
+
+ 
 
     /**
      * Set title

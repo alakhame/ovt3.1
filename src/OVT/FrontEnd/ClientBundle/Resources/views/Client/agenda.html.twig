@@ -254,7 +254,7 @@
 						        	$('#finSession').html(event.endTime);
 						        	$('#serviceSession').html(event.service);
 						        	{% verbatim %}
-						        		var toSession= Routing.generate('ovt_services_velotypie_join',{userType:'client',hashLink:event.link});
+						        		var toSession= Routing.generate('ovt_services_join',{service:event.service, userType:'client',hashLink:event.link});
 						        	{% endverbatim %}
 						        	if(event.link!="")
 						        	$('#joinUrl').attr('href',toSession);

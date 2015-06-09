@@ -1,242 +1,269 @@
-<!doctype html>
-<html>
-    <head>
-        <title>Session</title>
+{% extends "::baseProfil.html.twig" %}
+ 
+    {% block header %}
+        
+        
         <link rel="stylesheet" type="text/css" href="{{asset('ress/css/transcript.css')}}" />
         <link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" /> 
+        {{parent()}}
         <script src="{{asset('ress/js/angular.js')}}" > </script>
         <script src="{{asset('ress/js/jquery.js')}}" > </script>
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script> 
         <script src="{{asset('ress/js/simplewebrtc.bundle.js')}}" > </script>
-    	<style>
+        <style>
             #remoteVideos video {
-            	width:100%;
-				height: 100%;
-				position:relative
-				top:0;
-				left:0;
+                width:100%;
+                height: 100%;
+                position:relative
+                top:0;
+                left:0;
                
             }
             #localVideo { 
-            	height: 150px;   
-            	position:relative ;
-            	z-index: 10;     
-           	}
+                height: 150px;   
+                position:relative ;
+                z-index: 10;     
+            }
         </style>
-	</head>
-    <body>
-        <div id="wrapper"  ng-app="OVTApp" ng-controller="LFSClientCtrl" data-ng-init="init()">
-            <div id="incomingText"  >
-                <div class="topDiv">
-                    Transcription
+    {% endblock %}
+
+    {% block tabTitle %} 
+        <div class="header_tab_5 header_tab" style="display: block;">
+            <div class="title_tab title_tab_5">Session de LSF ( Prestataire )</div>
+        </div>  
+    {% endblock %}
+    
+    {% block menu %}
+        {% include "OVTFrontEndProviderBundle:Provider:menuNew.html.twig" %}
+    {% endblock %}
+ 
+    {% block containerTab %}  
+    <div class="container_tab_5 container_tab" ng-app="OVTApp"ng-controller="LFSClientCtrl" data-ng-init="init()"     style="display:block">
+
+        <div class="container_video full">
+            <div class="position_container_tools_video"> 
+                <div class="gradient_bottom_video"></div>
+                <div id="timeBox" class="container_time"><!-- add class="more" fore timer red -->
+                     
+                </div>
+                <div class="video">
+                    <div id="incomingText"  > 
+                        <div id="ttarea">
+                            <div id="remoteVideos"></div>  
+                            <video id="localVideo"></video>
+                        </div>
+                    </div>
                 </div> 
-                <div id="ttarea">
-                        <div id="remoteVideos"></div>  
-                         <video id="localVideo"></video>
+                <div class="position_container_view_cam">
+                    <div class="container_view_cam">
+                        <div class="container_view_cam_style container_view_cam_user">
+                            <div class="view_cam cam theme_color_border up" style="background-image: url(img/pp_user.jpg)">
+                                <div class="container_cut mic_cut subtitle_color_fill">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="9" height="16" viewBox="0 0 17 32">
+                                        <use xlink:href="svg/mic.svg#mic"></use>
+                                    </svg>
+                                    <div class="bar_cut_mic title_color_background"></div>
+                                </div>
+                                <div class="container_cut cam_cut subtitle_color_fill">
+                                    <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="20" height="10" viewBox="0 0 56 39">
+                                        <use xlink:href="svg/logo_cam.svg#logo_cam"></use>
+                                    </svg>
+                                    <div class="bar_cut_mic title_color_background"></div>
+                                </div>
+                            </div> 
+                        </div> 
+                    </div>
                 </div>
-            </div>
 
-            <div id ="infoSession">
-                <div class="topDiv">
-                    Details de la Session
-                </div>
-                <div class="detailsSession" style="overflow: scroll;"> 
-                    <table id="newtable" class="table table-bordered table-striped  "> 
-                        <tbody>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        Connecté en tant que :
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        {{user.firstName ~" "~user.lastName}}
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        Intitulé :
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        {{session.title}}
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        Organisateur :
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        {{session.client.user.firstName ~" "~session.client.user.lastName}}
-                                    </div>                                     
-                                </td>
-                            </tr>
-                             <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        Transcripteur :
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        {{session.worker.user.firstName ~" "~session.worker.user.lastName}}
-                                    </div>                                     
-                                </td>
-                            </tr>
-                             <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        Heure de début :
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        {{session.starttime|date('Y-m-d H:i:s') }}
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        Heure de fin :
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        {{session.endtime|date('Y-m-d H:i:s') }}
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <div  >
-                                        Détails supplémentaires :
-                                    </div>                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="0"> 
-                                    <textarea readonly >
-                                        {{session.description }}
-                                    </textarea>                                     
-                                </td>
-                            </tr>
-                        </tbody>    
-                    </table>            
-
-                </div>
-            </div>
-
-            <div id="chatBox" ng-controller="ChatClientCtrl">
-                <div class="topDiv">
-                    Messagerie instannée
-                </div>
-                <div id="msgBox" style="overflow: scroll;"></div>
-                <div id="inputMsg">
-                    <input type="text" id="chatField" class="col-md-9"></input>
-                    <input type="submit" id="chatSender" class="col-md-3"value="Envoyer"></input>
-                </div>
             </div>
         </div>
 
- 
-        <!--- ****************************** SEPARATOR *************************  -->
-        <script src="{{asset('ress/js/socket.io.min.js')}}"></script>
-        <script src="{{asset('ress/js/keycodes.js')}}"></script>
-        <script type="text/javascript" src="{{asset('ress/js/socket.js')}}"></script>        
-        <script type="text/javascript">
-        	var app = angular.module('OVTApp', ['btford.socket-io']);
-            
-            app.factory('clientSocket', function (socketFactory) {
-               return socketFactory({ 
-                    ioSocket: io.connect("{{TRANSCRIPTING_SERVER}}", {'sync disconnect on unload': true })
-                  });
-            }).
-            controller('LFSClientCtrl', function(clientSocket,$scope,$http,$location,$window) {
-	            var webrtc;
-            	function initChatBox (){
-                    var link = Routing.generate('ovt_services_velotypie_API_get_chat_by_session_id',{sessionID:{{session.id}}});
-                    var chatMessages; 
-                    $http.get(link).
-                    success(function(data, status, headers, config) {
-                        chatMessages = data;
-                        for(var i = 0; i<chatMessages.length; i++ ){
-                        if(chatMessages[i].sender=={{session.worker.user.id}}){
-                            $('#msgBox').append('<div  > <span class="spanBlue">Moi :  </span>'+decodeURIComponent(chatMessages[i].content)+'</div>');
-                        }
-                        else{
-                            $('#msgBox').append('<div> <span class="spanRed">Client :  </span>'+decodeURIComponent(chatMessages[i].content)+'</div>');
-                        }
+        <div class="button_show_container_slide anim title_color_fill theme_color_fill">
+            <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="7" height="9" viewBox="0 0 13 18">
+                <use xlink:href="{{asset('svg/arrow_show_slide.svg')}}#arrow_show_slide"></use>
+            </svg>
+        </div>
+
+        <div class="container_slide"> 
+            <div class="head_container_slide show"  >
+                <p>Voir les détails</p>
+                <div class="button_show_detail active">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="8" height="5" viewBox="0 0 12 7" class="first_arrow">
+                        <use xlink:href="{{asset('svg/arrow_down.svg')}}#arrow_down"></use>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="8" height="5" viewBox="0 0 12 7">
+                        <use xlink:href="{{asset('svg/arrow_down.svg')}}#arrow_down"></use>
+                    </svg>
+                </div>
+
+                <!-- add class="more" pour 2 -->
+                <div class=" ">
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Connecté en tant que </div>
+                            <div class="email_contact_head_slide info_contact_head_slide">
+                                {{user.firstName ~" "~user.lastName}}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Intitulé </div>
+                            <div class="email_contact_head_slide info_contact_head_slide">{{session.title}}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Organisateur</div>
+                            <div class="email_contact_head_slide info_contact_head_slide">
+                                {{session.client.user.firstName ~" "~session.client.user.lastName}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Transcripteur</div>
+                            <div class="email_contact_head_slide info_contact_head_slide">
+                                {{session.worker.user.firstName ~" "~session.worker.user.lastName}}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Heure de début </div>
+                            <div class="email_contact_head_slide info_contact_head_slide">
+                                {{session.starttime|date('Y-m-d H:i:s') }}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Heure de fin </div>
+                            <div class="email_contact_head_slide info_contact_head_slide"> 
+                                {{session.endtime|date('Y-m-d H:i:s') }}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Détails supplémentaires</div>
+                            <div class="email_contact_head_slide info_contact_head_slide">{{session.description }}</div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+
+            <div class="container_tool_chat" style="display:block">
+                <input type="text" id="chatField" class="input_chat" placeholder="Ecrire un message..."><div class="container_send_message">
+                    <div id="chatSender" class="send_round theme_color_background">
+                        <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"     xmlns:ev="http://www.w3.org/2001/xml-events" width="6" height="10" viewBox="0 0 11 19" class="white_fill">
+                            <use xlink:href="{{asset('svg/arrow_right.svg')}}#arrow_right"></use>
+                        </svg>
+                    </div>
+                </div> 
+            </div>
+            <div class="container_discussion" style="display:block" ng-controller="ChatClientCtrl">
+                <div id="msgBox" class="discussion_contact container_contact_2_choose_action_discussion" style="display:block">  
+
+                </div>
+            </div> 
+
+        </div>
+
+
+
+    <div>
+
+    <!--- ****************************** SEPARATOR *************************  -->
+    <script src="{{asset('ress/js/socket.io.min.js')}}"></script>
+    <script src="{{asset('ress/js/keycodes.js')}}"></script>
+    <script type="text/javascript" src="{{asset('ress/js/socket.js')}}"></script>        
+    <script type="text/javascript">
+    	var app = angular.module('OVTApp', ['btford.socket-io']);
+        
+        app.factory('clientSocket', function (socketFactory) {
+           return socketFactory({ 
+                ioSocket: io.connect("{{TRANSCRIPTING_SERVER}}", {'sync disconnect on unload': true })
+              });
+        }).
+        controller('LFSClientCtrl', function(clientSocket,$scope,$http,$location,$window) {
+            var webrtc;
+        	function initChatBox (){
+                var link = Routing.generate('ovt_services_velotypie_API_get_chat_by_session_id',{sessionID:{{session.id}}});
+                var chatMessages; 
+                $http.get(link).
+                success(function(data, status, headers, config) {
+                    chatMessages = data;
+                    for(var i = 0; i<chatMessages.length; i++ ){
+                    if(chatMessages[i].sender=={{session.worker.user.id}}){
+                        $('#msgBox').append('<div  > <span class="spanBlue">Moi :  </span>'+decodeURIComponent(chatMessages[i].content)+'</div>');
                     }
-                    }).
-                    error(function(data, status, headers, config) { }); 
-                    
- 
+                    else{
+                        $('#msgBox').append('<div> <span class="spanRed">Client :  </span>'+decodeURIComponent(chatMessages[i].content)+'</div>');
+                    }
                 }
+                }).
+                error(function(data, status, headers, config) { }); 
+                
 
-                $scope.init = function (){
-                    var link = Routing.generate('ovt_services_velotypie_API_get_content_by_id',{sessionID:{{session.id}}});
-                    $http.get(link).
-                    success(function(data, status, headers, config) {
-                         $scope.textareaField = data;
+            }
 
-                    }).
-                    error(function(data, status, headers, config) { });
-                    initChatBox()
+            $scope.init = function (){
+                var link = Routing.generate('ovt_services_velotypie_API_get_content_by_id',{sessionID:{{session.id}}});
+                $http.get(link).
+                success(function(data, status, headers, config) {
+                     $scope.textareaField = data;
 
-                }
+                }).
+                error(function(data, status, headers, config) { });
+                initChatBox()
+
+            }
 
 
- 			
- 				webrtc = new SimpleWebRTC({
-				    localVideoEl: 'localVideo',
-				    remoteVideosEl: 'remoteVideos',
-				    autoRequestMedia: true ,
-				    url:'{{TRANSCRIPTING_SERVER}}'
-				}); 
-	           	webrtc.on('readyToCall', function () {
-				    webrtc.joinRoom('{{link}}');
-				});
+			
+				webrtc = new SimpleWebRTC({
+			    localVideoEl: 'localVideo',
+			    remoteVideosEl: 'remoteVideos',
+			    autoRequestMedia: true ,
+			    url:'{{SIGNALING_SERVER}}'
+			}); 
+           	webrtc.on('readyToCall', function () {
+			    webrtc.joinRoom('{{link}}');
+			});
 
+        });
+
+
+
+
+    </script> 
+
+    <script>
+    	 //// CHAT HANDLER 
+    	app.controller('ChatClientCtrl', function(clientSocket,$scope,$http,$location,$window) {
+    		function sendChatMessage(data){
+                //console.log(data);
+                $('#msgBox').append('<div  > <span class="spanBlue">Moi :  </span>'+decodeURIComponent(data.content)+'</div>');
+                clientSocket.emit('newChatMessage',data);
+                $('#chatField').val("");
+            } 
+
+            $('#chatSender').click(function(){
+                data={
+                    saloon : "{{link}}",
+                    session:{{session.id}},
+                    sender : {{session.worker.user.id }},
+                    receiver : {{session.client.user.id}},
+                    content: encodeURIComponent($('#chatField').val()) 
+                };
+                sendChatMessage(data);
             });
-
-
-
-
-        </script> 
-
-        <script>
-        	 //// CHAT HANDLER 
-        	app.controller('ChatClientCtrl', function(clientSocket,$scope,$http,$location,$window) {
-        		function sendChatMessage(data){
-                    //console.log(data);
-                    $('#msgBox').append('<div  > <span class="spanBlue">Moi :  </span>'+decodeURIComponent(data.content)+'</div>');
-                    clientSocket.emit('newChatMessage',data);
-                    $('#chatField').val("");
-                } 
-
-                $('#chatSender').click(function(){
+            $('#chatField').bind("keydown", function(e){
+                if(e.keyCode==KeyCode.RETURN){
                     data={
                         saloon : "{{link}}",
                         session:{{session.id}},
@@ -245,22 +272,9 @@
                         content: encodeURIComponent($('#chatField').val()) 
                     };
                     sendChatMessage(data);
-                });
-                $('#chatField').bind("keydown", function(e){
-                    if(e.keyCode==KeyCode.RETURN){
-                        data={
-                            saloon : "{{link}}",
-                            session:{{session.id}},
-                            sender : {{session.worker.user.id }},
-                            receiver : {{session.client.user.id}},
-                            content: encodeURIComponent($('#chatField').val()) 
-                        };
-                        sendChatMessage(data);
-                    }
-                });
-	        });
-         </script>
+                }
+            });
+        });
+     </script>
 
-
-    </body>
-</html>
+{% endblock %} 

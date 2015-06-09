@@ -4883,7 +4883,6 @@ li:nth-child(n+23) .container_drop_down_more_rdv .drop_down_more_rdv
 }
 .container_time span
 {
-	opacity: 0;
 	-webkit-transition: all .25s ease;
 	   -moz-transition: all .25s ease;
 	    -ms-transition: all .25s ease;
@@ -4970,10 +4969,10 @@ li:nth-child(n+23) .container_drop_down_more_rdv .drop_down_more_rdv
 }
 .container_view_cam
 {
-	width: 100%;
-	height: 70px;
+	width: 90%;
+	height: 200px;
 	position: absolute;
- 	bottom: 0px;
+ 	bottom: 30px;
  	text-align: right;
 }
 .container_view_cam_style

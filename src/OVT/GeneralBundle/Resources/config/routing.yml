@@ -1,3 +1,9 @@
 ovt_general_homepage:
     path:     /hello/{name}
     defaults: { _controller: OVTGeneralBundle:Default:index }
+
+ovt_services_join:
+    path:     /session/join
+    defaults: { _controller:  OVTGeneralBundle:Default:sessionJoin }
+    options:
+        expose: true
