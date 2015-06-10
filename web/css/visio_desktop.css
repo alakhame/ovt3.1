@@ -202,6 +202,19 @@ select.input_data{
 	display: none;
 }
 
+.container_view_cam_custom
+{
+	width: 100%;
+	height: 200px; 
+	padding-top: 300px;
+ 	bottom: 10px;
+ 	text-align: right;
+}
+
+
+
+
+
 /* ----------------- Title color -----------------*/
 .title_color_text
 {

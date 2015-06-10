@@ -290,7 +290,19 @@
                      alert('l\'access a été refusée par le serveur pour '+id);
                 });
 
+                clientSocket.on('workerConnected', function(data){
+                    $('#ttarea').css("border"," 5px inset green");
+                    var dataConnect={userID: "{{user.id}}",  saloon:"{{link}}"};
+                    clientSocket.emit('clientPresenceACK',dataConnect);
+                });
 
+                clientSocket.on('workerConnectedACK', function(data){
+                    $('#ttarea').css("border"," 5px inset green"); 
+                });
+                
+                clientSocket.on('workerDisconnected', function(data){
+                    $('#ttarea').css("border"," 5px inset red");
+                }); 
 
 
 
@@ -318,15 +330,7 @@
                    deleteBackWards($('#ttarea textarea'),data.position,data.nbChars);
                 });
 
-                clientSocket.on('workerConnected', function(data){
-                    $('#ttarea').css("border"," 5px inset green");
-                    var dataConnect={userID: "{{user.id}}",  saloon:"{{link}}"};
-                    clientSocket.emit('clientPresenceACK',dataConnect);
-                });
-
-                clientSocket.on('workerConnectedACK', function(data){
-                    $('#ttarea').css("border"," 5px inset green"); 
-                });
+               
 
                 clientSocket.on('newChatMessage', function(data){
                     var toAppend=
@@ -341,9 +345,7 @@
                     $('#msgBox').append(toAppend); 
                 });
 
-                clientSocket.on('workerDisconnected', function(data){
-                    $('#ttarea').css("border"," 5px inset red");
-                }); 
+                
 
                 //// CHAT HANDLER 
 

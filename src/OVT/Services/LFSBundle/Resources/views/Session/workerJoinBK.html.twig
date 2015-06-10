@@ -32,7 +32,7 @@
 
     {% block tabTitle %} 
         <div class="header_tab_5 header_tab" style="display: block;">
-            <div class="title_tab title_tab_5">Session de LSF ( Client )</div>
+            <div class="title_tab title_tab_5">Session de LSF ( Prestataire )</div>
         </div>  
     {% endblock %}
     
@@ -41,8 +41,9 @@
     {% endblock %}
  
     {% block containerTab %}  
-    <div class="container_tab_5 container_tab" ng-app="OVTApp"ng-controller="LFSClientCtrl" data-ng-init="init()"     style="display:block">
-         <div class="container_video full">
+    <div class="container_tab_5 container_tab" ng-app="OVTApp"ng-controller="LFSWorkerCtrl" data-ng-init="init()"     style="display:block">
+
+        <div class="container_video full">
             <div class="position_container_tools_video"> 
                 <div class="gradient_bottom_video"></div>
                 <div id="timeBox" class="container_time"><!-- add class="more" fore timer red -->
@@ -164,7 +165,6 @@
                     </div>
                 </div> 
             </div>
-
             <div class="container_discussion" style="display:block" ng-controller="ChatClientCtrl">
                 <div id="msgBox" class="discussion_contact container_contact_2_choose_action_discussion" style="display:block">  
                 </div> 
@@ -172,68 +172,73 @@
 
         </div>
 
-        <!--- ****************************** SEPARATOR *************************  -->
-        <script src="{{asset('ress/js/socket.io-1.2.0.js')}}"></script>
-        <script src="{{asset('ress/js/keycodes.js')}}"></script>
-        <script type="text/javascript" src="{{asset('ress/js/socket.js')}}"></script>    
-        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>           
-        <script type="text/javascript">
 
-            $( "#draggable" ).draggable();
 
-            function sanitizeNumber(number){
-                if(number < 10 )
-                    return '0'+number
-                return number;
+    <div>
+
+    <!--- ****************************** SEPARATOR *************************  -->
+    <script src="{{asset('ress/js/socket.io.min.js')}}"></script>
+    <script src="{{asset('ress/js/keycodes.js')}}"></script>
+    <script type="text/javascript" src="{{asset('ress/js/socket.js')}}"></script> 
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>       
+    <script type="text/javascript">
+
+        $( "#draggable" ).draggable();
+
+        function sanitizeNumber(number){
+            if(number < 10 )
+                return '0'+number
+            return number;
+        }
+
+        function initiateTimer(){
+            var starttime = moment("{{session.starttime|date('Y-m-d H:i:s')}}");
+            var endtime   = moment("{{session.endtime|date('Y-m-d H:i:s')}}");
+            var now = moment(); 
+            if(starttime > now ){
+                console.log('1');
+                $('#timeBox').html('<span style="color:green"> Cette session n\'a pas encore débuté</span> ');
+            }
+            else if(endtime<now){
+                console.log('2');
+                $('#timeBox').html('<span style="color:green"> Cette session est terminée et archivée</span> ');
+            }
+            else{
+                console.log('3');
+                setInterval(function(){refreshCounter()},1000);
             }
 
-            function initiateTimer(){
-                var starttime = moment("{{session.starttime|date('Y-m-d H:i:s')}}");
-                var endtime   = moment("{{session.endtime|date('Y-m-d H:i:s')}}");
-                var now = moment(); 
-                if(starttime > now ){
-                    console.log('1');
-                    $('#timeBox').html('<span style="color:green"> Cette session n\'a pas encore débuté</span> ');
-                }
-                else if(endtime<now){
-                    console.log('2');
-                    $('#timeBox').html('<span style="color:green"> Cette session est terminée et archivée</span> ');
-                }
-                else{
-                    console.log('3');
-                    setInterval(function(){refreshCounter()},1000);
-                }
-
-                function refreshCounter(){
-                    var actualNow  = moment(); 
-                   var countdown = moment.duration(endtime - actualNow);
-                    $('#timeBox').toggleClass('more');
-                    var h = sanitizeNumber(countdown.hours());
-                    var min = sanitizeNumber(countdown.minutes());
-                    var s = sanitizeNumber(countdown.seconds()) ;
-                    var formatted   = 'Temps restant       '+h+' : '+min+' : '+s;
-                    $('#timeBox').html(formatted);/**/
-                }
-
+            function refreshCounter(){
+                var actualNow  = moment(); 
+               var countdown = moment.duration(endtime - actualNow);
+                $('#timeBox').toggleClass('more');
+                var h = sanitizeNumber(countdown.hours());
+                var min = sanitizeNumber(countdown.minutes());
+                var s = sanitizeNumber(countdown.seconds()) ;
+                var formatted   = 'Temps restant       '+h+' : '+min+' : '+s;
+                $('#timeBox').html(formatted);/**/
             }
-            var app = angular.module('OVTApp', ['btford.socket-io']);
+
+        }
+
+    	var app = angular.module('OVTApp', ['btford.socket-io']);
             
-            app.factory('clientSocket', function (socketFactory) {
+            app.factory('workerSocket', function (socketFactory) {
                return socketFactory({ 
-                    ioSocket: io.connect('localhost:9090', {'sync disconnect on unload': true })
+                    ioSocket: io.connect('localhost:9090',{'sync disconnect on unload': true })
                   });
-            }).
-            controller('LFSClientCtrl', function(clientSocket,$scope,$http,$location,$window) {
-                var webrtc;
-                function initChatBox (){
-                    var link = Routing.generate('ovt_services_velotypie_API_get_chat_by_session_id',{sessionID:{{session.id}}});
-                    var chatMessages; 
-                    $http.get(link).
-                    success(function(data, status, headers, config) {
-                        chatMessages = data;
-                        for(var i = 0; i<chatMessages.length; i++ ){
-                        if(chatMessages[i].sender=={{user.id}}){
-                             var toAppend=
+        }).
+        controller('LFSWorkerCtrl', function(workerSocket,$scope,$http,$location,$window) {
+            var webrtc;
+        	function initChatBox (){
+                var link = Routing.generate('ovt_services_velotypie_API_get_chat_by_session_id',{sessionID:{{session.id}}});
+                var chatMessages; 
+                $http.get(link).
+                success(function(data, status, headers, config) {
+                    chatMessages = data;
+                    for(var i = 0; i<chatMessages.length; i++ ){
+                    if(chatMessages[i].sender=={{session.worker.user.id}}){
+                       var toAppend=
                             '<div class="container_message_style container_message_user">'
                                 +'<div class="container_info_message_type container_info_message subtitle_color_text">'
                                     +'<div class="info_message name_info_message spanBlue">Moi</div>'
@@ -243,125 +248,54 @@
                                 +'</div>'
                             +'</div>'; 
                             $('#msgBox').append(toAppend); 
-                        }
-                        else{
-                            var toAppend=
+                    }
+                    else{
+                        var toAppend=
                             '<div class="container_message_style container_message_contact">'
                                 +'<div class="container_info_message_type container_info_message subtitle_color_text">'
-                                    +'<div class="info_message name_info_message spanRed">Transcripteur</div>'
+                                    +'<div class="info_message name_info_message spanRed">Client</div>'
                                 +'</div>'
                                 +'<div class="container_message_type subtitle_color_background_08 title_color_text">'
                                     +decodeURIComponent(chatMessages[i].content)
                                 +'</div>'
                             +'</div>'; 
                             $('#msgBox').append(toAppend);
-                        }
                     }
-                    }).
-                    error(function(data, status, headers, config) { }); 
-                    
- 
                 }
-
-                $scope.init = function (){ 
-                    saloon= "{{link}}"; 
-                    initChatBox();
-                    initiateTimer();
-
-                }
-
-                                //////////// authentification handler /////////////////
-
+                }).
+                error(function(data, status, headers, config) { }); 
                 
-                clientSocket.on("connect", function(){
-                    //clientSocket.emit('letMeJoin',dataConnect);
-                    var dataConnect={userID: "{{user.id}}",  saloon:"{{link}}"};
-                    clientSocket.emit('clientJoin',dataConnect);
-                    clientSocket.emit('clientPresence',dataConnect);
-                });
 
-                clientSocket.on("accessGranted", function(id){
-                    alert('le serveur a accepté la connextion pour '+id);
-                });
+            }
 
-                clientSocket.on("accessDenied", function(id){
-                     alert('l\'access a été refusée par le serveur pour '+id);
-                });
+            $scope.init = function (){
+                var link = Routing.generate('ovt_services_velotypie_API_get_content_by_id',{sessionID:{{session.id}}});
+                $http.get(link).
+                success(function(data, status, headers, config) {
+                     $scope.textareaField = data;
 
+                }).
+                error(function(data, status, headers, config) { });
+                initChatBox();
+                initiateTimer();
 
-                //****** WEBRTC HELPER  *********/
-            
-                webrtc = new SimpleWebRTC({
-                    localVideoEl: 'localVideo',
-                    remoteVideosEl: 'remoteVideos',
-                    autoRequestMedia: true ,
-                    url:'{{SIGNALING_SERVER}}'
-                }); 
-                webrtc.on('readyToCall', function () {
-                    webrtc.joinRoom('{{link}}');
-                });
+            }
 
 
-                //////////// authentification handler /////////////////
+			
+			webrtc = new SimpleWebRTC({
+			    localVideoEl: 'localVideo',
+			    remoteVideosEl: 'remoteVideos',
+			    autoRequestMedia: true ,
+			    url:'{{SIGNALING_SERVER}}'
+			}); 
+           	webrtc.on('readyToCall', function () {
+			    webrtc.joinRoom('{{link}}');
+			});
 
+            function sendChatMessage(data){
                 
-                clientSocket.on("connect", function(){
-                    //clientSocket.emit('letMeJoin',dataConnect);
-                    var dataConnect={userID: "{{user.id}}",  saloon:"{{link}}"};
-                    clientSocket.emit('clientJoin',dataConnect);
-                    clientSocket.emit('clientPresence',dataConnect);
-                });
-
-                clientSocket.on("accessGranted", function(id){
-                    // alert('le serveur a accepté la connextion pour '+id);
-                });
-
-                clientSocket.on("accessDenied", function(id){
-                     alert('l\'access a été refusée par le serveur pour '+id);
-                });
-
-                clientSocket.on('workerConnected', function(data){
-                    $('#ttarea').css("border"," 5px inset green");
-                    var dataConnect={userID: "{{user.id}}",  saloon:"{{link}}"};
-                    clientSocket.emit('clientPresenceACK',dataConnect);
-                });
-
-                clientSocket.on('workerConnectedACK', function(data){
-                    $('#ttarea').css("border"," 5px inset green"); 
-                });
-                
-                clientSocket.on('workerDisconnected', function(data){
-                    $('#ttarea').css("border"," 5px inset red");
-                }); 
-
-                 ////// CHAT HANDLER ///////////
-                clientSocket.on('newChatMessage', function(data){
-                    var toAppend=
-                        '<div class="container_message_style container_message_contact">'
-                            +'<div class="container_info_message_type container_info_message subtitle_color_text">'
-                                +'<div class="info_message name_info_message spanRed">Transcripteur</div>'
-                            +'</div>'
-                            +'<div class="container_message_type subtitle_color_background_08 title_color_text">'
-                                +decodeURIComponent(data.content)
-                            +'</div>'
-                        +'</div>'; 
-                    $('#msgBox').append(toAppend); 
-                });
-
-
-
-
-
-            });
-
-        </script> 
-
-        <script>
-             //// CHAT HANDLER 
-            app.controller('ChatClientCtrl', function(clientSocket,$scope,$http,$location,$window) {
-                function sendChatMessage(data){
-                    //console.log(data);
-                     $('#msgBox').append(
+                $('#msgBox').append(
                     '<div class="container_message_style container_message_user">'
                         +'<div class="container_info_message_type container_info_message subtitle_color_text">'
                             +'<div class="info_message name_info_message spanBlue">Moi</div>'
@@ -369,35 +303,54 @@
                         +'<div class="container_message_type container_message_user subtitle_color_background_08 title_color_text">'
                             +decodeURIComponent(data.content)
                         +'</div>'
-                    +'</div>');  
-                      console.log(clientSocket.emit('newChatMessage',data));
-                    $('#chatField').val("");
-                } 
+                    +'</div>'); 
+                console.log( workerSocket.emit('newChatMessage',data));
+                $('#chatField').val("");
+            } 
 
-                $('#chatSender').click(function(){
+            $('#chatSender').click(function(){
+                data={
+                    saloon : "{{link}}",
+                    session:{{session.id}},
+                    sender : {{session.worker.user.id }},
+                    receiver : {{session.client.user.id}},
+                    content: encodeURIComponent($('#chatField').val()) 
+                };
+                sendChatMessage(data);
+            });
+            $('#chatField').bind("keydown", function(e){
+                if(e.keyCode==KeyCode.RETURN){
                     data={
                         saloon : "{{link}}",
                         session:{{session.id}},
-                        sender : {{session.client.user.id }},
-                        receiver : {{session.worker.user.id}},
-                       content:  encodeURIComponent($('#chatField').val()) 
+                        sender : {{session.worker.user.id }},
+                        receiver : {{session.client.user.id}},
+                        content: encodeURIComponent($('#chatField').val()) 
                     };
                     sendChatMessage(data);
-                });
-                $('#chatField').bind("keydown", function(e){
-                    if(e.keyCode==KeyCode.RETURN){
-                        data={
-                            saloon : "{{link}}",
-                            session:{{session.id}},
-                            sender : {{session.client.user.id}},
-                            receiver : {{session.worker.user.id}},
-                            content: encodeURIComponent($('#chatField').val()) 
-                        };
-                        sendChatMessage(data);
-                    }
-                });
+                }
             });
-         </script>
 
-    </div>
-    {% endblock %} 
+
+
+        });
+
+
+
+
+    </script> 
+
+    <script>
+    	 //// CHAT HANDLER  
+        /*
+        app.factory('workerSocket', function (socketFactory) {
+           return socketFactory({ 
+                ioSocket: io.connect('localhost:9090',{'sync disconnect on unload': true })
+              });
+        }).
+    	controller('ChatClientCtrl', function(workerSocket,$scope,$http,$location,$window) {
+    		
+        });*/
+     </script>
+
+{% endblock %} 
