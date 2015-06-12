@@ -108,7 +108,7 @@ body {
 
 #ttarea{
 	border: 5px inset red;
-	margin: 3px;
+	padding: 5px;
 	height: auto;
 }
 
