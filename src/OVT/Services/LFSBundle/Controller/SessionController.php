@@ -12,16 +12,22 @@ class SessionController extends Controller
 {
     public function joinAction($userType, $hashLink)
     {	
+        $response = new Response();
+        $response->headers->set('Access-Control-Allow-Origin', '*');
     	$apiHelper = $this->get('apiHelper');
     	$session=$apiHelper->getSessionByLink($hashLink);
     	$user=  $this->container->get('security.context')->getToken()->getUser();
     	$dataArray=array('user'=>$user,'session'=>$session,'link'=>$hashLink); 
     	//return new Response(var_dump($session));
         if($userType=="client"){
-			return $this->render('OVTServicesLFSBundle:Session:clientJoin.html.twig', $dataArray);
+			//return $this->render('OVTServicesLFSBundle:Session:clientJoin.html.twig', $dataArray);
+            $response->setContent($this->renderView('OVTServicesLFSBundle:Session:clientJoin.html.twig', $dataArray));
+            return  $response;
     	}
     	else if($userType=="worker"){
-    		return $this->render('OVTServicesLFSBundle:Session:workerJoin.html.twig', $dataArray);
+    		//return $this->render('OVTServicesLFSBundle:Session:workerJoin.html.twig', $dataArray);
+            $response->setContent($this->renderView('OVTServicesLFSBundle:Session:workerJoin.html.twig', $dataArray));
+            return  $response;
     	}
         
     }

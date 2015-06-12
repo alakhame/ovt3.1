@@ -12,8 +12,12 @@
         <script src="{{asset('ress/js/simplewebrtc.bundle.js')}}" > </script>
 
         <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+ 
+        <script src="//cdn.webrtc-experiment.com/socket.io.js"> </script>   
+
+
         <style>
-            #remoteVideos video {
+            #remoteVideos  video {
                 width:100%;
                 height: 100%;
                 position:relative
@@ -41,8 +45,10 @@
     {% endblock %}
  
     {% block containerTab %}  
-    <div class="container_tab_5 container_tab" ng-app="OVTApp"ng-controller="LFSClientCtrl" data-ng-init="init()"     style="display:block">
-         <div class="container_video full">
+    <div class="container_tab_5 container_tab"     style="display:block">
+        <input type="hidden" id="your-name" value="{{user.id}}">
+       
+        <div class="container_video full">
             <div class="position_container_tools_video"> 
                 <div class="gradient_bottom_video"></div>
                 <div id="timeBox" class="container_time"><!-- add class="more" fore timer red -->
@@ -53,28 +59,7 @@
                         <div id="remoteVideos"></div>  
                     </div>
                 </div> 
-                <div class="position_container_view_cam" style="height:100%">
-                    <div class="container_view_cam_custom"  >
-                        <div class="container_view_cam_user">
-                            <div class="view_cam cam  up" id="draggable" style="width:200px;height:200px" >
-                                <div class="container_cut mic_cut subtitle_color_fill">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="9" height="16" viewBox="0 0 17 32">
-                                        <use xlink:href="{{asset('svg/mic.svg')}}#mic"></use>
-                                    </svg>
-                                    <div class="bar_cut_mic title_color_background"></div>
-                                </div>
-                                <div class="container_cut cam_cut subtitle_color_fill">
-                                    <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="20" height="10" viewBox="0 0 56 39">
-                                        <use xlink:href="{{asset('svg/logo_cam.svg')}}#logo_cam"></use>
-                                    </svg>
-                                    <div class="bar_cut_mic title_color_background"></div>
-                                </div> 
-                                <video id="localVideo"  ></video>
-                            </div> 
-                        </div> 
-                    </div>
-                </div>
-
+                 
             </div>
         </div>
 
@@ -172,8 +157,16 @@
 
         </div>
 
+        <!--- WEBRTC STUFF -->
+    <script type="text/javascript" src="{{asset('js/webrtc/PeerConnection.js')}}"></script> 
+    <script type="text/javascript" src="{{asset('js/webrtc/DetectRTC.js')}}"></script>  
+    <script type="text/javascript">
+        window.hash_link="{{link}}";
+    </script>
+    <script type="text/javascript" src="{{asset('js/webrtc/lsf_client.js')}}"></script> 
+
         <!--- ****************************** SEPARATOR *************************  -->
-        <script src="{{asset('ress/js/socket.io-1.2.0.js')}}"></script>
+    <!--    <script src="{{asset('ress/js/socket.io-1.2.0.js')}}"></script>
         <script src="{{asset('ress/js/keycodes.js')}}"></script>
         <script type="text/javascript" src="{{asset('ress/js/socket.js')}}"></script>    
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>           
@@ -397,7 +390,7 @@
                     }
                 });
             });
-         </script>
+         </script> -->
 
     </div>
     {% endblock %} 
