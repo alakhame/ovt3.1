@@ -1,0 +1,575 @@
+{% extends "::baseProfil.html.twig" %}
+ 
+    {% block header %}
+
+
+        <link rel="stylesheet" type="text/css" href="{{asset('ress/css/transcript.css')}}" /> 
+        {{parent()}}
+        <script src="{{asset('ress/js/angular.js')}}" > </script>
+        <script src="{{asset('ress/js/jquery.js')}}" > </script>
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script> 
+        <script src="{{asset('ress/js/simplewebrtc.bundle.js')}}" > </script>
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+
+        <script src="//cdn.webrtc-experiment.com/socket.io.js"> </script>
+        <script src="//cdn.webrtc-experiment.com/RTCPeerConnection-v1.5.js"> </script> <!-- WebRTC simple wrapper -->
+        <script src="//cdn.webrtc-experiment.com/webrtc-broadcasting/broadcast.js"> </script> <!-- Multi-user 
+        connectivity handler --> 
+         <link rel="stylesheet" href="//cdn.webrtc-experiment.com/style.css">
+        <!-- This Library is used to detect WebRTC features -->
+        <script src="//cdn.webrtc-experiment.com/DetectRTC.js"></script>
+
+
+
+        <style>
+            #remoteVideos video {
+                width:100%;
+                height: 100%;
+                position:relative
+                top:0;
+                left:0;
+               
+            }
+            #localVideo { 
+               width:100%;
+                height: 100%;
+                position:relative;
+                z-index: 10;      
+            }
+        </style>
+    {% endblock %}
+
+    {% block tabTitle %} 
+        <div class="header_tab_5 header_tab" style="display: block;">
+            <div class="title_tab title_tab_5">Session de LSF ( Prestataire )</div>
+        </div>  
+    {% endblock %}
+    
+    {% block menu %}
+        {% include "OVTFrontEndProviderBundle:Provider:menuNew.html.twig" %}
+    {% endblock %}
+ 
+    {% block containerTab %}  
+    <div class="container_tab_5 container_tab"      style="display:block">
+
+        <div class="container_video full">
+            <div class="position_container_tools_video"> 
+                <div class="gradient_bottom_video"></div>
+                <div id="timeBox" class="container_time"><!-- add class="more" fore timer red -->
+                     
+                </div> <section>
+                                <select id="broadcasting-option">
+                                    <option>Audio + Video</option>
+                                    <option>Only Audio</option>
+                                    <option>Screen</option>
+                                </select>
+                                <input type="text" id="broadcast-name">
+                                <button id="setup-new-broadcast" class="setup">Setup New Broadcast</button>
+                            </section>
+                <div class="video">
+                   
+                        <!--<div id="remoteVideos"></div>  -->
+                        <section class="experiment">                
+                           
+                            
+                            <!-- list of all available broadcasting rooms -->
+                            <table style="width: 100%;" id="rooms-list"></table>
+                            
+                            <!-- local/remote videos container -->
+                            <div id="videos-container"></div>
+                        </section>
+                     <div id="ttarea"></div>
+                </div> 
+                <div class="position_container_view_cam" style="height:100%">
+                    <div class="container_view_cam_custom"  >
+                        <div class="container_view_cam_user">
+                            <div class="view_cam cam  up" id="draggable" style="width:200px;height:200px" >
+                                <div class="container_cut mic_cut subtitle_color_fill">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="9" height="16" viewBox="0 0 17 32">
+                                        <use xlink:href="{{asset('svg/mic.svg')}}#mic"></use>
+                                    </svg>
+                                    <div class="bar_cut_mic title_color_background"></div>
+                                </div>
+                                <div class="container_cut cam_cut subtitle_color_fill">
+                                    <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="20" height="10" viewBox="0 0 56 39">
+                                        <use xlink:href="{{asset('svg/logo_cam.svg')}}#logo_cam"></use>
+                                    </svg>
+                                    <div class="bar_cut_mic title_color_background"></div>
+                                </div> 
+                                <video id="localVideo"  ></video>
+                            </div> 
+                        </div> 
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="button_show_container_slide anim title_color_fill theme_color_fill">
+            <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="7" height="9" viewBox="0 0 13 18">
+                <use xlink:href="{{asset('svg/arrow_show_slide.svg')}}#arrow_show_slide"></use>
+            </svg>
+        </div>
+
+        <div class="container_slide"> 
+            <div class="head_container_slide show"  >
+                <p>Voir les détails</p>
+                <div class="button_show_detail active">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="8" height="5" viewBox="0 0 12 7" class="first_arrow">
+                        <use xlink:href="{{asset('svg/arrow_down.svg')}}#arrow_down"></use>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="8" height="5" viewBox="0 0 12 7">
+                        <use xlink:href="{{asset('svg/arrow_down.svg')}}#arrow_down"></use>
+                    </svg>
+                </div>
+
+                <!-- add class="more" pour 2 -->
+                <div class=" ">
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Connecté en tant que </div>
+                            <div class="email_contact_head_slide info_contact_head_slide">
+                                {{user.firstName ~" "~user.lastName}}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Intitulé </div>
+                            <div class="email_contact_head_slide info_contact_head_slide">{{session.title}}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Organisateur</div>
+                            <div class="email_contact_head_slide info_contact_head_slide">
+                                {{session.client.user.firstName ~" "~session.client.user.lastName}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Transcripteur</div>
+                            <div class="email_contact_head_slide info_contact_head_slide">
+                                {{session.worker.user.firstName ~" "~session.worker.user.lastName}}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Heure de début </div>
+                            <div class="email_contact_head_slide info_contact_head_slide">
+                                {{session.starttime|date('Y-m-d H:i:s') }}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Heure de fin </div>
+                            <div class="email_contact_head_slide info_contact_head_slide"> 
+                                {{session.endtime|date('Y-m-d H:i:s') }}</div>
+                        </div>
+                    </div>
+                    <div class="bar_middle_contact_detail_head_slide more"></div>
+                    <div class="contact_detail_head_slide more show">  
+                        <div class="container_info_contact_head_slide">
+                            <div class="name_contact_head_slide info_contact_head_slide">Détails supplémentaires</div>
+                            <div class="email_contact_head_slide info_contact_head_slide">{{session.description }}</div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+
+            <div class="container_tool_chat" style="display:block">
+                <input type="text" id="chatField" class="input_chat" placeholder="Ecrire un message..."><div class="container_send_message">
+                    <div id="chatSender" class="send_round theme_color_background">
+                        <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"     xmlns:ev="http://www.w3.org/2001/xml-events" width="6" height="10" viewBox="0 0 11 19" class="white_fill">
+                            <use xlink:href="{{asset('svg/arrow_right.svg')}}#arrow_right"></use>
+                        </svg>
+                    </div>
+                </div> 
+            </div>
+            <div class="container_discussion" style="display:block" ng-controller="ChatClientCtrl">
+                <div id="msgBox" class="discussion_contact container_contact_2_choose_action_discussion" style="display:block">  
+                </div> 
+            </div> 
+
+        </div>
+
+
+
+    <div>
+
+    <!--- ****************************** SEPARATOR *************************  -->
+    
+    <script src="{{asset('ress/js/keycodes.js')}}"></script> 
+       
+    <script type="text/javascript" src="{{asset('ress/js/socket.js')}}"></script> 
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>       
+
+    <script> 
+        var config = {
+            openSocket: function(config) {
+                // https://github.com/muaz-khan/WebRTC-Experiment/blob/master/Signaling.md
+                // This method "openSocket" can be defined in HTML page
+                // to use any signaling gateway either XHR-Long-Polling or SIP/XMPP or WebSockets/Socket.io
+                // or WebSync/SignalR or existing implementations like signalmaster/peerserver or sockjs etc.
+
+                var channel = config.channel || location.href.replace( /\/|:|#|%|\.|\[|\]/g , '');
+                var sender = Math.round(Math.random() * 999999999) + 999999999;
+                var SIGNALING_SERVER = 'http://localhost:8880/';
+                io.connect(SIGNALING_SERVER).emit('new-channel', {
+                    channel: channel,
+                    sender: sender
+                });
+                var socket = io.connect(SIGNALING_SERVER + channel,{'sync disconnect on unload': true }); 
+                socket.channel = channel; 
+                socket.on("message", function(data) {
+                    config.onmessage && config.onmessage(data);
+                });
+                socket.send = function (message) {
+                    socket.emit('message', {
+                        sender: sender,
+                        data: message
+                    });
+                };
+
+                config.onopen && setTimeout(config.onopen, 1); 
+                return socket;
+            },
+            onRemoteStream: function(htmlElement) {
+                htmlElement.setAttribute('controls', true);
+                videosContainer.insertBefore(htmlElement, videosContainer.firstChild);
+                htmlElement.play(); 
+            },
+            onRoomFound: function(room) {
+                var alreadyExist = document.querySelector('button[data-broadcaster="' + room.broadcaster + '"]');
+                if (alreadyExist) return;
+                if (typeof roomsList === 'undefined') roomsList = document.body;
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td><strong>' + room.roomName + '</strong> is broadcasting his media!</td>' +
+                    '<td><button class="join">Join</button></td>';
+                roomsList.insertBefore(tr, roomsList.firstChild);
+                var joinRoomButton = tr.querySelector('.join');
+                joinRoomButton.setAttribute('data-broadcaster', room.broadcaster);
+                joinRoomButton.setAttribute('data-roomToken', room.broadcaster);
+                joinRoomButton.onclick = function() {
+                    this.disabled = true;
+                    var broadcaster = this.getAttribute('data-broadcaster');
+                    var roomToken = this.getAttribute('data-roomToken');
+                    broadcastUI.joinRoom({
+                        roomToken: roomToken,
+                        joinUser: broadcaster
+                    }); 
+                };
+            },
+            onNewParticipant: function(numberOfViewers) {
+                document.title = 'Viewers: ' + numberOfViewers;
+            }
+        };
+
+        function setupNewBroadcastButtonClickHandler() {
+            document.getElementById('broadcast-name').disabled = true;
+            document.getElementById('setup-new-broadcast').disabled = true;
+            captureUserMedia(function() {
+                var shared = 'video';
+                if (window.option == 'Only Audio') {
+                    shared = 'audio';
+                }
+                if (window.option == 'Screen') {
+                    shared = 'screen';
+                }
+                
+                broadcastUI.createRoom({
+                    roomName: (document.getElementById('broadcast-name') || { }).value || 'Anonymous',
+                    isAudio: shared === 'audio'
+                });
+            });
+             
+        }
+
+        function captureUserMedia(callback) {
+            var constraints = null;
+            window.option = broadcastingOption ? broadcastingOption.value : '';
+            if (option === 'Only Audio') {
+                constraints = {
+                    audio: true,
+                    video: false
+                };
+                
+                if(DetectRTC.hasMicrophone !== true) {
+                    alert('DetectRTC library is unable to find microphone; maybe you denied microphone access once and it is still denied or maybe microphone device is not attached to your system or another app is using same microphone.');
+                }
+            }
+            if (option === 'Screen') {
+                var video_constraints = {
+                    mandatory: {
+                        chromeMediaSource: 'screen'
+                    },
+                    optional: []
+                };
+                constraints = {
+                    audio: false,
+                    video: video_constraints
+                };
+                
+                if(DetectRTC.isScreenCapturingSupported !== true) {
+                   alert('DetectRTC library is unable to find screen capturing support. You MUST run chrome with command line flag "chrome --enable-usermedia-screen-capturing"');
+                }
+            }
+            
+            if (option != 'Only Audio' && option != 'Screen' && DetectRTC.hasWebcam !== true) {
+                alert('DetectRTC library is unable to find webcam; maybe you denied webcam access once and it is still denied or maybe webcam device is not attached to your system or another app is using same webcam.');
+            }
+            var htmlElement = document.createElement(option === 'Only Audio' ? 'audio' : 'video');
+            htmlElement.setAttribute('autoplay', true);
+            //htmlElement.setAttribute('controls', true);
+            videosContainer.insertBefore(htmlElement, videosContainer.firstChild);
+            var mediaConfig = {
+                video: htmlElement,
+                onsuccess: function(stream) {
+                    config.attachStream = stream;
+                    callback && callback();
+                    htmlElement.setAttribute('muted', true); 
+                },
+                onerror: function() {
+                    if (option === 'Only Audio') alert('unable to get access to your microphone');
+                    else if (option === 'Screen') {
+                        if (location.protocol === 'http:') alert('Please test this WebRTC experiment on HTTPS.');
+                        else alert('Screen capturing is either denied or not supported. Are you enabled flag: "Enable screen capture support in getUserMedia"?');
+                    } else alert('unable to get access to your webcam');
+                }
+            };
+            if (constraints) mediaConfig.constraints = constraints;
+            getUserMedia(mediaConfig);
+        }
+
+        var broadcastUI = broadcast(config); 
+
+        var videosContainer = document.getElementById('videos-container') || document.body;
+        var setupNewBroadcast = document.getElementById('setup-new-broadcast');
+        var roomsList = document.getElementById('rooms-list');
+        var broadcastingOption = document.getElementById('broadcasting-option');
+        if (setupNewBroadcast) setupNewBroadcast.onclick = setupNewBroadcastButtonClickHandler;
+         
+    </script>
+
+    <!--<script type="text/javascript">
+
+        $( "#draggable" ).draggable();
+
+        function sanitizeNumber(number){
+            if(number < 10 )
+                return '0'+number
+            return number;
+        }
+
+        function initiateTimer(){
+            var starttime = moment("{{session.starttime|date('Y-m-d H:i:s')}}");
+            var endtime   = moment("{{session.endtime|date('Y-m-d H:i:s')}}");
+            var now = moment(); 
+            if(starttime > now ){
+                console.log('1');
+                $('#timeBox').html('<span style="color:green"> Cette session n\'a pas encore débuté</span> ');
+            }
+            else if(endtime<now){
+                console.log('2');
+                $('#timeBox').html('<span style="color:green"> Cette session est terminée et archivée</span> ');
+            }
+            else{
+                console.log('3');
+                setInterval(function(){refreshCounter()},1000);
+            }
+
+            function refreshCounter(){
+                var actualNow  = moment(); 
+               var countdown = moment.duration(endtime - actualNow);
+                $('#timeBox').toggleClass('more');
+                var h = sanitizeNumber(countdown.hours());
+                var min = sanitizeNumber(countdown.minutes());
+                var s = sanitizeNumber(countdown.seconds()) ;
+                var formatted   = 'Temps restant       '+h+' : '+min+' : '+s;
+                $('#timeBox').html(formatted);/**/
+            }
+
+        }
+
+        var app = angular.module('OVTApp', ['btford.socket-io']);
+            
+        app.factory('workerSocket', function (socketFactory) {
+           return socketFactory({ 
+                ioSocket: io.connect('localhost:9090',{'sync disconnect on unload': true })
+              });
+        }).
+        controller('LFSWorkerCtrl', function(workerSocket,$scope,$http,$location,$window) {
+            var webrtc;
+            function initChatBox (){
+                var link = Routing.generate('ovt_services_velotypie_API_get_chat_by_session_id',{sessionID:{{session.id}}});
+                var chatMessages; 
+                $http.get(link).
+                success(function(data, status, headers, config) {
+                    chatMessages = data;
+                    for(var i = 0; i<chatMessages.length; i++ ){
+                    if(chatMessages[i].sender=={{session.worker.user.id}}){
+                       var toAppend=
+                            '<div class="container_message_style container_message_user">'
+                                +'<div class="container_info_message_type container_info_message subtitle_color_text">'
+                                    +'<div class="info_message name_info_message spanBlue">Moi</div>'
+                                +'</div>'
+                                +'<div class="container_message_type container_message_user subtitle_color_background_08 title_color_text">'
+                                    +decodeURIComponent(chatMessages[i].content)
+                                +'</div>'
+                            +'</div>'; 
+                            $('#msgBox').append(toAppend); 
+                    }
+                    else{
+                        var toAppend=
+                            '<div class="container_message_style container_message_contact">'
+                                +'<div class="container_info_message_type container_info_message subtitle_color_text">'
+                                    +'<div class="info_message name_info_message spanRed">Client</div>'
+                                +'</div>'
+                                +'<div class="container_message_type subtitle_color_background_08 title_color_text">'
+                                    +decodeURIComponent(chatMessages[i].content)
+                                +'</div>'
+                            +'</div>'; 
+                            $('#msgBox').append(toAppend);
+                    }
+                }
+                }).
+                error(function(data, status, headers, config) { }); 
+                
+
+            }
+
+            $scope.init = function (){
+                saloon= "{{link}}"; 
+                initChatBox();
+                initiateTimer();
+
+            }
+
+
+            //****** WEBRTC HELPER  *********/
+            
+            webrtc = new SimpleWebRTC({
+                localVideoEl: 'localVideo',
+                remoteVideosEl: 'remoteVideos',
+                autoRequestMedia: true ,
+                url:'{{SIGNALING_SERVER}}'
+            }); 
+            webrtc.on('readyToCall', function () {
+                webrtc.joinRoom('{{link}}');
+            });
+
+
+             //////////// authentification handler /////////////////
+            workerSocket.on("connect", function(){
+                var dataConnect={userID:"{{user.id}}",saloon:saloon};
+                workerSocket.emit('workerJoin',dataConnect);
+                //$('#ttarea').css("border"," 5px inset green");
+                workerSocket.emit('workerPresence',dataConnect);
+            });
+            
+            workerSocket.on("accessGranted", function(id){
+                alert('le serveur a accepté la connextion pour '+id);
+            });
+
+            workerSocket.on("accessDenied", function(id){
+                 alert('l\'access a été refusée par le serveur pour '+id);
+            });
+
+            workerSocket.on('clientConnected', function(data){
+                $('#ttarea').css("border"," 5px inset green");
+                var dataConnect={userID:"{{user.id}}",saloon:saloon};
+                workerSocket.emit('workerPresenceACK',dataConnect);
+            });
+
+            workerSocket.on('clientConnectedACK', function(data){
+                $('#ttarea').css("border"," 5px inset green"); 
+            });
+
+            workerSocket.on('clientDisconnected', function(data){
+                $('#ttarea').css("border"," 5px inset red");
+            }); 
+
+            ////// CHAT HANDLER ///////////
+            workerSocket.on('newChatMessage', function(data){
+                var toAppend=
+                    '<div class="container_message_style container_message_contact">'
+                        +'<div class="container_info_message_type container_info_message subtitle_color_text">'
+                            +'<div class="info_message name_info_message spanRed">Client</div>'
+                        +'</div>'
+                        +'<div class="container_message_type subtitle_color_background_08 title_color_text">'
+                            +decodeURIComponent(data.content)
+                        +'</div>'
+                    +'</div>'; 
+                $('#msgBox').append(toAppend); 
+            });
+
+
+
+            
+
+
+        });
+
+
+
+
+    </script> 
+
+    <script>
+        //// CHAT HANDLER  
+        
+        app.factory('workerSocket', function (socketFactory) {
+           return socketFactory({ 
+                ioSocket: io.connect('localhost:9090',{'sync disconnect on unload': true })
+              });
+        }).
+        controller('ChatClientCtrl', function(workerSocket,$scope,$http,$location,$window) {
+            function sendChatMessage(data){
+                
+                $('#msgBox').append(
+                    '<div class="container_message_style container_message_user">'
+                        +'<div class="container_info_message_type container_info_message subtitle_color_text">'
+                            +'<div class="info_message name_info_message spanBlue">Moi</div>'
+                        +'</div>'
+                        +'<div class="container_message_type container_message_user subtitle_color_background_08 title_color_text">'
+                            +decodeURIComponent(data.content)
+                        +'</div>'
+                    +'</div>'); 
+                console.log( workerSocket.emit('newChatMessage',data));
+                $('#chatField').val("");
+            } 
+
+            $('#chatSender').click(function(){
+                data={
+                    saloon : "{{link}}",
+                    session:{{session.id}},
+                    sender : {{session.worker.user.id }},
+                    receiver : {{session.client.user.id}},
+                    content: encodeURIComponent($('#chatField').val()) 
+                };
+                sendChatMessage(data);
+            });
+            $('#chatField').bind("keydown", function(e){
+                if(e.keyCode==KeyCode.RETURN){
+                    data={
+                        saloon : "{{link}}",
+                        session:{{session.id}},
+                        sender : {{session.worker.user.id }},
+                        receiver : {{session.client.user.id}},
+                        content: encodeURIComponent($('#chatField').val()) 
+                    };
+                    sendChatMessage(data);
+                }
+            });
+
+        });
+    </script>-->
+
+{% endblock %} 
