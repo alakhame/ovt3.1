@@ -7,6 +7,6 @@
 !/app/phpunit.xml
 !/bin/
 /composer.*
-!/vendor/
+!/vendor/*
 !/web/app.php
 !/web/app_dev.php
