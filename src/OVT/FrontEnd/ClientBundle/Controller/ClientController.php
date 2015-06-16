@@ -101,8 +101,7 @@ class ClientController extends Controller
     public function getSessionsByStateAction($state){
         $adminClient=$this->get('clientadmin');
         $user=  $this->container->get('security.context')->getToken()->getUser();
-        $sessions=$adminClient->getSessionsByClientByState($user,$state); 
-         
+        $sessions=$adminClient->getSessionsByClientByState($user,$state);   
         return $this->render('OVTFrontEndClientBundle:Client:sessionsTable.html.twig', array('sessions' =>$sessions ));
     }
 
@@ -154,7 +153,7 @@ class ClientController extends Controller
                     $this->renderView("OVTFrontEndClientBundle:Client:document.html.twig", array('session'=>$session ))
                 ),
                 200,
-                array(  'Content-Type' => 'application/pdf')
+                array('Content-Type' => 'application/pdf')
             ); 
 
     }

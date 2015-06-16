@@ -40,11 +40,11 @@
     <parameter key="kernel.charset">UTF-8</parameter>
     <parameter key="kernel.container_class">appDevDebugProjectContainer</parameter>
     <parameter key="database_driver">pdo_mysql</parameter>
-    <parameter key="database_host">localhost</parameter>
+    <parameter key="database_host">161.106.147.8</parameter>
     <parameter key="database_port">3306</parameter>
     <parameter key="database_name">ovt_db</parameter>
     <parameter key="database_user">root</parameter>
-    <parameter key="database_password">toor</parameter>
+    <parameter key="database_password">admin</parameter>
     <parameter key="mailer_transport">smtp</parameter>
     <parameter key="mailer_host">127.0.0.1</parameter>
     <parameter key="mailer_user">null</parameter>
@@ -2007,7 +2007,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>557ecfdf15a95</argument>
+            <argument>55803c414e844</argument>
           </service>
         </argument>
       </argument>
@@ -2291,7 +2291,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>557ecfdf15a95</argument>
+            <argument>55803c414e844</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
             <argument type="service" id="security.authentication.manager"/>
           </service>
@@ -2712,11 +2712,11 @@
     <service id="doctrine.dbal.default_connection" class="Doctrine\DBAL\Connection">
       <argument type="collection">
         <argument key="driver">pdo_mysql</argument>
-        <argument key="host">localhost</argument>
+        <argument key="host">161.106.147.8</argument>
         <argument key="port">3306</argument>
         <argument key="dbname">ovt_db</argument>
         <argument key="user">root</argument>
-        <argument key="password">toor</argument>
+        <argument key="password">admin</argument>
         <argument key="charset">UTF8</argument>
         <argument key="driverOptions" type="collection"/>
       </argument>

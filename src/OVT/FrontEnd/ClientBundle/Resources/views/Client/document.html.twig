@@ -23,7 +23,9 @@
                  <tr>
                     <td > 
                         <div  >
-                            Transcripteur :{{session.worker.user.firstName ~" "~session.worker.user.lastName}}
+                            {% if session.worker!=null %}
+                                Transcripteur :{{session.worker.user.firstName ~" "~session.worker.user.lastName}}
+                            {% endif %}
                         </div>                                     
                     </td>
                 </tr>
