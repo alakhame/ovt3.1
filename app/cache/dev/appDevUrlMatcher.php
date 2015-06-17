@@ -128,8 +128,12 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
 
         // ovt_general_homepage
-        if (0 === strpos($pathinfo, '/hello') && preg_match('#^/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
-            return $this->mergeDefaults(array_replace($matches, array('_route' => 'ovt_general_homepage')), array (  '_controller' => 'OVT\\GeneralBundle\\Controller\\DefaultController::indexAction',));
+        if (rtrim($pathinfo, '/') === '') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'ovt_general_homepage');
+            }
+
+            return array (  '_controller' => 'OVT\\GeneralBundle\\Controller\\DefaultController::landingPageAction',  '_route' => 'ovt_general_homepage',);
         }
 
         // ovt_services_join

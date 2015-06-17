@@ -1,0 +1,406 @@
+@font-face {
+	font-family: myriad_pro_regular;
+	src: url(../fonts/myriad_pro_regular.otf);
+}
+@font-face {
+	font-family: MyriadPro-Light;
+	src: url(../fonts/MyriadPro-Light.otf);
+}
+@font-face {
+	font-family: OpenSans-Regular;
+	src: url(../fonts/OpenSans-Regular.ttf);
+}
+body, html, *
+{
+	padding: 0px;
+	margin: 0px;
+}
+body, html {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+::-webkit-scrollbar {  
+    width: 0px;  
+}
+/* ----------------- Title color -----------------*/
+.title_color_text
+{
+	color: #3f434d;
+}
+.title_color_fill
+{
+	fill: #3f434d;
+}
+.title_color_background
+{
+	background-color: #3f434d;
+}
+.title_color_border
+{
+	border: 1px solid #3f434d;
+}
+
+/* ----------------- Subtitle color -----------------*/
+.subtitle_color_text
+{
+	color: #a5a5a5;
+}
+.subtitle_color_fill
+{
+	fill: #a5a5a5;
+}
+.subtitle_color_border
+{
+	border: 1px solid #b4b4b4;
+}
+.subtitle_color_border_08
+{
+	border: 1px solid rgba(165, 165, 165, 0.2);
+}
+.subtitle_color_fill
+{
+	fill: #a5a5a5;
+}
+.subtitle_color_background_08
+{
+	background-color: rgba(165, 165, 165, 0.2);
+}
+.subtitle_color_background
+{
+	background-color: rgb(165, 165, 165);
+}
+
+/* ----------------- Theme color -----------------*/
+.theme_color_text
+{
+	color: #f60;
+}
+.theme_color_border
+{
+	border: 1px solid #f60;
+}
+.theme_color_background
+{
+	background-color: #f60;
+}
+.theme_color_fill
+{
+	fill: #f60;
+}
+.theme_color_focus:focus
+{
+	border: 1px solid #f60;
+}
+
+header
+{
+	height: 80px;
+	position: relative;
+	z-index: 2;
+}
+.logo
+{	height: 100%;
+	width: 70px;
+	position: relative;
+	float: left;
+}
+.logo svg
+{
+	position: absolute;
+	top: 50%;
+ 	left: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	-o-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+.container_compte
+{
+	height: 100%;
+	line-height: 80px;
+	float: right;
+	padding-right: 50px;
+
+	-webkit-transition: all .25s ease;
+	   -moz-transition: all .25s ease;
+	    -ms-transition: all .25s ease;
+	     -o-transition: all .25s ease;
+	        transition: all .25s ease;
+}
+.create_compte, .log_compte
+{
+	font-family: 'OpenSans-Regular';
+	font-size: 14px;
+	display: inline-block;
+	cursor: pointer;
+}
+.create_compte
+{
+	margin-right: 40px;
+}
+.log_compte
+{
+	text-decoration: underline;
+}
+.container
+{
+	position: absolute;
+	top: 0px;
+	width: 50%;
+	height: 100%;
+}
+.container_left
+{
+	top: 0px;
+	left: 0px;
+	text-align: center;
+}
+.container_right
+{
+	right: 0px;
+
+	-webkit-transition: all .45s ease;
+	   -moz-transition: all .45s ease;
+	    -ms-transition: all .45s ease;
+	     -o-transition: all .45s ease;
+	        transition: all .45s ease;
+}
+.container_text_left
+{
+	width: 410px;
+	position: absolute;
+	top: 50%;
+ 	left: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	-o-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+.title
+{
+	font-family: 'MyriadPro-Light';
+	font-size: 50px;
+	position: relative;
+}
+.by_orange
+{
+	position: absolute;
+	right: 0px;
+	bottom: 12px;
+	font-size: 14px;
+}
+.descritpion
+{
+	font-family: 'OpenSans-Regular';
+	font-size: 20px;
+	text-align: left;
+}
+.container_stat
+{
+	margin-top: 70px;
+	width: 100%;
+	text-align: left;
+}
+.container_stat_style
+{
+	display: inline-block;
+	width: 180px;
+	position: relative;
+}
+.container_rdv_cam
+{
+	float: left;
+}
+.container_time
+{
+	float: right;
+}
+.logo_stat
+{
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	height: 100%;
+	width: 56px;
+}
+.logo_stat svg
+{
+	position: absolute;
+	top: 50%;
+ 	left: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	-o-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+.text_stat
+{
+	position: absolute;
+	left: 0px;
+	bottom: -10px;
+	font-family: 'MyriadPro-Light';
+	font-size: 14px;
+}
+.number_stat
+{
+	font-family: 'MyriadPro-Light';
+	font-size: 63px;
+}
+.container_slide
+{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.device
+{
+	width: 130%;
+
+	position: absolute;
+	top: 50%;
+ 	left: 50%;
+
+ 	-webkit-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	-o-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+.container_img_mac
+{
+	position: absolute;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	width: 86%;
+	right: 0px;
+}
+.container_img_ipad
+{
+	position: absolute;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	width: 19.6%;
+	right: 89.8%;
+}
+.container_img_mac img
+{
+	width: 115%;
+	position: absolute;
+	top: 48.7%;
+
+	-webkit-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	-o-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+.container_img_ipad img
+{
+	width: 159.5%;
+	position: absolute;
+	top: 45.1%;
+	left: 27.2%;
+
+	-webkit-transform: translate(-20%,-20%);
+	-ms-transform: translate(-20%,-20%);
+	-o-transform: translate(-20%,-20%);
+	transform: translate(-20%,-20%);
+
+	-webkit-transition: all .45s ease;
+	   -moz-transition: all .45s ease;
+	    -ms-transition: all .45s ease;
+	     -o-transition: all .45s ease;
+	        transition: all .45s ease;
+}
+.img_slide_mac_1
+{
+	left: 56%;
+	animation: anim_slide 12s ease infinite;
+	-webkit-animation: anim_slide 12s ease infinite;
+}
+.img_slide_mac_2
+{
+	left: 157%;
+	animation: anim_slide 12s ease infinite;
+	-webkit-animation: anim_slide 12s ease infinite;
+}
+.img_slide_mac_3
+{
+	left: 258%;
+	animation: anim_slide 12s ease infinite;
+	-webkit-animation: anim_slide 12s ease infinite;
+}
+@-webkit-keyframes anim_slide {
+		0%{
+			margin-left: 0%;
+		}
+		27%{
+			margin-left: 0%;
+		}
+		32%{
+			margin-left: -101%;
+		}
+		59%{
+			margin-left: -101%;
+		}
+		64%{
+			margin-left: -202%;
+		}
+		91%{
+			margin-left: -202%;
+		}
+		96%{
+			margin-left: 0%;
+		}
+		100%{
+			margin-left: 0%;
+		}
+	}
+
+	@keyframes anim_slide {
+				0%{
+			margin-left: 0%;
+		}
+		27%{
+			margin-left: 0%;
+		}
+		32%{
+			margin-left: -101%;
+		}
+		59%{
+			margin-left: -101%;
+		}
+		64%{
+			margin-left: -202%;
+		}
+		91%{
+			margin-left: -202%;
+		}
+		96%{
+			margin-left: 0%;
+		}
+		100%{
+			margin-left: 0%;
+		}
+	}
+
+footer
+{
+	width: 100%;
+	height: 40px;
+	background-color: #bcdcd8;
+	text-align: center;
+	line-height: 40px;
+	color: #FFF;
+	position: absolute;
+	bottom: 0px;
+	font-family: 'OpenSans-Regular';
+}

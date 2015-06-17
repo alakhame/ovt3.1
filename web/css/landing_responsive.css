@@ -1,0 +1,19 @@
+@media only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2){
+	
+}
+@media screen and (max-width: 1000px){
+	.container_right
+	{
+		top: 15%;
+		width: 60%;
+	}
+	.container_stat_style
+	{
+		float: none;
+	}
+	.container_img_ipad img
+	{
+		top: 45.9%;
+	}
+	
+}

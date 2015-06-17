@@ -10,3 +10,4 @@
 /vendor/*
 !/web/app.php
 !/web/app_dev.php
+/node_services

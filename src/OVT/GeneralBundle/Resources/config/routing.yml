@@ -1,6 +1,6 @@
 ovt_general_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: OVTGeneralBundle:Default:index }
+    path:     /
+    defaults: { _controller: OVTGeneralBundle:Default:landingPage }
 
 ovt_services_join:
     path:     /session/join

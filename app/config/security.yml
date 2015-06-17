@@ -34,10 +34,10 @@ security:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-    #    - { path: ^/client$, role: ROLE_CLIENT }
-    #    - { path: ^/client/adminclient, role:   ROLE_COM_CLIENT}
-    #    - { path: ^/client/adminclient/session/, role: ROLE_CLIENT  }
-    #    - { path: ^/provider/, role: ROLE_WORKER }
-    #    - { path: ^/accounting/, role: ROLE_ACCOUNTING }
-    #    - { path: ^/provider/adminprovider/, role: ROLE_PROVIDER_ADMIN }
-    #    - { path: ^/superadmin, role: ROLE_SUPER_ADMIN }
+        - { path: ^/client$, role: ROLE_CLIENT }
+        - { path: ^/client/adminclient, role:   ROLE_COM_CLIENT}
+        - { path: ^/client/adminclient/session/, role: ROLE_CLIENT  }
+        - { path: ^/provider/, role: ROLE_WORKER }
+        - { path: ^/accounting/, role: ROLE_ACCOUNTING }
+        - { path: ^/provider/adminprovider/, role: ROLE_PROVIDER_ADMIN }
+        - { path: ^/superadmin, role: ROLE_SUPER_ADMIN }

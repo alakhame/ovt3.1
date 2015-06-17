@@ -8,6 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
+
+    public function landingPageAction(Request $request)
+    {    
+         
+        return $this->render('OVTGeneralBundle:Default:index.html.twig');
+    }
     public function sessionJoinAction(Request $request)
     {	 
     	$uType = $request->get('userType');
