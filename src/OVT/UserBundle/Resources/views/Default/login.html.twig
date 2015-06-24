@@ -8,7 +8,7 @@
 <body>
 	<div class="container">
 		<div id="header"  >
-			<img id="logorange" href="{{asset('img/orange/orange.png')}}"   />
+			<img id="logorange" src="{{asset('img/orange/orange.png')}}"   />
 			<div id="header_text">
 				<div id="header_title">Orange Voice Transcription</div>
 				<div id="header_subtitle">version 3.0</div>
@@ -28,9 +28,7 @@
 			    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 			{% endif %}
 			<input  type="submit" id="_submit" name="_submit"  class="log theme_color_background" value="Connexion">   </input> 
-		</form>
-		<div 	class="text_no_password">Vous n’avez pas de compte ?</div>
-		<div 	class="creat_compte">Créer un compte</div>
+		</form> 
 	</div>
 	<script type="text/javascript" src="{{asset('js/signin.js')}}" ></script>
 </body>

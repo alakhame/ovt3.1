@@ -2883,8 +2883,8 @@ input[name="range"]::-webkit-slider-thumb:after{
 }
 .container_calendar
 {
-	height: 570px;
-	width: 770px;
+	height: 90%;
+	width: 80%;
 	font-family: "OpenSans-Regular";
 	overflow: hidden;
 	position: absolute;

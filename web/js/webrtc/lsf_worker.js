@@ -38,11 +38,6 @@ peer.onStreamEnded = function(e) {
 };
 
 peer.userid =   document.querySelector('#your-name').value;
-getUserMedia(function(stream) {
-    peer.addStream(stream);
-    peer.startBroadcasting();
-    alert(peer.userid);
-}); 
 
 
 var videosContainer = document.getElementById('localVideo')  ;  
@@ -71,3 +66,12 @@ function getUserMedia(callback) {
         callback(stream);
     });
 } 
+
+
+function initiateVisio(){
+    getUserMedia(function(stream) {
+        peer.addStream(stream);
+        peer.startBroadcasting(); 
+    }); 
+
+}

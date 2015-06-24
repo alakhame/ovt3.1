@@ -12,9 +12,11 @@ $('.forgot_password').click(function() {
 
 	if ($('.log').hasClass('value')) {
 			$('.log').val('Renvoyer le mot de passe');
+			$('.log').prop('disabled',true);
 		}
 		else{
 			$('.log').val('Connexion');
+			$('.log').prop('disabled',false);
 		}
 
 })

@@ -8,6 +8,7 @@
 /bin/
 /composer.*
 /vendor/*
-!/web/app.php
-!/web/app_dev.php
+/web/app.php
+/web/app_dev.php
+/web/.htaccess
 /node_services

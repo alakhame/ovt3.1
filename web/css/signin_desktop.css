@@ -136,7 +136,8 @@ input:focus
 	opacity: 1;
 }
 .remail
-{
+{	
+	display: none;
 	height: 0px;
 	overflow: hidden;
 	border: 0px solid white; 
@@ -148,11 +149,13 @@ input:focus
 }
 .remail.show
 { 
+	display: block;
 	height: 44px;
 	border: 1px solid white;
 }
 .password.hide
 {
+	display: none;
 	border: 0px solid white;
 	height: 0px;
 	margin-top: 0px;
@@ -170,7 +173,7 @@ input:focus
 	color: #3f434d;
 	font-size: 12px;
 	font-family: "myriad_pro_light";
-	text-align: right;
+	text-align: left;
 	font-style: italic;
 	cursor: pointer;
 	margin-top: 10px;

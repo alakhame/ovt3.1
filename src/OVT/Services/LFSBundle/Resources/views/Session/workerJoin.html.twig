@@ -2,15 +2,13 @@
  
     {% block header %}
 
+        <link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" /> 
 
         <link rel="stylesheet" type="text/css" href="{{asset('ress/css/transcript.css')}}" /> 
         {{parent()}}
         <script src="{{asset('ress/js/angular.js')}}" > </script>
-        <script src="{{asset('ress/js/jquery.js')}}" > </script>
-        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script> 
-        <script src="{{asset('ress/js/simplewebrtc.bundle.js')}}" > </script>
-
+        <script src="{{asset('ress/js/jquery.js')}}" > </script> 
+        <script src="{{asset('ress/js/bootstrap.min.js')}}" > </script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
 
         <script src="//cdn.webrtc-experiment.com/socket.io.js"> </script>   
@@ -157,6 +155,20 @@
 
         </div>
 
+        <div id="modals">
+            <div class="modal hide modal-static fade"   id="sessionStateModal"  data-backdrop="static" data-keyboard="false" href="#" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="text-center"> 
+                                <div id="modalMessage"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
     <div>
@@ -176,9 +188,7 @@
     </script>
     <script type="text/javascript" src="{{asset('js/webrtc/lsf_worker.js')}}"></script> 
 
-    <!--<script type="text/javascript">
-
-        $( "#draggable" ).draggable();
+    <script type="text/javascript"> 
 
         function sanitizeNumber(number){
             if(number < 10 )
@@ -192,14 +202,17 @@
             var now = moment(); 
             if(starttime > now ){
                 console.log('1');
-                $('#timeBox').html('<span style="color:green"> Cette session n\'a pas encore débuté</span> ');
+                $('#modalMessage').html('<h4 style="color:red"> DESOLE ! </h4> <br/> <br/> <span style="color:green"> Cette session n\'a pas encore débuté</span> ');
+                $('#sessionStateModal').modal('show');
             }
             else if(endtime<now){
                 console.log('2');
-                $('#timeBox').html('<span style="color:green"> Cette session est terminée et archivée</span> ');
+                $('#modalMessage').html('<h4 style="color:red"> DESOLE ! </h4> <br/> <br/> <span style="color:green"> Cette session est terminée et archivée</span> ');
+                $('#sessionStateModal').modal('show');
             }
             else{
-                console.log('3');
+                console.log('3'); 
+                initiateVisio();
                 setInterval(function(){refreshCounter()},1000);
             }
 
@@ -216,7 +229,9 @@
 
         }
 
-        var app = angular.module('OVTApp', ['btford.socket-io']);
+        initiateTimer();    
+
+        /*var app = angular.module('OVTApp', ['btford.socket-io']);
             
         app.factory('workerSocket', function (socketFactory) {
            return socketFactory({ 
@@ -269,20 +284,7 @@
                 initiateTimer();
 
             }
-
-
-            //****** WEBRTC HELPER  *********/
-            
-            webrtc = new SimpleWebRTC({
-                localVideoEl: 'localVideo',
-                remoteVideosEl: 'remoteVideos',
-                autoRequestMedia: true ,
-                url:'{{SIGNALING_SERVER}}'
-            }); 
-            webrtc.on('readyToCall', function () {
-                webrtc.joinRoom('{{link}}');
-            });
-
+ 
 
              //////////// authentification handler /////////////////
             workerSocket.on("connect", function(){
@@ -327,22 +329,17 @@
                     +'</div>'; 
                 $('#msgBox').append(toAppend); 
             });
-
-
-
-            
-
-
-        });
+  
+        }); */
 
 
 
 
     </script> 
 
-    <script>
+    <!--<script>
         //// CHAT HANDLER  
-        
+       
         app.factory('workerSocket', function (socketFactory) {
            return socketFactory({ 
                 ioSocket: io.connect('localhost:9090',{'sync disconnect on unload': true })
@@ -387,7 +384,7 @@
                 }
             });
 
-        });
-    </script>-->
+        }); 
+    </script> -->
 
 {% endblock %} 
