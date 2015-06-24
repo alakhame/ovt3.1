@@ -2,6 +2,8 @@
  
     {% block header %}
 
+        <link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" /> 
+       
         {{parent()}}
         <link rel="stylesheet" type="text/css" href="{{asset('ress/css/transcript.css')}}" /> 
         <script src="{{asset('ress/js/angular.js')}}" > </script>
@@ -9,6 +11,7 @@
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+         <script src="{{asset('ress/js/bootstrap.min.js')}}" > </script>
 
     {% endblock %}
 
@@ -135,6 +138,22 @@
             </div> 
 
         </div>
+
+        <div id="modals">
+            <div class="modal hide modal-static fade"   id="sessionStateModal"  data-backdrop="static" data-keyboard="false" href="#" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="text-center"> 
+                                <div id="modalMessage"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+
     </div>
 
 
@@ -161,11 +180,13 @@
                 var now = moment(); 
                 if(starttime > now ){
                     console.log('1');
-                    $('#timeBox').html('<span style="color:green"> Cette session n\'a pas encore débuté</span> ');
+                    $('#modalMessage').html('<h4 style="color:red"> DESOLE ! </h4> <br/> <br/> <span style="color:green"> Cette session n\'a pas encore débuté</span> ');
+                    $('#sessionStateModal').modal('show');
                 }
                 else if(endtime<now){
                     console.log('2');
-                    $('#timeBox').html('<span style="color:green"> Cette session est terminée et archivée</span> ');
+                    $('#modalMessage').html('<h4 style="color:red"> DESOLE ! </h4> <br/> <br/> <span style="color:green"> Cette session est terminée et archivée</span> ');
+                    $('#sessionStateModal').modal('show');
                 }
                 else{
                     console.log('3');
