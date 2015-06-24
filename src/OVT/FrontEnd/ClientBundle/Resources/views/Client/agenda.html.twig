@@ -19,7 +19,18 @@
 		<script src="{{asset('ress/js/fr.js')}}" > </script>
 		<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 		<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script> 
-	 
+	 	
+	 	<style>
+	 		#joinButton{
+	 			display: inline-block;
+	 		}
+
+	 		#joinButton.hide{
+	 			display: none;
+	 		}
+
+
+	 	</style>
 	      
 	{% endblock %}
 
@@ -73,7 +84,8 @@
 							            </div>
 							            <div class="modal-footer">
 							                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							                <button class="btn btn-primary"><a id="joinUrl" target="_blank" >Joindre</a></button>
+							                <button id="joinButton" class="btn btn-primary discret" >
+							                	<a id="joinUrl" target="_blank" >Joindre</a></button>
 							            </div>
 							        </div>
 							    </div>
@@ -256,8 +268,12 @@
 						        	{% verbatim %}
 						        		var toSession= Routing.generate('ovt_services_join',{service:event.service, userType:'client',hashLink:event.link});
 						        	{% endverbatim %}
-						        	if(event.link!="")
-						        	$('#joinUrl').attr('href',toSession);
+						        	if(event.link!=""){
+						        		$('#joinButton').removeClass('hide');
+						        		$('#joinUrl').attr('href',toSession);
+						        	} 
+						        	else
+						        		$('#joinButton').addClass('hide') ;
 						        },
 								 
 								select : function( start, end, jsEvent, view ) {

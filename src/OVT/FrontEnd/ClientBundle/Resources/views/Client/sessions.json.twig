@@ -28,7 +28,7 @@
 			"borderColor":"#5173DA",
 			"color":"{{ attribute(colors, s.state) }}",
 			"textColor":"#000000",
-			{% if s.state!="DELETED"  %}
+			{% if (s.state!="DELETED" and s.worker!=null )  %}
 				"link":"{{s.link}}",
 			{% else %}
 				"link":"",
