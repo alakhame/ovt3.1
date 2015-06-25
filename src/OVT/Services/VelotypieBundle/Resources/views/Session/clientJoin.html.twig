@@ -219,7 +219,7 @@
             
             app.factory('clientSocket', function (socketFactory) {
                return socketFactory({ 
-                    ioSocket: io.connect('localhost:9090',{'sync disconnect on unload': true })
+                    ioSocket: io.connect('{{TRANSCRIPTING_SERVER}}',{'sync disconnect on unload': true })
                   });
             }).
             controller('velotypieClientCtrl', function(clientSocket,$scope,$http,$location,$window) {

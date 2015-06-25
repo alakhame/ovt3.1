@@ -211,7 +211,7 @@
             
             app.factory('workerSocket', function (socketFactory) {
                return socketFactory({ 
-                    ioSocket: io.connect('localhost:9090',{'sync disconnect on unload': true })
+                    ioSocket: io.connect('{{TRANSCRIPTING_SERVER}}',{'sync disconnect on unload': true })
                   });
             }).
             controller('velotypieWorkerCtrl', function(workerSocket,$scope,$http,$location,$window) {
@@ -435,8 +435,10 @@
                 //heartBeat(); 
                 //var timer = setInterval(heartBeat   ,10000);
 
+                var updateDBContent;
 
-                var updateDBContent = setInterval(function(){
+                setTimeout( function(){
+                    updateDBContent = setInterval(function(){
                         var content = $("#ttarea textarea").val() ;
                         var link2 = Routing.generate('ovt_services_velotypie_API_add_content_by_id_bis',
                         { sessionID:{{session.id}}, content: content});
@@ -445,9 +447,10 @@
                                 console.log("updating db --- ");
                             });
 
-                    },5000);
+                    },5000); 
+                },10000);
 
-                });
+            });
 
 
 
