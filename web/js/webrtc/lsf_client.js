@@ -2,7 +2,7 @@
 var channel = window.hash_link;
 var sender = Math.round(Math.random() * 999999999) + 999999999;
 
-var SIGNALING_SERVER = sig_server;
+var SIGNALING_SERVER = window.sig_server;
 io.connect(SIGNALING_SERVER).emit('new-channel', {
     channel: channel,
     sender: sender
