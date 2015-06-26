@@ -2,16 +2,16 @@
 var channel = window.hash_link;
 var sender = Math.round(Math.random() * 999999999) + 999999999;
 
-var SIGNALING_SERVER = window.sig_server;
+var SIGNALING_SERVER = window.sig_server; 
 io.connect(SIGNALING_SERVER).emit('new-channel', {
     channel: channel,
     sender: sender
 });
 var socket = io.connect(SIGNALING_SERVER + channel);
 socket.on('connect', function () {
-    // setup peer connection & pass socket object over the constructor!
+
 });
-socket.send = function (message) {
+socket.send = function (message) { 
     socket.emit('message', {
         sender: sender,
         data: message
@@ -19,7 +19,9 @@ socket.send = function (message) {
 };
 // var peer = new PeerConnection('http://socketio-signaling.jit.su:80');
 var peer = new PeerConnection(socket);
+  console.log(socket);
 peer.onUserFound = function(userid) {
+    console.log('peer found');
     if (document.getElementById(userid)) return;
     peer.sendParticipationRequest(userid);
 };
