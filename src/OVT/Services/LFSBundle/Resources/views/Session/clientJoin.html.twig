@@ -44,143 +44,140 @@
     {% endblock %}
  
     {% block containerTab %}  
-    <div class="container_tab_5 container_tab"     style="display:block">
-        <input type="hidden" id="your-name" value="{{user.id}}">
-       
-        <div class="container_video full">
-            <div class="position_container_tools_video"> 
-                <div class="gradient_bottom_video"></div>
-                <div id="timeBox" class="container_time"><!-- add class="more" fore timer red -->
+        <div class="container_tab_5 container_tab"     style="display:block">
+            <input type="hidden" id="your-name" value="{{user.id}}">
+           
+            <div class="container_video full">
+                <div class="position_container_tools_video"> 
+                    <div class="gradient_bottom_video"></div>
+                    <div id="timeBox" class="container_time"><!-- add class="more" fore timer red -->
+                         
+                    </div>
+                    <div class="video">
+                        <div id="ttarea">
+                            <div id="remoteVideos"></div>  
+                        </div>
+                    </div> 
                      
                 </div>
-                <div class="video">
-                    <div id="ttarea">
-                        <div id="remoteVideos"></div>  
-                    </div>
-                </div> 
-                 
             </div>
-        </div>
 
-        <div class="button_show_container_slide anim title_color_fill theme_color_fill">
-            <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="7" height="9" viewBox="0 0 13 18">
-                <use xlink:href="{{asset('svg/arrow_show_slide.svg')}}#arrow_show_slide"></use>
-            </svg>
-        </div>
+            <div class="button_show_container_slide anim title_color_fill theme_color_fill">
+                <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="7" height="9" viewBox="0 0 13 18">
+                    <use xlink:href="{{asset('svg/arrow_show_slide.svg')}}#arrow_show_slide"></use>
+                </svg>
+            </div>
 
-        <div class="container_slide"> 
-            <div class="head_container_slide show"  >
-                <p>Voir les détails</p>
-                <div class="button_show_detail active">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="8" height="5" viewBox="0 0 12 7" class="first_arrow">
-                        <use xlink:href="{{asset('svg/arrow_down.svg')}}#arrow_down"></use>
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="8" height="5" viewBox="0 0 12 7">
-                        <use xlink:href="{{asset('svg/arrow_down.svg')}}#arrow_down"></use>
-                    </svg>
-                </div>
-
-                <!-- add class="more" pour 2 -->
-                <div class=" ">
-                    <div class="contact_detail_head_slide more show">  
-                        <div class="container_info_contact_head_slide">
-                            <div class="name_contact_head_slide info_contact_head_slide">Connecté en tant que </div>
-                            <div class="email_contact_head_slide info_contact_head_slide">
-                                {{user.firstName ~" "~user.lastName}}</div>
-                        </div>
+            <div class="container_slide"> 
+                <div class="head_container_slide show"  >
+                    <p>Voir les détails</p>
+                    <div class="button_show_detail active">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="8" height="5" viewBox="0 0 12 7" class="first_arrow">
+                            <use xlink:href="{{asset('svg/arrow_down.svg')}}#arrow_down"></use>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="8" height="5" viewBox="0 0 12 7">
+                            <use xlink:href="{{asset('svg/arrow_down.svg')}}#arrow_down"></use>
+                        </svg>
                     </div>
-                    <div class="bar_middle_contact_detail_head_slide more"></div>
-                    <div class="contact_detail_head_slide more show">  
-                        <div class="container_info_contact_head_slide">
-                            <div class="name_contact_head_slide info_contact_head_slide">Intitulé </div>
-                            <div class="email_contact_head_slide info_contact_head_slide">{{session.title}}</div>
-                        </div>
-                    </div>
-                    <div class="bar_middle_contact_detail_head_slide more"></div>
-                    <div class="contact_detail_head_slide more show">  
-                        <div class="container_info_contact_head_slide">
-                            <div class="name_contact_head_slide info_contact_head_slide">Organisateur</div>
-                            <div class="email_contact_head_slide info_contact_head_slide">
-                                {{session.client.user.firstName ~" "~session.client.user.lastName}}
+
+                    <!-- add class="more" pour 2 -->
+                    <div class=" ">
+                        <div class="contact_detail_head_slide more show">  
+                            <div class="container_info_contact_head_slide">
+                                <div class="name_contact_head_slide info_contact_head_slide">Connecté en tant que </div>
+                                <div class="email_contact_head_slide info_contact_head_slide">
+                                    {{user.firstName ~" "~user.lastName}}</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="bar_middle_contact_detail_head_slide more"></div>
-                    <div class="contact_detail_head_slide more show">  
-                        <div class="container_info_contact_head_slide">
-                            <div class="name_contact_head_slide info_contact_head_slide">Transcripteur</div>
-                            <div class="email_contact_head_slide info_contact_head_slide">
-                                {{session.worker.user.firstName ~" "~session.worker.user.lastName}}</div>
+                        <div class="bar_middle_contact_detail_head_slide more"></div>
+                        <div class="contact_detail_head_slide more show">  
+                            <div class="container_info_contact_head_slide">
+                                <div class="name_contact_head_slide info_contact_head_slide">Intitulé </div>
+                                <div class="email_contact_head_slide info_contact_head_slide">{{session.title}}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="bar_middle_contact_detail_head_slide more"></div>
-                    <div class="contact_detail_head_slide more show">  
-                        <div class="container_info_contact_head_slide">
-                            <div class="name_contact_head_slide info_contact_head_slide">Heure de début </div>
-                            <div class="email_contact_head_slide info_contact_head_slide">
-                                {{session.starttime|date('Y-m-d H:i:s') }}</div>
+                        <div class="bar_middle_contact_detail_head_slide more"></div>
+                        <div class="contact_detail_head_slide more show">  
+                            <div class="container_info_contact_head_slide">
+                                <div class="name_contact_head_slide info_contact_head_slide">Organisateur</div>
+                                <div class="email_contact_head_slide info_contact_head_slide">
+                                    {{session.client.user.firstName ~" "~session.client.user.lastName}}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="bar_middle_contact_detail_head_slide more"></div>
-                    <div class="contact_detail_head_slide more show">  
-                        <div class="container_info_contact_head_slide">
-                            <div class="name_contact_head_slide info_contact_head_slide">Heure de fin </div>
-                            <div class="email_contact_head_slide info_contact_head_slide"> 
-                                {{session.endtime|date('Y-m-d H:i:s') }}</div>
+                        <div class="bar_middle_contact_detail_head_slide more"></div>
+                        <div class="contact_detail_head_slide more show">  
+                            <div class="container_info_contact_head_slide">
+                                <div class="name_contact_head_slide info_contact_head_slide">Transcripteur</div>
+                                <div class="email_contact_head_slide info_contact_head_slide">
+                                    {{session.worker.user.firstName ~" "~session.worker.user.lastName}}</div>
+                            </div>
                         </div>
+                        <div class="bar_middle_contact_detail_head_slide more"></div>
+                        <div class="contact_detail_head_slide more show">  
+                            <div class="container_info_contact_head_slide">
+                                <div class="name_contact_head_slide info_contact_head_slide">Heure de début </div>
+                                <div class="email_contact_head_slide info_contact_head_slide">
+                                    {{session.starttime|date('Y-m-d H:i:s') }}</div>
+                            </div>
+                        </div>
+                        <div class="bar_middle_contact_detail_head_slide more"></div>
+                        <div class="contact_detail_head_slide more show">  
+                            <div class="container_info_contact_head_slide">
+                                <div class="name_contact_head_slide info_contact_head_slide">Heure de fin </div>
+                                <div class="email_contact_head_slide info_contact_head_slide"> 
+                                    {{session.endtime|date('Y-m-d H:i:s') }}</div>
+                            </div>
+                        </div>
+                        <div class="bar_middle_contact_detail_head_slide more"></div>
+                        <div class="contact_detail_head_slide more show">  
+                            <div class="container_info_contact_head_slide">
+                                <div class="name_contact_head_slide info_contact_head_slide">Détails supplémentaires</div>
+                                <div class="email_contact_head_slide info_contact_head_slide">{{session.description }}</div>
+                            </div>
+                        </div> 
                     </div>
-                    <div class="bar_middle_contact_detail_head_slide more"></div>
-                    <div class="contact_detail_head_slide more show">  
-                        <div class="container_info_contact_head_slide">
-                            <div class="name_contact_head_slide info_contact_head_slide">Détails supplémentaires</div>
-                            <div class="email_contact_head_slide info_contact_head_slide">{{session.description }}</div>
+                </div>
+
+                <div class="container_tool_chat" style="display:block">
+                    <input type="text" id="chatField" class="input_chat" placeholder="Ecrire un message..."><div class="container_send_message">
+                        <div id="chatSender" class="send_round theme_color_background">
+                            <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"     xmlns:ev="http://www.w3.org/2001/xml-events" width="6" height="10" viewBox="0 0 11 19" class="white_fill">
+                                <use xlink:href="{{asset('svg/arrow_right.svg')}}#arrow_right"></use>
+                            </svg>
                         </div>
                     </div> 
                 </div>
+
+                <div class="container_discussion" style="display:block" ng-controller="ChatClientCtrl">
+                    <div id="msgBox" class="discussion_contact container_contact_2_choose_action_discussion" style="display:block">  
+                    </div> 
+                </div> 
+
+                
             </div>
 
-            <div class="container_tool_chat" style="display:block">
-                <input type="text" id="chatField" class="input_chat" placeholder="Ecrire un message..."><div class="container_send_message">
-                    <div id="chatSender" class="send_round theme_color_background">
-                        <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"     xmlns:ev="http://www.w3.org/2001/xml-events" width="6" height="10" viewBox="0 0 11 19" class="white_fill">
-                            <use xlink:href="{{asset('svg/arrow_right.svg')}}#arrow_right"></use>
-                        </svg>
-                    </div>
-                </div> 
-            </div>
-
-            <div class="container_discussion" style="display:block" ng-controller="ChatClientCtrl">
-                <div id="msgBox" class="discussion_contact container_contact_2_choose_action_discussion" style="display:block">  
-                </div> 
-            </div> 
-
-            
-        </div>
-
-        <div id="modals">
-            <div class="modal hide modal-static fade"   id="sessionStateModal"  data-backdrop="static" data-keyboard="false" href="#" role="dialog" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <div class="text-center"> 
-                                <div id="modalMessage"></div>
+            <div id="modals">
+                <div class="modal hide modal-static fade"   id="sessionStateModal"  data-backdrop="static" data-keyboard="false" href="#" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="text-center"> 
+                                    <div id="modalMessage"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-        
-    </div>
 
         <!--- WEBRTC STUFF -->
     <script type="text/javascript" src="{{asset('js/webrtc/PeerConnection.js')}}"></script> 
     <script type="text/javascript" src="{{asset('js/webrtc/DetectRTC.js')}}"></script>  
     <script type="text/javascript">
         window.hash_link="{{link}}";
-        window.sig_server='{{SIGNALING_SERVER}}';
+        window.sig_server="{{SIGNALING_SERVER}}";
     </script>
     <script type="text/javascript" src="{{asset('js/webrtc/lsf_client.js')}}"></script> 
 
@@ -212,8 +209,7 @@
                     $('#sessionStateModal').modal('show');
                 }
                 else{
-                    console.log('3'); 
-                    initiateVisio();
+                    console.log('3');  
                     setInterval(function(){refreshCounter()},1000);
                 }
 

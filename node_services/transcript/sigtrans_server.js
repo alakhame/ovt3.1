@@ -71,8 +71,7 @@ function retrieveSocketPosition(tab, socket){
     return -1;
 }
 
-function authentificate(socket, data, userType){
-   
+function authentificate(socket, data, userType){ 
     var link = SERVER_ROOT_DOMAIN+"API/sessionAuth?hash="+data.saloon+"&type="+userType+"&uID="+data.userID;
     var creds;
     httpUtils.get(link, function(res) {
@@ -81,8 +80,8 @@ function authentificate(socket, data, userType){
             body += chunk;
         });
         res.on('end', function() {
-            creds = JSON.parse(body)
-            //console.log("Got response: ",link );
+            creds = JSON.parse(body);
+            console.log("Got response: ",link );
             if(creds.access=='granted'){
                 socket.join(data.saloon); 
                 console.log(' -- user with id:'+data.userID+' logged on saloon :'+data.saloon);

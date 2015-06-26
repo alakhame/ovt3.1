@@ -50,7 +50,20 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
         return $this->em->getRepository("OVTGeneralBundle:Session")->findBy(array('link'=>$link));
     }
 
+    public  function getAllSessions(){
+        return $this->em->getRepository("OVTGeneralBundle:Session")->findAll();
+    }
 
+    public function terminatePastSessions(){
+        $now = new \DateTime('now');
+        $sessions = $this->getAllSessions();
+        foreach ($sessions as $s) {
+            if($s->getEndtime()<$now && $s->getState()=='ACCEPTED'){
+                $s->setState('TERMINATED');
+            }
+        }
+        $this->update();
+    }
 
 
 

@@ -1,6 +1,7 @@
 /app/bootstrap.php.cache
 /app/cache/*
 !app/cache/.gitkeep
+/app/config/parameters.yml
 /app/config/*
 /app/logs/*
 !app/logs/.gitkeep
@@ -11,4 +12,4 @@
 /web/app.php
 /web/app_dev.php
 /web/.htaccess
-/node_services
+/node_services/*
