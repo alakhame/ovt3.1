@@ -58,7 +58,7 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
         $now = new \DateTime('now');
         $sessions = $this->getAllSessions();
         foreach ($sessions as $s) {
-            if($s->getEndtime()<$now){
+            if($s->getEndtime()<$now && $s->getState()=='ACCEPTED'){
                 $s->setState('TERMINATED');
             }
         }

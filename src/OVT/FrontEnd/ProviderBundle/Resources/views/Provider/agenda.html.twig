@@ -1,9 +1,10 @@
 {% extends "::baseProfil.html.twig" %}
  	
  	{% block header %}
+	
+		<link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" /> 
 		{{parent()}}
 		<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
-		<link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" /> 
 		<link rel="stylesheet" href="{{asset('ress/css/fullcalendar.css')}}" />  
 		<link rel="stylesheet" href="{{asset('ress/css/calendar.css')}}" /> 
 		<link rel='stylesheet' href="{{asset('ress/css/fullcalendar.print.css')}}"media='print' />  
@@ -105,6 +106,11 @@
 						header: {
 							left: 'today',
 							center: 'prev, title, next'
+						},
+						buttonIcons:{
+							'today':'today',
+							'prev':'prev',
+							'next':'next'
 						},
 						businessHours:{
 							start: '08:00', 
