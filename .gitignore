@@ -13,3 +13,5 @@
 /web/app_dev.php
 /web/.htaccess
 /node_services/*
+app/config/parameters.yml
+/app/config/parameters.yml

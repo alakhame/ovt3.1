@@ -70,7 +70,7 @@
 
             <div class="container_slide"> 
                 <div class="head_container_slide show"  >
-                    <p>Voir les dÃ©tails</p>
+                    <p>Voir les détails</p>
                     <div class="button_show_detail active">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="8" height="5" viewBox="0 0 12 7" class="first_arrow">
                             <use xlink:href="{{asset('svg/arrow_down.svg')}}#arrow_down"></use>
@@ -84,7 +84,7 @@
                     <div class=" ">
                         <div class="contact_detail_head_slide more show">  
                             <div class="container_info_contact_head_slide">
-                                <div class="name_contact_head_slide info_contact_head_slide">ConnectÃ© en tant que </div>
+                                <div class="name_contact_head_slide info_contact_head_slide">Connecté en tant que </div>
                                 <div class="email_contact_head_slide info_contact_head_slide">
                                     {{user.firstName ~" "~user.lastName}}</div>
                             </div>
@@ -92,7 +92,7 @@
                         <div class="bar_middle_contact_detail_head_slide more"></div>
                         <div class="contact_detail_head_slide more show">  
                             <div class="container_info_contact_head_slide">
-                                <div class="name_contact_head_slide info_contact_head_slide">IntitulÃ© </div>
+                                <div class="name_contact_head_slide info_contact_head_slide">Intitulé </div>
                                 <div class="email_contact_head_slide info_contact_head_slide">{{session.title}}</div>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                         <div class="bar_middle_contact_detail_head_slide more"></div>
                         <div class="contact_detail_head_slide more show">  
                             <div class="container_info_contact_head_slide">
-                                <div class="name_contact_head_slide info_contact_head_slide">Heure de dÃ©but </div>
+                                <div class="name_contact_head_slide info_contact_head_slide">Heure de début </div>
                                 <div class="email_contact_head_slide info_contact_head_slide">
                                     {{session.starttime|date('Y-m-d H:i:s') }}</div>
                             </div>
@@ -132,7 +132,7 @@
                         <div class="bar_middle_contact_detail_head_slide more"></div>
                         <div class="contact_detail_head_slide more show">  
                             <div class="container_info_contact_head_slide">
-                                <div class="name_contact_head_slide info_contact_head_slide">DÃ©tails supplÃ©mentaires</div>
+                                <div class="name_contact_head_slide info_contact_head_slide">Détails supplémentaires</div>
                                 <div class="email_contact_head_slide info_contact_head_slide">{{session.description }}</div>
                             </div>
                         </div> 
@@ -200,12 +200,12 @@
                 var now = moment(); 
                 if(starttime > now ){
                     console.log('1');
-                    $('#modalMessage').html('<h4 style="color:red"> DESOLE ! </h4> <br/> <br/> <span style="color:green"> Cette session n\'a pas encore dÃ©butÃ©</span> ');
+                    $('#modalMessage').html('<h4 style="color:red"> DESOLE ! </h4> <br/> <br/> <span style="color:green"> Cette session n\'a pas encore débuté</span> ');
                     $('#sessionStateModal').modal('show');
                 }
                 else if(endtime<now){
                     console.log('2');
-                    $('#modalMessage').html('<h4 style="color:red"> DESOLE ! </h4> <br/> <br/> <span style="color:green"> Cette session est terminÃ©e et archivÃ©e</span> ');
+                    $('#modalMessage').html('<h4 style="color:red"> DESOLE ! </h4> <br/> <br/> <span style="color:green"> Cette session est terminée et archivée</span> ');
                     $('#sessionStateModal').modal('show');
                 }
                 else{
@@ -294,11 +294,11 @@
                 });
 
                 clientSocket.on("accessGranted", function(id){
-                    alert('le serveur a acceptÃ© la connextion pour '+id);
+                    alert('le serveur a accepté la connextion pour '+id);
                 });
 
                 clientSocket.on("accessDenied", function(id){
-                     alert('l\'access a Ã©tÃ© refusÃ©e par le serveur pour '+id);
+                     alert('l\'access a été refusée par le serveur pour '+id);
                 });
 
  
@@ -314,11 +314,11 @@
                 });
 
                 clientSocket.on("accessGranted", function(id){
-                    // alert('le serveur a acceptÃ© la connextion pour '+id);
+                    // alert('le serveur a accepté la connextion pour '+id);
                 });
 
                 clientSocket.on("accessDenied", function(id){
-                     alert('l\'access a Ã©tÃ© refusÃ©e par le serveur pour '+id);
+                     alert('l\'access a été refusée par le serveur pour '+id);
                 });
 
                 clientSocket.on('workerConnected', function(data){

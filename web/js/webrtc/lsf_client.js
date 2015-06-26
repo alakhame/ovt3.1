@@ -9,7 +9,7 @@ io.connect(SIGNALING_SERVER).emit('new-channel', {
 });
 var socket = io.connect(SIGNALING_SERVER + channel);
 socket.on('connect', function () {
-
+	console.log('connected');
 });
 socket.send = function (message) { 
     socket.emit('message', {
