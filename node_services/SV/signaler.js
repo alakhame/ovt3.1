@@ -1,5 +1,5 @@
 var fs = require('fs');
-
+var PORT = 5066;
 var _static = require('node-static');
 var file = new _static.Server('./static', {
     cache: false
@@ -86,4 +86,4 @@ function onNewNamespace(channel, sender) {
     });
 }
 
-app.listen(8880);
+app.listen(PORT);

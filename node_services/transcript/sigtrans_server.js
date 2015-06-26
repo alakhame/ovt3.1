@@ -9,7 +9,7 @@ var port = parseInt(process.env.PORT || config.server.port, 10);
 
 var workersTAB= [];
 var clientsTAB= [];
-var SERVER_ROOT_DOMAIN="http://localhost/ovt3.1/web/app_dev.php/";
+var SERVER_ROOT_DOMAIN="http://localhost/";
 
 var io = require('socket.io').listen(port);
 
@@ -81,9 +81,10 @@ function authentificate(socket, data, userType){
             body += chunk;
         });
         res.on('end', function() {
-            creds = JSON.parse(body)
-            //console.log("Got response: ",link );
-            if(creds.access=='granted'){
+            //creds = JSON.parse(body)
+            console.log("Got response: ",body );
+            creds = JSON.parse(body);
+	    if(creds.access=='granted'){
                 socket.join(data.saloon); 
                 console.log(' -- user with id:'+data.userID+' logged on saloon :'+data.saloon);
                 var newsoc={"socket":socket.id,"saloon":data.saloon};

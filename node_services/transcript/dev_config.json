@@ -2,7 +2,7 @@
     "isDev": false,
     "logLevel": 3,
     "server": {
-        "port": 9090
+        "port": 5065
     },
     "stunservers" : [
         {"url": "stun:stun.l.google.com:19302"}
