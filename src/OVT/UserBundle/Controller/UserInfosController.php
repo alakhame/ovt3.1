@@ -60,6 +60,7 @@ class UserInfosController extends Controller
         $hashLink=$org->getHashLink();
         $roles=$user->getRoles();
         
+        $superAdmin->terminatePastSessions();
 
         if(in_array('ROLE_SUPER_ADMIN', $roles)){
         	return $this->redirect($this->generateUrl('ovt_back_end_admin_homepage'));

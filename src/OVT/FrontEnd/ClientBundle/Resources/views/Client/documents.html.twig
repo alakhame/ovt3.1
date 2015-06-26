@@ -96,7 +96,7 @@
 					</div> 
 				</div> 
 				<!-- Begin list sessions -->
-				<div id="terminatedSessions">
+				<div id="terminatedSessions" style="overflow:scroll;height:100%">
 					{{render(controller('OVTFrontEndClientBundle:Client:getSessionsByState',{state:'TERMINATED'})) }}
 				</div>
 
