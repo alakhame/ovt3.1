@@ -9,7 +9,7 @@ var port = parseInt(process.env.PORT || config.server.port, 10);
 
 var workersTAB= [];
 var clientsTAB= [];
-var SERVER_ROOT_DOMAIN="http://localhost/ovt3.1/web/app_dev.php/";
+var SERVER_ROOT_DOMAIN="http://localhost/";
 
 var io = require('socket.io').listen(port);
 

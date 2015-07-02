@@ -116,7 +116,7 @@ class ProviderAdmin extends User
     public function retriveWorkersFromAdmin($admin){
         $org=$admin->getOrganisation();
         $all=$this->em->getRepository('OVTUserBundle:User')->findBy(array('organisation'=>$org));
-        $worker=array();
+        $workers=array();
         foreach ($all as $w) {
             if(in_array("ROLE_WORKER",$w->getRoles()) && $w->getType="Employé Prestataire")
                 $workers[]=$w;

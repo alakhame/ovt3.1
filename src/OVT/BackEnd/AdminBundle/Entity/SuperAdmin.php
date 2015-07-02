@@ -7,6 +7,8 @@ use OVT\GeneralBundle\Entity\OrganisationManagement;
 use OVT\GeneralBundle\Entity\UserManagement;
 use OVT\GeneralBundle\Entity\Organisation;
 use OVT\GeneralBundle\Entity\Service ;
+use OVT\GeneralBundle\Entity\Client ;
+use OVT\GeneralBundle\Entity\Worker ;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Bundle\DoctrineBundle\Registry as Registry;
 
@@ -32,8 +34,9 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
         $this->em->flush();
 	}
 
-	public  function deleteServiceById( $serviceID){
-
+	public  function deleteServiceById( $serviceID){ 
+        $s=$this->getServiceById($serviceID);
+        $this->em->remove($s); 
 	}
 
 	public  function getServiceById($id){
@@ -90,6 +93,10 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
 
     public  function deleteOrganisationById( $orgID){
         $org=$this->getOrganisationById($orgID);
+        $this->em->remove($org);
+    }
+
+    public  function deleteOrganisation( $org){ 
         $this->em->remove($org);
     }
 
@@ -185,6 +192,24 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
                 $users[]=$u;
         }
         return $users;
+    }
+
+    public function newClientWorkerFromUser($user){
+        switch ($user->getType()) {
+            case 'Administrateur Client':
+                $client = new Client();
+                $client->setUser($user);  
+                $this->em->persist($client);
+                break;
+            
+            case 'Administrateur Prestataire' : 
+                $worker = new Worker();
+                $worker->setUser($user);  
+                $this->em->persist($worker);
+                break;
+        }
+
+        $this->em->flush();
     }
 
 

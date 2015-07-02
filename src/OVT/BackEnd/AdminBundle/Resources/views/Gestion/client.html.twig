@@ -1,163 +1,349 @@
-{% extends "OVTBackEndAdminBundle:SuperAdmin:profil.html.twig" %}
-{% block links %}
-	{{parent()}}
-	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
-	<script src="{{asset('ress/js/angular.js')}}" > </script>
-	<script src="{{asset('ress/js/jquery.js')}}" > </script>
-	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-	<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+{% extends "::baseProfil.html.twig" %}
+ 
+	{% block header %}
+		
+		<link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" /> 
+		{{parent()}} 
+		<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" />  
+		<script src="{{asset('ress/js/angular.js')}}" > </script>
+		<script src="{{asset('ress/js/jquery.js')}}" > </script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+		<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+		<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script> 
+		<script src="{{asset('ress/js/bootstrap.min.js')}}" > </script>
+
+	{% endblock %}
+
+ 	{% block tabTitle %} 
+ 		<div class="header_tab_4 header_tab" style="display: block;">
+			<div class="title_tab title_tab_4">	Gestion des entreprises clientes </div>
+		</div> 	
+	{% endblock %}
 	
-{% endblock %}
-	{% block container %}
-
-		<div id="cadre" ng-app="OVTApp" ng-controller="clientCtrl">
-			<div id="gestion_title">
-				<p  >Gestion des entreprises </p>
-				<div class=""  style="float:right;margin-right:50px" >
-						<a href="{{path('ovt_back_end_admin_gestion_new',{gestion:'adminClient'})}}">
-							<img width="16px" height="16px"  src="{{asset('ress/img/add.png')}}">
-							Nouveau Administrateur Client
-						</a>
+	{% block menu %}
+		{% include "OVTBackEndAdminBundle:SuperAdmin:menuNew.html.twig" %}
+	{% endblock %}
+ 
+	{% block containerTab %} 
+		<div id="wrap" class="container_tab_1 container_tab " ng-app="OVTApp"  ng-controller="providerCtrl" data-ng-init="init()" >
+			<div class="container_notif_rdv">  
+				<select name="admin" ng-model="selectedAdmin" ng-change="setAdmin(selectedClient,selectedAdmin)" 
+				class="SessionTabbuttons theme_color_background" id="selectAdmin">
+					<option value="0" selected disabled> Affecter Administrateur </option>
+					{{ render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins', {type:'client'})) }}
+				</select> 
+				<div class="SessionTabbuttons theme_color_background " ng-click="newOrgAdmin()" >
+					Nouveau Administrateur
 				</div>
-			</div>
-			<div id="inside_cadre">
-				<div class="list">
-					<div class="list_border">
-						<div class="entete">
-							<label for="tri"> Trier Par : </label>
-							<select name="choix_tri" > 
-							</select>
-						</div>
-						<br/>
+						 
+			</div> 
 
-						<div class="user_list">
+			<div class="container_position_tab_1">
+				<div class="bar_middle_tab_1" style="left:40%"></div> 
+
+				<div class="container_left_tab_1 container_in_tab_1" style="width:40%">
+					<div class="container_date_time_program_now" style="margin-top:0px; height:80%">
+						<div class="container_add_contact_program_now" style="height:100%">
+							<div class="container_input_search_contact_program_now">
+								<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="16" height="16" viewBox="0 0 32 33">
+									<use xlink:href="{{asset('svg/add_contact.svg#add_contact')}}"></use>
+								</svg>
+								<input type="text" class="container_search_contact_program_now theme_color_focus" placeholder="Recherche un prestataire...">
+							</div>
+							
 							{{render(controller('OVTBackEndAdminBundle:OrganisationAdmin:getOrganisationsByType',{type:'client',action:'reload'}))}}
-						</div>
-					</div>
 
-					<div class="new_user"  >
-						<a href="{{path('ovt_back_end_admin_gestion_new',{gestion:'client'})}}">
-							<img width="16px" height="16px"  src="{{asset('ress/img/add.png')}}">
-							Nouveau
-						</a>
-					</div>
-
-				</div>
-
-				<div class="infos">
-					<div class="user_infos">
-						<div class="user_infos_border" style="float:left">
-							<img src="{{asset('ress/img/loader.gif')}}" ng-show="loading" id="loader">
-							<div  ng-hide="loading  " id="clientInfo" >
-								<div ng-hide="firstload">
-									{% verbatim %}
-										<h5> Nom  : {{selectedClient.name}}</h5>
-									<h5> Adresse : {{selectedClient.address}}</h5>
-										<p></p>
-									<h5> Téléphone : {{selectedClient.phoneNumber}}</h5>
-									<h5> Lien Connexion : 
-										<p style="overflow: auto;" >
-											BASE_SERVER/client/{{selectedClient.hashLink}}/login </p></h5>
-									<h5> Administrateur :
-										<p ng-repeat="a in selectedClient.admins" > 
-											{{a.admin}} 
-											<a href="#" ng-click="delAdmin(selectedClient.id,a.id)"  > X</a>
-										</p></h5>
-									<h5> Services possibles : 
-										<p ng-repeat="s in selectedClient.services" > 
-											{{s.name}} 
-										</p></h5>
-									{% endverbatim %}
-								</div>
-								
+							<div class="container_valid_cancel_program_now">
+								<div class="SessionTabbuttons theme_color_background"ng-click="newOrg()" ng-bind="newText"> </div>
 							</div>
 						</div>
-						<div  ng-hide="loading || firstload">
-							<input  class="submitButtton" ng-click="switchAffect()" value="Affecter Administrateur"></input>
-							 <form ng-show="affectShow" method='post' action="{{path('ovt_back_end_admin_gestion_organisation_setadmin',{org:'client'})}}">
-								<select name="admin">
-									{{ render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins', {type:'client'})) }}
-								</select>
-								<input type="hidden" name="idOrg"   value="{% verbatim %}{{selectedClient.id}}{% endverbatim %}"></input>
-								<input type="hidden" name="org"   value="client"></input>
-								<input  class="submitButtton" type="submit" value="Soumettre"></input>
-							</form>
-						</div>
-						<br/><br/>
-						<div    ng-hide="loading || firstload">
-							<input ng-click="toUpdate(selectedClient.id)"  class="submitButtton" value="Modifier"></input>
-						</div>
-						<br/><br/>
-						<div    ng-hide="loading || firstload">
-							<input ng-click="deleteOrg(selectedClient.id)"  class="submitButtton" value="Supprimer"></input>
-						</div>
-						<br/><br/>
-						<div    ng-hide="loading || firstload">
-							<input  ng-click="manageServices(selectedClient.id)"  class="submitButtton" value="Gerer les services"></input>
-						</div>
 					</div>
 				</div>
+
+				<div class="container_right_tab_1 container_in_tab_1" style="width:60%" ng-hide="planingFlag">
+					<div class="container_info_contact_tab_provider" style="margin:auto;">
+						<div class="column_1_tab_4 column_tab_provider_style" ng-hide="passwordChange">
+					 		{% verbatim %}
+							<div class="container_info_editable_user_style">
+								<div class="content_info_editable_user_style title_color_text" id="nameDiv"> {{selectedClient.name}}</div>
+								<div class="name_info_editable_user_style subtitle_color_text">Nom</div>
+							</div>
+							<div class="container_info_editable_user_style">
+								<div class="content_info_editable_user_style title_color_text" id="addressDiv">{{selectedClient.address}}</div>
+								<div class="name_info_editable_user_style subtitle_color_text">Adresse</div>
+							</div>  
+							<div class="container_info_editable_user_style">
+								<div class="content_info_editable_user_style title_color_text" id="phoneNumberDiv">{{selectedClient.phoneNumber}}</div>
+								<div class="name_info_editable_user_style subtitle_color_text" >Mobile</div>
+							</div>   
+							
+						</div> 
+						<div class="column_2_tab_4 column_tab_provider_style" ng-hide="passwordChange"> 
+							<div class="container_info_editable_user_style"   style="height: auto;">
+								<div class="content_info_noneditable_admin_style title_color_text scroll_div"  > 
+									<p ng-repeat="a in selectedClient.admins" > 
+										{{a.admin}} 
+										<a href="#" ng-click="delAdmin(selectedClient.id,a.id)"  > X</a>
+
+									</p>
+
+								</div>
+								<div class="name_info_editable_user_style subtitle_color_text" >Administrateurs</div>
+							</div>  
+							
+							{% endverbatim %} 
+						</div>
+
+						<div style="width:80%; margin:auto;" ng-hide="passwordChange">
+							<form method="post" action="{{path('ovt_back_end_admin_gestion_organisation_update_post', {org:'client'})}}" id="updateForm" style="display:none"   >
+								<input type="text" name="name" 					id="nameKForm" ></input>  
+								<input type="text" name="address"  				id="addressKForm"></input>
+								<input type="text" 	name="phoneNumber" 			id="phoneNumberKForm"></input>	 
+								<input type="hidden" name="orgId" 			ng-value="selectedClient.id"></input>  
+								<input type="submit" />
+							</form>
+							<div class="button_save_tab_4 button_tab_4 theme_color_background" id="formSubmit"  
+								style="float:left;width:20%; margin:auto">Enregistrer
+								<div class="container_done_save_tab_4">
+									<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="15" height="12" viewBox="0 0 22 17">
+										<use xlink:href="{{asset('svg/done_white.svg#done_white')}}"></use>
+									</svg>
+								</div>
+							</div> 
+							<div style="float:left;width:20%;margin-left:20%" class="button_edit_tab_4 button_tab_4 theme_color_text theme_color_border">Editer</div>
+							<div class="button_tab_4 theme_color_background"  style="width:20%;margin-left:80%;color: #FFF;" ng-click="deleteOrg(selectedClient.id)"   > Supprimer </div> 
+						</div> 
+
+						<div style="width:80%; margin:auto;" ng-hide="passwordChange">
+							<h3>Services associés :</h3>  
+							<div id="servicesChoice"></div>
+						</div>
+ 
+						
+					</div>	
+				</div> 
+				s
+				<div id="modalsPopUp">	
+					<div class="modal hide modal-static fade"   id="waitingModal"  data-backdrop="static" data-keyboard="false" href="#" role="dialog" aria-hidden="true">
+					    <div class="modal-dialog">
+					        <div class="modal-content">
+					            <div class="modal-body">
+					                <div class="text-center"> 
+										<img src="{{asset('img/loader.gif')}}" class="icon" /> 
+					                </div>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+	
+					<div id="addOrgModal"  class="modal hide fade"  > 
+						<div class="modal-dialog">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">Fermer</span></button>
+					                <h4  class="modal-title"> Ajout d'une entreprise cliente</h4>
+					            </div>  
+
+					            {% include 'OVTBackEndAdminBundle:client:addNew.html.twig' %}
+					        </div>
+					    </div> 
+					</div>
+					<div id="addOrgAdminModal"  class="modal hide fade"  > 
+						<div class="modal-dialog">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">Fermer</span></button>
+					                <h4  class="modal-title"> Ajout d'un nouveau administrateur client</h4>
+					            </div> 
+
+					            {% include 'OVTBackEndAdminBundle:user:addClientNew.html.twig' %}
+					        </div>
+					    </div> 
+					</div> 
+				</div>
+
 			</div>
 
-			<script  >	   
 
-				var app = angular.module('OVTApp', []);
+		</div> 
+
+		<script type="text/javascript">
+		
+			$('#formSubmit').click(function(){
+				$('#nameKForm').val($('#nameDiv').text());  
+				$('#addressKForm').val($('#addressDiv').text());
+				$('#phoneNumberKForm').val($('#phoneNumberDiv').text()); 
+				$('#updateForm').submit();
+			});  
+
+			$('#addNewAdminFormButton').click(function(){
+				if($("#passwordInput").val()!=$("#passwordConfirm").val()){
+					alert('Les mots de passe ne correspondent pas');
+					return false;
+				}
+				else{  
+					$('#addNewAdminForm').submit(); 
+				}
+			});
+
+			$('#addNewOrgFormButton').click(function(){
+				$('#addNewOrgForm').submit();
+			});
+				 
+
+			function toggleService(a,b){
+				var scope =  angular.element(document.getElementById("wrap")).scope();
+				scope.toggleService(a,b);
+			}
+
+			/* --------- SEPARATOR ------------  */
+
+			var app = angular.module('OVTApp', []); 
+			app.controller('providerCtrl', function($scope,$http,$location,$window) { 
+				$scope.init = function (){
+					$scope.affectShow=false;
+					$scope.passwordChange=false;
+					$scope.loading = false;  
+					$scope.firstload=true;
+					$scope.modifyText="Modifier";
+					$scope.newText="Nouvelle Entreprise";
+					$scope.modifyFlag=false; 
+					$scope.newFlag=false;  
+					$scope.selectedAdmin=0;
+					$('#selectAdmin').prop('disabled',true);
+				}   
+
+				$scope.actionClick= function (idclient) { 
+					$scope.firstload=false;
+					$('#selectAdmin').prop('disabled', false);
+					$scope.loading = true; $("#waitingModal").modal('show');
+					{% verbatim %} 
+						var link=Routing.generate('ovt_back_end_admin_gestion_get_organisation_by_id', {id:idclient,organisation:'client'}); 
+					{% endverbatim %}
+		   			$http.get(link).
+				  	success(function(data, status, headers, config) {
+					    $scope.selectedClient=data;
+					    $scope.loading = false; $('#waitingModal').modal('hide');
+					    $('.container_check_contact_program_now_new').removeClass('active');
+					    $('#select_check_'+idclient).addClass('active'); 
+					    $scope.loadServiceTab($scope.selectedClient.id);
+				  	}). 
+				 	error(function(data, status, headers, config) { });
+
+		   		}
+ 				
+		   		$scope.loadServiceTab = function(idorg) {  
+					{% verbatim %}
+		   				var link3=Routing.generate('ovt_back_end_admin_org_services_choice',{idOrg:idorg});  
+		   			{% endverbatim %} 
+		   			
+		   			$http.get(link3).
+				  	success(function(data, status, headers, config) { 
+					    $('#servicesChoice').html(data); 
+				  		$scope.loading = false; $('#waitingModal').modal('hide');
+				  	}).
+				 	error(function(data, status, headers, config) { 
+				 		$scope.loading = false; $('#waitingModal').modal('hide');
+				 	}); 
+				}
 				
-				app.controller('clientCtrl', function($scope,$http,$location,$window) {
-						$scope.affectShow=false;
-						$scope.loading = false;
-						$scope.firstload=true;
+				$scope.toggleService = function (idservice,idorg) { 
+	   			 	
+	   			 	{% verbatim %}
+		   				var link3=Routing.generate('ovt_back_end_admin_org_service_toggle',{idService:idservice, idOrg:idorg});  
+		   			{% endverbatim %} 
+		   			$http.get(link3).
+				  	success(function(data, status, headers, config) {
+					    //alert(data);
+				  	}).
+				 	error(function(data, status, headers, config) { });
+				 	$scope.loading = true; $("#waitingModal").modal('show');
+				 	$scope.loadServiceTab(idorg);$scope.loadServiceTab(idorg);
+				 	
+		   		}
 
-						$scope.actionClick= function (idclient) {
-							$scope.firstload=false;
-							$scope.loading = true;
-				   			{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_get_organisation_by_id', {id:idclient,organisation:'client'}); {% endverbatim %}
-				   			$http.get(link).
-						  	success(function(data, status, headers, config) {
-							    $scope.selectedClient=data;
-							    $scope.loading = false;
+		   		////////////////////////////////////////////////////
+		   		$scope.delAdmin= function (idorg,idadmin) {
+					$scope.loading = true; $('#waitingModal').modal('show');
+		   			{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_organisation_deleteadmin', {idOrg:idorg,idAdmin:idadmin,org:'provider'}); {% endverbatim %}
+		   			var confirmation = confirm("Voulez enlever les droits administrateurs ?");
+					if(confirmation){
+			   			$http.get(link).
+					  	success(function(data, status, headers, config) {
+						    $scope.loading = false; 
+						    alert("Action menée avec succès ! ");
+					  	}).
+					 	error(function(data, status, headers, config) {
+ 
+					    	$scope.loading = false; $('#waitingModal').modal('hide');
+					 	});
+					}else{
+						$scope.loading = false; $('#waitingModal').modal('hide');
+					}
+					 $window.location.href=$window.location.href;
+		   		} 
 
-						  	}).
-						 	error(function(data, status, headers, config) { });
-				   		}
+		   		$scope.setAdmin = function(selectedClient,selectedAdmin){ 
+		   			{% verbatim %}
+		   				var link=Routing.generate('ovt_back_end_admin_gestion_organisation_setadmin',{org:'client'});
+		   			{% endverbatim %}
+					$scope.loading = true; $('#waitingModal').modal('show');
+					var confirmation = confirm("Voulez confirmer cette affectation ?");
+					if(confirmation){
+						$http({
+						    method: 'POST',
+						    url: link,
+						    data: "admin="+selectedAdmin+"&orgId="+selectedClient.id,
+						    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+						}).
+						success(function(data, status, headers, config) {
+					  		alert("Affectation menée avec succès ! "); 
+					  	}).
+					  	error(function(data, status, headers, config) {
+					    		alert("Affectation échouée !"+data);
+					    		$scope.loading = false; $('#waitingModal').modal('hide');
+					  	});
+					  	
+					}else {
+						$scope.loading = false; $('#waitingModal').modal('hide');
+					} 
+					$window.location.href=$window.location.href;
 
-				   		$scope.switchAffect = function (){
-				   			$scope.affectShow=!($scope.affectShow);
-				   		}
+		   		}
 
-				   		$scope.delAdmin= function (idorg,idadmin) {
-							$scope.loading = true;
-				   			{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_organisation_deleteadmin', {idOrg:idorg,idAdmin:idadmin,org:'client'}); {% endverbatim %}
-				   			$http.get(link).
-						  	success(function(data, status, headers, config) {
-							    $scope.loading = false;
-						  	}).
-						 	error(function(data, status, headers, config) { });
-				   		}
-						$scope.toUpdate= function (idorg) {
-							{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_organisation_update', {idOrg:idorg,org:'client'}); {% endverbatim %}
-							$window.location.href=link;
-				   		}
-				   		$scope.deleteOrg= function (idorg) {
-							{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_organisation_delete', {idOrg:idorg,org:'client'}); {% endverbatim %}
-							$scope.loading = true;
-							var confirmation = confirm("Voulez vraiment supprimer cette organisation ?");
-							if(confirmation){
-								$window.location.href=link;
-							}else {
-								$scope.loading = false;
-							}
-				   		}
-				   		$scope.manageServices= function (idorg) {
-							{% verbatim %} var link=Routing.generate('ovt_back_end_admin_manage_service', {idOrg:idorg,organisation:'client'}); {% endverbatim %}
-								$window.location.href=link;
-							
-				   		}
-				   	});
+		   		$scope.deleteOrg= function (idorg) {
+					{% verbatim %} var link=Routing.generate('ovt_back_end_admin_gestion_organisation_delete', { org:'provider'}); {% endverbatim %}
+					$scope.loading = true; $("#waitingModal").modal('show');
+					var confirmation = confirm("Voulez vraiment supprimer cette organisation ?");
+					if(confirmation){
+						$http({
+						    method: 'POST',
+						    url: link , 
+						    data: "idOrg="+idorg,
+						    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+						}).
+						success(function(data, status, headers, config) {
+					  		alert("Suppression menée avec succès ! ");
+					     	$window.location.href=$window.location.href; 
+					  	}).
+					  	error(function(data, status, headers, config) {
+					    	alert("Suppression échouée !"+data);
+					    	$scope.loading = false; $('#waitingModal').modal('hide');
+					  	});					  	
+					} else {
+						$scope.loading = false; $('#waitingModal').modal('hide');
+					}
+		   		} 
+				 
+		   		$scope.newOrg = function( ){
+			   		$('#addOrgModal').modal('show'); 
+		   		}	
+		   		$scope.newOrgAdmin = function( ){
+			   		$('#addOrgAdminModal').modal('show'); 
+		   		}
+			});
+		</script>
 
-			</script>
-
-		</div>
-	
+		 
 
 	{% endblock %} 

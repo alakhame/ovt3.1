@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 class SuperAdminController extends Controller
 {
     public function indexAction()
-    {
-        return $this->render('OVTBackEndAdminBundle:SuperAdmin:profil.html.twig');
+    { 
+        return $this->redirect($this->generateUrl('ovt_back_end_admin_profile'));
     }
 
     public function gestionAction($gestion){
@@ -20,8 +20,7 @@ class SuperAdminController extends Controller
 	    else if($gestion=="adminProvider"){
            $gestion="provider";
         }
-    	return $this->render('OVTBackEndAdminBundle:Gestion:'.$gestion.'.html.twig');
-        
+    	return $this->render('OVTBackEndAdminBundle:Gestion:'.$gestion.'.html.twig'); 
     }
 
     public function addNewAction($gestion, Request $request){
@@ -30,11 +29,9 @@ class SuperAdminController extends Controller
            $type=$gestion;
            $gestion="user";
         }
-	    if(isset($error) && $error!=""){
-            
+	    if(isset($error) && $error!=""){ 
             return $this->render('OVTBackEndAdminBundle:'.$gestion.':addNew.html.twig',array('error'=>$error));
-        }
-        
+        } 
         if(isset($type)) 
             return $this->render('OVTBackEndAdminBundle:'.$gestion.':addNew.html.twig',array('type'=>$type));
         return $this->render('OVTBackEndAdminBundle:'.$gestion.':addNew.html.twig');

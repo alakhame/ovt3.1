@@ -17,7 +17,7 @@ class ServiceAdminController extends Controller
     	$superAdmin=$this->get('superadmin');
         $services=$superAdmin->getAllServices();
 
-        return $this->render('OVTBackEndAdminBundle:Service:allServices.html.twig',array('services'=>$services));
+        return $this->render('OVTBackEndAdminBundle:service:allServices.html.twig',array('services'=>$services));
     }
 
     public function addNewAction(){
@@ -38,9 +38,51 @@ class ServiceAdminController extends Controller
      public function getServiceByIdAction($id ){
         $superAdmin=$this->get('superadmin');
         $service=$superAdmin->getServiceById($id);
-        return $this->render('OVTBackEndAdminBundle:Service:serviceInfos.json.twig',array('service'=>$service));;
+        return $this->render('OVTBackEndAdminBundle:service:serviceInfos.json.twig',array('service'=>$service));
+    }
+
+    public function updateAction(Request $req){
+        $superAdmin=$this->get('superadmin');
+        $service=$superAdmin->getServiceById($req->request->get('serviceID'));
+        $service->setName($req->request->get('name'));
+        $service->setDescription($req->request->get('description'));
+        $superAdmin->update();
+        return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'service') ));
+    }
+
+    public function deleteAction(Request $req){
+        $id=$req->request->get('id');
+        $superAdmin=$this->get('superadmin');
+        $superAdmin->deleteServiceById($id);
+        $superAdmin->update();
+        return new Response("OK!");
+    }
+
+     public function servicesChoiceAction($idOrg){
+        $superAdmin=$this->get('superadmin');
+        $org=$superAdmin->getOrganisationById($idOrg);
         
-        
-        
+        $allservices = $superAdmin->getAllServices();
+        $orgServices = $org->getService();
+        return $this->render('OVTBackEndAdminBundle:service:servicesChoice.html.twig',array(
+                'allS'=>$allservices,
+                'authS'=>$orgServices,
+                'org'=>$org));
+    }
+
+    public function serviceToggleAction($idOrg,$idService){
+        $superAdmin=$this->get('superadmin');
+        $org=$superAdmin->getOrganisationById($idOrg);
+        $service=$superAdmin->getServiceById($idService);
+         
+        if($org->getService()->contains($service)){
+            $org->removeService($service);
+            $superAdmin->update();
+            return new Response('0');
+        } else {
+            $org->addService($service);
+            $superAdmin->update();
+            return new Response('1');
+        }
     }
 }

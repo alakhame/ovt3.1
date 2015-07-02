@@ -1,99 +1,54 @@
-{% extends "OVTBackEndAdminBundle:SuperAdmin:profil.html.twig" %}
-{% block links %}
-	{{parent()}}
-	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
-	
-{% endblock %}
-	{% block container %}
-
-		<div id="cadre">
-			<div id="gestion_title">
-				<p  >Gestion des Utilisateurs
-			</div>
-			<div id="inside_cadre">
-				<div class="list">
-					<div class="list_border">
-						<div class="entete">
-							<label for="tri"> Trier Par : </label>
-							<select name="choix_tri" > 
-							</select>
-						</div>
-						<br/>
-
-						<div class="user_list">
-							{% if type == "adminClient" %}
-								{{render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins',{type:"client"}))}}
+<div class="infos"> 
+	<div class="addForm"> 
+		<form action="{{path('ovt_back_end_admin_gestion_new_user')}}" method="post">
+	 		<table>
+	 			<tbody>
+	 				<tr>
+	 					<td><label for="lastName" > Nom </label>
+				 		<td><input style="width:221px" type="text" name="lastName" placeholder="nom"></input></td> <br/>
+				 	</tr>
+				 	<tr>
+	 					<td><label for="firstName" > Prénom </label>
+				 		<td><input style="width:221px" type="text" name="firstName" placeholder="Prénom"></input></td> <br/>
+				 	</tr>
+				 	<tr>
+	 					<td><label for="email" > Email : </label>
+				 		<td><input style="width:221px" type="text" name="email" placeholder="email"></input></td> <br/>
+				 	</tr>
+				 	<tr>
+	 					<td><label for="address" > Adresse : </label>
+				 		<td><input style="width:221px" type="text" name="address" placeholder="adresse"></input></td> <br/>
+				 	</tr>
+				 	<tr>
+	 					<td><label for="phoneNumber" >Numéro de téléphone : </label>
+				 		<td><input style="width:221px" type="text" name="phoneNumber" placeholder="Numéro de téléphone"></input></td> <br/>
+				 	</tr>
+					<tr>
+	 					<td><label for="role" > Type </label>
+	 						
+				 		<td><select style="width:221px" type="text" name="role"  >
+				 			{% if type == "adminClient" %}
+								<option value="ROLE_COM_CLIENT" selected> Administrateur client</option>
 							{% elseif type == "adminProvider" %}
-								{{render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins',{type:"provider"}))}}
+								<option value="ROLE_PROVIDER_ADMIN" selected> Administrateur Prestataire</option>
 							{% endif %}
-						</div>
-					</div>
-
-
-				</div>
-
-				<div class="infos">
-					<h3>Ajout d'un Nouveau Utilisateur</h3>
-					<hr/>
-					<h5  style="color:red"> {% if error is defined %} {{error}} {% endif %}</h5>
-					<div class="addForm"> 
-						<form action="{{path('ovt_back_end_admin_gestion_new_user')}}" method="post">
-					 		<table>
-					 			<tbody>
-					 				<tr>
-					 					<td><label for="lastName" > Nom </label>
-								 		<td><input style="width:221px" type="text" name="lastName" placeholder="nom"></input></td> <br/>
-								 	</tr>
-								 	<tr>
-					 					<td><label for="firstName" > Prénom </label>
-								 		<td><input style="width:221px" type="text" name="firstName" placeholder="Prénom"></input></td> <br/>
-								 	</tr>
-								 	<tr>
-					 					<td><label for="email" > Email : </label>
-								 		<td><input style="width:221px" type="text" name="email" placeholder="email"></input></td> <br/>
-								 	</tr>
-								 	<tr>
-					 					<td><label for="address" > Adresse : </label>
-								 		<td><input style="width:221px" type="text" name="address" placeholder="adresse"></input></td> <br/>
-								 	</tr>
-								 	<tr>
-					 					<td><label for="phoneNumber" >Numéro de téléphone : </label>
-								 		<td><input style="width:221px" type="text" name="phoneNumber" placeholder="Numéro de téléphone"></input></td> <br/>
-								 	</tr>
-									<tr>
-					 					<td><label for="role" > Type </label>
-					 						
-								 		<td><select style="width:221px" type="text" name="role"  >
-								 			{% if type == "adminClient" %}
-												<option value="ROLE_COM_CLIENT" selected> Administrateur client</option>
-											{% elseif type == "adminProvider" %}
-												<option value="ROLE_PROVIDER_ADMIN" selected> Administrateur Prestataire</option>
-											{% endif %}
-								 				
-								 		</select></td> <tr><td></td><td></td></tr>
-								 	<tr>
-					 					<td><label for="password" > Mot de passe : </label>
-								 		<td><input style="width:221px" type="password" name="password" placeholder="password"></input></td> <br/>
-								 	</tr>
-								 	<tr>
-					 					<td><label for="confirmPassword" >Confirmer Mot de passe : </label>
-								 		<td><input style="width:221px" type="password" name="confirmPassword" placeholder="Resaisir mot de passe ici"></input></td> <br/>
-								 	</tr>
-								 	</tr>
-								</tbody>
-							</table>
-							<input type="hidden" name="userType" value="{{type}}"></input>
-							<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Ajouter"> 
-							</input>
-							
-						</form>
-					</div>
-
-				</div>
-			</div>
-
-
-		</div>
-	
-
-	{% endblock %} 
+				 				
+				 		</select></td> <tr><td></td><td></td></tr>
+				 	<tr>
+	 					<td><label for="password" > Mot de passe : </label>
+				 		<td><input style="width:221px" type="password" name="password" placeholder="password"></input></td> <br/>
+				 	</tr>
+				 	<tr>
+	 					<td><label for="confirmPassword" >Confirmer Mot de passe : </label>
+				 		<td><input style="width:221px" type="password" name="confirmPassword" placeholder="Resaisir mot de passe ici"></input></td> <br/>
+				 	</tr>
+				 	</tr>
+				</tbody>
+			</table>
+			<input type="hidden" name="userType" value="{{type}}"></input>
+			<input style="float:right; margin-right:200px" type="submit" class="submitButtton" value="Ajouter"> 
+			</input>
+			
+		</form>
+	</div> 
+</div> 

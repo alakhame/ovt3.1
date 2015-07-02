@@ -22,6 +22,7 @@ class UserAdminController extends Controller
 
     public function addNewAction( ){
         $request = $this->getRequest();
+        $superAdmin=$this->get('superadmin');
         $userManager = $this->get('fos_user.user_manager');
         $userType=$request->request->get('userType');
 
@@ -66,6 +67,8 @@ class UserAdminController extends Controller
         $user->setState("actif");
         $userManager->updateUser($user);
 
+        $superAdmin->newClientWorkerFromUser($user);
+        $superAdmin->update();
 
         return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>$userType)));
     }
@@ -104,7 +107,7 @@ class UserAdminController extends Controller
         }
         $response="";
         foreach ($users as $u) {
-            $response.='<option value="'.$u->getId().'">'.$u->getFirstname().' '.$u->getLastname().'</option> \n';
+            $response.='<option value="'.$u->getId().'">'.$u->getFirstname().' '.$u->getLastname().'</option>';
         }
         return new Response($response);
     }

@@ -1,6 +1,6 @@
 
 var channel = window.hash_link;
-var sender = Math.round(Math.random() * 999999999) + 999999999;
+var sender = window.ownID;
 
 var SIGNALING_SERVER = window.sig_server;
 io.connect(SIGNALING_SERVER).emit('new-channel', {
@@ -17,7 +17,7 @@ socket.send = function (message) {
         data: message
     });
 };
-// var peer = new PeerConnection('http://socketio-signaling.jit.su:80');
+
 var peer = new PeerConnection(socket);
  
 peer.onStreamAdded = function(e) {
@@ -37,14 +37,6 @@ peer.onStreamEnded = function(e) {
     }
 };
 
-peer.userid =   document.querySelector('#your-name').value;
-
-
-var videosContainer = document.getElementById('localVideo')  ;  
-
- 
-
-// you need to capture getUserMedia yourself!
 function getUserMedia(callback) {
     var hints = {audio:true,video:{
         optional: [],
@@ -75,3 +67,14 @@ function initiateVisio(){
     }); 
 
 }
+
+peer.userid =  sender;
+var videosContainer = document.getElementById('localVideo')  ;  
+
+
+
+var loop = setInterval(function(){
+socket.emit('workerConnected',{userID: sender,  saloon: channel });
+},3000);
+
+ 

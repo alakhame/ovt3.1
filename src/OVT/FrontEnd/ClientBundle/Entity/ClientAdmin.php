@@ -63,6 +63,19 @@ class ClientAdmin extends User
         return $this->em->getRepository('OVTGeneralBundle:Session')->findBy($criteria);
     }
 
+    public function getSessionsByClientByStateRisp($user,$state){
+        $sessions=$this->getSessionsByClientByState($user,$state);
+        $toReturn = array();
+        foreach ($sessions as $s) {
+            if($s->getOrganisation()->getName()=='RISP' && $s->getClient()->getOrganisation()->getName()!='ORANGE'){
+                continue;
+            }else{  
+                $toReturn['']=$s;
+            }
+        }
+        return $toReturn;
+    }
+
     public function retrieveSessionsByState($user){
         $client=$this->getClientFromUser( $user);
         $criteria = array('client' => $client);
@@ -161,7 +174,7 @@ class ClientAdmin extends User
         $allOrgs = $this->em->getRepository('OVTGeneralBundle:Organisation')->findAll();
         $result = array();
         foreach ($allOrgs as $org) {
-            if($org->getService()->contains($service))
+            if($org->getService()->contains($service) && $org->getType()=='provider')
                 $result[]=$org;
         }
         return $result;

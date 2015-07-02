@@ -1,0 +1,64 @@
+<form action="{{path('ovt_back_end_admin_gestion_new_user')}}" method="post"  id="addNewAdminForm" >
+	<div class="container_data_style">
+		<div class="text_data_style   subtitle_color_text">
+			<label for="lastName" > Nom  </label>
+		</div>
+	 	<input  class="input_data" type="text" name="lastName" placeholder="nom"></input>
+	</div>
+	<div class="container_data_style">
+		<div class="text_data_style   subtitle_color_text">
+			<label for="firstName" > Prénom </label>
+		</div>
+	 	<input class="input_data" type="text" name="firstName" placeholder="Prénom"></input>
+	</div>
+
+	<div class="container_data_style">
+		<div class="text_data_style   subtitle_color_text">
+			<label for="email" > Email : </label>
+		</div>
+	 	<input class="input_data" type="text" name="email" placeholder="email"></input>
+	</div>
+
+	<div class="container_data_style">
+		<div class="text_data_style   subtitle_color_text">
+			<label for="address" > Adresse : </label>
+		</div>
+	 	<input class="input_data" type="text" name="address" placeholder="adresse"></input>
+	</div>
+
+	<div class="container_data_style">
+		<div class="text_data_style   subtitle_color_text">
+			<label for="phoneNumber" >Numéro de téléphone : </label>
+		</div>
+	 	<input class="input_data" type="text" name="phoneNumber" placeholder="Numéro de téléphone"></input>
+	</div>
+
+	<div class="container_data_style">
+		<div class="text_data_style   subtitle_color_text">
+			<label for="role" > Type </label>
+		</div>
+	 	<select class="input_data" type="text" name="role"  >  
+				<option value="ROLE_COM_CLIENT" selected> Administrateur Client</option>
+		</select>
+	</div>
+
+	<div style="  border: 1px solid rgba(165, 165, 165, 0.2);"></div>
+
+	<div class="container_data_style">
+		<div class="text_data_style   subtitle_color_text">
+			<label for="password" > Mot de passe : </label>
+		</div>
+	 	<input class="input_data" type="password" id="passwordInput" name="password" placeholder="password"></input>
+	</div>
+
+
+	<div class="container_data_style">
+		<div class="text_data_style   subtitle_color_text">
+			<label for="confirmPassword" >Confirmer Mot de passe : </label>
+		</div>
+	 	<input class="input_data" type="password" id="passwordConfirm" name="confirmPassword" placeholder="Resaisir mot de passe ici"></input>
+	</div>
+	<input type="hidden" name="userType" value="adminClient"></input>
+	<input style="display:none" type="submit" / > 
+	<div id="addNewAdminFormButton" class="SessionTabbuttons  theme_color_background"  > Ajouter </div>  
+</form>

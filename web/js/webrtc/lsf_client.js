@@ -1,6 +1,6 @@
 
 var channel = window.hash_link;
-var sender = Math.round(Math.random() * 999999999) + 999999999;
+var sender = window.ownID;
 
 var SIGNALING_SERVER = window.sig_server; 
 io.connect(SIGNALING_SERVER).emit('new-channel', {
@@ -24,13 +24,18 @@ peer.onUserFound = function(userid) {
     console.log('peer found');
     if (document.getElementById(userid)) return;
     peer.sendParticipationRequest(userid);
+    $('#ttarea').css("border"," 5px inset green");
+    var dataConnect={userID: sender,  saloon: channel };
+    socket.emit('clientPresenceACK',dataConnect); 
 };
+
 peer.onStreamAdded = function(e) {
     var video = e.mediaElement;
     video.setAttribute('width', 600);
     videosContainer.insertBefore(video, videosContainer.firstChild);
     video.play(); 
 };
+
 peer.onStreamEnded = function(e) {
     var video = e.mediaElement;
     if (video) {
@@ -41,34 +46,10 @@ peer.onStreamEnded = function(e) {
     }
 };
 
-peer.userid = document.querySelector('#your-name').value;
- 
+peer.userid = sender  ;
 
 var videosContainer = document.getElementById('remoteVideos')  ;  
 
- 
 
-// you need to capture getUserMedia yourself!
-function getUserMedia(callback) {
-    var hints = {audio:true,video:{
-        optional: [],
-        mandatory: {}
-    }};
-    navigator.getUserMedia(hints,function(stream) {
-        //if (!document.getElementById(peer.userid)) {
-            var video = document.createElement('video');
-            video.setAttribute("id",peer.userid);
-            video.src = URL.createObjectURL(stream);
-            //video.controls = true;
-            video.muted = true;
-       // }
-        
-        peer.onStreamAdded({
-            mediaElement: video,
-            userid: peer.userid,
-            stream: stream
-        });
-        
-        callback(stream);
-    });
-} 
+    
+ 

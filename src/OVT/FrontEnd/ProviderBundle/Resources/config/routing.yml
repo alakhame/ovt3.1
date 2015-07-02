@@ -46,7 +46,7 @@ ovt_front_end_provider_profile:
 
 ovt_front_end_admin_provider_homepage:
     path:     /adminprovider
-    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:index }
+    defaults: { _controller: OVTFrontEndProviderBundle:Provider:index }
 
 ovt_front_end_admin_provider_set_sessions:
     path:     /adminprovider/setsession

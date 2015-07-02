@@ -211,9 +211,43 @@ select.input_data{
  	text-align: right;
 }
 
+.container_info_contact_tab_provider {
+  min-height: 300px;
+  display: inline-block;
+  margin-top: 55px;
+}
 
+.scroll_div{
+	overflow: scroll;
+}
 
+.content_info_noneditable_admin_style {
+  width: 200px;
+  height: 100%;
+  float: right;
+  text-align: left;
+  font-size: 14px;
+  line-height: 43px;
+  font-family: "OpenSans-Regular";
+  border-radius: 3px;
+  padding-left: 10px;
+  outline: none;
+  -webkit-transition: all .25s ease;
+  -moz-transition: all .25s ease;
+  -ms-transition: all .25s ease;
+  -o-transition: all .25s ease;
+  transition: all .25s ease;
+}
 
+.column_tab_provider_style {
+  height: 60%;
+  display: inline-block;
+  -webkit-transition: all .25s ease;
+  -moz-transition: all .25s ease;
+  -ms-transition: all .25s ease;
+  -o-transition: all .25s ease;
+  transition: all .25s ease;
+}
 
 /* ----------------- Title color -----------------*/
 .title_color_text

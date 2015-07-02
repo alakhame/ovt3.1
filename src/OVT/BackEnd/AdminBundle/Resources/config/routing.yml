@@ -47,6 +47,44 @@ ovt_back_end_admin_gestion_new_user:
 
 
 
+
+
+ovt_back_end_admin_admin_update_service:
+    path:     /update/service
+    defaults: { _controller: OVTBackEndAdminBundle:ServiceAdmin:update }
+    requirements:
+        _method:  POST
+
+ovt_back_end_admin_delete_service_by_id:
+    path:     /delete/service
+    defaults: { _controller: OVTBackEndAdminBundle:ServiceAdmin:delete }
+    requirements:
+        _method:  POST
+    options:
+        expose: true
+
+
+ovt_back_end_admin_org_services_choice:
+    path: /services/choice/{idOrg}
+    defaults: { _controller: OVTBackEndAdminBundle:ServiceAdmin:servicesChoice}
+    options:
+        expose: true
+    requirements:
+        _method: GET
+
+ovt_back_end_admin_org_service_toggle:
+    path: /services/choice/{idOrg}/{idService}
+    defaults: { _controller: OVTBackEndAdminBundle:ServiceAdmin:serviceToggle}
+    options:
+        expose: true
+    requirements:
+        _method: GET
+
+
+
+
+
+
 ovt_back_end_admin_gestion_new_organisation:
     path:     /gestion/{organisation}/addnew
     defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:addNewOrg }
@@ -59,14 +97,8 @@ ovt_back_end_admin_gestion_organisation_setadmin:
     defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:setAdmin }
     requirements:
         _method:  POST
-
-ovt_back_end_admin_gestion_organisation_update:
-    path: /gestion/{org}/update/{idOrg}
-    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:update }
     options:
         expose: true
-    requirements:
-        _method:  GET
 
 ovt_back_end_admin_gestion_organisation_update_post:
     path: /gestion/{org}/update
@@ -85,10 +117,10 @@ ovt_back_end_admin_gestion_organisation_deleteadmin:
         expose: true
 
 ovt_back_end_admin_gestion_organisation_delete:
-    path: /gestion/{org}/delete/{idOrg}
+    path: /gestion/{org}/delete
     defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:deleteOrg }
     requirements:
-        _method:  GET
+        _method:  POST
     options:
         expose: true
 

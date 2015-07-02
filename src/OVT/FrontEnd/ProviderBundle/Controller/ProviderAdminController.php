@@ -10,12 +10,7 @@ use OVT\GeneralBundle\Entity\Worker;
 use OVT\GeneralBundle\Entity\Providerservicegroup;
 
 class ProviderAdminController extends Controller
-{
-    public function indexAction()
-    {
-        return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:index.html.twig');
-    }
-
+{ 
      public function setSessionsAction()
     {
         $adminProvider=$this->get('provideradmin');

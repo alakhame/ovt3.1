@@ -235,7 +235,7 @@ class ClientAdminController extends Controller
         $client->setUser($user);
         $client->setLanguage($language);
         $client->setEquipements($equipments);
-        $client->setGroup($adminClient->getGroupById($groupId));
+        //$client->setGroup($adminClient->getGroupById($groupId));
         $adminClient->createClient($client);
         return $this->redirect($this->generateUrl('ovt_front_end_admin_client_users' ));
 

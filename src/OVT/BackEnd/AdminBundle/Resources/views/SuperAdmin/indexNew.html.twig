@@ -1,0 +1,24 @@
+{% extends "::baseProfil.html.twig" %}
+ 
+	{% block header %} 
+	<link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" /> 
+	<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+	<script src="{{asset('ress/js/angular.js')}}" > </script>
+	<script src="{{asset('ress/js/jquery.js')}}" > </script> 
+	<script src="{{asset('ress/js/bootstrap.min.js')}}" > </script>
+	{{parent()}}
+	{% endblock %}
+
+ 	{% block tabTitle %} 
+ 		<div class="header_tab_4 header_tab" style="display: block;">
+			<div class="title_tab title_tab_4"> Administration de la Plateforme  </div>
+		</div> 
+	{% endblock %}
+	
+	{% block menu %}
+		{% include "OVTBackEndAdminBundle:SuperAdmin:menuNew.html.twig" %}
+	{% endblock %}
+ 
+	{% block containerTab %}    
+	
+	{% endblock %} 

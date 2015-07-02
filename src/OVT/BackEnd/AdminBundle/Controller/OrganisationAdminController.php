@@ -136,28 +136,21 @@ class OrganisationAdminController extends Controller
 
   
 
-    public function setAdminAction(Request $request){
+    public function setAdminAction(Request $request, $org){
         $superAdmin=$this->get('superadmin');
         $adminId=$request->request->get('admin');
-        $orgId=$request->request->get('idOrg');
-        $organisation=$request->request->get('org');
-
-        $org=$superAdmin->getOrganisationById($orgId);
+        $orgId=$request->request->get('orgId'); 
+        $orgType=$org;
+        $organisation=$superAdmin->getOrganisationById($orgId);
         $user=$superAdmin->getUserById($adminId);
 
-        $org->addAdmin($user);
-        $user->setOrganisation($org);
 
+        $user->setOrganisation($organisation);
+        $organisation->addAdmin($user);
         $superAdmin->update();
 
-        switch($organisation){
-            case 'client': 
-                return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'client')));
-                break;
-            case 'provider' :   
-                return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'provider')));
-                break;
-        }
+ 
+        return new Response('ok!');
     }
 
     public function deleteAdminAction(Request $request,$idOrg,$idAdmin,$org){
@@ -170,16 +163,8 @@ class OrganisationAdminController extends Controller
         $user->setOrganisation(null);
 
         $superAdmin->update();
-        switch($org){
-            case 'client': 
-                return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'client')));
-                break;
-            case 'provider' :   
-                return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'provider')));
-                break;
-            default:
-                return new Response(get_class($org));
-        }
+
+        return new Response('OK!'); 
     }
 
     public function updateAction(Request $request,$idOrg, $org){
@@ -194,42 +179,38 @@ class OrganisationAdminController extends Controller
                 break;
             case 'provider' :   
                 return $this->render('OVTBackEndAdminBundle:provider:updateOrganisation.html.twig',array('org'=>$org));
-                break;
+                break; 
         }
         
     }
 
     public function updatePostAction(Request $request, $org){
         $superAdmin=$this->get('superadmin');
-        $organisation=$org;
-        
-        if($request->getMethod()=='POST'){
-            $org=$superAdmin->getOrganisationById($request->request->get('orgId'));
-            $org->setName($request->request->get('orgName'));
-            $org->setAddress($request->request->get('address'));
-            $org->setPhonenumber($request->request->get('phoneNumber'));
-            $org->addAdmin($superAdmin->getUserById($request->request->get('adminID')));
-            $superAdmin->update();
+        $organisation=$org; 
 
-            switch($organisation){
-                case 'client': 
-                    return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'client')));
-                    break;
-                case 'provider' :   
-                    return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'provider')));
-                    break;
-            }
-            
-        }
+        $org=$superAdmin->getOrganisationById($request->request->get('orgId'));
+        $org->setName($request->request->get('name'));
+        $org->setAddress($request->request->get('address'));
+        $org->setPhonenumber($request->request->get('phoneNumber')); 
+        $superAdmin->update();
+
+        switch($organisation){
+            case 'client': 
+                return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'client')));
+                break;
+            case 'provider' :   
+                return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'provider')));
+                break;
+        } 
     }
 
 
-    public function deleteOrgAction(Request $request,$idOrg,$org){
-        $superAdmin=$this->get('superadmin');
-
-        $organisation=$superAdmin->getOrganisationById($idOrg);
-        $superAdmin->deleteOrganisationById($idOrg);
+    public function deleteOrgAction(Request $req, $org){
+        $superAdmin=$this->get('superadmin'); 
+        $organisation=$superAdmin->getOrganisationById($req->request->get('idOrg'));
+        $superAdmin->deleteOrganisation($organisation);
         $superAdmin->update();
+	return new Response('OK!'); 
         switch($org){
             case 'client': 
                 return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'client')));
@@ -239,6 +220,7 @@ class OrganisationAdminController extends Controller
                 break;
             default:
                 return new Response(get_class($org));
+                break;
         }
     }
 }
