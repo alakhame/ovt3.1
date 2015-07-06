@@ -4,8 +4,7 @@
 			<label for="lastName" > Nom  </label>
 		</div>
 	 	<input  class="input_data" type="text" name="lastName" placeholder="nom"></input>
-	</div>
-	
+	</div> 
 	<div class="container_data_style">
 		<div class="text_data_style   subtitle_color_text">
 			<label for="firstName" > Prénom </label>
@@ -60,6 +59,9 @@
 	 	<input class="input_data" type="password" id="passwordConfirm" name="confirmPassword" placeholder="Resaisir mot de passe ici"></input>
 	</div>
 	<input type="hidden" name="userType" value="adminProvider"></input>
+	{% verbatim %} 
+		<input type="hidden" name="OrgID" value="{{selectedProvider.id}}"></input>
+	{% endverbatim %}
 	<input style="display:none" type="submit" / > 
 	<div id="addNewAdminFormButton" class="SessionTabbuttons  theme_color_background"  > Ajouter </div>  
 </form>

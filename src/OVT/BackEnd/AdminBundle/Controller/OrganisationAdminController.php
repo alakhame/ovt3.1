@@ -27,15 +27,17 @@ class OrganisationAdminController extends Controller
         $name=$request->request->get("orgName");
         $address=$request->request->get("address");
         $phoneNumber=$request->request->get("phoneNumber");
-        $adminID=$request->request->get("adminID");
-        $admin=$superAdmin->getUserById($adminID);
+        $email = $request->request->get("email");
+        //$adminID=$request->request->get("adminID");
+        //$admin=$superAdmin->getUserById($adminID);
 
         $org = new Organisation();
         $org->setName($name);
         $org->setAddress($address);
         $org->setPhonenumber($phoneNumber);
-        $org->addAdmin($admin);
-        $admin->setOrganisation($org);
+        $org->setEmail($email);
+        //$org->addAdmin($admin);
+        //$admin->setOrganisation($org);
         $org->setType($organisation);
         $org->setHashlink(sha1($this->salt1.$name.$this->salt2));
 
@@ -111,13 +113,13 @@ class OrganisationAdminController extends Controller
 
     public function getOrgByIdAction($id,$organisation){
         $superAdmin=$this->get('superadmin');
-        $org=$superAdmin->getOrganisationById($id);
+        $org=$superAdmin->getOrganisationById($id); 
         switch($organisation){
             case 'client': 
-                return $this->render('OVTBackEndAdminBundle:client:orgInfos.json.twig',array('org'=>$org));
+                return $this->render('OVTBackEndAdminBundle:client:orgInfos.json.twig',array('org'=>$org ));
                 break;
             case 'provider' :   
-                return $this->render('OVTBackEndAdminBundle:provider:orgInfos.json.twig',array('org'=>$org));
+                return $this->render('OVTBackEndAdminBundle:provider:orgInfos.json.twig',array('org'=>$org ));
                 break;
         }
     }
@@ -192,6 +194,7 @@ class OrganisationAdminController extends Controller
         $org->setName($request->request->get('name'));
         $org->setAddress($request->request->get('address'));
         $org->setPhonenumber($request->request->get('phoneNumber')); 
+        $org->setEmail($request->request->get('email'));
         $superAdmin->update();
 
         switch($organisation){

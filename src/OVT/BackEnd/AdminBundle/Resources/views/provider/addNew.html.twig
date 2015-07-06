@@ -19,12 +19,18 @@
 	</div>
 	<div class="container_data_style">
 		<div class="text_data_style   subtitle_color_text">
+			<label for="email" >Email de contact : </label>
+		</div>
+	 	<input class="input_data" type="text" name="email" placeholder="Email de contact"></input>
+	</div>
+	<!--<div class="container_data_style">
+		<div class="text_data_style   subtitle_color_text">
 			<label for="adminID" > Administrateur : </label>
 		</div>
 	 	<select class="input_data" type="text" name="adminID"  >
 			{{ render(controller('OVTBackEndAdminBundle:UserAdmin:listAdmins',{type:"provider"}))}}
 		</select>
-	</div> 
+	</div> -->
 	<input style="display:none" type="submit" / > 
 	<div id="addNewOrgFormButton" class="SessionTabbuttons  theme_color_background"  > Ajouter </div>  
 </form>

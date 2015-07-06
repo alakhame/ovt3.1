@@ -4,22 +4,33 @@
 	"address":"{{org.address}}" , 
 	"phoneNumber":"{{org.phoneNumber}}" , 
 	"hashLink":"{{org.hashLink}}", 
-	"admins":[ 
-				{% for u in org.admins  %}
-					{% if loop.last %} 
-						{
-							"admin":"{{u.firstname ~' '~u.lastname}}",
-							"id":"{{u.id}}" 
-						}
-					{% else %}  
+	"email" : "{{org.email}}", 
+	"admins":
+		[ 
+			{% for u in org.admins  %}
+				{% if loop.last %} 
 					{
 						"admin":"{{u.firstname ~' '~u.lastname}}",
-						"id":"{{u.id}}"
+						"id":"{{u.id}}" ,
+						"firstName":"{{u.firstName}}",
+						"lastName":"{{u.lastName}}",
+						"email":"{{u.email}}",
+						"phoneNumber":"{{u.phoneNumber}}",
+						"address":"{{u.address}}"
+					}
+				{% else %}  
+					{
+						"admin":"{{u.firstname ~' '~u.lastname}}",
+						"id":"{{u.id}}" ,
+						"firstName":"{{u.firstName}}",
+						"lastName":"{{u.lastName}}",
+						"email":"{{u.email}}",
+						"phoneNumber":"{{u.phoneNumber}}",
+						"address":"{{u.address}}"
 					},
-					{% endif %}
-	
-				{% endfor %}
-	],
+				{% endif %} 
+			{% endfor %}
+		],
 	"services":[
 				{% for s in org.service  %}
 					{% if loop.last %} 

@@ -44,6 +44,14 @@ class Organisation
      */
     private $address;
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     */
+    private $email;
+
+
     /**
      * @var string
      *
@@ -175,6 +183,29 @@ class Organisation
     public function getAddress()
     {
         return $this->address;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return Organisation
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 
     /**

@@ -39,6 +39,7 @@ class UserAdminController extends Controller
         $address=$request->request->get("address");
         $phoneNumber=$request->request->get("phoneNumber");
         $role=$request->request->get("role");
+        $IdOrg = $request->request->get("OrgID");
         switch($role){
             case "ROLE_COM_CLIENT":
             $type="Administrateur Client";
@@ -65,8 +66,12 @@ class UserAdminController extends Controller
         $user->addRole($role);
         $user->setType($type);
         $user->setState("actif");
-        $userManager->updateUser($user);
+        $userManager->updateUser($user); 
 
+        $organisation=$superAdmin->getOrganisationById($IdOrg);
+        $organisation->addAdmin($user);
+        $user->setOrganisation($organisation);
+        
         $superAdmin->newClientWorkerFromUser($user);
         $superAdmin->update();
 
@@ -110,5 +115,13 @@ class UserAdminController extends Controller
             $response.='<option value="'.$u->getId().'">'.$u->getFirstname().' '.$u->getLastname().'</option>';
         }
         return new Response($response);
+    }
+
+    public function setAdmin($orgId, $user){
+        $superAdmin=$this->get('superadmin'); 
+        $organisation=$superAdmin->getOrganisationById($orgId);  
+        $organisation->addAdmin($user);
+        $superAdmin->update(); 
+        return new Response('ok!');
     }
 }

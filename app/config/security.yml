@@ -5,7 +5,7 @@ security:
 
     role_hierarchy:
         ROLE_CLIENT:            ROLE_USER
-        ROLE_COM_ADMIN:         ROLE_CLIENT
+        ROLE_COM_CLIENT:         ROLE_CLIENT
         ROLE_WORKER:            ROLE_USER
         ROLE_PROVIDER_ADMIN:    ROLE_WORKER
         ROLE_ACCOUNTING:        ROLE_USER

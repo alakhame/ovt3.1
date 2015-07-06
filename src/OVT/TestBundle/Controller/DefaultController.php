@@ -26,4 +26,9 @@ class DefaultController extends Controller
     {
     	return $this->render('OVTFrontEndProviderBundle:Provider:profil.twig.html');
     }
+
+    public function balaAction()
+    {
+        return $this->render('OVTBackEndAdminBundle:Gestion:newTest.html.twig');
+    }
 }

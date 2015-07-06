@@ -5,7 +5,10 @@ ovt_test_homepage:
 ovt_test_view:
     path:     /view
     defaults: { _controller: OVTTestBundle:Default:view }
-
+ovt_test_bala:
+    path:     /bala
+    defaults: { _controller: OVTTestBundle:Default:bala }
 ovt_test:
     path:     /{id}
     defaults: { _controller: OVTTestBundle:Default:index }
+

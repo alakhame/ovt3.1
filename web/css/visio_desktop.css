@@ -249,6 +249,47 @@ select.input_data{
   transition: all .25s ease;
 }
 
+.container_info_editable_user_style2 {
+  margin-top: 10px;
+  width: 300px;
+  height: 43px;
+  position: relative;
+}
+
+.bar_middle_tab_x {
+  width: 1px;
+  height: 90%;
+  position: absolute;
+  background-color: #cfcfcf;
+  top: 45%;
+  left: 40%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  -o-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  -webkit-transition: all .25s ease;
+  -moz-transition: all .25s ease;
+  -ms-transition: all .25s ease;
+  -o-transition: all .25s ease;
+  transition: all .25s ease;
+}
+
+fieldset {
+	padding-left: 20px;
+}
+
+fieldset .content {
+	padding-left: 40px;
+	width:90%;
+}
+
+.adminstyle{
+	height: 80%;
+	padding-top: 10px;
+	padding-bottom: 10px; 
+	width: 50%;
+	float: left;
+}
 /* ----------------- Title color -----------------*/
 .title_color_text
 {
