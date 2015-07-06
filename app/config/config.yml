@@ -100,7 +100,7 @@ services:
 knp_snappy:
     pdf:
         enabled:    true
-        binary:     "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\""
+        binary:     "/usr/local/bin/wkhtmltopdf"
         options:    []
 
 fos_js_routing:
