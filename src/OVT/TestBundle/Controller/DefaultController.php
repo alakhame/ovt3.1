@@ -35,18 +35,18 @@ class DefaultController extends Controller
     public function mailAction()
     {
         $message = \Swift_Message::newInstance()
-            ->setSubject('Objet Sérieux')
-            ->setFrom('hubert.segond@orange.com')
-            ->setTo('amal.zayani@orange.com')
-            ->setBody( 'Bonjour encore Amal,   Tu peux me passer ton mot de passe ? C\'est très sérieux. Merci')
+            ->setSubject('REUNION EQUIPE URGENTE')
+            ->setFrom('khadim.ndiaye@orange.com')
+            ->setTo('ndiaye.khadim.inpt@gmail.com')
+            ->setBody( 'Bonjour,   Khadim il faut le renvoyer <i>définitivement<i>, il a rien fait de bon.')
             ->setReplyTo(array('ndiaye.khadim.inpt@gmail.com' => 'Khadim')) 
-        ;
-        
+            ->setContentType("text/html")
+        ; 
         try{
             $this->get('mailer')->send($message);
             return new Response('OK');
         }catch(\Swift_TransportException $e){ 
-        return new Response($e->getMessage() );
+            return new Response($e->getMessage() );
         }
         
     }

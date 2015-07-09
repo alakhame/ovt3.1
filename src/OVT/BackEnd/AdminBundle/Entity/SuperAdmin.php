@@ -74,7 +74,8 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
                     ->setBody($this->renderView('OVTAPINotificationBundle:Archive:access.html.twig',array(
                             "session"=>$s
                         )))
-                    ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+                    ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT'))
+					->setContentType("text/html")					
                 ;
                 $this->mailer->send($message); 
                 /**** END *********/

@@ -107,6 +107,7 @@ class ClientAdminController extends Controller
                         "receiver"=>$session->getClient()->getUser()
                 )))
                 ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+				->setContentType("text/html")
             ;
             $this->get('mailer')->send($messageToClient); 
             
@@ -119,7 +120,8 @@ class ClientAdminController extends Controller
                             "session"=>$session,
                             "receiver"=>$session->getWorker()->getUser()
                     )))
-                    ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+                    ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT'))
+					->setContentType("text/html")					
                 ;
                 $this->get('mailer')->send($messageToWorker); 
             }
@@ -165,6 +167,7 @@ class ClientAdminController extends Controller
                     "receiver"=>$client->getUser()
                 )))
             ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+			->setContentType("text/html")
         ;
         $this->get('mailer')->send($message);
 
@@ -295,6 +298,7 @@ class ClientAdminController extends Controller
                     "receiver"=>$client->getUser()
                 )))
             ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+			->setContentType("text/html")
         ;
         $this->get('mailer')->send($message);
 

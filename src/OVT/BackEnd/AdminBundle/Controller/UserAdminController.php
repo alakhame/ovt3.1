@@ -84,6 +84,7 @@ class UserAdminController extends Controller
                     "receiver"=>$user
                 )))
             ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+			->setContentType("text/html")
         ;
         $this->get('mailer')->send($message);
 

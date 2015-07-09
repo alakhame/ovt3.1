@@ -160,6 +160,7 @@ class ProviderAdminController extends Controller
                     "receiver"=>$worker->getUser()
                 )))
             ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+			->setContentType("text/html")
         ;
         $this->get('mailer')->send($message);
 
@@ -232,6 +233,7 @@ class ProviderAdminController extends Controller
                     "receiver"=>$worker->getUser()
                 )))
             ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+			->setContentType("text/html")
         ;
         $this->get('mailer')->send($message);
 
@@ -295,6 +297,7 @@ class ProviderAdminController extends Controller
                         "receiver"=>$session->getClient()->getUser()
                 )))
                 ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+				->setContentType("text/html")
             ;
             $messageToWorker = \Swift_Message::newInstance()
                 ->setSubject('Changement Etat de session sur OVT 3.1')
@@ -305,6 +308,7 @@ class ProviderAdminController extends Controller
                         "receiver"=>$session->getWorker()->getUser()
                 )))
                 ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+				->setContentType("text/html")
             ;
             $this->get('mailer')->send($messageToWorker);
             $this->get('mailer')->send($messageToClient); 
@@ -342,6 +346,7 @@ class ProviderAdminController extends Controller
                     "receiver"=>$session->getClient()->getUser(), 
                 )))
             ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+			->setContentType("text/html")
         ;
         $messageToWorker = \Swift_Message::newInstance()
             ->setSubject('Validation de session sur OVT 3.1')
@@ -352,6 +357,7 @@ class ProviderAdminController extends Controller
                     "receiver"=>$session->getWorker()->getUser(), 
                 )))
             ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+			->setContentType("text/html")
         ;
         $this->get('mailer')->send($messageToClient);
         $this->get('mailer')->send($messageToWorker);
@@ -426,6 +432,7 @@ class ProviderAdminController extends Controller
                     "receiver"=>$worker->getUser()
                 )))
             ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+			->setContentType("text/html")
         ;
         $messageToClient = \Swift_Message::newInstance()
             ->setSubject('Affectation de session sur OVT 3.1')
@@ -436,6 +443,7 @@ class ProviderAdminController extends Controller
                     "receiver"=>$session->getClient()->getUser()
                 )))
             ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+			->setContentType("text/html")
         ;
 
         $this->get('mailer')->send($messageToWorker);
@@ -451,10 +459,11 @@ class ProviderAdminController extends Controller
                     "admin"=>$this->container->get('security.context')->getToken()->getUser()
                 )))
             ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+			->setContentType("text/html")
         ;
 
         $this->get('mailer')->send($messageToClient);
-        foreach ($session->getClient()->getOrganisation()->getAdmins() as $admin) {
+        foreach ($session->getClient()->getUser()->getOrganisation()->getAdmins() as $admin) {
             $messageToAdminClient = \Swift_Message::newInstance()
                 ->setSubject('Validation de session sur OVT 3.1')
                 ->setFrom('noreply-ovt@orange.com')
@@ -464,6 +473,7 @@ class ProviderAdminController extends Controller
                         "receiver"=>$admin
                     )))
                 ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+				->setContentType("text/html")
             ;
             $this->get('mailer')->send($messageToAdminClient);
         }

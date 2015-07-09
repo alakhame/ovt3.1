@@ -96,19 +96,21 @@ class ClientController extends Controller
                     "receiver"=>$user
                 )))
             ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+			->setContentType("text/html")
         ; 
         $this->get('mailer')->send($messageToClient);
 
         foreach ($user->getOrganisation()->getAdmins() as $admin) {
             $messageToAdminClient = \Swift_Message::newInstance()
-            ->setSubject('Enregistrement de demande sur OVT 3.1')
-            ->setFrom('noreply-ovt@orange.com')
-            ->setTo($admin->getEmail())
-            ->setBody($this->renderView('OVTAPINotificationBundle:Session:registered_admin.html.twig',array(
-                    "session"=>$session,
-                    "receiver"=>$admin
-                )))
-            ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+				->setSubject('Enregistrement de demande sur OVT 3.1')
+				->setFrom('noreply-ovt@orange.com')
+				->setTo($admin->getEmail())
+				->setBody($this->renderView('OVTAPINotificationBundle:Session:registered_admin.html.twig',array(
+						"session"=>$session,
+						"receiver"=>$admin
+					)))
+				->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+				->setContentType("text/html")
             ; 
 
             $this->get('mailer')->send($messageToAdminClient);
