@@ -1,0 +1,11 @@
+Bonjour <b>{{receiver.firstname~" "~receiver.lastname}}</b>,
+
+Votre demande de session  a été validée par <b>{{admin.firstname~" "~admin.lastname}}</b>.
+&nbsp;&nbsp;- Intitulé 		:  	{{session.title}}   
+&nbsp;&nbsp;- Description 	: 	{{session.description}} 
+&nbsp;&nbsp;- Date Début 	:  	{{session.startTime|date('Y-m-d H:i:s')}}
+&nbsp;&nbsp;- Date Fin   	:   {{session.endTime|date('Y-m-d H:i:s')}}
+
+A bientôt, cordialement,
+
+{{APPNAME}}

@@ -12,12 +12,8 @@ use OVT\GeneralBundle\Entity\Clientservicegroup;
 class ClientAdminController extends Controller
 {
 
-
-	
-
-
-	public function authorizedServicesAction($orgID){
-		
+ 
+	public function authorizedServicesAction($orgID){ 
 		$adminClient=$this->get('clientadmin');
 		$user= $this->container->get('security.context')->getToken()->getUser();
 		if($orgID!=-1) 
@@ -30,8 +26,7 @@ class ClientAdminController extends Controller
 		foreach ($services as $s) {
 			if($allService->contains($s))
 				$response.='<option value="'.$s->getId().'">'.$s->getName().'</option>';
-		}
-
+		} 
 		return new Response($response);
 	}
 
@@ -71,29 +66,65 @@ class ClientAdminController extends Controller
         $idSession=$request->request->get('idSession');
         $adminClient=$this->get('clientadmin');
         $session=$adminClient->getSessionById($idSession);
+        $template='';
         switch ($action) {
             case 'cancel':
                 $session->setState('CANCELED');
+                $template='cancel';
                 break;
             case 'accept':
                 $session->setState('ACCEPTED');
+                $template='validated';
                 break;
             case 'refuse':
                 $session->setState('REFUSED');
+                $template='decline';
                 break;
             case 'terminate':
                 $session->setState('TERMINATED');
                 break;
             case 'delete':
                 $session->setState('DELETED');
+                $template='deleted';
                 break;
             case 'restaure':
                 $session->setState('TO_CONFIRM');
+                $template='restore';
                 break;
             default:
                 break;
         }
         $adminClient->update();
+
+        if($template!=''){
+            /**** SEND MAIL ****/
+            $messageToClient = \Swift_Message::newInstance()
+                ->setSubject('Changement Etat de session sur OVT 3.1')
+                ->setFrom('noreply-ovt@orange.com')
+                ->setTo($session->getClient()->getUser()->getEmail())
+                ->setBody($this->renderView('OVTAPINotificationBundle:Session:'.$template.'.html.twig',array(
+                        "session"=>$session,
+                        "receiver"=>$session->getClient()->getUser()
+                )))
+                ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+            ;
+            $this->get('mailer')->send($messageToClient); 
+            
+            if($session->getWorker()!=null){
+                $messageToWorker = \Swift_Message::newInstance()
+                    ->setSubject('Changement Etat de session sur OVT 3.1')
+                    ->setFrom('noreply-ovt@orange.com')
+                    ->setTo($session->getWorker()->getUser()->getEmail())
+                    ->setBody($this->renderView('OVTAPINotificationBundle:Session:'.$template.'.html.twig',array(
+                            "session"=>$session,
+                            "receiver"=>$session->getWorker()->getUser()
+                    )))
+                    ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+                ;
+                $this->get('mailer')->send($messageToWorker); 
+            }
+            /**** END *********/
+        }
         return $this->redirect($this->generateUrl('ovt_front_end_client_list_sessions' ));
     }
 
@@ -122,6 +153,23 @@ class ClientAdminController extends Controller
     public function deleteUserByIdAction(Request $request){
         $clientID=$request->request->get('idClient');
         $adminClient=$this->get('clientadmin');
+        $client=$adminClient->getClientById($clientID);
+        $client->getUser()->setEnabled(0);
+
+         /**** SEND MAIL ****/
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Suppression de compte sur OVT 3.1')
+            ->setFrom('noreply-ovt@orange.com')
+            ->setTo($client->getUser()->getEmail())
+            ->setBody($this->renderView('OVTAPINotificationBundle:User:deleted.html.twig',array(
+                    "receiver"=>$client->getUser()
+                )))
+            ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+        ;
+        $this->get('mailer')->send($message);
+
+        /**** END *********/ 
+
         $adminClient->deleteClientById($clientID);
         return new Response("OK!");
     }
@@ -237,6 +285,21 @@ class ClientAdminController extends Controller
         $client->setEquipements($equipments);
         //$client->setGroup($adminClient->getGroupById($groupId));
         $adminClient->createClient($client);
+
+        /**** SEND MAIL ****/
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Création de compte Client sur OVT 3.1')
+            ->setFrom('noreply-ovt@orange.com')
+            ->setTo($user->getEmail())
+            ->setBody($this->renderView('OVTAPINotificationBundle:User:new_user.html.twig',array(
+                    "receiver"=>$client->getUser()
+                )))
+            ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+        ;
+        $this->get('mailer')->send($message);
+
+        /**** END *********/
+
         return $this->redirect($this->generateUrl('ovt_front_end_admin_client_users' ));
 
     }

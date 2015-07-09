@@ -1,0 +1,12 @@
+Bonjour <b>{{receiver.firstname~" "~receiver.lastname}}</b>,
+
+<b>{{session.client.user.firstname~" "~session.client.user.lastname}}</b> vient de déposer une demande de session sous-titrée:
+&nbsp;&nbsp;- Intitulé 		:  	{{session.title}}   
+&nbsp;&nbsp;- Description 	: 	{{session.description}} 
+&nbsp;&nbsp;- Date Début 	:  	{{session.startTime|date('Y-m-d H:i:s')}}
+&nbsp;&nbsp;- Date Fin   	:   {{session.endTime|date('Y-m-d H:i:s')}}
+
+
+Cordialement,
+
+{{APPNAME}} 

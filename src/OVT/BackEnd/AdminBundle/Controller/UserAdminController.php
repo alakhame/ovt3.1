@@ -75,10 +75,24 @@ class UserAdminController extends Controller
         $superAdmin->newClientWorkerFromUser($user);
         $superAdmin->update();
 
+        /**** SEND MAIL ****/
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Création de compte Administrateur sur OVT 3.1')
+            ->setFrom('noreply-ovt@orange.com')
+            ->setTo($user->getEmail())
+            ->setBody($this->renderView('OVTAPINotificationBundle:User:new_user.html.twig',array(
+                    "receiver"=>$user
+                )))
+            ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+        ;
+        $this->get('mailer')->send($message);
+
+        /**** END *********/
+
         return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>$userType)));
     }
 
-     public function getUserByIdAction($id ){
+    public function getUserByIdAction($id ){
         $superAdmin=$this->get('superadmin');
         $user=$superAdmin->getUserById($id);
 

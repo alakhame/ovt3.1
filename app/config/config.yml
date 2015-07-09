@@ -30,6 +30,7 @@ twig:
     globals:
         SIGNALING_SERVER: "%signaling_server%"
         TRANSCRIPTING_SERVER: "%transcripting_server%"
+        APPNAME: "%app_name%"
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
 
@@ -71,9 +72,9 @@ doctrine:
 swiftmailer:
     transport: "%mailer_transport%"
     host:      "%mailer_host%"
+    port:      "%mailer_port%"
     username:  "%mailer_user%"
-    password:  "%mailer_password%"
-    spool:     { type: memory }
+    password:  "%mailer_password%" 
 
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
@@ -92,7 +93,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
     superadmin:
         class:        OVT\BackEnd\AdminBundle\Entity\SuperAdmin
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager","@mailer"]
     apihelper:
         class:        OVT\Services\VelotypieBundle\Entity\ApiHelper
         arguments: ["@doctrine.orm.entity_manager"]

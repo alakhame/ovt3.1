@@ -83,8 +83,39 @@ class ClientController extends Controller
         $session->setEndtime(new \DateTime($endtime) ); 
         $session->setDuration( $session->getStarttime()->diff ($session->getEndtime() ) );
        
-
         $adminClient->createSession($session);
+        
+        /********* SEND MAIL  *******************/
+
+        $messageToClient = \Swift_Message::newInstance()
+            ->setSubject('Enregistrement de demande sur OVT 3.1')
+            ->setFrom('noreply-ovt@orange.com')
+            ->setTo($user->getEmail())
+            ->setBody($this->renderView('OVTAPINotificationBundle:Session:registered.html.twig',array(
+                    "session"=>$session,
+                    "receiver"=>$user
+                )))
+            ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+        ; 
+        $this->get('mailer')->send($messageToClient);
+
+        foreach ($user->getOrganisation()->getAdmins() as $admin) {
+            $messageToAdminClient = \Swift_Message::newInstance()
+            ->setSubject('Enregistrement de demande sur OVT 3.1')
+            ->setFrom('noreply-ovt@orange.com')
+            ->setTo($admin->getEmail())
+            ->setBody($this->renderView('OVTAPINotificationBundle:Session:registered_admin.html.twig',array(
+                    "session"=>$session,
+                    "receiver"=>$admin
+                )))
+            ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+            ; 
+
+            $this->get('mailer')->send($messageToAdminClient);
+        }
+
+        /*******  END  ********************/
+
         return $this->indexAction();
     }
 

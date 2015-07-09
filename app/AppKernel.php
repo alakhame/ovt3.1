@@ -34,6 +34,7 @@ class AppKernel extends Kernel
             new OVT\GeneralBundle\OVTGeneralBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+            new OVT\API\NotificationBundle\OVTAPINotificationBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

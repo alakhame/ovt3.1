@@ -11,4 +11,8 @@ ovt_test_bala:
 ovt_test:
     path:     /{id}
     defaults: { _controller: OVTTestBundle:Default:index }
-
+    requirements:
+        id: \d+
+ovt_test_mail:
+    path:     /mail
+    defaults: { _controller: OVTTestBundle:Default:mail }

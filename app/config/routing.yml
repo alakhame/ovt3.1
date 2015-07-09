@@ -1,3 +1,7 @@
+ovtapi_notification:
+    resource: "@OVTAPINotificationBundle/Resources/config/routing.yml"
+    prefix:   /
+
 ovt_general:
     resource: "@OVTGeneralBundle/Resources/config/routing.yml"
     prefix:   /

@@ -1,0 +1,16 @@
+Bonjour <b>{{receiver.firstname~" "~receiver.lastname}}</b>,
+
+Votre demande de session  a bien été enregistrée.
+&nbsp;&nbsp;- Intitulé 		:  	{{session.title}}   
+&nbsp;&nbsp;- Description 	: 	{{session.description}} 
+&nbsp;&nbsp;- Date Début 	:  	{{session.startTime|date('Y-m-d H:i:s')}}
+&nbsp;&nbsp;- Date Fin   	:   {{session.endTime|date('Y-m-d H:i:s')}}
+
+
+Afin de faciliter la retranscription, il vous est possible de répondre à ce message en ajoutant en pièces jointes, un ou plusieurs documents de contexte (liste des participants, textes d'interview, glossaire...).
+
+Vous pouvez suivre l'état d'avancement de votre demande dans la rubrique "mes demandes".
+
+A bientôt, cordialement,
+
+{{APPNAME}} 

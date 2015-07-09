@@ -1,0 +1,4 @@
+services:
+#    ovtapi_notification.example:
+#        class: OVT\API\NotificationBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

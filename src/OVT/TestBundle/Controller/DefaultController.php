@@ -31,4 +31,23 @@ class DefaultController extends Controller
     {
         return $this->render('OVTBackEndAdminBundle:Gestion:newTest.html.twig');
     }
+
+    public function mailAction()
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Objet Sérieux')
+            ->setFrom('hubert.segond@orange.com')
+            ->setTo('amal.zayani@orange.com')
+            ->setBody( 'Bonjour encore Amal,   Tu peux me passer ton mot de passe ? C\'est très sérieux. Merci')
+            ->setReplyTo(array('ndiaye.khadim.inpt@gmail.com' => 'Khadim')) 
+        ;
+        
+        try{
+            $this->get('mailer')->send($message);
+            return new Response('OK');
+        }catch(\Swift_TransportException $e){ 
+        return new Response($e->getMessage() );
+        }
+        
+    }
 }

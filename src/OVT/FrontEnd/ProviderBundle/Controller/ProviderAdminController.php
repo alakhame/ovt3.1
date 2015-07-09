@@ -150,6 +150,21 @@ class ProviderAdminController extends Controller
         $worker->setLanguage($language);
         //$worker->setGroupe($adminProvider->getGroupFromId($groupId));
         $adminProvider->createWorker($worker);
+
+        /**** SEND MAIL ****/
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Création de compte Prestataire sur OVT 3.1')
+            ->setFrom('noreply-ovt@orange.com')
+            ->setTo($user->getEmail())
+            ->setBody($this->renderView('OVTAPINotificationBundle:User:new_user.html.twig',array(
+                    "receiver"=>$worker->getUser()
+                )))
+            ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+        ;
+        $this->get('mailer')->send($message);
+
+        /**** END *********/
+
         return $this->redirect($this->generateUrl('ovt_front_end_admin_provider_worker' ));
 
     }
@@ -207,6 +222,21 @@ class ProviderAdminController extends Controller
     public function deleteWorkerByIdAction(Request $request){
         $workerID=$request->request->get('idWorker');
         $adminProvider=$this->get('provideradmin');
+        $worker=$adminProvider->getWorkerById($workerID);  
+        /**** SEND MAIL ****/
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Suppression de compte  sur OVT 3.1')
+            ->setFrom('noreply-ovt@orange.com')
+            ->setTo($worker->getUser()->getEmail())
+            ->setBody($this->renderView('OVTAPINotificationBundle:User:deleted.html.twig',array(
+                    "receiver"=>$worker->getUser()
+                )))
+            ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+        ;
+        $this->get('mailer')->send($message);
+
+        /**** END *********/ 
+
         $adminProvider->deleteWorkerById($workerID);
         return new Response("OK!");
     }
@@ -223,29 +253,64 @@ class ProviderAdminController extends Controller
         //return new Response(" retrieved id:".$rep);
         $adminProvider=$this->get('provideradmin');
         $session=$adminProvider->getSessionById($idSession);
+        $template=''; 
+                 
         switch ($action) {
             case 'cancel':
                 $session->setState('CANCELED');
+                $template='cancel';
                 break;
             case 'accept':
                 $session->setState('ACCEPTED');
+                $template='validated';
                 break;
             case 'refuse':
                 $session->setState('REFUSED');
+                $template='decline'; 
                 break;
             case 'terminate':
                 $session->setState('TERMINATED');
                 break;
             case 'delete':
                 $session->setState('DELETED');
+                $template='deleted';
                 break;
             case 'restaure':
                 $session->setState('ACCEPTED');
+                $template='restore';
                 break;
             default:
                 break;
         }
         $adminProvider->update();
+        
+         if($template!=''){
+            /**** SEND MAIL ****/
+            $messageToClient = \Swift_Message::newInstance()
+                ->setSubject('Changement Etat de session sur OVT 3.1')
+                ->setFrom('noreply-ovt@orange.com')
+                ->setTo($session->getClient()->getUser()->getEmail())
+                ->setBody($this->renderView('OVTAPINotificationBundle:Session:'.$template.'.html.twig',array(
+                        "session"=>$session,
+                        "receiver"=>$session->getClient()->getUser()
+                )))
+                ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+            ;
+            $messageToWorker = \Swift_Message::newInstance()
+                ->setSubject('Changement Etat de session sur OVT 3.1')
+                ->setFrom('noreply-ovt@orange.com')
+                ->setTo($session->getWorker()->getUser()->getEmail())
+                ->setBody($this->renderView('OVTAPINotificationBundle:Session:'.$template.'.html.twig',array(
+                        "session"=>$session,
+                        "receiver"=>$session->getWorker()->getUser()
+                )))
+                ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+            ;
+            $this->get('mailer')->send($messageToWorker);
+            $this->get('mailer')->send($messageToClient); 
+            /**** END *********/
+        }
+
         return $this->redirect($this->generateUrl('ovt_front_end_admin_provider_worker' ));
         /*
         $response= new Response();
@@ -267,6 +332,30 @@ class ProviderAdminController extends Controller
         $adminProvider->update();
         $referer = $request->headers->get('referer');
 
+        /************** SEND MAIL ***************/
+        $messageToClient = \Swift_Message::newInstance()
+            ->setSubject('Modification de session sur OVT 3.1')
+            ->setFrom('noreply-ovt@orange.com')
+            ->setTo($session->getClient()->getUser()->getEmail())
+            ->setBody($this->renderView('OVTAPINotificationBundle:Session:updated.html.twig',array(
+                    "session"=>$session,
+                    "receiver"=>$session->getClient()->getUser(), 
+                )))
+            ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+        ;
+        $messageToWorker = \Swift_Message::newInstance()
+            ->setSubject('Validation de session sur OVT 3.1')
+            ->setFrom('noreply-ovt@orange.com')
+            ->setTo($session->getWorker()->getUser()->getEmail())
+            ->setBody($this->renderView('OVTAPINotificationBundle:Session:updated.html.twig',array(
+                    "session"=>$session,
+                    "receiver"=>$session->getWorker()->getUser(), 
+                )))
+            ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+        ;
+        $this->get('mailer')->send($messageToClient);
+        $this->get('mailer')->send($messageToWorker);
+        /**************** END *********************/
         return $this->redirect($referer);
     }
 
@@ -325,8 +414,62 @@ class ProviderAdminController extends Controller
         $hash=md5($session->getRequestdate()->format('Y-m-d H:i:s')+'-'+$session->getId());
   
         $session->setLink($hash);  
-
         $adminProvider->update();
+
+        /**** SEND MAIL ****/
+        $messageToWorker = \Swift_Message::newInstance()
+            ->setSubject('Affectation de session sur OVT 3.1')
+            ->setFrom('noreply-ovt@orange.com')
+            ->setTo($worker->getUser()->getEmail())
+            ->setBody($this->renderView('OVTAPINotificationBundle:Service:affectation.html.twig',array(
+                    "session"=>$session,
+                    "receiver"=>$worker->getUser()
+                )))
+            ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+        ;
+        $messageToClient = \Swift_Message::newInstance()
+            ->setSubject('Affectation de session sur OVT 3.1')
+            ->setFrom('noreply-ovt@orange.com')
+            ->setTo($session->getClient()->getUser()->getEmail())
+            ->setBody($this->renderView('OVTAPINotificationBundle:Session:affectation.html.twig',array(
+                    "session"=>$session,
+                    "receiver"=>$session->getClient()->getUser()
+                )))
+            ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+        ;
+
+        $this->get('mailer')->send($messageToWorker);
+        $this->get('mailer')->send($messageToClient);
+
+        $messageToClient = \Swift_Message::newInstance()
+            ->setSubject('Validation de session sur OVT 3.1')
+            ->setFrom('noreply-ovt@orange.com')
+            ->setTo($session->getClient()->getUser()->getEmail())
+            ->setBody($this->renderView('OVTAPINotificationBundle:Session:validated.html.twig',array(
+                    "session"=>$session,
+                    "receiver"=>$session->getClient()->getUser(),
+                    "admin"=>$this->container->get('security.context')->getToken()->getUser()
+                )))
+            ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+        ;
+
+        $this->get('mailer')->send($messageToClient);
+        foreach ($session->getClient()->getOrganisation()->getAdmins() as $admin) {
+            $messageToAdminClient = \Swift_Message::newInstance()
+                ->setSubject('Validation de session sur OVT 3.1')
+                ->setFrom('noreply-ovt@orange.com')
+                ->setTo($admin->getEmail())
+                ->setBody($this->renderView('OVTAPINotificationBundle:Session:validated_admin.html.twig',array(
+                        "session"=>$session,
+                        "receiver"=>$admin
+                    )))
+                ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+            ;
+            $this->get('mailer')->send($messageToAdminClient);
+        }
+        
+        /**** END *********/
+
         return new Response('Success');
     }
 

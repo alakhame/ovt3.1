@@ -163,7 +163,21 @@ class OrganisationAdminController extends Controller
 
         $organisation->removeAdmin($user);
         $user->setOrganisation(null);
+        $user->setEnabled(0);
 
+        /**** SEND MAIL ****/
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Suppression de compte Administrateur sur OVT 3.1')
+            ->setFrom('noreply-ovt@orange.com')
+            ->setTo($user->getEmail())
+            ->setBody($this->renderView('OVTAPINotificationBundle:User:deleted.html.twig',array(
+                    "receiver"=>$user
+                )))
+            ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+        ;
+        $this->get('mailer')->send($message);
+
+        /**** END *********/ 
         $superAdmin->update();
 
         return new Response('OK!'); 

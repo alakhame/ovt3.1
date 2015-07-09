@@ -17,10 +17,13 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
     
     protected $em;
     protected $doctrine;
+    protected $mailer;
 
-    public function __construct(EntityManager $em){
+    public function __construct(EntityManager $em, $mailer){
         $this->em=$em;
+        $this->mailer=$mailer;
     }
+
 
     
     /************ SERVICE ***************************/
@@ -63,9 +66,23 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
         foreach ($sessions as $s) {
             if($s->getEndtime()<$now && $s->getState()=='ACCEPTED'){
                 $s->setState('TERMINATED');
+                /**** SEND MAIL ****/
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Documents de session sur OVT 3.1')
+                    ->setFrom('noreply-ovt@orange.com')
+                    ->setTo($s-getClient()->getUser()->getEmail())
+                    ->setBody($this->renderView('OVTAPINotificationBundle:Archive:access.html.twig',array(
+                            "session"=>$s
+                        )))
+                    ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT')) 
+                ;
+                $this->mailer->send($message); 
+                /**** END *********/
             }
         }
         $this->update();
+
+        
     }
 
 
