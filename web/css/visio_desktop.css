@@ -360,6 +360,10 @@ fieldset .content {
   font-family: "OpenSans-Regular";
   font-size: 13px;
 }
+
+.showAdmin{
+	cursor: pointer;
+}
 /* ----------------- Title color -----------------*/
 .title_color_text
 {

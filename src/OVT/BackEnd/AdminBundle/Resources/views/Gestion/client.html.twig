@@ -86,7 +86,7 @@
 									ng-click="newOrgAdmin()"> [+] </span></legend>
 								<div class="content">
 									<div class="adminstyle " ng-repeat="a in selectedClient.admins  track by $index" > 
-										<span ng-click="showAdmin($index)" >{{a.admin}} </span>
+										<span ng-click="showAdmin($index)" class="showAdmin">{{a.admin}} </span>
 										<a href="#" ng-click="delAdmin(selectedClient.id,a.id)"  > [-] </a>
  									</div>  
 								</div>
@@ -110,7 +110,7 @@
 								<input type="submit" />
 							</form>
 							
-							<div style="float:left;width:20%; margin:auto"class="button_edit_tab_4 button_tab_4 theme_color_text theme_color_border">Modifier</div>
+							<div style="float:left;width:20%; margin:auto;color: #FFF" class="button_tab_4 theme_color_background">Modifier</div>
 							<div  style="margin: 0;float:left;width:20%;margin-left:20%"class="button_save_tab_4 button_tab_4 theme_color_background" id="formSubmit"  >Enregistrer
 								<div class="container_done_save_tab_4">
 									<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="15" height="12" viewBox="0 0 22 17">
