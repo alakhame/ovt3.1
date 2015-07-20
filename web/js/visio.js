@@ -1,3 +1,13 @@
+/***** CUSTOM JS  *****/
+$('#cloche').click(function(){  
+	$('.container_drop_down_notif').fadeToggle(500); 
+	$('#nbNotif').fadeOut(1000);
+});
+$('.container_notif_svg').click(function(e){ 
+	$(this).parent().fadeOut(500);
+});
+/**** END CUSTOM *****/
+
 $("[name=range]").on("change", function() {
     $("[for=range]").val(this.value +"min" );
     }).trigger("change");

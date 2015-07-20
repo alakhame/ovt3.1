@@ -34,12 +34,16 @@ class DefaultController extends Controller
     }
 
     public function mailAction()
-    {
+    {   
+        $body="Bonjour, <br/>";
+        $body.="<br/>Je vous écris pour solliciter une autorisation d'absence le lundi 13 juillet et ce pour de raisons personnelles.";
+        $body.="<br/>Je m'engage à travailler à distance durant mon absence. Je vous remercie d'avance.<br/>";
+        $body.="<br/>Cordialement,";
         $message = \Swift_Message::newInstance()
-            ->setSubject('REUNION EQUIPE URGENTE')
+            ->setSubject("Demande d'autorisation d'absence")
             ->setFrom('khadim.ndiaye@orange.com')
-            ->setTo('ndiaye.khadim.inpt@gmail.com')
-            ->setBody( 'Bonjour,   Khadim il faut le renvoyer <i>définitivement<i>, il a rien fait de bon.')
+            ->setTo('lionel.courval@orange.com')
+            ->setBody($body)
             ->setReplyTo(array('ndiaye.khadim.inpt@gmail.com' => 'Khadim')) 
             ->setContentType("text/html")
         ; 

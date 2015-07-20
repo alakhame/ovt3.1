@@ -69,15 +69,15 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
             if($s->getEndtime()<$now && $s->getState()=='ACCEPTED'){
                 $s->setState('TERMINATED');
                 /**** SEND MAIL ****/
+        $bodyMail = "Bonjour,<br/>Vous avez dÃ©sormais accÃ¨s au document relatif Ã  la session de transcription intitulÃ© <i>";
+        $bodyMail .= $s->getTitle()."</i>. <br/> A bientÃ´t, cordialement, <br/> OVT 3.1 ";
                 $message = \Swift_Message::newInstance()
                     ->setSubject('Documents de session sur OVT 3.1')
                     ->setFrom('noreply-ovt@orange.com')
-                    ->setTo($s-getClient()->getUser()->getEmail())
-                    ->setBody($this->renderView('OVTAPINotificationBundle:Archive:access.html.twig',array(
-                            "session"=>$s
-                        )))
+                    ->setTo($s->getClient()->getUser()->getEmail())
+                    ->setBody($bodyMail)
                     ->setReplyTo(array('sav-ovt@orange.com' => 'Maintenance OVT'))
-					->setContentType("text/html")					
+            ->setContentType("text/html")                   
                 ;
                 $this->mailer->send($message); 
                 /**** END *********/
@@ -110,13 +110,10 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
 	public  function getOrganisationById($orgID){
         return $this->em->getRepository('OVTGeneralBundle:Organisation')->find($orgID);
 	}
+ 
 
     public  function deleteOrganisationById( $orgID){
-        $org=$this->getOrganisationById($orgID);
-        $this->em->remove($org);
-    }
-
-    public  function deleteOrganisation( $org){ 
+       $org=$this->getOrganisationById($orgID);
         $this->em->remove($org);
     }
 

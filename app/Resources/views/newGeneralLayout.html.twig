@@ -30,10 +30,28 @@
 			</div>
 			
 			<div class="container_notif">
-				<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="18" height="20" viewBox="0 0 36 41">
+				<svg id="cloche" class="container_notifsvg" version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="18" height="20" viewBox="0 0 36 41">
 					<use xlink:href="{{asset('svg/logo_notif.svg')}}#logo_notif"></use>
 				</svg>
-			</div> 
+				<div id="nbNotif" class="container_number_notif subtitle_color_border  theme_color_background theme_color_border">2</div>
+				<div class="container_drop_down_notif" style=" margin-left:20px">
+					<img src="{{asset('img/arrow_drop_down.png')}}">
+					<div class="drop_down_notif title_color_text">
+						<div class="option_drop_down_notif   subtitle_color_border_08">
+							<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="18" height="20" viewBox="0 0 36 41" class="container_notif_svg">
+							<use xlink:href="{{asset('svg/preview.svg#preview')}}"></use>
+							</svg>
+							Notif qui sert à rien !
+						</div>
+						<div class="option_drop_down_notif    subtitle_color_border_08">
+							<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="18" height="20" viewBox="0 0 36 41" class="container_notif_svg">
+							<use xlink:href="{{asset('svg/preview.svg#preview')}}"></use>
+							</svg>
+							Non mais absolument à rien.
+						</div>
+					</div>
+				</div>
+			</div>
 			<a href="{{path('fos_user_security_logout')}}">
 			<div class="container_maj subtitle_color_text" style="width:50px;"> 
 				<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"  width="18" height="20" viewBox="0 0 20 22">

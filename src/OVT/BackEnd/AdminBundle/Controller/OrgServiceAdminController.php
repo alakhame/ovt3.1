@@ -8,12 +8,8 @@ use OVT\GeneralBundle\Entity\Service;
  use Symfony\Component\HttpFoundation\Request;
 
 class OrgServiceAdminController extends Controller
-{   
-    
-
-    public function manageServicesAction(Request $req, $organisation, $idOrg ){
-	   
-
+{    
+    public function manageServicesAction(Request $req, $organisation, $idOrg ){ 
     	$superAdmin=$this->get('superadmin');
         $org=$superAdmin->getOrganisationById($idOrg);
         $services=$superAdmin->getAllServices();
