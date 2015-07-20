@@ -108,11 +108,7 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
 	public  function getOrganisationById($orgID){
         return $this->em->getRepository('OVTGeneralBundle:Organisation')->find($orgID);
 	}
-
-    public  function deleteOrganisationById( $orgID){
-        $org=$this->getOrganisationById($orgID);
-        $this->em->remove($org);
-    }
+ 
 
     public  function deleteOrganisationById( $orgID){
        $org=$this->getOrganisationById($orgID);
