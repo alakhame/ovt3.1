@@ -2,6 +2,7 @@
 
 namespace OVT\BackEnd\AdminBundle\Entity;
 use OVT\UserBundle\Entity\User ;
+use OVT\GeneralBundle\Entity\Notification;
 use OVT\GeneralBundle\Entity\ServiceManagement;
 use OVT\GeneralBundle\Entity\OrganisationManagement;
 use OVT\GeneralBundle\Entity\UserManagement;
@@ -10,6 +11,7 @@ use OVT\GeneralBundle\Entity\Service ;
 use OVT\GeneralBundle\Entity\Client ;
 use OVT\GeneralBundle\Entity\Worker ;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\Bundle\DoctrineBundle\Registry as Registry;
 
 class SuperAdmin extends User implements ServiceManagement, OrganisationManagement, UserManagement
@@ -228,6 +230,31 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
         }
 
         $this->em->flush();
+    }
+
+
+    /********* NOTIFICATIONS ******************/
+
+    public function createNotification(Notification $n){
+        $this->em->persist($n);
+        $this->em->flush();
+        return $n->getId();
+    }
+
+    public function getNotificationsByUser($user){
+        $allNotifs = $this->em->getRepository('OVTGeneralBundle:Notification')->findAll();
+        $notifs = array();
+        $compteur = 0;
+        foreach ($allNotifs as $notif) {
+            if($compteur >= 5)
+                break;
+            if($notif->getUser()->contains($user)){
+                $compteur++;
+                $notifs[]= $notif;
+            }        
+           
+        }
+        return $notifs;       
     }
 
 

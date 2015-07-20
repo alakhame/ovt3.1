@@ -5,6 +5,7 @@ namespace OVT\TestBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use OVT\GeneralBundle\Entity\AdminClient;
+use OVT\GeneralBundle\Entity\Notification;
 class DefaultController extends Controller
 {
     public function indexAction($id)
@@ -49,5 +50,23 @@ class DefaultController extends Controller
             return new Response($e->getMessage() );
         }
         
+    }
+
+    public function listNotificationAction() {
+        $superAdmin = $this->get('superadmin');
+        $user = $superAdmin->getUserById(52);
+        return new Response(var_dump($superAdmin->getNotificationsByUser($user)));
+    }
+
+    public function addNotificationAction() {
+        $superAdmin = $this->get('superadmin');
+        $userTo = $superAdmin->getUserById(52);
+        $userFrom = $superAdmin->getUserById(1);
+        $notification = new Notification();
+        $notification->setMessage("Bonjour");
+        $notification->setNotifierid($userFrom); 
+        $notification->addUser($userTo);
+
+        return new Response(var_dump($superAdmin->createNotification($notification)));       
     }
 }
