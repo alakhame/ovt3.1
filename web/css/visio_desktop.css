@@ -290,6 +290,76 @@ fieldset .content {
 	width: 50%;
 	float: left;
 }
+
+.container_drop_down_notif
+{
+	height: auto;
+	width: 310px;
+	position: relative; 
+	display: none;
+	top: 58px;
+	right: 157px;
+}
+.container_drop_down_notif img
+{
+	position: relative; 
+	top: 5px;
+}
+ 
+
+.container_number_notif {
+  height: 14px;
+  width: 14px;
+  color:white;
+  border-radius: 7px;
+  border-width: 1px;
+  text-align: center;
+  line-height: 6px;
+  padding-top: 3px;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+  cursor: pointer;
+  position:relative;
+  top:17px;
+  left:7px;
+  animation: new_chat_anim 0.9s ease infinite;
+	-webkit-animation: new_chat_anim 0.9s ease infinite;
+}
+
+.option_drop_down_notif {
+  height: 50px;
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+  line-height: 40px;
+  text-align: left;
+  padding-left: 40px;
+  opacity: 0.7;
+  -webkit-transition: all .25s ease;
+  -moz-transition: all .25s ease;
+  -ms-transition: all .25s ease;
+  -o-transition: all .25s ease;
+  transition: all .25s ease;
+}
+.container_notif_svg {
+  position: absolute;
+  top: 50%;
+  left: 90%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  -o-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+.drop_down_notif {
+  height: auto;
+  width: 100%;
+  background-color: #FFF;
+  border-radius: 6px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  font-family: "OpenSans-Regular";
+  font-size: 13px;
+}
 /* ----------------- Title color -----------------*/
 .title_color_text
 {
@@ -442,7 +512,8 @@ header
 {
 	margin-right: 20px;
 }
-.container_notif svg
+
+.container_notifsvg
 {
 	position: absolute;
 	top: 50%;
@@ -452,6 +523,7 @@ header
 	-o-transform: translate(-50%,-50%);
 	transform: translate(-50%,-50%);
 }
+
 .container_head_phone svg
 {
 	position: absolute;
