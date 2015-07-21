@@ -127,6 +127,9 @@ class ClientController extends Controller
         foreach ($session->getOrganisation()->getAdmins() as $admin){
             $notification->addUser($admin);
         }
+        foreach ($session->getClient()->getUser()->getOrganisation()->getAdmins as $adminC) {
+            $notification->addUser($adminC);
+        }
 
         $superAdmin->createNotification($notification);
 

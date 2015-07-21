@@ -78,12 +78,10 @@ class ClientAdminController extends Controller
             case 'accept':
                 $session->setState('ACCEPTED');
                 $template='validated';
-                $notifTemplate='validatedSession';
                 break;
             case 'refuse':
                 $session->setState('REFUSED');
                 $template='decline';
-                $notifTemplate='declineSession';
                 break;
             case 'terminate':
                 $session->setState('TERMINATED');
@@ -92,7 +90,6 @@ class ClientAdminController extends Controller
             case 'delete':
                 $session->setState('DELETED');
                 $template='deleted';
-                $notifTemplate='deletedSession';
                 break;
             case 'restaure':
                 $session->setState('TO_CONFIRM');
@@ -143,8 +140,25 @@ class ClientAdminController extends Controller
             $notification->setMessage($this->renderView('OVTAPINotificationBundle:FlashInfo/Session:'.$notifTemplate.'.html.twig', array(
                         "session"=>$session)));
             $notification->setNotifierid($session->getClient()->getUser());
-            foreach ($session->getOrganisation()->getAdmins() as $admin){
-                $notification->addUser($admin);
+
+            switch ($notifTemplate) {
+                case 'cancelSession':
+                    foreach ($session->getOrganisation()->getAdmins() as $admin){
+                        $notification->addUser($admin);
+                    }
+                    foreach ($session->getClient()->getUser()->getOrganisation()->getAdmins as $adminC) {
+                        $notification->addUser($adminC);
+                    }
+                    break;
+                case 'terminate':
+                    $worker = $session->getWorker()->getUser();
+                    $client = $session->getClient->getUser();
+                    $notification->addUser($worker);
+                    $notification->addUser($client);
+                    break;
+                default:
+                    # code...
+                    break;
             }
 
             $superAdmin->createNotification($notification);
