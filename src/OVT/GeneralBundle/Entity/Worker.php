@@ -25,7 +25,7 @@ class Worker
     /**
      * @var string
      *
-     * @ORM\Column(name="language", type="string", length=255, nullable=false)
+     * @ORM\Column(name="language", type="string", length=255, nullable=true)
      */
     private $language;
 

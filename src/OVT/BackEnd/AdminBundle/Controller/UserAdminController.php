@@ -90,7 +90,10 @@ class UserAdminController extends Controller
 
         /**** END *********/
 
-        return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>$userType)));
+        return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',
+                                    array('gestion'=>$userType,
+                                          'defaultClick'=>$organisation->getId()
+                                    )));
     }
 
     public function getUserByIdAction($id ){

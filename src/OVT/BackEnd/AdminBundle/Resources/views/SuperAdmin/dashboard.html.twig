@@ -1,0 +1,65 @@
+{% extends "::baseProfil.html.twig" %}
+ 	
+ 	{% block tabTitle %} 
+ 		<div class="header_tab_4 header_tab" style="display: block;">
+			<div class="title_tab title_tab_4">	Accueil </div>
+		</div> 	
+	{% endblock %}
+	
+	{% block menu %}
+		{% include "OVTBackEndAdminBundle:SuperAdmin:menuNew.html.twig" %}
+	{% endblock %}
+ 
+	{% block containerTab %} 
+	<div class="container_tab_4 container_tab" style="display: block;"> 
+		<div class="position_content_tab_4" >   
+			<div class="dash_block">
+			 	<div class="type_historique type_historique_no_rdv subtitle_color_text theme_color_background">
+			 		<span style="color:#FFF" > Entreprises Clientes </span>
+			 		<a href="{{path('ovt_back_end_admin_gestion',{gestion:'client'})}}" >
+			 			<svg class="more_icon" version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg"xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="30"height="30"viewBox="0 -8 50 60">
+							<use xlink:href="{{asset('svg/option_video.svg')}}#option_video"></use>
+						</svg>
+					</a>
+				</div>
+				<div class="type_historique subtitle_color_text"> 
+					<div class="element_historique_container_historique element_historique_container_historique_name">
+						<div class="content_element_historique content_element_historique_name">
+							Nom Prenom
+						</div> 
+					</div> 
+					<div class="element_historique_container_historique element_historique_container_historique_name">
+						<div class="content_element_historique content_element_historique_name">
+							Email
+						</div> 
+					</div> 
+					<div class="element_historique_container_historique element_historique_container_historique_name">
+						<div class="content_element_historique content_element_historique_name">
+							Address
+						</div> 
+
+					</div> 
+					<div class="element_historique_container_historique element_historique_container_historique_name">
+						<div class="content_element_historique content_element_historique_name">
+							06 06 06 06 06
+						</div> 
+					</div> 
+					<div class="element_historique_container_historique element_historique_container_historique_canal">
+						<div class="content_element_historique content_element_historique_canal">
+							Service 1, service 2, service 3.
+						</div>
+					</div>  	 
+				</div>
+				<div class="type_historique subtitle_color_text"> 
+				</div>
+			</div>
+ 
+		</div>
+			
+		<script type="text/javascript">
+			
+		</script>
+
+	</div>
+
+	{% endblock %} 

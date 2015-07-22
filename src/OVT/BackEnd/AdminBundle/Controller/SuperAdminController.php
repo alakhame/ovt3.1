@@ -10,17 +10,19 @@ class SuperAdminController extends Controller
 {
     public function indexAction()
     { 
-        return $this->redirect($this->generateUrl('ovt_back_end_admin_profile'));
+        return $this->render('OVTBackEndAdminBundle:SuperAdmin:dashboard.html.twig');
     }
 
-    public function gestionAction($gestion){
+    public function gestionAction($gestion, Request $req){
+        $defaultClick = $req->get('defaultClick');
         if($gestion=="adminClient"){
            $gestion="client";
         }
 	    else if($gestion=="adminProvider"){
            $gestion="provider";
         }
-    	return $this->render('OVTBackEndAdminBundle:Gestion:'.$gestion.'.html.twig'); 
+    	return $this->render('OVTBackEndAdminBundle:Gestion:'.$gestion.'.html.twig',
+                                    array('defaultClick' =>$defaultClick )); 
     }
 
     public function addNewAction($gestion, Request $request){

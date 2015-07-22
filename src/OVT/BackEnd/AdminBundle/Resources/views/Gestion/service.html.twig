@@ -49,7 +49,7 @@
 					</div>
 				</div>
 
-				<div class="container_right_tab_1 container_in_tab_1" style="width:60%" ng-hide="planingFlag">
+				<div class="container_right_tab_1 container_in_tab_1" style="width:60%" ng-show="isSelectedService()">
 					<div class="container_info_contact_tab_4" style="margin:auto;">
 						<div class="column_1_tab_4 column_tab_4_style" ng-hide="passwordChange">
 					 		{% verbatim %}
@@ -163,6 +163,11 @@
 					$scope.planingFlag=false;
 					$scope.newFlag=false; 
 				}
+
+				$scope.isSelectedService = function(){
+					return angular.isDefined($scope.selectedService);
+				}
+
  				$scope.actionClick= function (idService) {
 					//var idService=5;
 					$scope.loading = true; $('#waitingModal').modal('show');

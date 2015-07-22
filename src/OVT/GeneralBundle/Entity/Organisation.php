@@ -96,6 +96,13 @@ class Organisation
     private $service;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="active", type="integer", nullable=true) 
+     */
+    private $isActive;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -103,6 +110,7 @@ class Organisation
         $this->clientservicegroup = new \Doctrine\Common\Collections\ArrayCollection();
         $this->service = new \Doctrine\Common\Collections\ArrayCollection();
         $this->admins= new   \Doctrine\Common\Collections\ArrayCollection();
+        $this->active=1;
     }
 
 
@@ -114,6 +122,27 @@ class Organisation
     public function getId()
     {
         return $this->id;
+    }
+
+     /**
+     * Get isActive
+     *
+     * @return integer 
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set isActive
+     * @param  integer $isActive 
+     * @return Organisation 
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive ;
+        return $this;
     }
 
     /**
