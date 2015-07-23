@@ -110,7 +110,7 @@ class Organisation
         $this->clientservicegroup = new \Doctrine\Common\Collections\ArrayCollection();
         $this->service = new \Doctrine\Common\Collections\ArrayCollection();
         $this->admins= new   \Doctrine\Common\Collections\ArrayCollection();
-        $this->active=1;
+        $this->isActive=1;
     }
 
 
