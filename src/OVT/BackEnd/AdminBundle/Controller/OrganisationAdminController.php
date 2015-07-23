@@ -111,6 +111,20 @@ class OrganisationAdminController extends Controller
                                                                                             'action'=>$action));
     }
 
+     public function getEnabledOrgsByTypeAction($type,$action){
+        $superAdmin=$this->get('superadmin');
+        $orgs=$superAdmin->getEnabledOrgsByType($type);
+        return $this->render('OVTBackEndAdminBundle:client:allClientOrganisations.html.twig',array('orgs'=>$orgs,
+                                                                                            'action'=>$action));
+    }
+
+     public function getDisabledOrgsByTypeAction($type,$action){
+        $superAdmin=$this->get('superadmin');
+        $orgs=$superAdmin->getDisabledOrgsByType($type);
+        return $this->render('OVTBackEndAdminBundle:client:allClientOrganisations.html.twig',array('orgs'=>$orgs,
+                                                                                            'action'=>$action));
+    }
+
     public function getOrgByIdAction($id,$organisation){
         $superAdmin=$this->get('superadmin');
         $org=$superAdmin->getOrganisationById($id); 
@@ -226,9 +240,10 @@ class OrganisationAdminController extends Controller
     public function deleteOrgAction(Request $req, $org){
         $superAdmin=$this->get('superadmin'); 
         $organisation=$superAdmin->getOrganisationById($req->request->get('idOrg'));
-        $superAdmin->deleteOrganisation($organisation);
+        //$superAdmin->deleteOrganisation($organisation);
+        $organisation->setIsActive(0);
         $superAdmin->update();
-	return new Response('OK!'); 
+	    return new Response('OK!'); 
         switch($org){
             case 'client': 
                 return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'client')));
@@ -240,5 +255,13 @@ class OrganisationAdminController extends Controller
                 return new Response(get_class($org));
                 break;
         }
+    }
+
+     public function restoreOrgAction(Request $req, $org){
+        $superAdmin=$this->get('superadmin'); 
+        $organisation=$superAdmin->getOrganisationById($req->request->get('idOrg')); 
+        $organisation->setIsActive(1);
+        $superAdmin->update();
+        return new Response('OK!'); 
     }
 }

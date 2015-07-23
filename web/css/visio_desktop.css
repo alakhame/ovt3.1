@@ -365,6 +365,20 @@ fieldset .content {
 .showAdmin{
 	cursor: pointer;
 }
+
+.dash_block{
+	height: 20%;
+	width: 70%;
+	margin-top: 5%;
+	margin-left: 15%
+}
+
+.more_icon {
+	position : relative;
+	float: right;
+	top : 5px;
+	cursor: pointer;
+}
 /* ----------------- Title color -----------------*/
 .title_color_text
 {

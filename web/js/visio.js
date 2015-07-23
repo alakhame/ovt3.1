@@ -6,6 +6,8 @@ $('#cloche').click(function(){
 $('.container_notif_svg').click(function(e){ 
 	$(this).parent().fadeOut(500);
 });
+ 
+
 /**** END CUSTOM *****/
 
 $("[name=range]").on("change", function() {
@@ -854,6 +856,8 @@ $('.button_edit_tab_4').click(function() {
 	$('.content_info_editable_user_style').addClass('edit');
 	$('.content_info_editable_user_style').addClass('subtitle_color_text');
 })
+ 
+	 
 
 $('.button_save_tab_4').click(function() {
 	

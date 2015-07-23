@@ -120,6 +120,14 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
 	public  function getOrganisationsByType($type){
 		return $this->em->getRepository("OVTGeneralBundle:Organisation")->findBy(array("type"=>$type));
 	}
+    public  function getEnabledOrgsByType($type){ 
+        $criteria = array("type"=>$type,"isActive"=>1);
+        return $this->em->getRepository("OVTGeneralBundle:Organisation")->findBy($criteria);
+    }
+    public  function getDisabledOrgsByType($type){
+        $criteria = array("type"=>$type,"isActive"=>0);
+        return $this->em->getRepository("OVTGeneralBundle:Organisation")->findBy($criteria);
+    }
 
     public function getOrgAdminById($id){
 

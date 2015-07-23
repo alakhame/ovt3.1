@@ -124,6 +124,14 @@ ovt_back_end_admin_gestion_organisation_delete:
     options:
         expose: true
 
+ovt_back_end_admin_gestion_organisation_restore:
+    path: /gestion/{org}/restore
+    defaults: { _controller: OVTBackEndAdminBundle:OrganisationAdmin:restoreOrg }
+    requirements:
+        _method:  POST
+    options:
+        expose: true
+
 
 ovt_back_end_admin_manage_service:
     path: /{organisation}/manage/service/{idOrg}
