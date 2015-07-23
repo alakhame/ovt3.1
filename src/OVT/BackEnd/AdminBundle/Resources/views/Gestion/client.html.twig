@@ -311,8 +311,8 @@
 				  	success(function(data, status, headers, config) {
 					    $scope.selectedClient=data;
 					    $scope.loading = false; $('#waitingModal').modal('hide');
-					    $('.container_check_contact_program_now_new').removeClass('active');
-					    $('#select_check_'+idclient).addClass('active'); 
+					    $('.container_contact_program_now_style').removeClass('activate');
+					    $('.select_check_'+idclient).addClass('activate'); 
 					    $scope.loadServiceTab($scope.selectedClient.id); 
 					    $scope.isModifications = false ;
 				  	}). 
@@ -357,8 +357,7 @@
 		   			$scope.loading = true; $("#waitingModal").modal('show');
 					if(confirmation){
 			   			$http.get(link).
-					  	success(function(data, status, headers, config) { 
-						    alert("Action menée avec succès ! "); 
+					  	success(function(data, status, headers, config) {  
 							$scope.actionClick (idorg);
 					  	}).
 					 	error(function(data, status, headers, config) { 
@@ -382,8 +381,7 @@
 						    data: "admin="+selectedAdmin+"&orgId="+selectedClient.id,
 						    headers: {'Content-Type':'application/x-www-form-urlencoded'}
 						}).
-						success(function(data, status, headers, config) {
-					  		alert("Affectation menée avec succès ! "); 
+						success(function(data, status, headers, config) { 
 					  		$scope.actionClick (idorg);
 					  	}).
 					  	error(function(data, status, headers, config) {
@@ -408,8 +406,7 @@
 						    data: "idOrg="+idorg,
 						    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 						}).
-						success(function(data, status, headers, config) {
-					  		alert("Suppression menée avec succès ! ");
+						success(function(data, status, headers, config) { 
 					     	$window.location.href=$window.location.href; 
 					  	}).
 					  	error(function(data, status, headers, config) {
@@ -432,8 +429,7 @@
 						    data: "idOrg="+idorg,
 						    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 						}).
-						success(function(data, status, headers, config) {
-					  		alert("restauration menée avec succès ! ");
+						success(function(data, status, headers, config) { 
 					     	$window.location.href=$window.location.href; 
 					  	}).
 					  	error(function(data, status, headers, config) {
@@ -461,6 +457,11 @@
 		   			$('#adminModal').modal('show'); 
 		   		}
 			});
+			function toActivate(id){
+				$('.tab_bar_left').removeClass('activate theme_color_border');
+				$('.tab_bar_left_'+id).addClass('activate theme_color_border');
+			}
+			toActivate(1);
 		</script>
 
 		 

@@ -21,7 +21,7 @@
 			<div class="title_tab title_tab_4">	Gestion des Services </div>
 		</div> 	
 	{% endblock %}
-	
+	 
 	{% block menu %}
 		{% include "OVTBackEndAdminBundle:SuperAdmin:menuNew.html.twig" %}
 	{% endblock %}
@@ -199,8 +199,7 @@
 						    data: "id="+idservice,
 						    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 						}).
-						success(function(data, status, headers, config) {
-					  		alert("Suppression menée avec succès ! ");
+						success(function(data, status, headers, config) { 
 					     	$window.location.href=$window.location.href; 
 					  	}).
 					  	error(function(data, status, headers, config) {
@@ -222,6 +221,11 @@
 			   		$('#addServiceModal').modal('show'); 
 		   		} 
 			});
+			function toActivate(id){
+				$('.tab_bar_left').removeClass('activate theme_color_border');
+				$('.tab_bar_left_'+id).addClass('activate theme_color_border');
+			}
+			toActivate(3);
 		</script>
 
 		 

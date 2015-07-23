@@ -1,6 +1,6 @@
 <div class="container_list_contact_program_now subtitle_color_border_08" style="  max-height: 100%; min-height: 100%;">
 	{% for org in orgs %}
-	<div class="container_contact_program_now_style"  
+	<div class="container_contact_program_now_style select_check_{{org.id}}"  
 		{% if action == 'reload' %}
 			ng-click="actionClick({{org.id}})"
 		{% elseif  action == 'redirect' %}
@@ -11,10 +11,9 @@
 		<div class="container_pp_contact_program_now_style" style="background-image: url({{asset('svg/default_pp.svg')}})"> 
 		</div>
 		<div class="container_info_contact_program_now">
-			<div class="name_contact_program_now title_color_text">{{org.name}}</div>
-			<div class="role_contact_program_now subtitle_color_text">
-				 {{org.name}}
-			</div>
+			<div class="name_contact_program_now  ">{{org.name}}</div> 
+		</div>
+		<div class="role_contact_program_now subtitle_color_text"> 
 		</div>
 		<div class="container_check_contact_program_now_new " id="select_check_{{org.id}}">
 			<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="11" height="8" viewBox="0 0 22 17">

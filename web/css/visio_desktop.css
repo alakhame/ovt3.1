@@ -378,6 +378,52 @@ fieldset .content {
 	top : 5px;
 	cursor: pointer;
 }
+.container_contact_program_now_style.activate{
+	background-color: rgba(63, 67, 77, 0.8);
+		box-shadow: 4px 0 6px rgba(0, 0, 0, 1);
+		color: #FFF;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ----------------- Title color -----------------*/
 .title_color_text
 {

@@ -404,8 +404,7 @@
 						    data: "idWorker="+idworker,
 						    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 						}).
-						success(function(data, status, headers, config) {
-					  		alert("Suppression menée avec succès ! "+data);
+						success(function(data, status, headers, config) { 
 					     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_worker'); 
 					  	}).
 					  	error(function(data, status, headers, config) {
@@ -435,8 +434,7 @@
 						    data: "idWorker="+idworker+"&idGroup="+$scope.selectedGroup.id,
 						    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 						}).
-						success(function(data, status, headers, config) {
-					  		alert("Affectation menée avec succès ! ");
+						success(function(data, status, headers, config) { 
 					     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_worker'); 
 					  	}).
 					  	error(function(data, status, headers, config) {

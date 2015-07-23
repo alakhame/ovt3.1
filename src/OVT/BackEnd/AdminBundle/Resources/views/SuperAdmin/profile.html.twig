@@ -8,7 +8,8 @@
 	
 	{% block menu %}
 		{% include "OVTBackEndAdminBundle:SuperAdmin:menuNew.html.twig" %}
-	{% endblock %}
+	{% endblock %} 
+
  
 	{% block containerTab %} 
 		<div class="container_tab_4 container_tab" style="display: block;">
@@ -138,6 +139,11 @@
 				$('#formPasswordSubmit').click(function(){
 					$('#updatePasswordForm').submit();
 				});
+				function toActivate(id){
+				$('.tab_bar_left').removeClass('activate theme_color_border');
+				$('.tab_bar_left_'+id).addClass('activate theme_color_border');
+			}
+			toActivate(4);
  			</script>
  
 		</div>

@@ -221,8 +221,7 @@
 							    data: "idSession="+idsession,
 							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).
-							success(function(data, status, headers, config) {
-						  		alert("Annulation menée avec succès ! ");
+							success(function(data, status, headers, config) { 
 						     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
 						  	}).
 						  	error(function(data, status, headers, config) {
@@ -247,8 +246,7 @@
 							    data: "idSession="+idsession,
 							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).
-							success(function(data, status, headers, config) {
-						  		alert("Refus mené avec succès ! ");
+							success(function(data, status, headers, config) { 
 						     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
 						  	}).
 						  	error(function(data, status, headers, config) {
@@ -273,8 +271,7 @@
 							    data: "idSession="+idsession,
 							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).
-							success(function(data, status, headers, config) {
-						  		alert("Finition menée avec succès ! ");
+							success(function(data, status, headers, config) { 
 						     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
 						  	}).
 						  	error(function(data, status, headers, config) {
@@ -302,8 +299,7 @@
 							    data: "sID="+idsession+"&wID="+selectedWorker,
 							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).
-							success(function(data, status, headers, config) {
-						  		alert("Affectation menée avec succès ! ");
+							success(function(data, status, headers, config) { 
 						     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
 						  	}).
 						  	error(function(data, status, headers, config) {
