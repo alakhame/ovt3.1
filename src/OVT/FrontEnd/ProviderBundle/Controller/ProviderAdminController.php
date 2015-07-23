@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use OVT\UserBundle\Entity\User;
 use OVT\GeneralBundle\Entity\Worker;
+use OVT\GeneralBundle\Entity\Notification;
 use OVT\GeneralBundle\Entity\Providerservicegroup;
 
 class ProviderAdminController extends Controller
@@ -254,24 +255,30 @@ class ProviderAdminController extends Controller
         //$rep=var_dump($request->request);
         //return new Response(" retrieved id:".$rep);
         $adminProvider=$this->get('provideradmin');
+        $superAdmin=$this->get('superadmin');
+        $admin= $this->container->get('security.context')->getToken()->getUser();
         $session=$adminProvider->getSessionById($idSession);
         $template=''; 
-                 
+        $notifTemplate='';       
         switch ($action) {
             case 'cancel':
                 $session->setState('CANCELED');
                 $template='cancel';
+                $notifTemplate='cancelSession';
                 break;
             case 'accept':
                 $session->setState('ACCEPTED');
                 $template='validated';
+                $notifTemplate='validatedSession';
                 break;
             case 'refuse':
                 $session->setState('REFUSED');
-                $template='decline'; 
+                $template='decline';
+                $notifTemplate='declineSession';
                 break;
             case 'terminate':
                 $session->setState('TERMINATED');
+                $notifTemplate='terminateSession';
                 break;
             case 'delete':
                 $session->setState('DELETED');
@@ -315,6 +322,37 @@ class ProviderAdminController extends Controller
             /**** END *********/
         }
 
+        if($notifTemplate != ''){
+
+            /********* SEND NOTIFICATION  ******/
+            $notification = new Notification();
+            $notification->setMessage($this->renderView('OVTAPINotificationBundle:FlashInfo/Session:'.$notifTemplate.'.html.twig', array(
+                        "session"=>$session)));
+            $notification->setNotifierid($admin);
+            $client = $session->getClient->getUser();
+            $notification->addUser($client);
+            switch ($notifTemplate) {
+                case 'decline':
+                    foreach ($session->getClient()->getUser()->getOrganisation()->getAdmins as $adminC) {
+                        $notification->addUser($adminC);
+                    }
+                    break;
+                case 'validatedSession':
+                    foreach ($session->getClient()->getUser()->getOrganisation()->getAdmins as $adminC) {
+                        $notification->addUser($adminC);
+                    }
+                    break;
+                case 'terminateSession':
+                    $worker = $session->getWorker()->getUser();
+                    $notification->addUser($worker);
+                default:
+                    break;
+            }
+
+            $superAdmin->createNotification($notification);
+            /******* END ******/
+        }
+
         return $this->redirect($this->generateUrl('ovt_front_end_admin_provider_worker' ));
         /*
         $response= new Response();
@@ -327,7 +365,8 @@ class ProviderAdminController extends Controller
         $adminProvider=$this->get('provideradmin');
         $req=$request->request;
         $session=$adminProvider->getSessionById($req->get('sessionID'));
-
+        $admin= $this->container->get('security.context')->getToken()->getUser();
+        $superAdmin=$this->get('superadmin');
         $session->setTitle($req->get('title'));
         $session->setDescription($req->get('description'));
         //$session->setStarttime($req->get('startTime'));
@@ -361,6 +400,20 @@ class ProviderAdminController extends Controller
         ;
         $this->get('mailer')->send($messageToClient);
         $this->get('mailer')->send($messageToWorker);
+
+
+        /******** SEND NOTIFICATION *****************/
+        $notification = new Notification();
+        $notification->setMessage($this->renderView('OVTAPINotificationBundle:FlashInfo/Session:updatedSession.html.twig', array(
+                        "session"=>$session)));
+        $notification->setNotifierid($admin);
+        $worker = $session->getWorker()->getUser();
+        $notification->addUser($worker);
+        $client = $session->getClient()->getUser();
+        $notification->addUser($client);
+        
+        $superAdmin->createNotification($notificationToClient);
+
         /**************** END *********************/
         return $this->redirect($referer);
     }
@@ -411,8 +464,10 @@ class ProviderAdminController extends Controller
 
     public function affectWorkerToSessionAction(Request $request){
         $adminProvider=$this->get('provideradmin');
+        $superAdmin=$this->get('superadmin');
         $session=$adminProvider->getSessionById($request->request->get('sID'));
         $worker=$adminProvider->getWorkerFromUserID($request->request->get('wID'));
+        $admin= $this->container->get('security.context')->getToken()->getUser();
        
         $session->setWorker($worker);
         $session->setState('ACCEPTED');
@@ -478,7 +533,30 @@ class ProviderAdminController extends Controller
             $this->get('mailer')->send($messageToAdminClient);
         }
         
-        /**** END *********/
+        /**********  SEND NOTIFICATION  *****************/
+        
+        $notification = new Notification();
+        $notification->setMessage($this->renderView('OVTAPINotificationBundle:FlashInfo/Session:affectedSession.html.twig', array(
+                        "session"=>$session)));
+        $notification->setNotifierid($admin);
+        $worker = $session->getWorker()->getUser();
+        $notification->addUser($worker);
+
+        $superAdmin->createNotification($notification); 
+
+        $notificationToClient = new Notification();
+        $notificationToClient->setMessage($this->renderView('OVTAPINotificationBundle:FlashInfo/Session:validatedSession.html.twig', array(
+                        "session"=>$session)));
+        $notificationToClient->setNotifierid($admin);
+        $client = $session->getClient()->getUser();
+        $notificationToClient->addUser($client);
+        foreach ($session->getClient()->getUser()->getOrganisation()->getAdmins() as $adminC) {
+            $notification->addUser($adminC);
+        }
+        
+        $superAdmin->createNotification($notificationToClient);
+
+        /****** END ******/
 
         return new Response('Success');
     }

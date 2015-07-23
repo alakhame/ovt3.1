@@ -146,7 +146,7 @@ class ClientAdminController extends Controller
                     foreach ($session->getOrganisation()->getAdmins() as $admin){
                         $notification->addUser($admin);
                     }
-                    foreach ($session->getClient()->getUser()->getOrganisation()->getAdmins as $adminC) {
+                    foreach ($session->getClient()->getUser()->getOrganisation()->getAdmins() as $adminC) {
                         $notification->addUser($adminC);
                     }
                     break;
@@ -157,11 +157,12 @@ class ClientAdminController extends Controller
                     $notification->addUser($client);
                     break;
                 default:
-                    # code...
                     break;
             }
 
             $superAdmin->createNotification($notification);
+
+            /********* END ***********/
         }
 
         return $this->redirect($this->generateUrl('ovt_front_end_client_list_sessions' ));

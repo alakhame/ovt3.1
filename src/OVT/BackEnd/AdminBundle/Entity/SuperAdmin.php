@@ -242,14 +242,13 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
         $allNotifs = $this->em->getRepository('OVTGeneralBundle:Notification')->findAll();
         $notifs = array();
         $compteur = 0;
-        foreach ($allNotifs as $notif) {
+        foreach (array_reverse($allNotifs) as $notif) {
             if($compteur >= 5)
                 break;
             if($notif->getUser()->contains($user)){
-                $compteur++;
+                $compteur++; 
                 $notifs[]= $notif;
             }        
-           
         }
         return $notifs;       
     }

@@ -89,8 +89,6 @@ class ProviderController extends Controller
         return $this->render('OVTFrontEndProviderBundle:Provider:sessions.json.twig', array('sessions' =>$sessions ));
     }
 
-
-
     public function testAction (){ 
         return $this->isAdminAction();
     }
