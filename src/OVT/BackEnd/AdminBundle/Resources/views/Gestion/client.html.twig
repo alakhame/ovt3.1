@@ -88,7 +88,7 @@
 									ng-click="newOrgAdmin()"> [+] </span></legend>
 								<div class="content">
 									<div class="adminstyle " ng-repeat="a in selectedClient.admins  track by $index" > 
-										<span ng-click="showAdmin($index)" class="showAdmin">{{a.admin}} </span>
+										<span ng-click="showAdmin($index)" class="showAdmin subtitle_color_text">{{a.admin}} </span>
 										<a href="#" ng-click="delAdmin(selectedClient.id,a.id)"  > [-] </a>
  									</div>  
 								</div>

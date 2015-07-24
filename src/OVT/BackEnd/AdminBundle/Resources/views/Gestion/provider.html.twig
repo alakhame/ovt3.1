@@ -92,7 +92,7 @@
 									ng-click="newOrgAdmin()"> [+] </span></legend>
 								<div class="content">
 									<div class="adminstyle " ng-repeat="a in selectedProvider.admins track by $index" > 
-										<span ng-click="showAdmin($index)" class="showAdmin">{{a.admin}}  </span>
+										<span ng-click="showAdmin($index)" class="showAdmin subtitle_color_text">{{a.admin}}  </span>
 										<a href="#" ng-click="delAdmin(selectedProvider.id,a.id)"  > [-] </a>
  									</div>  
 								</div>
@@ -306,8 +306,8 @@
 				  	success(function(data, status, headers, config) {
 					    $scope.selectedProvider=data;
 					    $scope.loading = false; $('#waitingModal').modal('hide');
-					    $('.container_check_contact_program_now_new').removeClass('active');
-					    $('#select_check_'+idprovider).addClass('active'); 
+						$('.container_contact_program_now_style').removeClass('activate'); 
+					    $('.select_check_'+idprovider).addClass('activate'); 
 					    $scope.loadServiceTab($scope.selectedProvider.id);
 					    $scope.isModifications = false;
 				  	}). 

@@ -48,8 +48,8 @@
 								<div class="container_contact_program_now_style"  ng-click="actionClick({{c.user.id}})" id="user_infos_{{c.user.id}}" >
 									<div class="container_pp_contact_program_now_style" style="background-image: url({{asset('svg/default_pp.svg')}})"> 
 									</div>
-									<div class="container_info_contact_program_now">
-										<div class="name_contact_program_now title_color_text">{{c.user.firstname ~" "~c.user.lastname}}</div>
+									<div class="container_info_contact_program_now select_check_{{c.user.id}}">
+										<div class="name_contact_program_now  ">{{c.user.firstname ~" "~c.user.lastname}}</div>
 										<div class="role_contact_program_now subtitle_color_text">
 											{% for s in c.authorizedServices  %}
 												{{s.name~", "}}
@@ -400,8 +400,8 @@
 						  	success(function(data, status, headers, config) {
 							    $scope.clientSelected=data;
 							    $scope.loading = false; $("#waitingModal").modal('hide');
-							    $('.container_check_contact_program_now_new').removeClass('active');
-							    $('#select_check_'+idclient).addClass('active');
+							    $('.container_contact_program_now_style').removeClass('activate');
+								$('.select_check_'+idclient).addClass('activate');  
 
 						  	}).
 						 	error(function(data, status, headers, config) { });

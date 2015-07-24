@@ -515,12 +515,12 @@ header
 	padding-left: 73px;
 	display: none;
 }
-.title_tab
-{
-	display: inline-block;
-	color: #a5a5a5;
-	font-family: "MyriadPro-Light";
-	font-size: 21px;
+.title_tab {
+  	display: inline-block;
+  	color: #1B1919;
+  	font-family: "MyriadPro-Light";
+ 	font-size: 21px;
+  	font-weight: bolder;
 }
 .logo_visio_header
 {

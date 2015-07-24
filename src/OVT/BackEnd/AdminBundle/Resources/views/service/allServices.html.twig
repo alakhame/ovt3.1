@@ -1,10 +1,10 @@
 <div class="container_list_contact_program_now subtitle_color_border_08" style="  max-height: 100%; min-height: 100%;">
 	{% for s in services %}
-	<div class="container_contact_program_now_style"  ng-click="actionClick({{s.id}})" id="service_infos_{{s.id}}" >
+	<div class="container_contact_program_now_style select_check_{{s.id}}"  ng-click="actionClick({{s.id}})" id="service_infos_{{s.id}}" >
 		<div class="container_pp_contact_program_now_style" style="background-image: url({{asset('svg/default_pp.svg')}})"> 
 		</div>
 		<div class="container_info_contact_program_now">
-			<div class="name_contact_program_now title_color_text">{{s.name}}</div>
+			<div class="name_contact_program_now  ">{{s.name}}</div>
 			<div class="role_contact_program_now subtitle_color_text" style="overflow:hidden">
 				 {{s.description}}
 			</div>
