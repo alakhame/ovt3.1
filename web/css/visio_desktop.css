@@ -299,6 +299,7 @@ fieldset .content {
 	display: none;
 	top: 58px;
 	right: 157px;
+	display: inline-block;
 }
 .container_drop_down_notif img
 {

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use OVT\GeneralBundle\Entity\Session ;
+use OVT\GeneralBundle\Entity\Notification;
 use Symfony\Component\Validator\Constraints\DateTime ; 
 
 class ClientController extends Controller
@@ -49,6 +50,7 @@ class ClientController extends Controller
 
     public function addSessionAction(Request $request ){
        	$adminClient=$this->get('clientadmin');
+        $superAdmin=$this->get('superadmin');
         $user= $this->container->get('security.context')->getToken()->getUser(); 
 
         $client = $adminClient->getClientFromUser($user);
@@ -115,6 +117,21 @@ class ClientController extends Controller
 
             $this->get('mailer')->send($messageToAdminClient);
         }
+
+        /********* SEND NOTIFICATION  ******/
+
+        $notification = new Notification();
+        $notification->setMessage($this->renderView('OVTAPINotificationBundle:FlashInfo/Session:newSession.html.twig', array(
+                    "session"=>$session)));
+        $notification->setNotifierid($session->getClient()->getUser());
+        foreach ($session->getOrganisation()->getAdmins() as $admin){
+            $notification->addUser($admin);
+        }
+        foreach ($session->getClient()->getUser()->getOrganisation()->getAdmins() as $adminC) {
+            $notification->addUser($adminC);
+        }
+
+        $superAdmin->createNotification($notification);
 
         /*******  END  ********************/
 
@@ -194,12 +211,6 @@ class ClientController extends Controller
             ); 
 
     }
-
-
-
-
-
-
 
 
      public function testAction()

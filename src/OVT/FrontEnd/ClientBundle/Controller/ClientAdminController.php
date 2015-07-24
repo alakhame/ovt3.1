@@ -65,12 +65,15 @@ class ClientAdminController extends Controller
     public function updateStateSessionAction(Request $request, $action){
         $idSession=$request->request->get('idSession');
         $adminClient=$this->get('clientadmin');
+        $superAdmin=$this->get('superadmin');
         $session=$adminClient->getSessionById($idSession);
         $template='';
+        $notifTemplate='';
         switch ($action) {
             case 'cancel':
                 $session->setState('CANCELED');
                 $template='cancel';
+                $notifTemplate='cancelSession';
                 break;
             case 'accept':
                 $session->setState('ACCEPTED');
@@ -82,6 +85,7 @@ class ClientAdminController extends Controller
                 break;
             case 'terminate':
                 $session->setState('TERMINATED');
+                $notifTemplate='terminateSession';
                 break;
             case 'delete':
                 $session->setState('DELETED');
@@ -90,6 +94,7 @@ class ClientAdminController extends Controller
             case 'restaure':
                 $session->setState('TO_CONFIRM');
                 $template='restore';
+                $notifTemplate='restoreSession';
                 break;
             default:
                 break;
@@ -127,6 +132,39 @@ class ClientAdminController extends Controller
             }
             /**** END *********/
         }
+
+        if($notifTemplate != ''){
+
+            /********* SEND NOTIFICATION  ******/
+            $notification = new Notification();
+            $notification->setMessage($this->renderView('OVTAPINotificationBundle:FlashInfo/Session:'.$notifTemplate.'.html.twig', array(
+                        "session"=>$session)));
+            $notification->setNotifierid($session->getClient()->getUser());
+
+            switch ($notifTemplate) {
+                case 'cancelSession':
+                    foreach ($session->getOrganisation()->getAdmins() as $admin){
+                        $notification->addUser($admin);
+                    }
+                    foreach ($session->getClient()->getUser()->getOrganisation()->getAdmins() as $adminC) {
+                        $notification->addUser($adminC);
+                    }
+                    break;
+                case 'terminate':
+                    $worker = $session->getWorker()->getUser();
+                    $client = $session->getClient->getUser();
+                    $notification->addUser($worker);
+                    $notification->addUser($client);
+                    break;
+                default:
+                    break;
+            }
+
+            $superAdmin->createNotification($notification);
+
+            /********* END ***********/
+        }
+
         return $this->redirect($this->generateUrl('ovt_front_end_client_list_sessions' ));
     }
 

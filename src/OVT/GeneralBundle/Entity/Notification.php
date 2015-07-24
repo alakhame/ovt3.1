@@ -25,13 +25,6 @@ class Notification
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255, nullable=false)
-     */
-    private $title;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="message", type="string", length=255, nullable=false)
      */
     private $message;
@@ -80,28 +73,6 @@ class Notification
         return $this->id;
     }
 
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return Notification
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
 
     /**
      * Set message

@@ -16,3 +16,9 @@ ovt_test:
 ovt_test_mail:
     path:     /mail
     defaults: { _controller: OVTTestBundle:Default:mail }
+ovt_test_listNotification:
+    path:      /listNotification
+    defaults: { _controller: OVTTestBundle:Default:listNotification}
+ovt_test_addNotification:
+    path:      /addNotification
+    defaults: { _controller: OVTTestBundle:Default:addNotification}
