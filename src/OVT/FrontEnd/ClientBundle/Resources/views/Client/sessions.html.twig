@@ -26,6 +26,22 @@
 		<div class="container_tab_2 container_tab" style="display: block;" ng-app="OVTApp" ng-controller="sessionsCtrl" data-ng-init="init()" >
 			
 			<div class="container_historique" style="height:55%">
+				<!-- SEPARATOR -->
+				<div class="type_historique type_historique_no_rdv subtitle_color_text"> 
+					<div class="SessionTabbuttons theme_color_background"  ng-click="viewATraiter()" >
+						Demandes à traiter 
+					</div>
+					<div class="SessionTabbuttons theme_color_background" ng-click="viewPlanifiees()" >
+						Demandes planifiées 
+					</div>
+					<div class="SessionTabbuttons theme_color_background" ng-click="viewAnnulees()">
+						Demandes annulées 						
+					</div>
+					<div class="SessionTabbuttons theme_color_background" ng-click="viewRefusees()">
+						Demandes refusées 
+					</div> 
+				</div>
+				<!-- Begin list sessions -->
 				<div class="header_container_historique title_color_text">
 					<div class="element_header_container_historique element_header_container_historique_date">
 						Date Demande
@@ -95,22 +111,7 @@
 						</div>
 					</div> 
 				</div>
-				<!-- SEPARATOR -->
-				<div class="type_historique type_historique_no_rdv subtitle_color_text"> 
-					<div class="SessionTabbuttons theme_color_background"  ng-click="viewATraiter()" >
-						Demandes à traiter 
-					</div>
-					<div class="SessionTabbuttons theme_color_background" ng-click="viewPlanifiees()" >
-						Demandes planifiées 
-					</div>
-					<div class="SessionTabbuttons theme_color_background" ng-click="viewAnnulees()">
-						Demandes annulées 						
-					</div>
-					<div class="SessionTabbuttons theme_color_background" ng-click="viewRefusees()">
-						Demandes refusées 
-					</div> 
-				</div>
-				<!-- Begin list sessions -->
+				
 				<div id="sessionElementsTab">
 				<div id="tableATraiter"  ng-show="atraiterFlag && !planifieesFlag && ! annuleesFlag && !refuseesFlag " >
 					{{render(controller('OVTFrontEndClientBundle:Client:getSessionsByState',{state:'TO_CONFIRM'})) }}
@@ -319,6 +320,11 @@
 						}
 			   		}
 				});
+				function toActivate(id){
+					$('.tab_bar_left').removeClass('activate theme_color_border');
+					$('.tab_bar_left_'+id).addClass('activate theme_color_border');
+				}
+				toActivate(2);
 			</script>
 		</div>
 

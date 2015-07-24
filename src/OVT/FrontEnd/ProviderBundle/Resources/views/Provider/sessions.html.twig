@@ -25,7 +25,7 @@
  
 	{% block containerTab %}   
 	<div id="wrap" class="container_tab_1 container_tab " ng-app="OVTApp" ng-controller="sessionsCtrl" data-ng-init="init()" >
-		<div class="container_notif_rdv">
+		<div class="container_notif_rdv" style="padding-left:30%">
 			<div class="SessionTabbuttons theme_color_background"  ng-click="viewPlanifiees()" >    				 
 				Demandes planifiées
 			</div>
@@ -396,6 +396,13 @@
 					}
 		   		}
 			});
+
+			function toActivate(id){
+				$('.tab_bar_left').removeClass('activate theme_color_border');
+				$('.tab_bar_left_'+id).addClass('activate theme_color_border');
+			}
+			toActivate(2);
+
 		</script>
 
 	</div>

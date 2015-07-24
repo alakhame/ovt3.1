@@ -137,6 +137,11 @@
 				$('#formPasswordSubmit').click(function(){
 					$('#updatePasswordForm').submit();
 				});
+				function toActivate(id){
+					$('.tab_bar_left').removeClass('activate theme_color_border');
+					$('.tab_bar_left_'+id).addClass('activate theme_color_border');
+				}
+				toActivate(3);
  			</script>
  
 		</div>

@@ -46,7 +46,6 @@
 					</div>
 					<div class="container_info_tab_4 subtitle_color_text">INFORMATIONS</div>
 				</div>
-
 				<div class="container_info_contact_tab_4">
 					<div class="column_1_tab_4 column_tab_4_style">
 						<div class="container_info_editable_user_style">
@@ -82,7 +81,6 @@
 						</div> 
 					</div>
 				</div> 
-
 				<div class="container_change_password">
 					<form method="post" action="{{path('ovt_user_password_update')}}" onsubmit="return fetchPassword()" id="updatePasswordForm" >
 						<div class="title_new_data title_color_text">Nouveau mot de passe</div> 
@@ -134,6 +132,11 @@
 				$('#formPasswordSubmit').click(function(){
 					$('#updatePasswordForm').submit();
 				});
+				function toActivate(id){
+					$('.tab_bar_left').removeClass('activate theme_color_border');
+					$('.tab_bar_left_'+id).addClass('activate theme_color_border');
+				}
+				toActivate(4);
 
 			</script>
 
