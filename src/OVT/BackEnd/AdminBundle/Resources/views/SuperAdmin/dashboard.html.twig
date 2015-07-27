@@ -5,6 +5,12 @@
 			<div class="title_tab title_tab_4">	Accueil </div>
 		</div> 	
 	{% endblock %}
+
+	{% block header %}
+		{{parent()}}
+		<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+		<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	{% endblock %}
 	
 	{% block menu %}
 		{% include "OVTBackEndAdminBundle:SuperAdmin:menuNew.html.twig" %}
@@ -13,8 +19,8 @@
  
 	{% block containerTab %} 
 	<div class="container_tab_4 container_tab" style="display: block;"> 
-		<div class="position_content_tab_4" >   
-			<div class="dash_block">
+		<div class="position_content_tab_4" >    
+			<div class="dash_block" >
 			 	<div class="type_historique type_historique_no_rdv subtitle_color_text theme_color_background">
 			 		<span style="color:#FFF" > Entreprises Clientes </span>
 			 		<a href="{{path('ovt_back_end_admin_gestion',{gestion:'client'})}}" >
@@ -23,35 +29,84 @@
 						</svg>
 					</a>
 				</div>
-				<div class="type_historique subtitle_color_text"> 
+				<!-- begin iteration -->
+				{% for c in clients %}
+				<div class="type_historique subtitle_color_text" onclick="redirectClientTo({{c.id}})" style="cursor: pointer;"> 
 					<div class="element_historique_container_historique element_historique_container_historique_name">
 						<div class="content_element_historique content_element_historique_name">
-							Nom Prenom
+							{{c.name}}
 						</div> 
 					</div> 
 					<div class="element_historique_container_historique element_historique_container_historique_name">
 						<div class="content_element_historique content_element_historique_name">
-							Email
+							{{c.email}}
 						</div> 
 					</div> 
 					<div class="element_historique_container_historique element_historique_container_historique_name">
 						<div class="content_element_historique content_element_historique_name">
-							Address
+							{{c.address}}
 						</div> 
 
 					</div> 
 					<div class="element_historique_container_historique element_historique_container_historique_name">
 						<div class="content_element_historique content_element_historique_name">
-							06 06 06 06 06
+							{{c.phoneNumber}}
 						</div> 
 					</div> 
 					<div class="element_historique_container_historique element_historique_container_historique_canal">
 						<div class="content_element_historique content_element_historique_canal">
-							Service 1, service 2, service 3.
+							{{c.service| join(', ') }}
 						</div>
 					</div>  	 
 				</div>
-				<div class="type_historique subtitle_color_text"> 
+				{% endfor %}
+				<!-- end -->
+				<div class="type_historique type_historique_no_rdv subtitle_color_text">. . . . .
+				</div>
+			</div>
+
+			<div class="dash_block">
+			 	<div class="type_historique type_historique_no_rdv subtitle_color_text theme_color_background">
+			 		<span style="color:#FFF" > Entreprises Prestataires </span>
+			 		<a href="{{path('ovt_back_end_admin_gestion',{gestion:'provider'})}}" >
+			 			<svg class="more_icon" version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg"xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="30"height="30"viewBox="0 -8 50 60">
+							<use xlink:href="{{asset('svg/option_video.svg')}}#option_video"></use>
+						</svg>
+					</a>
+				</div>
+				<!-- begin iteration -->
+				{% for p in providers %}
+				<div class="type_historique subtitle_color_text" onclick="redirectProviderTo({{p.id}})" style="cursor: pointer;"> 
+					<div class="element_historique_container_historique element_historique_container_historique_name">
+						<div class="content_element_historique content_element_historique_name">
+							{{p.name}}
+						</div> 
+					</div> 
+					<div class="element_historique_container_historique element_historique_container_historique_name">
+						<div class="content_element_historique content_element_historique_name">
+							{{p.email}}
+						</div> 
+					</div> 
+					<div class="element_historique_container_historique element_historique_container_historique_name">
+						<div class="content_element_historique content_element_historique_name">
+							{{p.address}}
+						</div> 
+
+					</div> 
+					<div class="element_historique_container_historique element_historique_container_historique_name">
+						<div class="content_element_historique content_element_historique_name">
+							{{p.phoneNumber}}
+						</div> 
+					</div> 
+					<div class="element_historique_container_historique element_historique_container_historique_canal">
+						<div class="content_element_historique content_element_historique_canal">
+							{{p.service| join(', ') }}
+						</div>
+					</div>  	 
+				</div>
+				{% endfor %}
+				<!-- end -->
+				<div class="type_historique type_historique_no_rdv subtitle_color_text">. . . . .
 				</div>
 			</div>
  
@@ -63,6 +118,16 @@
 				$('.tab_bar_left_'+id).addClass('activate theme_color_border');
 			}
 			toActivate(5);
+
+			function redirectClientTo(cID){
+				var link= Routing.generate('ovt_back_end_admin_gestion',{gestion:'client',defaultClick:cID});
+				window.location.href= link;
+			}
+
+			function redirectProviderTo(pID){
+				var link= Routing.generate('ovt_back_end_admin_gestion',{gestion:'provider',defaultClick:pID});
+				window.location.href= link;
+			}
 			 
 		</script>
 

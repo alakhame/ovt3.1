@@ -367,7 +367,7 @@ fieldset .content {
 }
 
 .dash_block{
-	height: 20%;
+	height: auto;
 	width: 70%;
 	margin-top: 5%;
 	margin-left: 15%

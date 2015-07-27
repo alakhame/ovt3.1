@@ -52,6 +52,12 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
 		return $this->em->getRepository("OVTGeneralBundle:Service")->findAll();
     }
 
+    public function getLatestServices(){ 
+        $criteria=array();
+        $order=array('id'=>"ASC");
+        return $this->em->getRepository('OVTGeneralBundle:Service')->findBy($criteria,$order,5,0);
+    }
+
     /************** SESSION  ************************************/
 
     public  function getSessionByLink($link){
@@ -139,7 +145,17 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
        return $users;
     }
 
-
+    public function getLatestClients(){ 
+        $criteria= array('type'=>'client');
+        $order=array('id'=>"ASC");
+        return $this->em->getRepository('OVTGeneralBundle:Organisation')->findBy($criteria,$order,5,0);
+    }
+    
+    public function getLatestProviders(){ 
+        $criteria= array('type'=>'provider');
+        $order=array('id'=>"ASC");
+        return $this->em->getRepository('OVTGeneralBundle:Organisation')->findBy($criteria,$order,5,0);
+    }
     /********** USER *************************/
 
     public function updateUser(User $u){

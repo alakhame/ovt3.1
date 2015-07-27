@@ -44,7 +44,8 @@
 								{{render(controller('OVTBackEndAdminBundle:OrganisationAdmin:getEnabledOrgsByType',{type:'client',action:'reload'}))}}
 							</div>
 							<div ng-show="!enableOrg" style="max-height:100%; min-height: 100%;">
-								{{render(controller('OVTBackEndAdminBundle:OrganisationAdmin:getDisabledOrgsByType',{type:'client',action:'reload'}))}}
+								{{render(controller('OVTBackEndAdminBundle:OrganisationAdmin:getDisabledOrgsByType',
+								{type:'client',action:'reload'}))}}
 							</div>
 							<div class="container_valid_cancel_program_now">
 								<div class="SessionTabbuttons theme_color_background"ng-click="newOrg()" ng-bind="newText"> </div>
