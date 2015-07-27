@@ -385,12 +385,34 @@ fieldset .content {
 		color: #FFF;
 }
 
+.new_onglet_tab {
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-family: "OpenSans-Regular";
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+  background-color: #f60;
+  color: #FFF;
+  z-index: 0;
+  position: relative;
+  top: 10px;
+}
+
+.new_onglet_tab.inverse { 
+  background-color: #FFF;
+  color: #000; 
+}
 
 
-
-
-
-
+.bottom_bar{
+	position:relative;
+	top: 28px; 
+	border: 1px solid rgba(165, 165, 165, 0.2);
+	border-width: 0px 0px 1px 0px;
+}
 
 
 

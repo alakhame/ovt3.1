@@ -30,11 +30,15 @@
 				<div class="bar_middle_tab_X" style="left:40%"></div> 
 
 				<div class="container_left_tab_1 container_in_tab_1" style="width:40%">
-					<div style="float:left;width:20%;margin-left:20% ;color: #FFF" class="button_tab_4 theme_color_background" ng-click="enableOrg=true"> Actives</div>
-					<div style="float:left;width:20%;margin-left:20% ;color: #FFF" class="button_tab_4 theme_color_background" ng-click="enableOrg=false"> Archivées</div>
-					<div class="container_date_time_program_now" style="margin-top:50px; height:90%">
-						<div class="container_add_contact_program_now" style="height:80%">
-							<div class="container_input_search_contact_program_now">
+					<div style="float:left;width:30%;margin-left:34px" class="new_onglet_tab inverse" ng-click="reverseOnglet(true,$event)">
+						Actives
+					</div>
+					<div style="float:left;width:30%  " class="new_onglet_tab " ng-click="reverseOnglet(false,$event)"> 
+						Archivées
+					</div>
+					<div class="container_date_time_program_now" style="margin-top:40px; height:90%">
+						<div class="container_add_contact_program_now" style="height:80%; margin-top:0;">
+							<div class="container_input_search_contact_program_now" style="z-index: 1;">
 								<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="16" height="16" viewBox="0 0 32 33">
 									<use xlink:href="{{asset('svg/add_contact.svg#add_contact')}}"></use>
 								</svg>
@@ -103,7 +107,10 @@
 								<div id="servicesChoice"  ></div> 
 							</fieldset>
 						</div>
-						<div style="width:80%; margin:auto;" ng-hide="passwordChange">
+
+						<div class="bottom_bar"></div>
+
+						<div style="width:80%; margin:auto;   margin-top: 50px;" ng-hide="passwordChange">
 							<form method="post" action="{{path('ovt_back_end_admin_gestion_organisation_update_post', {org:'client'})}}" id="updateForm" style="display:none"   >
 								<input type="text" name="name" 					id="nameKForm" ></input>  
 								<input type="text" name="address"  				id="addressKForm"></input>
@@ -319,6 +326,14 @@
 				  	}). 
 				 	error(function(data, status, headers, config) { });
 
+		   		}
+
+		   		$scope.reverseOnglet = function (val,$event){
+		   			$scope.enableOrg = val ;
+		   			var elt=$event.target;
+		   			$(".new_onglet_tab").removeClass('inverse');
+		   			$(elt).addClass('inverse');
+		   			console.log($(elt));
 		   		}
  				
 		   		$scope.loadServiceTab = function(idorg) {  
