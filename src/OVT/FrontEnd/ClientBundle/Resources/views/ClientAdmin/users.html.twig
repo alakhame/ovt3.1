@@ -35,8 +35,8 @@
 				<div class="bar_middle_tab_X" style="left:40%"></div> 
 				
 				<div class="container_left_tab_1 container_in_tab_1" style="width:40%">
-					<div class="container_date_time_program_now" style="margin-top:0px; height:80%">
-						<div class="container_add_contact_program_now" style="height:100%">
+					<div class="container_date_time_program_now" style="margin-top:40px; height:90%">
+						<div class="container_add_contact_program_now" style="height:80%">
 							<div class="container_input_search_contact_program_now">
 								<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="16" height="16" viewBox="0 0 32 33">
 									<use xlink:href="{{asset('svg/add_contact.svg#add_contact')}}"></use>
@@ -75,7 +75,7 @@
 				<div class="container_right_tab_1 container_in_tab_1" style="width:60%"  ng-show="isSelectedItem()">
 					<div class="container_info_contact_tab_provider" style="margin:auto;">
 						<div  ng-show="planingFlag" id="clientCalendar" style="margin-bottom: 30px;"></div> 
-						<div style="height:60%" ng-hide="planingFlag || passwordChange">
+						<div style="height:50%" ng-hide="planingFlag || passwordChange">
 							<fieldset>
 								{% verbatim %}
 								<legend>Informations générales</legend>
@@ -134,7 +134,7 @@
 						
 						<div class="bottom_bar"></div>
 						
-						<div style="width:80%; margin:auto;" ng-hide="passwordChange">
+						<div style="width:80%; margin:auto;margin-top:50px" ng-hide="passwordChange">
 							<form method="post" action="{{path('ovt_front_end_admin_client_update_user')}}" id="updateForm" style="display:none"   >
 								<input type="text" name="lastName" 				id="lastnameKForm" ></input>
 								<input type="text" name="firstName" 			id="firstnameKForm"></input>
@@ -520,7 +520,7 @@
 						  	}).
 						 	error(function(data, status, headers, config) { });
 						 	 
-						 	$scope.loadServiceTab(idclient);
+						 	$scope.loadServiceTab(idclient);$scope.loadServiceTab(idclient);
 						 	
 				   		}
 				});

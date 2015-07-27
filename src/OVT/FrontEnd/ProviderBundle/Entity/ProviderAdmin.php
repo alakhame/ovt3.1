@@ -118,7 +118,7 @@ class ProviderAdmin extends User
         $all=$this->em->getRepository('OVTUserBundle:User')->findBy(array('organisation'=>$org));
         $workers=array();
         foreach ($all as $w) {
-            if(in_array("ROLE_WORKER",$w->getRoles()) && $w->getType="Employé Prestataire")
+            //if(in_array("ROLE_WORKER",$w->getRoles()) && $w->getType="Employé Prestataire")
                 $workers[]=$w;
         } 
 
