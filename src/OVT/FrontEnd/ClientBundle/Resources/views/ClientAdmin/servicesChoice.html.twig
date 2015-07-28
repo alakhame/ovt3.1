@@ -2,23 +2,17 @@
 	<div class="service_tab" onclick="toggleService({{s.id}},{{client.user.id}})"  style='display:inline-block'> 
 		<span class="subtitle_color_text">{{s.name~' : '}}</span>
 	{% if s in authS %}
-		<div class="button_select_service subtitle_color_border_08 subtitle_color_text active theme_color_background">
-			Activez
-			<div class="container_done_app_install anim">
-				<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="11" height="8" viewBox="0 0 22 17">
-					<use xlink:href="{{asset('svg/done_white.svg')}}#done_white"></use>
-				</svg>
-			</div>
+		<div class="valid_box select"> 
+			<svg  version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" viewBox="0 0 22 17">
+				<use xlink:href="{{asset('svg/done_white.svg')}}#done_white"></use>
+			</svg>
 		</div>
 
 	{% else %}
-		<div  class="button_select_service   subtitle_color_border_08 subtitle_color_text">
-			Activez 
-			<div class="container_done_app_install ">
-				<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="11" height="8" viewBox="0 0 22 17">
-					<use xlink:href="{{asset('svg/done_white.svg')}}#done_white"></use>
-				</svg>
-			</div>
+		<div class="valid_box"> 
+			<svg  style="z-index:-10" version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" viewBox="0 0 22 17">
+				<use xlink:href="{{asset('svg/done_white.svg')}}#done_white"></use>
+			</svg>
 		</div>
 	{% endif %} 
 	</div> 

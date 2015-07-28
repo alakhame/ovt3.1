@@ -415,10 +415,40 @@ fieldset .content {
 }
 
 
+.valid_box{
+  height: 30px;
+  width: 30px; 
+  border: 2px dotted rgba(0, 0, 0, 0.3);
+  box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  margin-right: 40px;
+  -webkit-transition: all .25s ease;
+  -moz-transition: all .25s ease;
+  -ms-transition: all .25s ease;
+  -o-transition: all .25s ease;
+  transition: all .25s ease;
+  z-index: 50;
+}
 
 
+.valid_box.select{ 
+  background-color: #9c0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
 
-
+.valid_box svg {
+  width: 25px;
+  height: 20px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  -o-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
 
 
 

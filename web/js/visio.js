@@ -6,6 +6,11 @@ $('#cloche').click(function(){
 $('.container_notif_svg').click(function(e){ 
 	$(this).parent().fadeOut(500);
 });
+/*$('.valid_box').click(function(){ 
+	$(this).toggleClass('select');
+	if($(this).hasClass('select')) $(this).find('svg').css('display','block'); 
+	else $(this).find('svg').css('display','none');
+});*/
  
 
 /**** END CUSTOM *****/
