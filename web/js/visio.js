@@ -4,7 +4,7 @@ $('#cloche').click(function(){
 	$('#nbNotif').fadeOut(1000);
 });
 $('.container_notif_svg').click(function(e){ 
-	$(this).parent().fadeOut(500);
+	$(this).parent().parent().fadeOut(500);
 });
 /*$('.valid_box').click(function(){ 
 	$(this).toggleClass('select');
