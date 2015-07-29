@@ -4,5 +4,6 @@ ovtapi_notification_homepage:
 ovtapi_notification_update:
     path:    /updatenotif
     defaults: { _controller: OVTAPINotificationBundle:Notification:toggleSeen}
-
+    requirements:
+        _method: POST
 

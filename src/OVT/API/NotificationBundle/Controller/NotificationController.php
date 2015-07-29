@@ -3,6 +3,8 @@
 namespace OVT\API\NotificationBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class NotificationController extends Controller
 {
@@ -14,7 +16,7 @@ class NotificationController extends Controller
 
     public function toggleSeenAction(Request $req){
          $superAdmin = $this->get('superadmin');
-         $notif = $superAdmin->updateNotifications($req->request->get('idNotification'));
+         $notif = $superAdmin->updateNotification($req->request->get('idNotification'));
         return new Response('OK');
     }
 
