@@ -11,13 +11,11 @@ $('#cloche').click(function(){
 $('.container_notif_svg').click(function(e){ 
 	$(this).parent().parent().fadeOut(500);
 });
-$('.container_drop_down_notif').focusout(function() {
-	alert("notif");
-  $('.container_drop_down_notif').fadeOut(1000);
+$('.container_drop_down_notif').focusout(function() { 
+  	$('.container_drop_down_notif').fadeOut(1000);
 });
-$('#cloche').focusout(function() {
-	alert("cloche");
-  $('.container_drop_down_notif').fadeOut(1000);
+$('#cloche').focusout(function() { 
+  	$('.container_drop_down_notif').fadeOut(1000);
 });
 
 /*$('.valid_box').click(function(){ 
