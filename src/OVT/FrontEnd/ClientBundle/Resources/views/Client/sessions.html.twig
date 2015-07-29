@@ -28,16 +28,16 @@
 			<div class="container_historique" style="height:55%">
 				<!-- SEPARATOR -->
 				<div class="type_historique type_historique_no_rdv subtitle_color_text"> 
-					<div class="SessionTabbuttons theme_color_background"  ng-click="viewATraiter()" >
+					<div class="SessionTabbuttons head theme_color_background active"  ng-click="viewATraiter()" >
 						Demandes à traiter 
 					</div>
-					<div class="SessionTabbuttons theme_color_background" ng-click="viewPlanifiees()" >
+					<div class="SessionTabbuttons head theme_color_background" ng-click="viewPlanifiees()" >
 						Demandes planifiées 
 					</div>
-					<div class="SessionTabbuttons theme_color_background" ng-click="viewAnnulees()">
+					<div class="SessionTabbuttons head theme_color_background" ng-click="viewAnnulees()">
 						Demandes annulées 						
 					</div>
-					<div class="SessionTabbuttons theme_color_background" ng-click="viewRefusees()">
+					<div class="SessionTabbuttons head theme_color_background" ng-click="viewRefusees()">
 						Demandes refusées 
 					</div> 
 				</div>
@@ -325,6 +325,10 @@
 					$('.tab_bar_left_'+id).addClass('activate theme_color_border');
 				}
 				toActivate(2);
+				$('.head').click(function(){
+					$('.head').removeClass('active');
+					$(this).addClass('active');
+				});
 			</script>
 		</div>
 

@@ -57,6 +57,11 @@ body, html {
 	transition: all .25s ease;  
 
 }
+
+.SessionTabbuttons.active{
+	background: #3F434D;
+}
+
 .container_info_details
 {
 	height: 30%;
