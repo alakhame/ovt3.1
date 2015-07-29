@@ -35,21 +35,21 @@
 				<div class="bar_middle_tab_X" style="left:40%"></div> 
 				
 				<div class="container_left_tab_1 container_in_tab_1" style="width:40%">
-					<div class="container_date_time_program_now" style="margin-top:0px; height:80%">
-						<div class="container_add_contact_program_now" style="height:100%">
+					<div class="container_date_time_program_now" style="margin-top:40px; height:90%">
+						<div class="container_add_contact_program_now" style="height:80%">
 							<div class="container_input_search_contact_program_now">
-								<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="16" height="16" viewBox="0 0 32 33">
-									<use xlink:href="{{asset('svg/add_contact.svg#add_contact')}}"></use>
+								<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="16" height="16"viewBox="0 0 483 483">-->
+									<use xlink:href="{{asset('svg/search.svg#search')}}"></use>
 								</svg>
-								<input type="text" class="container_search_contact_program_now theme_color_focus" placeholder="Recherche un utilisateur.">
+								<input type="text" class="container_search_contact_program_now theme_color_focus" placeholder="Rechercher un utilisateur...">
 							</div>
 							<div class="container_list_contact_program_now subtitle_color_border_08" style="  max-height: 100%; min-height: 100%;">
 								{% for c in clients %}
-								<div class="container_contact_program_now_style"  ng-click="actionClick({{c.user.id}})" id="user_infos_{{c.user.id}}" >
+								<div class="container_contact_program_now_style select_check_{{c.user.id}}"  ng-click="actionClick({{c.user.id}})" id="user_infos_{{c.user.id}}" >
 									<div class="container_pp_contact_program_now_style" style="background-image: url({{asset('svg/default_pp.svg')}})"> 
 									</div>
-									<div class="container_info_contact_program_now">
-										<div class="name_contact_program_now title_color_text">{{c.user.firstname ~" "~c.user.lastname}}</div>
+									<div class="container_info_contact_program_now ">
+										<div class="name_contact_program_now  ">{{c.user.firstname ~" "~c.user.lastname}}</div>
 										<div class="role_contact_program_now subtitle_color_text">
 											{% for s in c.authorizedServices  %}
 												{{s.name~", "}}
@@ -72,20 +72,20 @@
 					</div>
 				</div>  
 							
-				<div class="container_right_tab_1 container_in_tab_1" style="width:60%" >
+				<div class="container_right_tab_1 container_in_tab_1" style="width:60%"  ng-show="isSelectedItem()">
 					<div class="container_info_contact_tab_provider" style="margin:auto;">
 						<div  ng-show="planingFlag" id="clientCalendar" style="margin-bottom: 30px;"></div> 
-						<div style="height:60%" ng-hide="planingFlag || passwordChange">
+						<div style="height:50%" ng-hide="planingFlag || passwordChange">
 							<fieldset>
 								{% verbatim %}
 								<legend>Informations générales</legend>
 								<div class="column_1_tab_4 column_tab_4_style" ng-hide="passwordChange" style="width: 48%;"> 
 									<div class="container_info_editable_user_style">
-										<div class="content_info_editable_user_style title_color_text" id="lastnameDiv">{{clientSelected.user.lastname}}</div>
+										<div class="content_info_editable_user_style edit title_color_text" contenteditable="true" id="lastnameDiv">{{clientSelected.user.lastname}}</div>
 										<div class="name_info_editable_user_style subtitle_color_text">Nom</div>
 									</div>
 									<div class="container_info_editable_user_style">
-										<div class="content_info_editable_user_style title_color_text" id="firstnameDiv">{{clientSelected.user.firstname}}</div>
+										<div class="content_info_editable_user_style edit title_color_text" contenteditable="true" id="firstnameDiv">{{clientSelected.user.firstname}}</div>
 										<div class="name_info_editable_user_style subtitle_color_text">Prénom</div>
 									</div>
 									<div class="container_info_editable_user_style">
@@ -93,26 +93,26 @@
 										<div class="name_info_editable_user_style subtitle_color_text">Role</div>
 									</div>
 									<div class="container_info_editable_user_style">
-										<div class="content_info_editable_user_style title_color_text" id="phoneNumberDiv">{{clientSelected.user.phoneNumber}}</div>
+										<div class="content_info_editable_user_style edit title_color_text" contenteditable="true" id="phoneNumberDiv">{{clientSelected.user.phoneNumber}}</div>
 										<div class="name_info_editable_user_style subtitle_color_text" >Mobile</div>
 									</div> 
 									<div class="container_info_editable_user_style">
-										<div class="content_info_editable_user_style title_color_text" id="addressDiv">{{clientSelected.user.address}}</div>
+										<div class="content_info_editable_user_style edit title_color_text" contenteditable="true" id="addressDiv">{{clientSelected.user.address}}</div>
 										<div class="name_info_editable_user_style subtitle_color_text">Adresse</div>
 									</div>
 								</div> 
 
 								<div class="column_2_tab_4 column_tab_4_style" ng-hide="passwordChange">
 									<div class="container_info_editable_user_style">
-										<div class="content_info_editable_user_style title_color_text" id="emailDiv" >{{clientSelected.user.email}}</div>
+										<div class="content_info_editable_user_style edit title_color_text" contenteditable="true" id="emailDiv" >{{clientSelected.user.email}}</div>
 										<div class="name_info_editable_user_style subtitle_color_text">Email</div> 
 									</div> 
 									<div class="container_info_editable_user_style">
-										<div class="content_info_editable_user_style title_color_text" id="langueDiv" >{{clientSelected.langue}}</div>
+										<div class="content_info_editable_user_style edit title_color_text" contenteditable="true" id="langueDiv" >{{clientSelected.langue}}</div>
 										<div class="name_info_editable_user_style subtitle_color_text">Langue</div> 
 									</div>
 									<div class="container_info_editable_user_style">
-										<div class="content_info_editable_user_style title_color_text" id="equipementsDiv" >{{clientSelected.equipments}}</div>
+										<div class="content_info_editable_user_style edit title_color_text" contenteditable="true" id="equipementsDiv" >{{clientSelected.equipments}}</div>
 										<div class="name_info_editable_user_style subtitle_color_text">Equipements</div> 
 									</div> 
 									<div class="container_info_editable_user_style">
@@ -127,12 +127,14 @@
 						</div>  
 						<div style="height:30%" ng-hide="planingFlag || passwordChange">
 							<fieldset>
-								<legend>Services Attribués </legend>   
+								<legend>Services Autorisés </legend>   
 								<div id="servicesChoice"  ></div> 
 							</fieldset>
 						</div>
-
-						<div style="width:80%; margin:auto;" ng-hide="passwordChange">
+						
+						<div class="bottom_bar"></div>
+						
+						<div style="width:80%; margin:auto;margin-top:50px" ng-hide="passwordChange">
 							<form method="post" action="{{path('ovt_front_end_admin_client_update_user')}}" id="updateForm" style="display:none"   >
 								<input type="text" name="lastName" 				id="lastnameKForm" ></input>
 								<input type="text" name="firstName" 			id="firstnameKForm"></input>
@@ -146,9 +148,8 @@
 								<input type="hidden" name="role"   value="ROLE_CLIENT"></input>
 								<input type="submit" />
 							</form>
-
-
-							<div  style="float:left;width:18%; margin:0;color: #FFF;" class="button_tab_4 theme_color_background ">Modifier</div>
+ 
+							<div  style="float:left;width:18%; margin:0;color: #FFF;" class="button_tab_4 theme_color_background " ng-click="quit()" >Quitter </div>
 							<div class="button_save_tab_4 button_tab_4 theme_color_background" id="formSubmit"  style="float:left;width:18%; margin:0;margin-left:9%">Enregistrer
 								<div class="container_done_save_tab_4">
 									<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="15" height="12" viewBox="0 0 22 17">
@@ -214,7 +215,7 @@
 					        <div class="modal-content">
 					            <div class="modal-header">
 					                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">Fermer</span></button>
-					                <h4  class="modal-title"> Ajout d'un nouvel client</h4>
+					                <h4  class="modal-title"> Ajout d'un nouvel utilisateur</h4>
 					            </div> 
 					            {% include 'OVTFrontEndClientBundle:ClientAdmin:addClient.html.twig' %}
 					        </div>
@@ -247,13 +248,13 @@
 					    {% endverbatim %}
 					</div>
 				</div>
-
-			</div> 
-
-
+				<input type="hidden"id="defaultClick" value="{{defaultClick}}" />
+			</div>  
 			<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
 			<script src="{{asset('ress/js/fullcalendar.js')}}" > </script>  
  			<script type="text/javascript"> 
+
+				defaultClick=$("#defaultClick").val();
 
  				$('#formSubmit').click(function(){
  					$('#lastnameKForm').val($('#lastnameDiv').text());
@@ -307,10 +308,39 @@
 							$scope.modifyFlag=false;
 							$scope.planingFlag=false;
 							$scope.newFlag=false;
-							//$scope.actionClick(35); 
+							 
 							linkToCallEvents=Routing.generate('ovt_front_end_client_retrieve_client_sessions_by_user_id',{idUser:35});
 				   			$scope.callCal();
+
+				   			$scope.isModifications = false ;
+							editables = $(".content_info_editable_user_style");
+							for (var i =0 ; i< editables.length; i++){
+								editables[i].addEventListener("DOMSubtreeModified", $scope.listener, false); 
+							} 
+							if(defaultClick!=undefined && defaultClick!=""){
+								$scope.actionClick(defaultClick);
+							} 
 						}
+
+						$scope.isSelectedItem = function(){
+							return angular.isDefined($scope.selectedItem);
+						}
+						$scope.listener= function(evt) {
+							$scope.isModifications = true;
+							console.log(evt);
+						}
+						$scope.quit = function(){
+							if(!$scope.isModifications){
+							$scope.selectedItem=undefined;
+							$('.container_contact_program_now_style').removeClass('activate');
+							}else{
+								var confirmation = confirm("Voulez vous quitter sans enrégistrer les modifications ?");
+								if(confirmation){
+						   			 $scope.isModifications = false; 
+						   			 $scope.quit();
+								} 
+							}
+						} 
 
 						$scope.loadServiceTab = function(idclient) {
 							$scope.loading = true; $("#waitingModal").modal('show');
@@ -399,9 +429,10 @@
 				   			$http.get(link).
 						  	success(function(data, status, headers, config) {
 							    $scope.clientSelected=data;
+							    $scope.selectedItem=true;
 							    $scope.loading = false; $("#waitingModal").modal('hide');
-							    $('.container_check_contact_program_now_new').removeClass('active');
-							    $('#select_check_'+idclient).addClass('active');
+							    $('.container_contact_program_now_style').removeClass('activate');
+								$('.select_check_'+idclient).addClass('activate');  
 
 						  	}).
 						 	error(function(data, status, headers, config) { });
@@ -428,8 +459,7 @@
 								    data: "idClient="+idclient,
 								    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 								}).
-								success(function(data, status, headers, config) {
-							  		alert("Suppression menée avec succès ! ");
+								success(function(data, status, headers, config) { 
 							     	$window.location.href=Routing.generate('ovt_front_end_admin_client_users'); 
 							  	}).
 							  	error(function(data, status, headers, config) {
@@ -490,10 +520,15 @@
 						  	}).
 						 	error(function(data, status, headers, config) { });
 						 	 
-						 	$scope.loadServiceTab(idclient);
+						 	$scope.loadServiceTab(idclient);$scope.loadServiceTab(idclient);
 						 	
 				   		}
 				});
+				function toActivate(id){
+					$('.tab_bar_left').removeClass('activate theme_color_border');
+					$('.tab_bar_left_'+id).addClass('activate theme_color_border');
+				}
+				toActivate(5);
  			</script>
 		</div>
 

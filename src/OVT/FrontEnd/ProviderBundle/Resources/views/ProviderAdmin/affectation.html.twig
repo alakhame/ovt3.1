@@ -25,25 +25,7 @@
 	{% endblock %}
  
 	{% block containerTab %} 
-		<div id="wrap" class="container_tab_1 container_tab " ng-app="OVTApp" ng-controller="sessionCtrl" data-ng-init="init()" >
-			<div class="container_notif_rdv">
-				<div class="SessionTabbuttons theme_color_background" ng-click="toUpdate()" ng-bind="modifyText" > 
-				</div>
-				<div class="SessionTabbuttons theme_color_background" ng-click="cancel(session.id)" >    				Annuler
-				</div>
-				<div class="SessionTabbuttons theme_color_background" ng-click="refuse(session.id)" >
-					Refuser				
-				</div>   
-				<div class="SessionTabbuttons theme_color_background" ng-click="endSession(session.id)" >
-					Terminer la Session		
-				</div> 
-				<select name="worker" ng-model="selectedWorker" ng-change="affectTo(session.id,selectedWorker)" class="SessionTabbuttons theme_color_background">
-					<option value="0" selected disabled> Affecter à </option>
-					{% for w in workers %}
-						<option value="{{w.id}}"  >{{w.firstname~" "~w.lastname}}</option>
-					{% endfor %} 
-				</select>
-			</div>
+		<div id="wrap" class="container_tab_1 container_tab " ng-app="OVTApp" ng-controller="sessionCtrl" data-ng-init="init()" > 
  			
  			<div class="container_position_tab_1">
 				<div class="bar_middle_tab_1" style="left:40%"></div> 
@@ -52,18 +34,18 @@
 					<div class="container_date_time_program_now" style="margin-top:0px; height:80%">
 						<div class="container_add_contact_program_now" style="height:100%">
 							<div class="container_input_search_contact_program_now">
-								<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="16" height="16" viewBox="0 0 32 33">
-									<use xlink:href="{{asset('svg/add_contact.svg#add_contact')}}"></use>
+								<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="16" height="16"viewBox="0 0 483 483">-->
+									<use xlink:href="{{asset('svg/search.svg#search')}}"></use>
 								</svg>
 								<input type="text" class="container_search_contact_program_now theme_color_focus" placeholder="Recherche par titre...">
 							</div>
 							<div class="container_list_contact_program_now subtitle_color_border_08" style="  max-height: 100%; min-height: 100%;">
 								{% for s in sessionsToAffect %}
-								<div class="container_contact_program_now_style"  ng-click="actionClick({{s.id}})" id="session_list_infos_{{s.id}}" >
+								<div class="container_contact_program_now_style select_check_{{s.id}}"  ng-click="actionClick({{s.id}})" id="session_list_infos_{{s.id}}" >
 									<div class="container_pp_contact_program_now_style" style="background-image: url({{asset('svg/default_pp.svg')}})"> 
 									</div>
 									<div class="container_info_contact_program_now">
-										<div class="name_contact_program_now title_color_text">{{s.title}}</div>
+										<div class="name_contact_program_now  ">{{s.title}}</div>
 										<div class="role_contact_program_now subtitle_color_text">
 											{{s.service.name}} 
 										</div>
@@ -82,6 +64,7 @@
 
 				<div class="container_right_tab_1 container_in_tab_1" style="width:60%"  >
 					<div class="container_info_contact_tab_4" style="margin:auto;" ng-hide="loading  || firstload || modifyFlag">
+						<div style="margin-bottom:200px">
 						<div class="column_1_tab_4 column_tab_4_style"  >
 					 		{% verbatim %}
 							<div class="container_info_editable_user_style">
@@ -129,23 +112,25 @@
 							</div>
 							{% endverbatim %}  
 						</div>
+						</div>
 
-						<div style="width:80%; margin:auto;"  >
+						<div style="width:90%; margin:auto;"  >
 							<form method="post" action="{{path('ovt_front_end_admin_provider_update_session')}}" id="updateForm" style="display:none"   > 
 								<input type="text" name="title" id="titleKForm" >
 								<textarea type="text" name="description" id="descriptionKForm" ></textarea>
 								<input type="hidden" name="sessionID" ng-value="session.id"></input>
 								<input type="submit" />
 							</form>
-							<div class="button_save_tab_4 button_tab_4 theme_color_background" id="formSubmit" style="float:left;width:30%; margin:auto">Enregistrer
-								<div class="container_done_save_tab_4">
-									<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="15" height="12" viewBox="0 0 22 17">
-										<use xlink:href="{{asset('svg/done_white.svg#done_white')}}"></use>
-									</svg>
-								</div>
-							</div>
-							<div style="width:30%;margin-left:50%" class="button_edit_tab_4 button_tab_4 theme_color_text theme_color_border">Editer</div>
-						</div>
+							<div  style="float:left;width:20%; margin:0;color: #FFF;" class="button_tab_4 theme_color_background " ng-click="quit()" >Quitter </div>  
+							<div class="button_tab_4 theme_color_background" ng-click="refuse(session.id)" style="float:left;width:20%; color: #FFF;margin:0;margin-left:3%" >
+								Refuser				
+							</div>    
+							<select name="worker" ng-model="selectedWorker" ng-change="affectTo(session.id,selectedWorker)" class="button_tab_4 theme_color_background" style="float:left;width:20%; color: #FFF;margin:0;margin-left:3%">
+								<option value="0" selected disabled> Affecter à </option>
+								{% for w in workers %}
+									<option value="{{w.id}}"  >{{w.firstname~" "~w.lastname}}</option>
+								{% endfor %} 
+							</select> 
 
 					</div>
 				</div>
@@ -221,8 +206,7 @@
 							    data: "idSession="+idsession,
 							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).
-							success(function(data, status, headers, config) {
-						  		alert("Annulation menée avec succès ! ");
+							success(function(data, status, headers, config) { 
 						     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
 						  	}).
 						  	error(function(data, status, headers, config) {
@@ -247,8 +231,7 @@
 							    data: "idSession="+idsession,
 							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).
-							success(function(data, status, headers, config) {
-						  		alert("Refus mené avec succès ! ");
+							success(function(data, status, headers, config) { 
 						     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
 						  	}).
 						  	error(function(data, status, headers, config) {
@@ -273,8 +256,7 @@
 							    data: "idSession="+idsession,
 							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).
-							success(function(data, status, headers, config) {
-						  		alert("Finition menée avec succès ! ");
+							success(function(data, status, headers, config) { 
 						     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
 						  	}).
 						  	error(function(data, status, headers, config) {
@@ -302,8 +284,7 @@
 							    data: "sID="+idsession+"&wID="+selectedWorker,
 							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).
-							success(function(data, status, headers, config) {
-						  		alert("Affectation menée avec succès ! ");
+							success(function(data, status, headers, config) { 
 						     	$window.location.href=Routing.generate('ovt_front_end_admin_provider_set_sessions'); 
 						  	}).
 						  	error(function(data, status, headers, config) {
@@ -326,7 +307,11 @@
 
 
 			   	});
-
+				function toActivate(id){
+					$('.tab_bar_left').removeClass('activate theme_color_border');
+					$('.tab_bar_left_'+id).addClass('activate theme_color_border');
+				}
+				toActivate(4);
 		</script>
 
 		 

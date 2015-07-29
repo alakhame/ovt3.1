@@ -134,7 +134,7 @@ class ClientAdmin extends User
     $all=$this->em->getRepository('OVTGeneralBundle:Client')->findAll();
     $clients=array();
     foreach ($all as $c) {
-        if(in_array("ROLE_CLIENT",$c->getUser()->getRoles())  && $c->getUser()->getOrganisation()==$org )
+        if(/*in_array("ROLE_CLIENT",$c->getUser()->getRoles()) && */ $c->getUser()->getOrganisation()==$org )
             $clients[]=$c;
     } 
 

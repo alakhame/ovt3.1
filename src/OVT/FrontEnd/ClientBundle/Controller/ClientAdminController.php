@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use OVT\UserBundle\Entity\User;
 use OVT\GeneralBundle\Entity\Client;
+use OVT\GeneralBundle\Entity\Notification;
 use OVT\GeneralBundle\Entity\Clientservicegroup;
 
 class ClientAdminController extends Controller
@@ -170,11 +171,12 @@ class ClientAdminController extends Controller
     }
 
 
-    public function usersAction(){
+    public function usersAction(Request $req){
     	$adminClient=$this->get('clientadmin');
     	$admin= $this->container->get('security.context')->getToken()->getUser();
     	$clients = $adminClient->retriveClientsFromAdmin($admin); 
-    	return $this->render('OVTFrontEndClientBundle:ClientAdmin:users.html.twig',array('clients'=>$clients));
+    	return $this->render('OVTFrontEndClientBundle:ClientAdmin:users.html.twig',
+            array('clients'=>$clients,'defaultClick'=>$req->get('defaultClick')));
     }
 
     public function getClientByIdAction($id){
@@ -271,7 +273,8 @@ class ClientAdminController extends Controller
         $client->setLanguage($language);
          
         $adminClient->createClient($client);
-        return $this->redirect($this->generateUrl('ovt_front_end_admin_client_users' ));
+        return $this->redirect($this->generateUrl('ovt_front_end_admin_client_users',
+                array('defaultClick' => $client->getUser()->getId() ) ));
 
     }
 

@@ -1,9 +1,9 @@
 {% extends "::baseProfil.html.twig" %}
  	
  	{% block header %}
+		<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
 		<link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" /> 
 		{{parent()}}
-		<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
 		<link rel="stylesheet" href="{{asset('ress/css/fullcalendar.css')}}" />  
 		<link rel="stylesheet" href="{{asset('ress/css/calendar.css')}}" /> 
 		<link rel='stylesheet' href="{{asset('ress/css/fullcalendar.print.css')}}"media='print' />  
@@ -54,7 +54,7 @@
 						</svg>
 					</div>
 				</div>
-				<div class="" >
+				<div>
 					<div id="inside_cadre"  >
 						<div class="container_calendar">
 							<div id="legende" style="height:20px;padding-bottom:-2px; background-color: #f6f6f6;">
@@ -123,7 +123,6 @@
 													</div>
 												</div>
 
-
 												<div class="form-group" id="serviceSelectDiv" >
 												 	<label class="control-label col-sm-2" for="service">Service</label>
 												 	<div class="col-sm-10">
@@ -138,13 +137,8 @@
 												<div class="form-group" id="orgSelectDiv" >
 												 	<label class="control-label col-sm-2" for="organisation">Organisation cible</label>
 												 	<div class="col-sm-10">				 		
-														<select  id="orgSelect" class="form-control" name="provider">
-													 		 
-												 		</select>
-												 	</div>
-												 	<div id="loading"  style="display: none;"> 
-												 		<img  src="{{asset('ress/img/loader.gif')}}" /> 
-												 	</div>
+														<select  id="orgSelect" class="form-control" name="provider">	</select>
+												 	</div> 
 												</div>
 												
 												<div class="form-group" >
@@ -214,14 +208,13 @@
 					<script type="text/javascript">
 						$(document).ready(function() {
 							
-							function resetModal(){
-									
-									$('#starttimepicker').datetimepicker('disable');
-									$('#endtimepicker').datetimepicker('disable');
-									$('#starttimepicker').datetimepicker('setDate', '');
-									$('#endtimepicker').datetimepicker('setDate', ''); 
-									$('#starttimepicker').datetimepicker('enable');
-									$('#endtimepicker').datetimepicker('enable');
+							function resetModal(){ 
+								$('#starttimepicker').datetimepicker('disable');
+								$('#endtimepicker').datetimepicker('disable');
+								$('#starttimepicker').datetimepicker('setDate', '');
+								$('#endtimepicker').datetimepicker('setDate', ''); 
+								$('#starttimepicker').datetimepicker('enable');
+								$('#endtimepicker').datetimepicker('enable');
 							}
 
 
@@ -328,7 +321,11 @@
 							});
 
 						});  
-
+						function toActivate(id){
+							$('.tab_bar_left').removeClass('activate theme_color_border');
+							$('.tab_bar_left_'+id).addClass('activate theme_color_border');
+						}
+						toActivate(1);
 					</script>
 				</div>
 			</div>

@@ -298,8 +298,7 @@ fieldset .content {
 	position: relative; 
 	display: none;
 	top: 58px;
-	right: 157px;
-	display: inline-block;
+	right: 157px; 
 }
 .container_drop_down_notif img
 {
@@ -367,7 +366,7 @@ fieldset .content {
 }
 
 .dash_block{
-	height: 20%;
+	height: auto;
 	width: 70%;
 	margin-top: 5%;
 	margin-left: 15%
@@ -379,6 +378,110 @@ fieldset .content {
 	top : 5px;
 	cursor: pointer;
 }
+.container_contact_program_now_style.activate{
+	background-color: rgba(63, 67, 77, 0.8);
+		box-shadow: 4px 0 6px rgba(0, 0, 0, 1);
+		color: #FFF;
+}
+
+.new_onglet_tab {
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-family: "OpenSans-Regular";
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+  background-color: #f60;
+  color: #FFF;
+  z-index: 0;
+  position: relative;
+  top: 10px;
+}
+
+.new_onglet_tab.inverse { 
+  background-color: #FFF;
+  color: #000; 
+}
+
+
+.bottom_bar{
+	position:relative;
+	top: 28px; 
+	border: 1px solid rgba(165, 165, 165, 0.2);
+	border-width: 0px 0px 1px 0px;
+}
+
+
+.valid_box{
+  height: 30px;
+  width: 30px; 
+  border: 2px dotted rgba(0, 0, 0, 0.3);
+  box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  margin-right: 40px;
+  -webkit-transition: all .25s ease;
+  -moz-transition: all .25s ease;
+  -ms-transition: all .25s ease;
+  -o-transition: all .25s ease;
+  transition: all .25s ease;
+  z-index: 50;
+}
+
+
+.valid_box.select{ 
+  background-color: #9c0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.valid_box svg {
+  width: 25px;
+  height: 20px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  -o-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+
+.container_notif_go_rdv_bis {
+  width: 290px;
+  height: 46px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+  margin-left: 10%;
+  float: left;
+  position: relative;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ----------------- Title color -----------------*/
 .title_color_text
 {
@@ -470,12 +573,12 @@ header
 	padding-left: 73px;
 	display: none;
 }
-.title_tab
-{
-	display: inline-block;
-	color: #a5a5a5;
-	font-family: "MyriadPro-Light";
-	font-size: 21px;
+.title_tab {
+  	display: inline-block;
+  	color: #1B1919;
+  	font-family: "MyriadPro-Light";
+ 	font-size: 21px;
+  	font-weight: bolder;
 }
 .logo_visio_header
 {

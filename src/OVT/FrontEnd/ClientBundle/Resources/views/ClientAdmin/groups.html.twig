@@ -242,8 +242,8 @@
 						    $scope.group=data;
 						    //document.getElementById('prestaGroup')..innerHTML=$scope.group.prestaGroup;
 						    $scope.loading = false;
-						    $('.container_check_contact_program_now_new').removeClass('active');
-							$('#select_check_'+idgroup).addClass('active');
+						    $('.container_contact_program_now_style').removeClass('activate');
+							$('.select_check_'+idgroup).addClass('active');
 
 					  	}).
 					 	error(function(data, status, headers, config) { });
@@ -269,8 +269,7 @@
 							    data: "idGroup="+idgroup,
 							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).
-							success(function(data, status, headers, config) {
-						  		alert("supression menée avec succès ! ");
+							success(function(data, status, headers, config) { 
 						     	$window.location.href=Routing.generate('ovt_front_end_admin_client_group'); 
 						  	}).
 						  	error(function(data, status, headers, config) {

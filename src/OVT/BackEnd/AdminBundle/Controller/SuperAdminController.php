@@ -10,7 +10,12 @@ class SuperAdminController extends Controller
 {
     public function indexAction()
     { 
-        return $this->render('OVTBackEndAdminBundle:SuperAdmin:dashboard.html.twig');
+        $Superadmin=$this->get('Superadmin');
+        $clients=$Superadmin->getLatestClients();
+        $providers=$Superadmin->getLatestProviders();
+        $services=$Superadmin->getLatestServices();
+        return $this->render('OVTBackEndAdminBundle:SuperAdmin:dashboard.html.twig',
+             array('clients' =>$clients , "providers"=>$providers, "services"=>$services ));
     }
 
     public function gestionAction($gestion, Request $req){

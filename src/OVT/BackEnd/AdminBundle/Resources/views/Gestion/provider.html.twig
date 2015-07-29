@@ -19,7 +19,7 @@
 			<div class="title_tab title_tab_4">	Gestion des entreprises prestataires </div>
 		</div> 	
 	{% endblock %}
-	
+ 
 	{% block menu %}
 		{% include "OVTBackEndAdminBundle:SuperAdmin:menuNew.html.twig" %}
 	{% endblock %}
@@ -31,16 +31,20 @@
 				<div class="bar_middle_tab_X" style="left:40%"></div> 
 
 				<div class="container_left_tab_1 container_in_tab_1" style="width:40%">
-					<div style="float:left;width:20%;margin-left:20% ;color: #FFF" class="button_tab_4 theme_color_background" ng-click="enableOrg=true"> Actives</div>
-					<div style="float:left;width:20%;margin-left:20% ;color: #FFF" class="button_tab_4 theme_color_background" ng-click="enableOrg=false"> Archivées</div>
-					<div class="container_date_time_program_now" style="margin-top:50px; height:80%">
-						<div class="container_add_contact_program_now" style="height:100%">
-							<div class="container_input_search_contact_program_now">
-								<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="16" height="16" viewBox="0 0 32 33">
-									<use xlink:href="{{asset('svg/add_contact.svg#add_contact')}}"></use>
+					<div style="float:left;width:30%;margin-left:34px" class="new_onglet_tab inverse " ng-click="reverseOnglet(true,$event)">
+						Actives
+					</div>
+					<div style="float:left;width:30%  " class="new_onglet_tab " ng-click="reverseOnglet(false,$event)"> 
+						Archivées
+					</div>
+					<div class="container_date_time_program_now" style="margin-top:40px; height:90%">
+						<div class="container_add_contact_program_now" style="height:80%;  margin-top:0;">
+							<div class="container_input_search_contact_program_now" style="z-index: 1;">
+								<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="16" height="16"viewBox="0 0 483 483">-->
+									<use xlink:href="{{asset('svg/search.svg#search')}}"></use>
 								</svg>
 								<input type="text" class="container_search_contact_program_now theme_color_focus" placeholder="Recherche un prestataire...">
-							</div> 
+							</div>
 							<div ng-show="enableOrg">
 								{{render(controller('OVTBackEndAdminBundle:OrganisationAdmin:getEnabledOrgsByType',{type:'provider',action:'reload'}))}}
 							</div>
@@ -48,7 +52,7 @@
 								{{render(controller('OVTBackEndAdminBundle:OrganisationAdmin:getDisabledOrgsByType',{type:'provider',action:'reload'}))}}
 							</div>
 							<div class="container_valid_cancel_program_now">
-								<div class="SessionTabbuttons theme_color_background"ng-click="newOrg()" ng-bind="newText"> </div>
+								<div style="width:30%;color:#FFF;margin:auto;  margin-top: 20px" class="button_tab_4 theme_color_background"ng-click="newOrg()" ng-bind="newText"> </div>
 							</div>
 						</div>
 					</div>
@@ -92,7 +96,7 @@
 									ng-click="newOrgAdmin()"> [+] </span></legend>
 								<div class="content">
 									<div class="adminstyle " ng-repeat="a in selectedProvider.admins track by $index" > 
-										<span ng-click="showAdmin($index)" class="showAdmin">{{a.admin}}  </span>
+										<span ng-click="showAdmin($index)" class="showAdmin subtitle_color_text">{{a.admin}}  </span>
 										<a href="#" ng-click="delAdmin(selectedProvider.id,a.id)"  > [-] </a>
  									</div>  
 								</div>
@@ -102,12 +106,14 @@
 
 						<div style="height:30%">
 							<fieldset>
-								<legend>Services Attribués </legend>   
+								<legend>Services Proposés </legend>   
 								<div id="servicesChoice"  ></div> 
 							</fieldset>
 						</div>
+						
+						<div class="bottom_bar"></div>
 
-						<div style="width:80%; margin:auto;" ng-hide="passwordChange">
+						<div style="width:80%;  margin:auto;   margin-top: 50px;" ng-hide="passwordChange">
 							<form method="post" action="{{path('ovt_back_end_admin_gestion_organisation_update_post', {org:'provider'})}}" id="updateForm" style="display:none"   >
 								<input type="text" name="name" 					id="nameKForm" ></input>  
 								<input type="text" name="address"  				id="addressKForm"></input>
@@ -117,16 +123,23 @@
 								<input type="submit" />
 							</form>
 
-							<div style="margin: 0;float:left;width:20%;"class="button_save_tab_4 button_tab_4 theme_color_background" id="formSubmit"> Enregistrer
+							<div ng-show="enableOrg" class="button_tab_4 theme_color_background"  style="margin: 0;float:left;width:20%;color: #FFF" ng-click="deleteOrg(selectedProvider.id)"   > 
+								Archiver
+							</div> 
+							<div ng-hide="enableOrg"class="button_tab_4 theme_color_background"  style="margin: 0;float:left;width:20%;color: #FFF" ng-click="restoreOrg(selectedP.id)"   >
+							 	Restaurer 
+							</div> 
+							<div style="margin: 0;float:left;width:20%;margin-left:20% ;color: #FFF" class="button_save_tab_4 button_tab_4 theme_color_background" id="formSubmit"> Enregistrer
 								<div class="container_done_save_tab_4">
 									<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="15" height="12" viewBox="0 0 22 17">
 										<use xlink:href="{{asset('svg/done_white.svg#done_white')}}"></use>
 									</svg>
 								</div>
 							</div> 
-							<div style="float:left;width:20%;margin-left:20% ;color: #FFF" class="button_tab_4 theme_color_background" ng-click="quit()" >Quitter</div>
-							<div ng-show="enableOrg" class="button_tab_4 theme_color_background"  style="width:20%;margin-left:80%;color: #FFF;" ng-click="deleteOrg(selectedProvider.id)"   > Supprimer </div> 
-							<div ng-hide="enableOrg"class="button_tab_4 theme_color_background"  style="width:20%;margin-left:80%;color: #FFF;" ng-click="restoreOrg(selectedP.id)"   > Restaurer </div> 
+							<div style="width:20%;margin-left:80%;color: #FFF;" class="button_tab_4 theme_color_background" ng-click="quit()" >
+								Quitter
+							</div>
+
  
 						</div> 
  
@@ -271,7 +284,7 @@
 					$scope.loading = false;  
 					$scope.firstload=true;
 					$scope.modifyText="Modifier";
-					$scope.newText="Nouvelle Entreprise";
+					$scope.newText="Nouveau Prestataire";
 					$scope.modifyFlag=false; 
 					$scope.newFlag=false;  
 					$scope.selectedAdmin=0;
@@ -294,6 +307,14 @@
 					$scope.isModifications = true;
 					console.log(evt);
 				}
+
+				$scope.reverseOnglet = function (val,$event){
+		   			$scope.enableOrg = val ;
+		   			var elt=$event.target;
+		   			$(".new_onglet_tab").removeClass('inverse');
+		   			$(elt).addClass('inverse');
+		   			console.log($(elt));
+		   		}
 				  
 				$scope.actionClick= function (idprovider) { 
 					$scope.firstload=false;
@@ -306,8 +327,8 @@
 				  	success(function(data, status, headers, config) {
 					    $scope.selectedProvider=data;
 					    $scope.loading = false; $('#waitingModal').modal('hide');
-					    $('.container_check_contact_program_now_new').removeClass('active');
-					    $('#select_check_'+idprovider).addClass('active'); 
+						$('.container_contact_program_now_style').removeClass('activate'); 
+					    $('.select_check_'+idprovider).addClass('activate'); 
 					    $scope.loadServiceTab($scope.selectedProvider.id);
 					    $scope.isModifications = false;
 				  	}). 
@@ -318,7 +339,7 @@
 		   		$scope.quit = function(){
 					if(!$scope.isModifications){
 						$scope.selectedProvider=undefined;
-						$('.container_check_contact_program_now_new').removeClass('active');
+						$('.container_contact_program_now_style').removeClass('activate');
 					}else{
 						var confirmation = confirm("Voulez vous quitter sans enrégistrer les modifications ?");
 						if(confirmation){
@@ -363,8 +384,7 @@
 					if(confirmation){
 			   			$http.get(link).
 					  	success(function(data, status, headers, config) {
-						    $scope.loading = false; 
-						    alert("Action menée avec succès ! ");
+						    $scope.loading = false;  
 						    $scope.actionClick (idorg);
 					  	}).
 					 	error(function(data, status, headers, config) {
@@ -389,8 +409,7 @@
 						    data: "admin="+selectedAdmin+"&orgId="+selectedProvider.id,
 						    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 						}).
-						success(function(data, status, headers, config) {
-					  		alert("Affectation menée avec succès ! "); 
+						success(function(data, status, headers, config) {  
 					  		$scope.actionClick (idorg);
 					  	}).
 					  	error(function(data, status, headers, config) { 
@@ -414,8 +433,7 @@
 						    data: "idOrg="+idorg,
 						    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 						}).
-						success(function(data, status, headers, config) {
-					  		alert("Suppression menée avec succès ! ");
+						success(function(data, status, headers, config) { 
 					     	$window.location.href=$window.location.href; 
 					  	}).
 					  	error(function(data, status, headers, config) {
@@ -438,8 +456,7 @@
 						    data: "idOrg="+idorg,
 						    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 						}).
-						success(function(data, status, headers, config) {
-					  		alert("restauration menée avec succès ! ");
+						success(function(data, status, headers, config) { 
 					     	$window.location.href=$window.location.href; 
 					  	}).
 					  	error(function(data, status, headers, config) {
@@ -469,6 +486,11 @@
 		   			$('#adminModal').modal('show'); 
 		   		}
 			});
+			function toActivate(id){
+				$('.tab_bar_left').removeClass('activate theme_color_border');
+				$('.tab_bar_left_'+id).addClass('activate theme_color_border');
+			}
+			toActivate(2);
 		</script>
 
 		 
