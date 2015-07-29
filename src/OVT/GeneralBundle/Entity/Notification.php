@@ -23,6 +23,13 @@ class Notification
     private $id;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="seen", type="integer", nullable=false)
+     */
+    private $seen;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="message", type="string", length=255, nullable=false)
@@ -60,6 +67,7 @@ class Notification
     public function __construct()
     {
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->seen = 0;
     }
 
 
@@ -84,6 +92,27 @@ class Notification
     {
         $this->message = $message;
     
+        return $this;
+    }
+
+    /**
+    *Get seen
+    *
+    *@return seen
+    */
+    public function getSeen(){
+        return $this->seen;
+    } 
+
+    /**
+    *Set seen
+    *
+    *@param integer $seen
+    *@return Notification
+    */
+    public function setSeen($seen){
+        $this->seen = $seen;
+
         return $this;
     }
 

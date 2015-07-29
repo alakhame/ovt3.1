@@ -1,1 +1,5 @@
-la demande {{session.title}} du {{session.startTime|date('d-m-Y')}} à {{session.startTime|date('H:i')}} vous a été affectée
+la demande {{session.title [:15] }} 
+{% if session.title|length >15 %}
+...
+{% endif %}
+du {{session.startTime|date('d-m-Y')}} à {{session.startTime|date('H:i')}} vous a été affectée

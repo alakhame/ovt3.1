@@ -36,7 +36,7 @@
 				<div id="nbNotif" class="container_number_notif subtitle_color_border  theme_color_background theme_color_border"></div>
 				<div class="container_drop_down_notif" style=" margin-left:20px">
 					<img src="{{asset('img/arrow_drop_down.png')}}">
-					<div class="drop_down_notif title_color_text">
+					<div class="drop_down_notif title_color_text"   >
 						{{ render(controller('OVTAPINotificationBundle:Notification:retrieveNotification'))}}		
 					</div>
 				</div>
@@ -59,7 +59,27 @@
  		
 		<script type="text/javascript" src="{{asset('js/visio.js')}}"></script>
 		<script type="text/javascript">
+
+		function updateSeen(idNotif){
+			$('#theNotif').fadeOut(500);
+			$.ajax({
+				url : "{{path('ovtapi_notification_update')}}",
+				type: "POST",
+				data: "idNotification=" +idNotif,
+				success: function(data){
+					console.log(data);
+				},
+				error: function(data){
+					alert(data);
+				}
+			});
+		}
+
 		$("#nbNotif").text($("#countNotif").val());
+		if( $("#countNotif").val() === undefined)
+			document.getElementById("nbNotif").style.visibility ='hidden';
+		else
+			document.getElementById("nbNotif").style.visibility ='visible';
 		</script>
 
 	</body>
