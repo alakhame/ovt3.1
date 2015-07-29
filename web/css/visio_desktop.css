@@ -449,8 +449,14 @@ fieldset .content {
   transform: translate(-50%,-50%);
 }
 
-
-
+.container_notif_go_rdv_bis {
+  width: 290px;
+  height: 46px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+  margin-left: 10%;
+  float: left;
+  position: relative;
+}
 
 
 
