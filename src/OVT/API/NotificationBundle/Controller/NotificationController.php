@@ -6,11 +6,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class NotificationController extends Controller
 {
-    public function retrieveNotificationAction()
-    {
+    public function retrieveNotificationAction(){
     	$notifications = array();
     	$notifications = $this->listNotification();
     	return $this->render('OVTAPINotificationBundle:FlashInfo:notification.html.twig', array('notification' => $notifications));
+    }
+
+    public function retriverNewNotificationAction($idNotification){
+         $superAdmin = $this->get('superadmin');
+         $notif = $superAdmin->updateNotifications($idNotification);
+         $notifications array();
+         $notifications = $this->listNotification();
+        return $this->render('OVTAPINotificationBundle:FlashInfo:notification.html.twig', array('notification' => $notifications));
     }
 
     public function listNotification() {
