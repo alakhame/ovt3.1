@@ -90,6 +90,7 @@ class ClientAdminController extends Controller
             case 'delete':
                 $session->setState('DELETED');
                 $template='deleted';
+                $notifTemplate='deletedSession';
                 break;
             case 'restaure':
                 $session->setState('TO_CONFIRM');
@@ -152,7 +153,7 @@ class ClientAdminController extends Controller
                     break;
                 case 'terminate':
                     $worker = $session->getWorker()->getUser();
-                    $client = $session->getClient->getUser();
+                    $client = $session->getClient()->getUser();
                     $notification->addUser($worker);
                     $notification->addUser($client);
                     break;

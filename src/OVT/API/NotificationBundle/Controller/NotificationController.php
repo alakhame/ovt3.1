@@ -12,12 +12,10 @@ class NotificationController extends Controller
     	return $this->render('OVTAPINotificationBundle:FlashInfo:notification.html.twig', array('notification' => $notifications));
     }
 
-    public function retriverNewNotificationAction($idNotification){
+    public function toggleSeenAction(Request $req){
          $superAdmin = $this->get('superadmin');
-         $notif = $superAdmin->updateNotifications($idNotification);
-         $notifications array();
-         $notifications = $this->listNotification();
-        return $this->render('OVTAPINotificationBundle:FlashInfo:notification.html.twig', array('notification' => $notifications));
+         $notif = $superAdmin->updateNotifications($req->request->get('idNotification'));
+        return new Response('OK');
     }
 
     public function listNotification() {

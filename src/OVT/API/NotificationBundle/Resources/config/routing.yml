@@ -2,7 +2,7 @@ ovtapi_notification_homepage:
     path:     /hello/{name}
     defaults: { _controller: OVTAPINotificationBundle:Default:index }
 ovtapi_notification_update:
-    path:    /updatenotif/{idNotification}
-    defaults: { _controller: OVTAPINotificationBundle:Notification:retriverNewNotification}
+    path:    /updatenotif
+    defaults: { _controller: OVTAPINotificationBundle:Notification:toggleSeen}
 
 

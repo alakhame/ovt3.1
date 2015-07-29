@@ -264,9 +264,10 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
         return $notifs;       
     }
 
-    public function updateNotifications($idNotification){
+    public function updateNotification($idNotification){
         $notif = $this->em->getRepository('OVTGeneralBundle:Notification')->find($idNotification);
         $notif->setSeen(1);
+        $this->em->flush();
         return $notif;
     }
 

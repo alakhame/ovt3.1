@@ -62,6 +62,11 @@ class DefaultController extends Controller
         return new Response(var_dump($superAdmin->getNotificationsByUser($user)));
     }
 
+    public function updateNotificationAction() {
+        $superAdmin = $this->get('superadmin');
+        return new Response(var_dump($superAdmin->updateNotification(18)));
+    }
+
     public function addNotificationAction() {
         $superAdmin = $this->get('superadmin');
         $userTo = $superAdmin->getUserById(52);
@@ -73,4 +78,6 @@ class DefaultController extends Controller
 
         return new Response(var_dump($superAdmin->createNotification($notification)));       
     }
+
+
 }

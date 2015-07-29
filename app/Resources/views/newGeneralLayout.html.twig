@@ -60,9 +60,20 @@
 		<script type="text/javascript" src="{{asset('js/visio.js')}}"></script>
 		<script type="text/javascript">
 
-		$('.container_notif_svg').click(function(e){ 
+		function updateSeen(idNotif){
 			$('#theNotif').fadeOut(500);
-		});
+			$.ajax({
+				url : "{{path('ovtapi_notification_update')}}",
+				type: "POST",
+				data: "idNotification=" +idNotif,
+				success: function(data){
+					console.log(data);
+				},
+				error: function(data){
+					alert(data);
+				}
+			});
+		}
 
 		$("#nbNotif").text($("#countNotif").val());
 		if( $("#countNotif").val() === undefined)

@@ -22,3 +22,6 @@ ovt_test_listNotification:
 ovt_test_addNotification:
     path:      /addNotification
     defaults: { _controller: OVTTestBundle:Default:addNotification}
+ovt_test_updateNotification:
+    path:       /updateNotification
+    defaults: { _controller: OVTTestBundle:Default:updateNotification }
