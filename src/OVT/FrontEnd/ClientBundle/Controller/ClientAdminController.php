@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use OVT\UserBundle\Entity\User;
 use OVT\GeneralBundle\Entity\Client;
+use OVT\GeneralBundle\Entity\Notification;
 use OVT\GeneralBundle\Entity\Clientservicegroup;
 
 class ClientAdminController extends Controller
