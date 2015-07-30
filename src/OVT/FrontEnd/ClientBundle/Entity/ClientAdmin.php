@@ -171,7 +171,7 @@ class ClientAdmin extends User
 
     public function getAllOrgsByServiceId($serviceId){
         $service = $this->getServiceById($serviceId);
-        $allOrgs = $this->em->getRepository('OVTGeneralBundle:Organisation')->findByActive(1);
+        $allOrgs = $this->em->getRepository('OVTGeneralBundle:Organisation')->findByIsActive(1);
         $result = array();
         foreach ($allOrgs as $org) {
             if($org->getService()->contains($service) && $org->getType()=='provider')
