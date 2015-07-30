@@ -372,6 +372,8 @@
 				    $('#clientCalendar').fullCalendar('addEventSource', newLink);
 				    $('#clientCalendar').fullCalendar('refetchEvents');
 				    linkToCallEvents = newLink ;
+				    $('#clientCalendar').fullCalendar('next');
+				    $('#clientCalendar').fullCalendar('prev');
 				    console.log('done');
 				}
 
