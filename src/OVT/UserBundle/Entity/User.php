@@ -180,6 +180,17 @@ class User extends BaseUser
         return $this->lastname;
     }
 
+
+    /**
+     * Get complete name
+     *
+     * @return string 
+     */
+    public function getCompleteName()
+    {
+        return $this->firstname.' '.$this->lastname;
+    }
+
    
     /**
      * Set type
