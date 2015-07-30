@@ -228,10 +228,12 @@ class OrganisationAdminController extends Controller
 
         switch($organisation){
             case 'client': 
-                return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'client')));
+                return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',
+                    array('gestion'=>'client','defaultClick' => $org->getId() ) ) );
                 break;
             case 'provider' :   
-                return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',array('gestion'=>'provider')));
+                return $this->redirect($this->generateUrl('ovt_back_end_admin_gestion',
+                    array('gestion'=>'provider','defaultClick' => $org->getId() ) ) );
                 break;
         } 
     }
