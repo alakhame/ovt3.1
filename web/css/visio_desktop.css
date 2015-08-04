@@ -463,6 +463,65 @@ fieldset .content {
   position: relative;
 }
 
+#forCnfrm{
+	float: right;
+	width: 33%;
+}
+
+#forCnfrm .element_header_container_historique_name{
+	width:30%;
+}
+
+#forCnfrm .confirmation{
+	cursor: pointer;
+	color: red;
+	text-decoration: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

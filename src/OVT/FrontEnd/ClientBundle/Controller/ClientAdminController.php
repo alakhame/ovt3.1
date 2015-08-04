@@ -60,7 +60,9 @@ class ClientAdminController extends Controller
 	public function getSessionByIdAction($id){
         $adminClient=$this->get('clientadmin');
         $session=$adminClient->getSessionById($id);
-        return $this->render('OVTFrontEndClientBundle:ClientAdmin:sessionInfos.json.twig',array('s'=>$session));
+        $props=$adminClient->getSessionOffersBySession($session);
+        return $this->render('OVTFrontEndClientBundle:ClientAdmin:sessionInfos.json.twig',
+            array('s'=>$session,"props"=>$props));
     }
 
     public function updateStateSessionAction(Request $request, $action){

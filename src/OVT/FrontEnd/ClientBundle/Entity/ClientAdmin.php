@@ -16,9 +16,34 @@ class ClientAdmin extends User
         $this->em=$em;
     }
 
+    public function createEntity($e){
+        $this->em->persist($e);
+        $this->em->flush();
+    }
+
     public function update(){
        $this->em->flush();
     }
+
+    /************ SESSIONOFFER ************************/
+    public function getSessionOffersBySession($session){
+        $criteria=array("session"=>$session,"decision"=>1);
+        return $this->em->getRepository('OVTGeneralBundle:SessionOffer')->findBy($criteria);
+    }
+
+    public function getSessionOfferById($id){
+        return $this->em->getRepository('OVTGeneralBundle:SessionOffer')->find($id);
+    }
+
+    public function cleanOffers($session){
+        $offers=$this->getSessionOffersBySession($session);
+        foreach ($offers as $o) {
+            $this->em->remove($o);
+        }
+        $this->update();
+    }
+
+
 
     /************ SESSIONS ************************/
     

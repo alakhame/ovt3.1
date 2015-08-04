@@ -1,0 +1,17 @@
+[
+	{% for p in props %}
+		{% if loop.last %}
+		{
+			"service":"{{p.service}}",
+			"organisation":"{{p.organisation}}",
+			"decision":"{{p.decision}}"
+		}
+		{% else %}
+		{
+			"service":"{{p.service}}",
+			"organisation":"{{p.organisation}}",
+			"decision":"{{p.decision}}"
+		},
+		{% endif %}
+	{% endfor %}
+]

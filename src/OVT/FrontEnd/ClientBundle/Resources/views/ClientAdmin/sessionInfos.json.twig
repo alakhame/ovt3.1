@@ -17,5 +17,24 @@
 		"service":"{{s.service.name}}"
 	{% else %}
 		"service": "NONE"
-	{% endif %}
+	{% endif %},
+	"props":[
+		{% for p in props %}
+			{% if loop.last %}
+			{	
+				"id":"{{p.id}}",
+				"service":"{{p.service.name}}",
+				"organisation":"{{p.organisation.name}}",
+				"decision":"{{p.decision}}"
+			}
+			{% else %}
+			{	
+				"id":"{{p.id}}",
+				"service":"{{p.service.name}}",
+				"organisation":"{{p.organisation.name}}",
+				"decision":"{{p.decision}}"
+			},
+			{% endif %}
+		{% endfor %}
+	]
 }

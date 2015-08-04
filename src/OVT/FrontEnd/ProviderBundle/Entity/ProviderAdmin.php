@@ -22,6 +22,23 @@ class ProviderAdmin extends User
        $this->em->flush();
     }
 
+    /************ SESSIONSOFFER ************************/ 
+    public function getSessionOffersToAffect($admin){
+        $criteria = array('organisation'=>$admin->getOrganisation(), 'decision'=>0 );
+        return $this->em->getRepository("OVTGeneralBundle:SessionOffer")->findBy($criteria);  
+    } 
+    
+    public function getOfferById($id){ 
+        return $this->em->getRepository("OVTGeneralBundle:SessionOffer")->find($id);  
+    }
+
+    public function deleteOfferById($id){ 
+        $offer=$this->getOfferById($id);
+        $this->em->remove($offer);
+        $this->update();
+    }
+ 
+
     /************ SESSIONS ************************/
     public function getWaitingSessions(User $user){
         $worker=$this->getWorkerFromUser($user);
@@ -48,6 +65,7 @@ class ProviderAdmin extends User
         }
         return $sessions;
     }
+
 
     public function retrieveSessionsByState($user){
         $worker=$this->getWorkerFromUser($user);

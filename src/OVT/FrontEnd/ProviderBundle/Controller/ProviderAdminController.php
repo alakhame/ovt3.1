@@ -12,14 +12,15 @@ use OVT\GeneralBundle\Entity\Providerservicegroup;
 
 class ProviderAdminController extends Controller
 { 
-     public function setSessionsAction()
+    public function setSessionsAction()
     {
         $adminProvider=$this->get('provideradmin');
         $admin= $this->container->get('security.context')->getToken()->getUser();
         $workers = $adminProvider->retriveWorkersFromAdmin($admin);
-        $sessions=$adminProvider->getSessionsToAffect();
+        //$sessions=$adminProvider->getSessionsToAffect();
+        $offers=$adminProvider->getSessionOffersToAffect($admin); 
         return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:affectation.html.twig',
-            array('workers'=>$workers,'sessionsToAffect'=>$sessions));
+            array('workers'=>$workers,'offers'=>$offers));
     }
 
     public function getWaitingSessionsAction(){
@@ -44,6 +45,12 @@ class ProviderAdminController extends Controller
     public function getCountSessionsToAffectAction(){
 		$adminProvider=$this->get('provideradmin');
 		return new Response(count($adminProvider->getSessionsToAffect()));
+    }
+
+    public function getCountOffersToAffectAction(){
+        $adminProvider=$this->get('provideradmin');
+        $admin= $this->container->get('security.context')->getToken()->getUser();
+        return new Response(count($adminProvider->getSessionOffersToAffect($admin)));
     }
 
    
@@ -363,6 +370,15 @@ class ProviderAdminController extends Controller
         $response->send(); */
     }
 
+    public function refuseOfferAction(Request $request ){
+        $idOffer=$request->request->get('idOffer'); 
+        $adminProvider=$this->get('provideradmin'); 
+        $adminProvider->deleteOfferById($idOffer);  
+        $adminProvider->update();
+        return $this->redirect($this->generateUrl('ovt_front_end_admin_provider_worker' ));
+       
+    }
+
     public  function updateSessionAction (Request $request){
         $adminProvider=$this->get('provideradmin');
         $req=$request->request;
@@ -467,16 +483,14 @@ class ProviderAdminController extends Controller
     public function affectWorkerToSessionAction(Request $request){
         $adminProvider=$this->get('provideradmin');
         $superAdmin=$this->get('superadmin');
-        $session=$adminProvider->getSessionById($request->request->get('sID'));
+        $offer=$adminProvider->getOfferById($request->request->get('oID'));
         $worker=$adminProvider->getWorkerFromUserID($request->request->get('wID'));
         $admin= $this->container->get('security.context')->getToken()->getUser();
-       
-        $session->setWorker($worker);
-        $session->setState('ACCEPTED');
         
-        $hash=md5($session->getRequestdate()->format('Y-m-d H:i:s')+'-'+$session->getId());
-  
-        $session->setLink($hash);  
+        $session=$offer->getSession();
+        $session->setWorker($worker);
+        $session->setState('CONFIRMED_BY_PROVIDER');   
+        $offer->setDecision(1);
         $adminProvider->update();
 
         /**** SEND MAIL ****/

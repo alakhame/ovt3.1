@@ -123,21 +123,24 @@
 													</div>
 												</div>
 
-												<div class="form-group" id="serviceSelectDiv" >
+												<div class="form-group"  >
 												 	<label class="control-label col-sm-2" for="service">Service</label>
 												 	<div class="col-sm-10">
-												 		<select class="form-control" id="serviceSelect" name="service">		<option disabled selected > choisir service </option>
-												 			{% for s in client.authorizedServices %}
-													 			<option value="{{s.id}}"> {{s.name}} </option>
-													 		{% endfor %}
-												 		</select>
+											 			{% for s in client.authorizedServices %}
+												 			<input id="sv_chkb_{{s.id}}" onclick="checkService({{s.id}})" type="checkbox" name="srv_select[]" value="{{s.id}}"> {{s.name}} </input>
+												 		{% endfor %}
 												 	</div>
 												</div>
 
 												<div class="form-group" id="orgSelectDiv" >
 												 	<label class="control-label col-sm-2" for="organisation">Organisation cible</label>
-												 	<div class="col-sm-10">				 		
-														<select  id="orgSelect" class="form-control" name="provider">	</select>
+												 	<div class="col-sm-10">	
+												 		{% for s in client.authorizedServices %} 	 		
+															<fieldset id="org_sv_chkb_{{s.id}}" style="display:none">
+																<div>Pour service : {{s.name}}</div>
+																{{render(controller('OVTFrontEndClientBundle:Client:getOrgDivByServiceId',{sID:s.id}))}}
+															</fieldset>
+														{% endfor %}
 												 	</div> 
 												</div>
 												
@@ -268,12 +271,14 @@
 						        	{% verbatim %}
 						        		var toSession= Routing.generate('ovt_services_join',{service:event.service, userType:'client',hashLink:event.link});
 						        	{% endverbatim %}
-						        	if(event.link!=""){
+						        	if(event.link!=""){ 
 						        		$('#joinButton').removeClass('hide');
 						        		$('#joinUrl').attr('href',toSession);
 						        	} 
-						        	else
+						        	else{
+						        		//console.log(event.link);
 						        		$('#joinButton').addClass('hide') ;
+						        	}
 						        },
 								 
 								select : function( start, end, jsEvent, view ) {
@@ -304,23 +309,23 @@
 							 $('#newManualSession').click(function(){
 							 	resetModal();
 							 	$('#addSessionModal').modal('show');
-							 })
- 
+							 });
+ 						 
 
-							$('#serviceSelectDiv').change(function(){
-								$( "#orgSelectDiv" ).hide(); 
-								$('#waitingingModal').modal('show');  
-								var val =$("#serviceSelect").val();
-								var slink=Routing.generate('ovt_front_end_client_get_orgs_by_service',{serviceId:val});
-								$.get( slink, function( data ) {
-									console.log(data);
-									$( "#orgSelect" ).html( data );
-									$('#waitingingModal').modal('hide');
-									$("#orgSelectDiv" ).show();
-								});
-							});
+							
 
-						});  
+						});   
+						function checkService(sID){
+							var state=$("#sv_chkb_"+sID).is(':checked');
+							if(state){
+								$("#org_sv_chkb_"+sID).show(); 
+							}else{
+								$("#org_sv_chkb_"+sID).hide();
+								$('input[name="'+sID+'[]"]:checked').each(function(){
+									$(this).prop('checked',false); 
+								}); 
+							}
+						} 
 						function toActivate(id){
 							$('.tab_bar_left').removeClass('activate theme_color_border');
 							$('.tab_bar_left_'+id).addClass('activate theme_color_border');
