@@ -156,22 +156,17 @@ class ClientController extends Controller
             foreach ($req->get($srv) as $val) {
                 $targetProviders[]=array('srvID'=>$srv,'prvdID'=>split(',',$val)[1]);
             }  
-        }
-
-        //return new Response(var_dump($targetProviders));
+        } 
 
 
         $type = $req->get('type');
-        if($req->get('BK')=="on"){
-            //return new Response(var_dump($req->get('starttimeBK')) );
+        if($req->get('BK')=="on"){ 
             $starttime = $req->get('starttimeBK');
             $endtime = $req->get('endtimeBK');
         }else{
             $starttime = $req->get('starttime');
             $endtime = $req->get('endtime');
-        }
-        
-        //return new Response( var_dump($starttime)."\n".var_dump(new \DateTime($starttime)));
+        } 
         
         $session = new Session();
         $session->setTitle($title);
@@ -214,7 +209,7 @@ class ClientController extends Controller
             }
         }
 
-        //$superAdmin->createNotification($notification);
+        $superAdmin->createNotification($notification);
         
         /********* SEND MAIL  *******************/
 
