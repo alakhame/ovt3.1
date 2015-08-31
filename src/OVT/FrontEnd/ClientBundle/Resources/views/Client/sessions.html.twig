@@ -156,7 +156,7 @@
 
 				{% verbatim %}
 				<div id="sessionDetails" ng-show="attCnfrm || atraiterFlag || planifieesFlag || annuleesFlag || refuseesFlag || tableAttCnfrm ">
-					<div class="column_1_tab_4 column_tab_4_style">
+					<div class="column_1_tab_4 column_tab_4_style" style="width: 32%;">
 						<div class="container_info_editable_user_style">
 							<div class="content_info_editable_user_style title_color_text">{{session.worker}}</div>
 							<div class="name_info_editable_user_style subtitle_color_text">Prestataire</div>
@@ -175,7 +175,7 @@
 							<div class="name_info_editable_user_style subtitle_color_text">Demande</div>
 						</div> 
 					</div>
-					<div class="column_2_tab_4 column_tab_4_style">
+					<div class="column_2_tab_4 column_tab_4_style" style="width: 32%;">
 						<div class="container_info_editable_user_style">
 							<div class="content_info_editable_user_style title_color_text">{{session.startTime}}</div>
 							<div class="name_info_editable_user_style subtitle_color_text">Début</div>
@@ -191,7 +191,7 @@
 							<div class="name_info_editable_user_style subtitle_color_text">Détails</div>
 						</div>
 					</div>
-
+					<div class="bar_middle_tab_X2" ng-show="attCnfrm" ></div>
 					<div id="forCnfrm" class="column_2_tab_4 column_tab_4_style" ng-show="attCnfrm">
 						<div class="element_header_container_historique element_header_container_historique_name">
 							Service 
@@ -202,20 +202,20 @@
 						<div class="element_header_container_historique element_header_container_historique_name">
 							<span class="name_element_1"> Decision </span> 
 						</div>
-						<div class="type_historique subtitle_color_text" ng-repeat="p in session.props"  > 
-							<div class="element_historique_container_historique element_historique_container_historique_name">
+						<div class="type_historique_session_choice subtitle_color_text"ng-repeat="p in session.props"  >
+							<div class="element_historique_container_historique element_historique_container_choice">
 								<div class="content_element_historique content_element_historique_name">
 									<span>{{p.service}}</span>
 								</div>
 							</div>  
-							<div class="element_historique_container_historique element_historique_container_historique_name">
+							<div class="element_historique_container_historique element_historique_container_choice">
 								<div class="content_element_historique content_element_historique_name">
 									<span>{{p.organisation}}</span>
 								</div>
 							</div>
-							<div class="element_historique_container_historique element_historique_container_historique_name">
+							<div class="element_historique_container_historique element_historique_container_choice">
 								<div class="content_element_historique content_element_historique_name confirmation">
-									<span ng-click="offerConfirmation(p.id)">Confirmer ?</span>
+									<span ng-click="offerConfirmation(p.id)">Choisir ?</span>
 								</div>
 							</div>  
 						</div>

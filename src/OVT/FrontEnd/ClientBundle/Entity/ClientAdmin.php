@@ -194,7 +194,19 @@ class ClientAdmin extends User
         return $this->em->getRepository('OVTGeneralBundle:Organisation')->find($id);
     }
 
-    public function getAllOrgsByServiceId($serviceId){
+    public function getAllOrgsByServiceId($serviceId,$orgClientId){
+        $service = $this->getServiceById($serviceId);
+        $orgClient = $this->getOrganisationById($orgClientId);
+        $allOrgs = $this->em->getRepository('OVTGeneralBundle:Organisation')->findByIsActive(1);
+        $result = array();
+        foreach ($allOrgs as $org) {
+            if($this->existCollaboration($service,$org,$orgClient) > 0)
+                $result[]=$org;
+        }
+        return $result;
+    }
+
+     public function getAllOrgsByServiceIdBis($serviceId){
         $service = $this->getServiceById($serviceId);
         $allOrgs = $this->em->getRepository('OVTGeneralBundle:Organisation')->findByIsActive(1);
         $result = array();
@@ -204,7 +216,49 @@ class ClientAdmin extends User
         }
         return $result;
     }
+
+    public function getUniqueOrgsByServices($services){
+        $result=array();
+        foreach ($services as $s) {
+             $allOrgs=$this->getAllOrgsByServiceIdBis($s->getId());
+             foreach ($allOrgs as $o) {
+                if(!in_array($o, $result))
+                    $result[]=$o;
+             }
+        }
+
+        return $result;
+    }
+
+    /************** COLLABORATION ***************************/
+     public function getCollabsByProviderId($idP,$idC){
+        $provider=$this->getOrganisationById($idP);
+        $client=$this->getOrganisationById($idC);
+        $criteria = array('provider'=>$provider,'orgClient'=>$client);
+        return $this->em->getRepository('OVTGeneralBundle:Collaboration')->findBy($criteria);
+
+    }
+
+    public function getCollaborationById($id){
+        return $this->em->getRepository('OVTGeneralBundle:Collaboration')->find($id);
+    }
+
+    public function removeCollabById($id){
+        $c=$this->getCollaborationById($id);
+        $this->em->remove($c);
+        $this->em->flush();
+    }
+    
+    public function createCollaboration($c){
+        $this->em->persist($c);
+        $this->em->flush();
+    }
      
+    public function existCollaboration($service,$provider,$orgClient){
+        $criteria = array('service'=>$service,'provider'=>$provider,'orgClient'=>$orgClient);
+        $result =  $this->em->getRepository('OVTGeneralBundle:Collaboration')->findBy($criteria);
+        return count($result);
+    }
    
    /*************** GROUPS *********************************/
 

@@ -97,6 +97,36 @@ ovt_front_end_admin_client_users:
     options:
         expose: true
 
+ovt_front_end_admin_client_collaboration:
+    path:     /adminclient/collaboration
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:collaboration }
+    options:
+        expose: true
+
+ovt_front_end_admin_client_get_collabs_by_provider_id:
+    path:     /adminclient/getCollabs/provider/{idProvider}
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:getCollabsByProviderId }
+    options:
+        expose: true
+
+ovt_front_end_admin_client_get_div_collabs_by_provider_id:
+    path:     /adminclient/getCollabs/div/provider/{idProvider}
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:getDivCollabsByProviderId }
+    options:
+        expose: true
+
+ovt_front_end_admin_client_add_collab_by_id:
+    path:     /adminclient/addCollab/{idS}/{idP}/{idC}
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:addCollab }
+    options:
+        expose: true
+
+ovt_front_end_admin_client_remove_collab_by_id:
+    path:     /adminclient/rmCollab/{id}
+    defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:removeCollab }
+    options:
+        expose: true
+
 ovt_front_end_admin_client_get_user_by_id:
     path: /adminclient/user/{id}
     defaults: { _controller: OVTFrontEndClientBundle:ClientAdmin:getClientById}

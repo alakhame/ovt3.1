@@ -42,11 +42,7 @@ ovt_back_end_admin_gestion_new_user:
     path:     /gestion/user/addnew
     defaults: { _controller: OVTBackEndAdminBundle:UserAdmin:addNew }
     requirements:
-        _method:  POST
-
-
-
-
+        _method:  POST 
 
 
 ovt_back_end_admin_admin_update_service:
@@ -78,12 +74,7 @@ ovt_back_end_admin_org_service_toggle:
     options:
         expose: true
     requirements:
-        _method: GET
-
-
-
-
-
+        _method: GET 
 
 ovt_back_end_admin_gestion_new_organisation:
     path:     /gestion/{organisation}/addnew

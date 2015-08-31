@@ -488,7 +488,7 @@ class ProviderAdminController extends Controller
         $admin= $this->container->get('security.context')->getToken()->getUser();
         
         $session=$offer->getSession();
-        $session->setWorker($worker);
+        $offer->setWorker($worker);
         $session->setState('CONFIRMED_BY_PROVIDER');   
         $offer->setDecision(1);
         $adminProvider->update();

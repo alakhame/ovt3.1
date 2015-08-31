@@ -214,7 +214,7 @@ class ClientController extends Controller
             }
         }
 
-        $superAdmin->createNotification($notification);
+        //$superAdmin->createNotification($notification);
         
         /********* SEND MAIL  *******************/
 
@@ -348,7 +348,9 @@ class ClientController extends Controller
     public function getOrgDivByServiceIdAction($sID){ 
         $adminClient=$this->get('clientadmin'); 
         $response='';
-        $allOrgsService = $adminClient->getAllOrgsByServiceId($sID);  
+        $user= $this->container->get('security.context')->getToken()->getUser();
+        $cID=$user->getOrganisation()->getId();
+        $allOrgsService = $adminClient->getAllOrgsByServiceId($sID,$cID);  
         foreach ($allOrgsService as $o) { 
             $response.='<div><input name="'.$sID.'[]" type="checkbox" value="'.$sID.','.$o->getId().'">'.$o->getName().'</input></div>';
         }
