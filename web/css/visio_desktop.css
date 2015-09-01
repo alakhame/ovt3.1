@@ -466,6 +466,90 @@ fieldset .content {
   position: relative;
 }
 
+#forCnfrm{
+	float: right;
+	width: 33%;
+}
+
+#forCnfrm .element_header_container_historique_name{
+	width:30%;
+}
+
+#forCnfrm .confirmation{
+	cursor: pointer;
+	color: red;
+	text-decoration: bold;
+}
+
+.type_historique_session_choice{
+    height: 45px;
+    width: 100%;
+    padding-left: 17px;
+    padding-right: 17px;
+    min-height: 45px;
+    position: relative;
+}
+
+.element_historique_container_choice {
+    width: 30%;
+}
+
+
+.bar_middle_tab_x2 {
+	left:69%;
+    width: 1px;
+    height: 100%;
+    position: absolute;
+    background-color: #cfcfcf;
+    top: 60%; 
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    -webkit-transition: all .25s ease;
+    -moz-transition: all .25s ease;
+    -ms-transition: all .25s ease;
+    -o-transition: all .25s ease;
+    transition: all .25s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

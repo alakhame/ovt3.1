@@ -9,6 +9,7 @@ use OVT\UserBundle\Entity\User;
 use OVT\GeneralBundle\Entity\Client;
 use OVT\GeneralBundle\Entity\Notification;
 use OVT\GeneralBundle\Entity\Clientservicegroup;
+use OVT\GeneralBundle\Entity\Collaboration;
 
 class ClientAdminController extends Controller
 {
@@ -60,7 +61,9 @@ class ClientAdminController extends Controller
 	public function getSessionByIdAction($id){
         $adminClient=$this->get('clientadmin');
         $session=$adminClient->getSessionById($id);
-        return $this->render('OVTFrontEndClientBundle:ClientAdmin:sessionInfos.json.twig',array('s'=>$session));
+        $props=$adminClient->getSessionOffersBySession($session);
+        return $this->render('OVTFrontEndClientBundle:ClientAdmin:sessionInfos.json.twig',
+            array('s'=>$session,"props"=>$props));
     }
 
     public function updateStateSessionAction(Request $request, $action){
@@ -177,6 +180,58 @@ class ClientAdminController extends Controller
     	$clients = $adminClient->retriveClientsFromAdmin($admin); 
     	return $this->render('OVTFrontEndClientBundle:ClientAdmin:users.html.twig',
             array('clients'=>$clients,'defaultClick'=>$req->get('defaultClick')));
+    }
+
+    public function collaborationAction(Request $req){
+        $adminClient=$this->get('clientadmin');
+        $admin= $this->container->get('security.context')->getToken()->getUser(); 
+        $orgClient=$admin->getOrganisation();
+        $authorisedOrgs=$adminClient->getUniqueOrgsByServices($orgClient->getService());
+        return $this->render('OVTFrontEndClientBundle:ClientAdmin:collaboration.html.twig',
+            array('client'=>$orgClient,
+                'authorisedOrgs' =>   $authorisedOrgs,
+                'defaultClick'=>$req->get('defaultClick')));
+    }
+
+    public function getCollabsByProviderIdAction($idProvider){
+        $adminClient=$this->get('clientadmin');
+        $admin=$this->container->get('security.context')->getToken()->getUser(); 
+        $idClient=$admin->getOrganisation()->getId();
+        $collabs=$adminClient->getCollabsByProviderId($idProvider,$idClient);
+        return $this->render('OVTFrontEndClientBundle:ClientAdmin:collabs.json.twig',
+            array('collabs'=>$collabs
+                ));
+    }
+
+    public function getDivCollabsByProviderIdAction($idProvider){
+        $adminClient=$this->get('clientadmin');
+        $admin=$this->container->get('security.context')->getToken()->getUser(); 
+        $idClient=$admin->getOrganisation()->getId();
+        $provider=$adminClient->getOrganisationById($idProvider);
+        $collabs=$adminClient->getCollabsByProviderId($idProvider,$idClient);
+        return $this->render('OVTFrontEndClientBundle:ClientAdmin:servicesCollab.html.twig',
+            array('collabs'=>$collabs,
+                'provider'=>$provider,
+                'client'=>$admin->getOrganisation()));
+    }
+
+    public function removeCollabAction($id){
+        $adminClient=$this->get('clientadmin');
+        $adminClient->removeCollabById($id);
+        return new Response('OK!');
+    }
+
+    public function addCollabAction($idS,$idP,$idC){
+        $adminClient=$this->get('clientadmin');
+        $collab = new collaboration();
+        $service=$adminClient->getServiceById($idS);
+        $provider=$adminClient->getOrganisationById($idP);
+        $client=$adminClient->getOrganisationById($idC);
+        $collab->setService($service);
+        $collab->setProvider($provider);
+        $collab->setOrgClient($client);
+        $adminClient->createCollaboration($collab);
+        return new response('oK!');
     }
 
     public function getClientByIdAction($id){

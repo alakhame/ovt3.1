@@ -26,8 +26,11 @@
 	{% block containerTab %}   
 	<div id="wrap" class="container_tab_1 container_tab " ng-app="OVTApp" ng-controller="sessionsCtrl" data-ng-init="init()" >
 		<div class="container_notif_rdv" style="padding-left:30%">
-			<div class="SessionTabbuttons head theme_color_background"  ng-click="viewPlanifiees()" >    				 
+			<div class="SessionTabbuttons head theme_color_background active"  ng-click="viewPlanifiees()" >    				 
 				Demandes planifiées
+			</div>
+			<div class="SessionTabbuttons head theme_color_background" ng-click="viewAttCnfrm()">
+				Attente Confirmation
 			</div>
 			<div class="SessionTabbuttons head theme_color_background"  ng-click="viewAnnulees()" >
 				Demandes annulées 			
@@ -111,17 +114,23 @@
 			<!-- SEPARATOR --> 
 			<!-- Begin list sessions -->
 			<div id="sessionElementsTab">
-			<div id="tablePlanifees"  ng-show="!atraiterFlag && planifieesFlag && !annuleesFlag && !refuseesFlag ">
+
+			<div id="tablePlanifees"  ng-show="!atraiterFlag && planifieesFlag && !annuleesFlag && !refuseesFlag  && !attCnfrm">
 				{{render(controller('OVTFrontEndProviderBundle:Provider:getSessionsByState',{state:'ACCEPTED'})) }}
 			</div>
 
-			<div id="tableAnnulees" ng-show="!atraiterFlag && !planifieesFlag && annuleesFlag && !refuseesFlag ">
+			<div id="tableAnnulees" ng-show="!atraiterFlag && !planifieesFlag && annuleesFlag && !refuseesFlag  && !attCnfrm">
 				{{render(controller('OVTFrontEndProviderBundle:Provider:getSessionsByState',{state:'CANCELED'})) }}
 			</div>
 
-			<div id="tableARefusees"   ng-show="!atraiterFlag && !planifieesFlag && !annuleesFlag && refuseesFlag ">
+			<div id="tableARefusees"ng-show="!atraiterFlag && !planifieesFlag && !annuleesFlag && refuseesFlag && !attCnfrm">
 				{{render(controller('OVTFrontEndProviderBundle:Provider:getSessionsByState',{state:'REFUSED'})) }}
 			</div>
+
+			<div id="attCnfrm"ng-show="attCnfrm && !atraiterFlag && !planifieesFlag && !annuleesFlag && !refuseesFlag ">
+				{{render(controller('OVTFrontEndProviderBundle:Provider:getSessionsByState',{state:'CONFIRMED_BY_PROVIDER'})) }}
+			</div>
+
 			</div> 
 			<!-- end list sessions -->
 		</div>
@@ -134,7 +143,7 @@
 
 		<!--- DETAILS -->
 		<div class="container_info_details"> 
-			<div id="apercuPlanifiees" ng-show="!firstload && planifieesFlag && !loading">
+			<div id="apercuPlanifiees" ng-show="!firstload && (attCnfrm || planifieesFlag ) && !loading">
 				<div class="SessionTabbuttons theme_color_background" ng-click="refuse(session.id)" >
 					REFUSER
 				</div>
@@ -142,22 +151,19 @@
 					ANNULER
 				</div> 
 			</div>
-			<div id="apercuAnnulees" ng-show="!firstload && annuleesFlag && !loading">
+			<div id="apercuAnnulees" ng-show="!firstload && (annuleesFlag||refuseesFlag) && !loading">
 				<div class="SessionTabbuttons theme_color_background" ng-click="delete(session.id)" >
 					SUPPRIMER
 				</div>    
 			</div>
-			<div id="apercuRefusees" ng-show="!firstload && refuseesFlag && !loading">
-				<div class="SessionTabbuttons theme_color_background" ng-click="delete(session.id)" >
-					SUPPRIMER
-				</div>
+			<div id="apercuRefusees" ng-show="!firstload && refuseesFlag && !loading"> 
 				<div class="SessionTabbuttons theme_color_background" ng-click="restaure(session.id)" >
 					RESTAURER
 				</div>  
 			</div>
 
 			{% verbatim %}
-			<div id="sessionDetails" ng-show="atraiterFlag || planifieesFlag || annuleesFlag || refuseesFlag  ">
+			<div id="sessionDetails"ng-show="attCnfrm ||atraiterFlag || planifieesFlag || annuleesFlag || refuseesFlag">
 				<div class="column_1_tab_4 column_tab_4_style">
 					<div class="container_info_editable_user_style">
 						<div class="content_info_editable_user_style title_color_text">{{session.client}}</div>
@@ -223,6 +229,7 @@
 					$scope.planifieesFlag = true;
 					$scope.annuleesFla    = false;
 					$scope.refuseesFlag   = false;
+					$scope.attCnfrm 	  = false;
 					
 				}
 
@@ -239,12 +246,22 @@
 				 	error(function(data, status, headers, config) { });
 				}
 
+				$scope.viewAttCnfrm= function (){
+					$scope.attCnfrm=true;
+					$scope.atraiterFlag=false;
+					$scope.planifieesFlag=false;
+					$scope.annuleesFlag=false;
+					$scope.refuseesFlag=false;
+					$scope.firstload=true;
+				}
+
 				$scope.viewATraiter= function (){
 					$scope.atraiterFlag=true;
 					$scope.planifieesFlag=false;
 					$scope.annuleesFlag=false;
 					$scope.refuseesFlag=false;
 					$scope.firstload=true;
+					$scope.attCnfrm=false;
 				}
 
 				$scope.viewPlanifiees= function (){
@@ -253,6 +270,7 @@
 					$scope.annuleesFlag=false;
 					$scope.refuseesFlag=false;
 					$scope.firstload=true;
+					$scope.attCnfrm=false;
 				}
 
 				$scope.viewAnnulees= function (){
@@ -261,6 +279,7 @@
 					$scope.annuleesFlag=true;
 					$scope.refuseesFlag=false;
 					$scope.firstload=true;
+					$scope.attCnfrm=false;
 				}
 
 				$scope.viewRefusees= function (){
@@ -269,6 +288,7 @@
 					$scope.annuleesFlag=false;
 					$scope.refuseesFlag=true;
 					$scope.firstload=true;
+					$scope.attCnfrm=false;
 				}
 
 				$scope.refuse = function(idsession){

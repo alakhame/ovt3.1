@@ -137,7 +137,7 @@ class SuperAdmin extends User implements ServiceManagement, OrganisationManageme
 
     public function getOrgAdminById($id){
 
-        return $this->getUserById();
+        return $this->getUserById($id);
     }
 
     public function getAdminsUserByOrgId($orgID){

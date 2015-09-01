@@ -1,0 +1,38 @@
+[
+	{% for c in collabs %}
+		{% if loop.last %}
+		{
+			"id"			:	"{{c.id}}", 
+			"service"		: 	{
+									"id"	:	"{{c.service.id}}", 
+									"name"	:	"{{c.service.name}}"
+								}, 
+			"orgClient"		:	{
+									"id"	:	"{{c.orgClient.id}}", 
+									"name"	:	"{{c.orgClient.name}}"
+								}, 
+			"provider"		:	{
+									"id"	:	"{{c.provider.id}}", 
+									"name"	:	"{{c.provider.name}}"
+								}
+		}
+		
+		{% else %}
+		{
+			"id"			:	"{{c.id}}", 
+			"service"		: 	{
+									"id"	:	"{{c.service.id}}", 
+									"name"	:	"{{c.service.name}}"
+								}, 
+			"orgClient"		:	{
+									"id"	:	"{{c.orgClient.id}}", 
+									"name"	:	"{{c.orgClient.name}}"
+								}, 
+			"provider"		:	{
+									"id"	:	"{{c.provider.id}}", 
+									"name"	:	"{{c.provider.name}}"
+								}
+		},
+		{% endif %}
+	{% endfor %}
+]

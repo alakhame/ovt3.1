@@ -1,0 +1,271 @@
+{% extends "::baseProfil.html.twig" %}
+ 
+	{% block header %}
+		
+		<link rel="stylesheet" href="{{asset('ress/css/bootstrap.css')}}" /> 
+		{{parent()}}
+		<link rel="stylesheet" href="{{asset('ress/css/gestion.css')}}" /> 
+		<link rel="stylesheet" href="{{asset('ress/css/fullcalendar.css')}}" />  
+		<link rel="stylesheet" href="{{asset('ress/css/calendar.css')}}" /> 
+		<link rel='stylesheet' href="{{asset('ress/css/fullcalendar.print.css')}}"media='print' /> 
+
+		<script src="{{asset('ress/js/angular.js')}}" > </script>
+		<script src="{{asset('ress/js/jquery.js')}}" > </script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+		<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+		<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+		<script src="{{asset('ress/js/bootstrap.min.js')}}" > </script>
+
+	{% endblock %}
+
+ 	{% block tabTitle %} 
+ 		<div class="header_tab_4 header_tab" style="display: block;">
+			<div class="title_tab title_tab_4">	Gestion des collaborations </div>
+		</div> 	
+	{% endblock %}
+	
+	{% block menu %}
+		{% include "OVTFrontEndClientBundle:ClientAdmin:menuNew.html.twig" %}
+	{% endblock %}
+ 
+	{% block containerTab %} 
+		<div id="wrap" class="container_tab_1 container_tab " ng-app="OVTApp" ng-controller="collabCtrl" data-ng-init="init()" >  
+			<div class="container_position_tab_1">
+				<div class="bar_middle_tab_X" style="left:40%"></div> 
+				
+				<div class="container_left_tab_1 container_in_tab_1" style="width:40%">
+					<div class="container_date_time_program_now" style="margin-top:40px; height:90%">
+						<div class="container_add_contact_program_now" style="height:80%">
+							<div class="container_input_search_contact_program_now">
+								<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="16" height="16"viewBox="0 0 483 483">-->
+									<use xlink:href="{{asset('svg/search.svg#search')}}"></use>
+								</svg>
+								<input type="text" class="container_search_contact_program_now theme_color_focus" placeholder="">
+							</div>
+							<div class="container_list_contact_program_now subtitle_color_border_08" style="  max-height: 100%; min-height: 100%;">
+								{% for o in authorisedOrgs %}
+								<div class="container_contact_program_now_style select_check_{{o.id}}"  ng-click="actionClick({{o.id}})" id="user_infos_{{o.id}}" >
+									<div class="container_pp_contact_program_now_style" style="background-image: url({{asset('svg/default_pp.svg')}})"> 
+									</div>
+									<div class="container_info_contact_program_now ">
+										<div class="name_contact_program_now  ">
+											{{o.name}}
+										</div>
+										<div class="role_contact_program_now subtitle_color_text"> 
+											{{o.service|join(',')}}
+										</div>
+									</div>
+									<div class="container_check_contact_program_now_new " id="select_check_{{o.id}}">
+										<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="11" height="8" viewBox="0 0 22 17">
+											<use xlink:href="{{asset('svg/done_green_2.svg')}}#done_green_2"></use>
+										</svg>
+									</div>
+								</div>								
+								{% endfor %}
+							</div>
+
+							<div class="container_valid_cancel_program_now">
+								<div class="SessionTabbuttons theme_color_background"ng-click="new()"ng-bind="newText"> </div>
+							</div>
+						</div>
+					</div>
+				</div>  
+							
+				<div class="container_right_tab_1 container_in_tab_1" style="width:60%"  ng-show="isSelectedItem()">
+					<div class="container_info_contact_tab_provider" style="margin:auto;">
+						<div  ng-show="planingFlag" id="clientCalendar" style="margin-bottom: 30px;"></div> 
+						<div style="height:50%" >
+							<fieldset>
+								{% verbatim %}
+								<legend>Sevices associés</legend>
+								<div id="collabContent"> </div>
+							{% endverbatim %}
+							</fieldset>
+						</div>  
+						
+
+				</div>
+				
+				
+				<div id="modalsPopUp">	
+					<div 	class="modal hide modal-static fade"   id="waitingModal"  data-backdrop="static" 
+							data-keyboard="false" href="#" role="dialog" aria-hidden="true">
+					    <div class="modal-dialog">
+					        <div class="modal-content">
+					            <div class="modal-body">
+					                <div class="text-center">
+					                    <img src="{{asset('img/loader.gif')}}" class="icon" /> 
+					                </div>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+	
+					<div id="addClientModal"  class="modal hide fade"  > 
+						<div class="modal-dialog">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">Fermer</span></button>
+					                <h4  class="modal-title"> Ajout d'un nouvel utilisateur</h4>
+					            </div> 
+					            {% include 'OVTFrontEndClientBundle:ClientAdmin:addClient.html.twig' %}
+					        </div>
+					    </div> 
+					</div>
+					<div id="fullCalModal" class="modal hide fade"  >
+					    {% verbatim %}
+					    <div class="modal-dialog">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+					                <h4 id="modalTitle" class="modal-title"> </h4>
+					            </div>
+					            <div id="modalBody" class="modal-body">
+								<h5> Nom du client : <span id="nomClient"></span></h5>
+									<h5  style="float:right"> Description : 
+										<textarea class="modal-body" disabled id="sessionDesc"></textarea></h5>
+									<h5 > Contexte : <span id="contexteSession"></span></h5>
+									<h5> Date de la demande : <span id="dateDemandeSession"></span> </h5>
+									<h5> Heure de début :  <span type="date"  id="debutSession"></span></h5>
+									<h5> Heure de fin : <span id="finSession"></span></h5>
+									<h5> Service :  <span id="serviceSession"></span></h5>
+									<br/>
+					            </div>
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+					            </div>
+					        </div>
+					    </div>
+					    {% endverbatim %}
+					</div>
+				</div>
+				<input type="hidden"id="defaultClick" value="{{defaultClick}}" />
+			</div>  
+			<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+			<script src="{{asset('ress/js/fullcalendar.js')}}" > </script>  
+ 			<script type="text/javascript"> 
+
+				defaultClick=$("#defaultClick").val();
+
+				
+				$('#addNewClientFormButton').click(function(){
+					if($("#newClientPassword").val()!=$("#newClientPasswordRe").val()){
+						alert('Les mots de passe ne correspondent pas');
+						return false;
+					}
+					else{  
+						$('#addNewClientForm').submit(); 
+					}
+				});
+
+				function toggleService(a,b){
+					var scope =  angular.element(document.getElementById("wrap")).scope();
+					scope.toggleService(a,b);
+				}
+
+				/* --------- SEPARATOR ------------  */
+ 				var app = angular.module('OVTApp', []); 
+				app.controller('collabCtrl', function($scope,$http,$location,$window) {
+						$scope.init = function (){
+							$scope.affectShow=false;
+							$scope.passwordChange=false;
+							$scope.firstload=true;
+							$scope.modifyText="Modifier";
+							$scope.newText="Nouveau";
+							$scope.planingText="Voir Planing" ;
+							$scope.modifyFlag=false;
+							$scope.planingFlag=false;
+							$scope.newFlag=false; 
+				   			$scope.isModifications = false ; 
+							if(defaultClick!=undefined && defaultClick!=""){
+								$scope.actionClick(defaultClick);
+							} 
+						}
+
+						$scope.isSelectedItem = function(){
+							return angular.isDefined($scope.selectedItem);
+						}
+						$scope.listener= function(evt) {
+							$scope.isModifications = true;
+							console.log(evt);
+						}
+						$scope.quit = function(){
+							if(!$scope.isModifications){
+							$scope.selectedItem=undefined;
+							$('.container_contact_program_now_style').removeClass('activate');
+							}else{
+								var confirmation = confirm("Voulez vous quitter sans enrégistrer les modifications ?");
+								if(confirmation){
+						   			 $scope.isModifications = false; 
+						   			 $scope.quit();
+								} 
+							}
+						}  
+
+						$scope.actionClick= function (idorg) {  
+							$scope.firstload=false;
+							$scope.selectedOrg=idorg;
+							$scope.loading = true; $("#waitingModal").modal('show');
+				   			{% verbatim %} 
+				   				var link=Routing.generate('ovt_front_end_admin_client_get_div_collabs_by_provider_id', {idProvider:idorg});
+				   			{% endverbatim %}
+				   			$http.get(link).
+						  	success(function(data, status, headers, config) {
+							    //$scope.orgSelected=data; 
+							    $('#collabContent').html(data);
+							    $scope.selectedItem=true;
+							    $scope.loading = false; $("#waitingModal").modal('hide');
+							    $('.container_contact_program_now_style').removeClass('activate');
+								$('.select_check_'+idorg).addClass('activate');  
+
+						  	}).
+						 	error(function(data, status, headers, config) { });  
+
+				   		} 
+
+				   		$scope.removeCollab = function(idCollab){  
+				   			{% verbatim %} 
+				   				var link=Routing.generate('ovt_front_end_admin_client_remove_collab_by_id', 
+				   					{id:idCollab});
+				   			{% endverbatim %}
+				   			$http.get(link).
+						  	success(function(data, status, headers, config) {
+						  		console.log(data); 
+						  	}).
+						 	error(function(data, status, headers, config) { });  
+							$scope.actionClick($scope.selectedOrg);
+				   		}
+
+						$scope.addCollab= function(idS,idP,idC){  
+				   			{% verbatim %} 
+				   				var link=Routing.generate('ovt_front_end_admin_client_add_collab_by_id', 
+				   					{idS:idS,idP:idP,idC:idC});
+				   			{% endverbatim %}
+				   			$http.get(link).
+						  	success(function(data, status, headers, config) {
+						  		console.log(data); 
+						  	}).
+						 	error(function(data, status, headers, config) { });  
+							$scope.actionClick($scope.selectedOrg);
+							$scope.actionClick($scope.selectedOrg);
+				   		}
+				});
+				function toActivate(id){
+					$('.tab_bar_left').removeClass('activate theme_color_border');
+					$('.tab_bar_left_'+id).addClass('activate theme_color_border');
+				}
+				toActivate(6);
+				 
+				function addCollab(idS,idP,idC){ 
+					scope =  angular.element(document.getElementById("wrap")).scope();
+					scope.addCollab(idS,idP,idC); 
+				}
+				function removeCollab(idCollab){ 
+					scope =  angular.element(document.getElementById("wrap")).scope();
+					scope.removeCollab(idCollab); 
+				} 
+ 			</script>
+		</div>
+
+	{% endblock %}

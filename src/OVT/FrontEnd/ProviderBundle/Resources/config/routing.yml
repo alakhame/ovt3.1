@@ -175,6 +175,14 @@ ovt_front_end_admin_provider_action_session:
     requirements:
         _method: POST
 
+ovt_front_end_admin_provider_refuse_offer:
+    path: /adminprovider/refuse/offer
+    defaults: { _controller: OVTFrontEndProviderBundle:ProviderAdmin:refuseOffer}
+    options:
+        expose: true
+    requirements:
+        _method: POST
+
 ovt_front_end_admin_provider_worker_calendar:
     path: /adminprovider/calendar/{idWorker}/{coreCalendar}
     defaults: { _controller: OVTFrontEndProviderBundle:Provider:calendarView, idWorker:-1, coreCalendar:-1 }

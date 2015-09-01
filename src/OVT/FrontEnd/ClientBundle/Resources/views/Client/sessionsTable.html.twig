@@ -22,7 +22,11 @@
 		</div>
 		<div class="element_historique_container_historique element_historique_container_historique_canal">
 			<div class="content_element_historique content_element_historique_canal">
-				{{s.service.name}}
+				{% if s.service!=null %}
+					<td>{{s.service.name}}</td>
+				{% else %}
+					<td>NONE</td>
+				{% endif %}
 			</div>
 		</div>
 		<div class="element_historique_container_historique element_historique_container_historique_date">

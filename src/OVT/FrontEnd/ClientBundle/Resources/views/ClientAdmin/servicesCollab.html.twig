@@ -1,0 +1,25 @@
+{% for s in provider.service %}
+	<div class="service_tab"  style='display:inline-block'> 
+		<span class="subtitle_color_text">{{s.name~' : '}}</span>
+		{% set mark=[0,0] %}
+			{% for c in collabs %}
+				{% if c.service == s %}
+					{% set  mark=[ 1 , c.id ] %} 
+				{% endif %}
+			{% endfor %}
+	{% if mark[0]==1 %}
+		<div class="valid_box select" onclick="removeCollab({{mark[1]}})" > 
+			<svg  version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" viewBox="0 0 22 17">
+				<use xlink:href="{{asset('svg/done_white.svg')}}#done_white"></use>
+			</svg>
+		</div>
+
+	{% else %}
+		<div class="valid_box" onclick="addCollab({{s.id}}, {{provider.id}},{{client.id}})"> 
+			<svg  style="z-index:-10" version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" viewBox="0 0 22 17">
+				<use xlink:href="{{asset('svg/done_white.svg')}}#done_white"></use>
+			</svg>
+		</div>
+	{% endif %} 
+	</div> 
+{% endfor %}

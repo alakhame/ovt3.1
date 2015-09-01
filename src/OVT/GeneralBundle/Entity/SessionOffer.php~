@@ -1,0 +1,71 @@
+<?php
+
+namespace OVT\GeneralBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * SessionOffer
+ *
+ * @ORM\Table(name="session_offer")
+ * @ORM\Entity
+ */
+class SessionOffer
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var Session
+     *
+     * @ORM\ManyToOne(targetEntity="OVT\GeneralBundle\Entity\Session")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="sessionID", referencedColumnName="id")
+     * })
+     */    
+    private $session;
+
+    /**
+     * @var \Service
+     *
+     * @ORM\ManyToOne(targetEntity="OVT\GeneralBundle\Entity\Service")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="serviceID", referencedColumnName="id")
+     * })
+     */
+    private $service;
+
+    /**
+     * @var \Organisation
+     *
+     * @ORM\ManyToOne(targetEntity="OVT\GeneralBundle\Entity\Organisation")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="organisationID", referencedColumnName="id")
+     * })
+     */
+    private $organisation;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="decision", type="integer", nullable=false)
+     */
+    private $decision;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->decision=0;    
+    }
+ 
+     
+}

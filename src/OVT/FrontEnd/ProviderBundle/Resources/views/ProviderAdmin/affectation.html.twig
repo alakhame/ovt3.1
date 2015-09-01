@@ -40,17 +40,18 @@
 								<input type="text" class="container_search_contact_program_now theme_color_focus" placeholder="Recherche par titre...">
 							</div>
 							<div class="container_list_contact_program_now subtitle_color_border_08" style="  max-height: 100%; min-height: 100%;">
-								{% for s in sessionsToAffect %}
-								<div class="container_contact_program_now_style select_check_{{s.id}}"  ng-click="actionClick({{s.id}})" id="session_list_infos_{{s.id}}" >
+								{% for o in offers %}
+								<div class="container_contact_program_now_style select_check_{{o.session.id}}"ng-click="actionClick({{o.session.id}},$event,{{o.id}})"id="session_list_infos_{{o.session.id}}" >
 									<div class="container_pp_contact_program_now_style" style="background-image: url({{asset('svg/default_pp.svg')}})"> 
 									</div>
 									<div class="container_info_contact_program_now">
-										<div class="name_contact_program_now  ">{{s.title}}</div>
+										<div class="name_contact_program_now  ">{{o.session.title}}</div>
 										<div class="role_contact_program_now subtitle_color_text">
-											{{s.service.name}} 
+											{{o.service.name}}
 										</div>
 									</div>
-									<div class="container_check_contact_program_now_new " id="select_check_{{s.id}}">
+									<div class="container_check_contact_program_now_new " 
+										id="select_check_{{o.session.id}}">
 										<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="11" height="8" viewBox="0 0 22 17">
 											<use xlink:href="{{asset('svg/done_green_2.svg')}}#done_green_2"></use>
 										</svg>
@@ -62,7 +63,7 @@
 					</div>
 				</div>
 
-				<div class="container_right_tab_1 container_in_tab_1" style="width:60%"  >
+				<div class="container_right_tab_1 container_in_tab_1" style="width:60%" ng-show="isSelectedItem()" >
 					<div class="container_info_contact_tab_4" style="margin:auto;" ng-hide="loading  || firstload || modifyFlag">
 						<div style="margin-bottom:200px">
 						<div class="column_1_tab_4 column_tab_4_style"  >
@@ -122,10 +123,10 @@
 								<input type="submit" />
 							</form>
 							<div  style="float:left;width:20%; margin:0;color: #FFF;" class="button_tab_4 theme_color_background " ng-click="quit()" >Quitter </div>  
-							<div class="button_tab_4 theme_color_background" ng-click="refuse(session.id)" style="float:left;width:20%; color: #FFF;margin:0;margin-left:3%" >
+							<div class="button_tab_4 theme_color_background" ng-click="refuse(idOffer)" style="float:left;width:20%; color: #FFF;margin:0;margin-left:3%" >
 								Refuser				
 							</div>    
-							<select name="worker" ng-model="selectedWorker" ng-change="affectTo(session.id,selectedWorker)" class="button_tab_4 theme_color_background" style="float:left;width:20%; color: #FFF;margin:0;margin-left:3%">
+							<select name="worker" ng-model="selectedWorker" ng-change="affectTo(idOffer,selectedWorker)" class="button_tab_4 theme_color_background" style="float:left;width:20%; color: #FFF;margin:0;margin-left:3%">
 								<option value="0" selected disabled> Affecter à </option>
 								{% for w in workers %}
 									<option value="{{w.id}}"  >{{w.firstname~" "~w.lastname}}</option>
@@ -177,22 +178,34 @@
 						$scope.selectedWorker=0;
 					}
 					
-					$scope.actionClick= function (idsession) {
+					$scope.actionClick= function (idsession,event,idOffer) {
 						$scope.firstload=false;
+						$scope.idOffer=idOffer;
 						$scope.loading = true; $('#waitingModal').modal('show');
 			   			{% verbatim %} var link=Routing.generate('ovt_front_end_admin_provider_get_session_by_id', {id:idsession}); {% endverbatim %}
 			   			$http.get(link).
 					  	success(function(data, status, headers, config) {
 						    $scope.session=data;
-						    $scope.loading = false; $('#waitingModal').modal('hide');
-
+						    $scope.loading = false; $('#waitingModal').modal('hide'); 
+						    $scope.selectedItem=true;  
 					  	}).
 					 	error(function(data, status, headers, config) { });
+					 	$('.container_contact_program_now_style').removeClass('activate');
+					 	$(event.currentTarget).addClass('activate');  
 			   		}
+
+			   		$scope.isSelectedItem = function(){
+						return angular.isDefined($scope.selectedItem);
+					}
 
 			   		$scope.switchAffect = function (){
 			   			$scope.affectShow=!($scope.affectShow);
 			   		}
+
+			   		$scope.quit = function(){ 
+						$scope.selectedItem=undefined;
+						$('.container_contact_program_now_style').removeClass('activate'); 
+					}
 			   		
 			   		$scope.cancel = function(idsession){
 			   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_action_session',{action:'cancel'});
@@ -219,8 +232,8 @@
 						}
 			   		}
 
-			   		$scope.refuse = function(idsession){
-			   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_action_session',{action:'refuse'});
+			   		$scope.refuse = function(idOffer){
+			   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_refuse_offer' );
 			   			{% endverbatim %}
 						$scope.loading = true; $('#waitingModal').modal('show');
 						var confirmation = confirm("Voulez vraiment refuser cette réunion ?");
@@ -228,7 +241,7 @@
 							$http({
 							    method: 'POST',
 							    url: link,
-							    data: "idSession="+idsession,
+							    data: "idOffer="+idOffer,
 							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).
 							success(function(data, status, headers, config) { 
@@ -262,8 +275,7 @@
 						  	error(function(data, status, headers, config) {
 						    	alert("Finition échouée !"+data);
 						    	$scope.loading = false; $('#waitingModal').modal('hide');
-						  	});
-						  	
+						  	});						  	
 						}else {
 							$scope.loading = false; $('#waitingModal').modal('hide');
 						}
@@ -272,7 +284,7 @@
 			   		$scope.toUpdate= function(){ 
 			   		}
 
-			   		$scope.affectTo = function(idsession,selectedWorker){ 
+			   		$scope.affectTo = function(idOffer,selectedWorker){ 
 			   			{% verbatim %}var link=Routing.generate('ovt_front_end_admin_provider_set_worker_to_session');
 			   			{% endverbatim %}
 						$scope.loading = true; $('#waitingModal').modal('show');
@@ -281,7 +293,7 @@
 							$http({
 							    method: 'POST',
 							    url: link,
-							    data: "sID="+idsession+"&wID="+selectedWorker,
+							    data: "oID="+idOffer+"&wID="+selectedWorker,
 							    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}).
 							success(function(data, status, headers, config) { 
