@@ -17,7 +17,7 @@
 
     {% block tabTitle %} 
         <div class="header_tab_5 header_tab" style="display: block;">
-            <div class="title_tab title_tab_5">Session de transcription ( Prestataire )</div>
+             <div class="title_tab title_tab_5"> {{session.title}}  <span style="color:#ABAAAA">avec le client </span>{{session.client.user.completeName}}</div>
         </div>  
     {% endblock %}
     

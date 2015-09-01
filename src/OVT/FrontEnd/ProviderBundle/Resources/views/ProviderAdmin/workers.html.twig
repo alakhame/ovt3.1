@@ -239,7 +239,7 @@
 
 			</div>
 
-
+			<input type="hidden" id="defaultClick" value="{{defaultClick}}"/>
 		</div>
  	
  		<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
@@ -247,7 +247,7 @@
 		<script src="{{asset('ress/js/fr.js')}}" > </script>
 
 		<script type="text/javascript">
-		
+			defaultClick=$("#defaultClick").val();
 			$('#formSubmit').click(function(){
 				$('#lastnameKForm').val($('#lastnameDiv').text());
 				$('#firstnameKForm').val($('#firstnameDiv').text());
@@ -301,6 +301,7 @@
 					$scope.modifyFlag=false;
 					$scope.planingFlag=false;
 					$scope.newFlag=false;
+
 					//$scope.actionClick(28);
 					linkToCallEvents = Routing.generate('ovt_front_end_provider_retrieve_affected_sessions_to_worker_by_user',{idUser:28});
 					$scope.callCal();
@@ -349,6 +350,11 @@
 				        	$('#finSession').html(event.endTime);
 				        	$('#serviceSession').html(event.service); 
 				        },
+
+				        eventAfterAllRender: function (view) {
+				            console.log('eventAfterAllRender');
+				            console.log(view);
+				        },
 						 
 						select : function( start, end, jsEvent, view ) {
 							 
@@ -357,7 +363,7 @@
 				            if (bool) {
 				                $('#waitingModal').modal('show');
 
-				            } else {
+				            } else { 
 				                $('#waitingModal').modal('hide');
 				            }
 				        } 
@@ -368,10 +374,13 @@
 				$scope.reCallCal = function(newLink){
 					console.log('in recall \n');
 					$('#clientCalendar').fullCalendar('removeEventSource', linkToCallEvents);
-				    $('#clientCalendar').fullCalendar('refetchEvents');
+				    //$('#clientCalendar').fullCalendar('refetchEvents');
 				    $('#clientCalendar').fullCalendar('addEventSource', newLink);
-				    $('#clientCalendar').fullCalendar('refetchEvents');
-				    linkToCallEvents = newLink ;
+				    $('#clientCalendar').fullCalendar('rerenderEvents')
+				   $('#clientCalendar').fullCalendar('refetchEvents');
+				    linkToCallEvents = newLink ; 
+	   				
+				    
 				    console.log('done');
 				}
 
@@ -417,9 +426,7 @@
 				 	error(function(data, status, headers, config) { });
 
 				 	{% verbatim %}
-		   			var linkx=Routing.generate('ovt_front_end_provider_retrieve_affected_sessions_to_worker_by_user',{idUser:idworker}); 
-		   				//console.log(linkx);
-
+		   			var linkx=Routing.generate('ovt_front_end_provider_retrieve_affected_sessions_to_worker_by_user',{idUser:idworker});  
 		   			{% endverbatim %} 
 		   			$scope.reCallCal(linkx); 
 

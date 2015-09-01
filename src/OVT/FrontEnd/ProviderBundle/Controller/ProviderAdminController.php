@@ -66,11 +66,12 @@ class ProviderAdminController extends Controller
         return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:groupsInfos.json.twig',array('groups'=>$groups));
     } 
     
-    public function workerAction(){
+    public function workerAction(Request $req){
     	$adminProvider=$this->get('provideradmin');
     	$admin= $this->container->get('security.context')->getToken()->getUser();
     	$workers = $adminProvider->retriveWorkersFromAdmin($admin);
-    	return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:workers.html.twig',array('workers'=>$workers));
+    	return $this->render('OVTFrontEndProviderBundle:ProviderAdmin:workers.html.twig',
+            array('workers'=>$workers,'defaultClick'=>$req->get('defaultClick')));
     }
 
     public function groupAction(){
@@ -217,7 +218,8 @@ class ProviderAdminController extends Controller
         $worker->setLanguage($language);
          
         $adminProvider->createWorker($worker);
-        return $this->redirect($this->generateUrl('ovt_front_end_admin_provider_worker' ));
+        return $this->redirect($this->generateUrl('ovt_front_end_admin_provider_worker',
+                array('defaultClick'=>$worker->getUser()->getId()) ));
 
     }
 
